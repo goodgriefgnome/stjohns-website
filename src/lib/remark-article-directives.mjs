@@ -1,6 +1,7 @@
 import { directiveFromMarkdown } from 'mdast-util-directive';
 import { directive } from 'micromark-extension-directive';
 import { visit } from 'unist-util-visit';
+import { palettes } from './palettes.mjs';
 
 export default function articleDirectives() {
   const data = this.data();
@@ -10,8 +11,19 @@ export default function articleDirectives() {
 
   return (tree, file) => {
     visit(tree, 'containerDirective', node => {
-      if (node.name === 'lead') {
-        node.data = { hName: 'div', hProperties: { className: ['article-lead'] } };
+      if (node.name === 'lead' || node.name === 'section') {
+        const isLead = node.name === 'lead';
+        const palette = node.attributes?.palette ?? (isLead ? 'navy' : 'cream');
+        if (!palettes.includes(palette)) {
+          file.fail(`Unknown palette "${palette}". Choose ${palettes.join(', ')}.`, node);
+        }
+        node.data = {
+          hName: isLead ? 'div' : 'section',
+          hProperties: {
+            className: isLead ? ['article-band', 'article-lead'] : ['article-band'],
+            'data-palette': palette,
+          },
+        };
       }
 
       if (node.name === 'gallery') {

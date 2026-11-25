@@ -9,8 +9,8 @@ const focalPoints: Record<string, number[]> = heroFocalPoints;
 const focalPoint = focalPoints[heroPath]?.map(coordinate => `${coordinate}%`).join(' ');
 ---
 <Site title={frontmatter.title}>
-  <article class="article">
-    <header class="article-hero">
+  <article data-palette="cream">
+    <header class="article-hero" data-palette="navy">
       <img src={heroPath} alt="" fetchpriority="high" style={focalPoint && { objectPosition: focalPoint }} />
       <h1>{frontmatter.title}</h1>
     </header>
@@ -21,7 +21,6 @@ const focalPoint = focalPoints[heroPath]?.map(coordinate => `${coordinate}%`).jo
 </Site>
 
 <style>
-  .article { background: #f2e9dc; color: #0f172a; }
   .article-hero {
     position: relative;
     isolation: isolate;
@@ -29,8 +28,6 @@ const focalPoint = focalPoints[heroPath]?.map(coordinate => `${coordinate}%`).jo
     place-items: center;
     min-height: clamp(13rem, 25vw, 21rem);
     padding: 2rem 1rem;
-    background: #0f172a;
-    color: white;
     text-align: center;
   }
   .article-hero img {
@@ -40,27 +37,26 @@ const focalPoint = focalPoints[heroPath]?.map(coordinate => `${coordinate}%`).jo
     height: 100%;
     object-fit: cover;
   }
-  .article-hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: #0006; }
+  .article-hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--photo-scrim); }
   .article-hero h1 { margin: 0; }
   .article-content {
+    --reading-width: 50rem;
+    --section-spacing: clamp(2rem, 6vw, 4rem);
     display: grid;
-    grid-template-columns: minmax(1rem, 1fr) minmax(0, 50rem) minmax(1rem, 1fr);
-    padding-bottom: clamp(2rem, 6vw, 4rem);
+    grid-template-columns: minmax(1rem, 1fr) minmax(0, var(--reading-width)) minmax(1rem, 1fr);
+    padding-bottom: var(--section-spacing);
   }
   .article-content :global(> *) { grid-column: 2; }
-  .article-content :global(> :first-child) { margin-top: clamp(2rem, 6vw, 4rem); }
-  .article-content :global(> .article-lead) {
-    grid-column: 1 / -1;
-    margin: 0 0 clamp(2rem, 6vw, 4rem);
-    padding: clamp(2rem, 6vw, 4rem) max(1rem, calc((100% - 50rem) / 2));
-    background: #0f172a;
-    color: white;
-    text-align: center;
+  .article-content :global(> :first-child) { margin-top: var(--section-spacing); }
+  .article-content :global(> :is(.article-band, .article-gallery)) { grid-column: 1 / -1; }
+  .article-content :global(> .article-band) {
+    margin: 0 0 var(--section-spacing);
+    padding: var(--section-spacing) max(1rem, calc((100% - var(--reading-width)) / 2));
   }
+  .article-content :global(.article-lead) { text-align: center; }
   .article-content :global(blockquote) { margin: 0; }
   .article-content :global(.article-lead p:last-child) { margin-bottom: 0; }
   .article-content :global(> .article-gallery) {
-    grid-column: 1 / -1;
     width: min(calc(100% - 2rem), 71.5rem);
     margin: 2rem auto 0;
     padding: 0;

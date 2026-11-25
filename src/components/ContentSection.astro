@@ -1,11 +1,17 @@
 ---
+import { palettes } from '../lib/palettes.mjs';
+
 interface Props {
+  palette?: typeof palettes[number];
   image?: string;
   alt?: string;
 }
-const { image, alt = '' } = Astro.props;
+const { image, alt = '', palette } = Astro.props;
+if (palette !== undefined && !palettes.includes(palette)) {
+  throw new Error(`Unknown section palette: ${palette}`);
+}
 ---
-<section class:list={['content-section', { 'with-photo': image }]}>
+<section data-palette={palette} class:list={['content-section', { 'with-photo': image }]}>
   {image && <img src={image} alt={alt} loading="lazy" />}
   <div class="prose">
     <slot />

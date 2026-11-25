@@ -114,21 +114,20 @@ nav details:nth-last-of-type(1) ul { left: auto; right: 0; }
 .hero::after, .invitation-cards .content-section::after { content: ''; position: absolute; inset: 0; background: #0005; z-index: -1; }
 .hero-content { display: block; padding: 12.3rem 0 4rem; text-align: center; }
 .hero-content h1 { font-size: clamp(1.8rem, 3.15vw, 2.45rem); margin-bottom: 1.25rem; }
-.button { margin: 0; padding: .3rem 1.7rem; color: white; text-transform: uppercase; }
+.button { margin: 0; padding: .3rem 1.7rem; text-transform: uppercase; }
 .welcome-band, .giving-band, .music-band { padding: 4.15rem 1.5rem; text-align: center; }
-.welcome-band, .giving-band { color: #fff; background: var(--dark); }
 .welcome-band .prose, .giving-band .prose, .music-band .prose, .invitation-band .prose { margin-inline: auto; }
 .welcome-band .prose, .invitation-band > .wrap > .content-section .prose { max-width: 42rem; }
 .welcome-band .text-link { display: inline-block; margin: .7rem .25rem 0; }
 .text-link a { text-decoration: none; border-bottom: .22rem solid currentColor; padding-bottom: .2rem; }
-.invitation-band { padding-block: 4.2rem; background: var(--pale); text-align: center; color: #344052; }
+.invitation-band { padding-block: 4.2rem; text-align: center; }
 .invitation-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin-top: 2rem; text-align: left; }
 .invitation-cards .content-section { display: grid; position: relative; isolation: isolate; align-content: end; color: white; min-height: clamp(19rem,39vw,29rem); margin: 0; border: 0; padding: 1.1rem; }
 .invitation-cards .content-section img { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; object-fit: cover; border-radius: 0; z-index: -2; }
 .invitation-cards .prose { margin: 0; }
 .invitation-cards h2, .support-band h2 { font-size: 1.5rem; }
 .invitation-cards .text-link, .support-band .text-link { margin: 1.5rem 0 .15rem; }
-.support-band { background: #f1e7db; padding-block: 4rem; }
+.support-band { padding-block: 4rem; }
 .support-band .wrap { max-width: 65rem; }
 .support-band .content-section { grid-template-columns: repeat(2,minmax(0,1fr)); align-items: center; gap: 3rem; }
 .support-band .content-section:first-child img { grid-column: 2; grid-row: 1; }
@@ -168,3 +167,5 @@ nav details:nth-last-of-type(1) ul { left: auto; right: 0; }
 .concert-program { list-style: none; padding: 0; }
 .concert-program li { margin-bottom: 1rem; }
 .concert-program time, .prose time[datetime*=":"] { color: inherit; }
+
+.button[data-palette] { background: var(--section-bg); color: var(--section-text); }
