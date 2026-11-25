@@ -5,7 +5,13 @@
   --sky: #7ea8ce;
   --cream: #f2e9dc;
   --navy: #0f172a;
+  --text-default: #111827;
+  --text-muted: #606b77;
+  --surface-subtle: #f7f8fa;
+  --border-subtle: #dae0e6;
+  --focus-ring: #9f5c1b;
   --photo-scrim: #0006;
+  --photo-scrim-light: #0005;
 }
 
 [data-palette="white"] { --section-bg: var(--paper); --section-text: var(--navy); }

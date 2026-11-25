@@ -40,24 +40,22 @@ const focalPoint = focalPoints[heroPath]?.map(coordinate => `${coordinate}%`).jo
   .article-hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--photo-scrim); }
   .article-hero h1 { margin: 0; }
   .article-content {
-    --reading-width: 50rem;
-    --section-spacing: clamp(2rem, 6vw, 4rem);
     display: grid;
-    grid-template-columns: minmax(1rem, 1fr) minmax(0, var(--reading-width)) minmax(1rem, 1fr);
-    padding-bottom: var(--section-spacing);
+    grid-template-columns: minmax(var(--gutter), 1fr) minmax(0, var(--reading-width)) minmax(var(--gutter), 1fr);
+    padding-bottom: var(--article-spacing);
   }
   .article-content :global(> *) { grid-column: 2; }
-  .article-content :global(> :first-child) { margin-top: var(--section-spacing); }
+  .article-content :global(> :first-child) { margin-top: var(--article-spacing); }
   .article-content :global(> :is(.article-band, .article-gallery)) { grid-column: 1 / -1; }
   .article-content :global(> .article-band) {
-    margin: 0 0 var(--section-spacing);
-    padding: var(--section-spacing) max(1rem, calc((100% - var(--reading-width)) / 2));
+    margin: 0 0 var(--article-spacing);
+    padding: var(--article-spacing) max(var(--gutter), calc((100% - var(--reading-width)) / 2));
   }
   .article-content :global(.article-lead) { text-align: center; }
   .article-content :global(blockquote) { margin: 0; }
   .article-content :global(.article-lead p:last-child) { margin-bottom: 0; }
   .article-content :global(> .article-gallery) {
-    width: min(calc(100% - 2rem), 71.5rem);
+    width: min(calc(100% - 2 * var(--gutter)), var(--layout-width));
     margin: 2rem auto 0;
     padding: 0;
     display: grid;
