@@ -5,22 +5,52 @@ palette: white
 ---
 
 :::section{palette="white"}
+## Vision &amp; Values
+
 <details>
-<summary>Vision &amp; Values</summary>
+<summary>St John’s is a church community…</summary>
 
 Our roots in Darlinghurst go back to 1849. But our true origins run much deeper than that. After his death and resurrection, Jesus Christ established the church to embody his presence to the world. As a community whose life revolves around God’s word and the sacraments, we are, for all our faults, a concrete manifestation of the presence of Christ.
 
+</details>
+
+<details>
+<summary>…that loves inner-city Sydney…</summary>
+
 We love being in inner-city Sydney, a place that is densely packed with a diverse and creative group of human beings, all of whom are made in the image of God. Just as Jesus said that he did not come to condemn the world, but that the world through him might be saved (cf. John 3:17), our overarching goal is to seek the flourishing of inner-city Sydney through our loving and faithful presence.
 
-[Rough Edges](https://www.roughedges.org/)
+</details>
 
-[Banksia Women](https://www.roughedges.org/banksia-women)
+<details>
+<summary>…by seeking the truth…</summary>
+
+We believe that the truth is available to all of us—it has been revealed to us in Jesus Christ. Because this truth is divine, transcendent, and personal, none of us ever fully possesses it within ourselves. It is something we seek continually by submitting ourselves to the Bible, by listening carefully to church tradition, and by use of the faculty of reason.
+
+As an Anglican church, our commitment to seeking the truth is embodied in our confession of the Nicene and Apostles' Creeds, and our subscription to the Thirty-Nine Articles of the Anglican Church.
+
+</details>
+
+<details>
+<summary>…by practising goodness…</summary>
+
+Our church does not exist for its own sake, but rather to embody God’s love for the world in tangible ways. For this reason, we are committed to doing good deeds in our local community. Our church is an institution in Darlinghurst that blesses our neighbourhood in Jesus’ name through an evolving set of social services. We also place a high emphasis on equipping our members to do their daily work in a way which brings flourishing for all people.
+
+We invite everyone to explore involvement in the ongoing work of [Rough Edges](https://www.roughedges.org/), a drop-in centre for people experiencing homelessness as well as [Banksia Women](https://www.banksiawomen.org.au), a service geared toward those who have experienced domestic violence.
+
+</details>
+
+<details>
+<summary>…and by creating beauty…</summary>
+
+The culture of Darlinghurst and the surrounding area is chock-full of creativity and artistry, ranging from the Bohemian to the fine arts. We believe this points to God’s calling to be culture-makers who respond to the beauty of creation with both awe and skill. As such, we are a community that celebrates artists and their work, and that seeks to empower all people in their calling to be creative.
+
+Please get in touch if you are interested in being part of our growing community of artists.
 
 </details>
 :::
 
 :::lead
-Our roots in Darlinghurst go back to 1849. But our true origins run much deeper than that. After his death and resurrection, Jesus Christ established the church to embody his presence to the world. As a community whose life revolves around God’s word and the sacraments, we are, for all our faults, a concrete manifestation of the presence of Christ.
+St John’s is a church community… Our roots in Darlinghurst go back to 1849. But our true origins run much deeper than that. After his death and resurrection, Jesus Christ established the church to embody his presence to the world. As a community whose life revolves around God’s word and the sacraments, we are, for all our faults, a concrete manifestation of the presence of Christ.
 :::
 
 :::gallery

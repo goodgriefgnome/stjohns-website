@@ -9,7 +9,7 @@ hero: /media/articles/christianity--social-concern.webp
 
 Christianity is all about the gospel. And the gospel is the declaration that Jesus is king. Jesus’ kingdom is good news – not just for the rich, powerful, and able, but for all people. So, when Jesus launched his mission he set the agenda by reading a text from the Hebrew prophet Isaiah:
 
-The Spirit of the Lord is on me, because he has anointed me to bring the gospel to the poor. He has sent me to proclaim freedom for the prisoners and recovery of sight for the blind, to set the oppressed free, to proclaim the year of the Lord’s favour. (Cf. Luke 4:14-21)
+**The Spirit of the Lord is on me, because he has anointed me to bring the gospel to the poor. He has sent me to proclaim freedom for the prisoners and recovery of sight for the blind, to set the oppressed free, to proclaim the year of the Lord’s favour. (Cf. Luke 4:14-21)**
 
 The Christian gospel is not only concerned with individual, spiritual salvation (though that is essential!). The gospel brings people into a new community where justice and mercy reign – particularly for those whom society has marginalised or ignored. As a church community, St John’s Darlinghurst is committed to bearing witness to the gospel not only with our lips but in our lives.
 

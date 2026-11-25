@@ -1,5 +1,6 @@
 ---
 title: "Christianity, Art + Culture"
+width: standard
 hero: /media/articles/christianity-art--culture.webp
 heroFocus: [49.7, 46.79]
 palette: white
@@ -21,4 +22,6 @@ We are proud to have many artists in our church community, including people that
 Being an artist and a Christian often presents unique challenges. As Makoto Fujimura puts it, “we artists are often exiled twice: once by the church, and then, because of our faith, by the world.”
 
 Recognising this sense of exile, St John’s is committed to encouraging and investing in Christian people who are artists, and to building bridges with those in the local arts community. Due to our belief in a God who is the ultimate Artist, we recognise the arts as having intrinsic value. If you’re an artist of whatever sort, we’d love to meet you, to learn more about the things you’re making, and to hear how we might best support you in your calling.
+
+> ***“The characteristic common to God and humans is apparently…the desire and the ability to make things” — Dorothy Sayers***
 :::

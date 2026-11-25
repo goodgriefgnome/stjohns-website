@@ -13,7 +13,7 @@ Our Creatives Collective is a regular gathering that brings together a wide vari
 
 Bob Thompson, St. Matthew's Description of the End of the World, 1964
 
-## Each gathering looks a bit different, but in general we share meals, we hear stories about the joys and struggles of the work we do, and we get valuable theological input about the intersection of faith and our creative calling.
+Each gathering looks a bit different, but in general we share meals, we hear stories about the joys and struggles of the work we do, and we get valuable theological input about the intersection of faith and our creative calling.
 :::
 
 :::section{palette="blue"}

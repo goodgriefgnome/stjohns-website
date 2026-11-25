@@ -1,5 +1,6 @@
 ---
 title: "What is Christianity?"
+width: standard
 hero: /media/articles/what-is-christianity.webp
 ---
 
