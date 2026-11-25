@@ -1,28 +1,30 @@
 import { visit, SKIP } from 'unist-util-visit';
-import { church, formatServiceTime, listSeparator } from './church.mjs';
+import { church as defaultChurch, formatServiceTime, listSeparator } from './church.mjs';
 
 const token = /\{\{\s*([A-Za-z]+)\s*\}\}/g;
 
-// Values that are worked out from church.json rather than copied from it.
-const derived = {
-  address: `${church.streetAddress}, ${church.locality} ${church.region} ${church.postcode}`,
-};
-
-const plainValue = (name, file, node) => {
-  const value = derived[name] ?? church[name];
-  if (typeof value === 'string') return value;
-  const known = [...Object.keys(church).filter(key => typeof church[key] === 'string'), ...Object.keys(derived), 'serviceTimes'];
-  file.fail(`Unknown token {{${name}}}. Choose ${known.sort().join(', ')}.`, node);
-};
-
-// "10am and 5pm", with each time in a <time> element.
-const serviceTimes = () => church.sundayServiceTimes.flatMap((time, index, times) => [
-  ...(index ? [{ type: 'text', value: listSeparator(index, times.length) }] : []),
-  { type: 'text', value: formatServiceTime(time), data: { hName: 'time', hProperties: { dateTime: time } } },
-]);
-
 // Replaces {{name}} with a value from inputs/church.json, in text and in link URLs.
-export default function churchTokens() {
+// astro.config.mjs passes the data in, so that editing church.json changes the
+// config and the dev server re-renders cached Markdown.
+export default function churchTokens({ church = defaultChurch } = {}) {
+  // Values that are worked out from church.json rather than copied from it.
+  const derived = {
+    address: `${church.streetAddress}, ${church.locality} ${church.region} ${church.postcode}`,
+  };
+
+  const plainValue = (name, file, node) => {
+    const value = derived[name] ?? church[name];
+    if (typeof value === 'string') return value;
+    const known = [...Object.keys(church).filter(key => typeof church[key] === 'string'), ...Object.keys(derived), 'serviceTimes'];
+    file.fail(`Unknown token {{${name}}}. Choose ${known.sort().join(', ')}.`, node);
+  };
+
+  // "10am and 5pm", with each time in a <time> element.
+  const serviceTimes = () => church.sundayServiceTimes.flatMap((time, index, times) => [
+    ...(index ? [{ type: 'text', value: listSeparator(index, times.length) }] : []),
+    { type: 'text', value: formatServiceTime(time), data: { hName: 'time', hProperties: { dateTime: time } } },
+  ]);
+
   return (tree, file) => {
     visit(tree, (node, index, parent) => {
       if ((node.type === 'link' || node.type === 'image' || node.type === 'definition') && node.url.includes('{{')) {
