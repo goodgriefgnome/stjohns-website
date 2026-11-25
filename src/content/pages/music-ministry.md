@@ -38,7 +38,7 @@ St John’s choir is a vital part of our music program, offering an opportunity 
 If you are interested in joining the choir, [click here](https://form.jotform.com/231380582288057).
 :::
 
-:::section{palette="cream"}
+:::section{palette="cream" align="center"}
 ## Join the Music Team
 
 We are always eager to welcome new people to our music team. If you sing or play an instrument, and are interested in helping the community at St John’s worship God through music, then please reach out to our music minister, {{music.name}}.

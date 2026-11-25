@@ -10,6 +10,7 @@
     padding-top: var(--band-spacing);
   }
   &.standard-measure:has(> .article-band:first-child) { padding-top: 0; }
+  &:has(> .article-band:last-child) { padding-bottom: 0; }
   & > * { grid-column: 2; }
   &:not(.standard-measure) > :first-child:not(.article-band) { margin-top: var(--band-spacing); }
   & > :is(.article-band, .article-gallery) { grid-column: 1 / -1; }
@@ -20,11 +21,17 @@
     margin: 0 0 var(--band-spacing);
     padding: var(--band-spacing) max(var(--gutter), calc((100% - var(--band-measure)) / 2));
   }
+  & > .article-band:last-child { margin-bottom: 0; }
   & > .article-band-wide { --band-measure: var(--layout-width); }
   & .article-band + .article-band { margin-top: calc(-1 * var(--band-spacing)); }
   & :is(.article-band, .media-body, .section-cards > div) > :last-child { margin-bottom: 0; }
 
-  & .article-lead { text-align: center; }
+  & > h2,
+  & .article-band > h2,
+  & :is(.article-lead, .article-center, .article-band[data-align='center']) { text-align: center; }
+  & .article-band[data-align='left'],
+  & .article-band[data-align='left'] > h2 { text-align: left; }
+  & .article-band[data-align] > .section-cards { text-align: inherit; }
   & .article-lead > *, & .article-cards > :not(.section-cards) { max-width: var(--reading-width); margin-inline: auto; }
   & .article-lead p:last-child { margin-bottom: 0; }
   & blockquote { margin: 0; }

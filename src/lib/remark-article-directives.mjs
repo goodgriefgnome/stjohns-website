@@ -18,6 +18,10 @@ export default function articleDirectives() {
         if (!palettes.includes(palette)) {
           file.fail(`Unknown palette "${palette}". Choose ${palettes.join(', ')}.`, node);
         }
+        const alignment = node.attributes?.align;
+        if (alignment !== undefined && alignment !== 'left' && alignment !== 'center') {
+          file.fail(`Unknown alignment "${alignment}". Choose left or center.`, node);
+        }
         // Cards are columns whose image fills the card behind the text.
         const isCards = node.name === 'section' && node.attributes?.layout === 'cards';
         if (node.name === 'section' && (node.attributes?.layout === 'columns' || isCards)) {
@@ -77,9 +81,14 @@ export default function articleDirectives() {
               ...(imageSide ? ['article-media'] : []),
             ],
             'data-palette': palette,
+            ...(alignment && { 'data-align': alignment }),
             ...(imageSide && { 'data-image': imageSide }),
           },
         };
+      }
+
+      if (node.name === 'center') {
+        node.data = { hName: 'div', hProperties: { className: ['article-center'] } };
       }
 
       if (node.name === 'gallery') {

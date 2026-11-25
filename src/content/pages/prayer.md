@@ -8,7 +8,7 @@ palette: white
 Prayer is at the centre of everything we do as a church. Our Sunday services are based on The Book of Common Prayer, and they are designed as participatory training for a whole life of prayer. We are always happy to pray for you and with you.
 :::
 
-:::section{palette="cream"}
+:::section{palette="cream" align="center"}
 ## What do you need prayer for?
 
 Please fill out the prayer request form below and our ministry team will pray for your needs.

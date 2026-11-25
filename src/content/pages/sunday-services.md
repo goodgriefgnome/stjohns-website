@@ -8,8 +8,10 @@ palette: white
 **Even if you have never attended a church service before, you are very welcome at St John’s.**
 :::
 
-:::section{palette="white"}
+::::section{palette="white"}
+:::center
 If you're planning a visit to St Johns' here's some helpful information.
+:::
 
 <details>
 <summary>What time do you meet?</summary>
@@ -65,9 +67,9 @@ Our services typically run for no longer than 75 minutes.
 There is no dress code at St John’s. Most people dress casually. Come as you are.
 
 </details>
-:::
+::::
 
-:::section{palette="blue"}
+:::section{palette="blue" align="center"}
 ## Need more info?
 
 Email us at [{{email}}](mailto:{{email}}) or fill out our [contact form](/contact).
