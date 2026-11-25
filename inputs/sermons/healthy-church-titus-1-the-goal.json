@@ -14,5 +14,9 @@
     "And all that makes for a healthy church is applied to a particular sphere of church life: pastoral leadership."
   ],
   "audioUrl": "https://www.stjohnsanglican.org.au/tcctrack/audio/1252743/listens.mp3",
-  "durationSeconds": 1641
+  "durationSeconds": 1641,
+  "artwork": {
+    "src": "/media/healthy-church.webp",
+    "alt": "Healthy Church series artwork showing the church’s architectural blueprint"
+  }
 }

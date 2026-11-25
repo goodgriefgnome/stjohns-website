@@ -91,6 +91,14 @@
           ]
         },
         {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Join us on Sundays by attending one of our services at 10AM & 5PM."
+            }
+          ]
+        },
+        {
           "kind": "link",
           "runs": [
             {

@@ -13,5 +13,9 @@
     "Churches do so by working for the common good of all people, energised by the blessed hope of the return of Jesus, to make all things new. That work of renewal has begun already in his people, whom the Spirit is renewing in godliness, making us agents of renewal as we wait for the Lord's return."
   ],
   "audioUrl": "https://www.stjohnsanglican.org.au/tcctrack/audio/1276730/listens.mp3",
-  "durationSeconds": 1741
+  "durationSeconds": 1741,
+  "artwork": {
+    "src": "/media/healthy-church.webp",
+    "alt": "Healthy Church series artwork showing the church’s architectural blueprint"
+  }
 }

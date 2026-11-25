@@ -1,11 +1,13 @@
 ---
 import navigation from '../../inputs/navigation.json';
 import '../styles/site.css';
-const { title } = Astro.props;
+const { title, home = false } = Astro.props;
 const groups = [
-  { label: 'Visit', links: navigation.slice(0, 6) },
-  { label: 'Explore', links: navigation.slice(6, 15) },
-  { label: 'Community', links: navigation.slice(15, 21) },
+  { label: 'Connect', links: navigation.slice(0, 6) },
+  { label: 'About', links: navigation.slice(6, 9) },
+  { label: 'Truth', links: [...navigation.slice(9, 11), { route: 'https://pod.link/1605851775', label: 'Sermons podcast' }] },
+  { label: 'Beauty', links: navigation.slice(11, 15) },
+  { label: 'Goodness', links: navigation.slice(15, 21) },
 ];
 ---
 <!doctype html>
@@ -16,12 +18,13 @@ const groups = [
     <meta name="robots" content="noindex, nofollow" />
     <title>{title} | St John’s Darlinghurst</title>
   </head>
-  <body>
+  <body class:list={{ "is-home": home }}>
     <a class="skip" href="#content">Skip to content</a>
     <header class="site-header">
       <div class="wrap header-inner">
-        <a class="brand" href="/">St John’s <span>Darlinghurst</span></a>
+        <a class="brand" href="/"><img src={home ? "/media/logo-white.webp" : "/media/logo-dark.webp"} alt="St John’s Darlinghurst" /></a>
         <nav aria-label="Main navigation">
+          <a href="/home">Home</a>
           {groups.map(group => (
             <details name="main-nav">
               <summary>{group.label}</summary>
@@ -38,16 +41,14 @@ const groups = [
     <main id="content"><slot /></main>
     <footer class="site-footer">
       <div class="wrap footer-content">
-        <div>
-          <a class="brand" href="/">St John’s <span>Darlinghurst</span></a>
-          <p>120 Darlinghurst Road, Darlinghurst NSW 2010</p>
-        </div>
-        <div>
-          <a href="mailto:hello@stjohnsanglican.org.au">Email us</a>
-          <a href="https://maps.app.goo.gl/LaHHmXnDT7HQyh3GA">Get directions</a>
-          <a href="https://www.youtube.com/channel/UC_hFhunnSSLzBTvbNmgjZ9g">YouTube</a>
-          <a href="https://www.instagram.com/stjohnsdarlinghurst">Instagram</a>
-        </div>
+        <div><h2>Email</h2><a href="mailto:hello@stjohnsanglican.org.au">hello@stjohnsanglican.org.au</a></div>
+        <div><h2>Call Us</h2><a href="tel:+61401775556">0401 775 556</a></div>
+        <div><h2>Find Us</h2><a href="https://maps.app.goo.gl/LaHHmXnDT7HQyh3GA">120 Darlinghurst Road, Darlinghurst 2010</a></div>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/stjohnsdarlinghurst">Instagram</a>
+        <a href="https://www.youtube.com/channel/UC_hFhunnSSLzBTvbNmgjZ9g">YouTube</a>
+        <a href="https://www.facebook.com/stjohnsdarlo/">Facebook</a>
       </div>
     </footer>
   </body>

@@ -25,6 +25,7 @@ export interface Sermon {
   description: string[];
   audioUrl: string;
   durationSeconds: number;
+  artwork?: { src: string; alt: string };
 }
 export interface Event {
   id: string;

@@ -3,25 +3,43 @@ import Site from '../layouts/Site.astro';
 import ContentSection from './ContentSection.astro';
 import Events from './Events.astro';
 import Sermons from './Sermons.astro';
-import { pages } from '../lib/content';
+import { pages, type Section } from '../lib/content';
+
 const home = pages.find(page => page.route === '/')!;
-const [hero, ...sections] = home.sections;
+const [, welcome, invitation, support, giving, music] = home.sections;
+const invitationCards = ['worship', 'children', 'groups'].map((name, index): Section => ({
+  image: { src: `/media/${name}.webp`, alt: '' },
+  blocks: invitation.blocks.slice(2 + index * 3, 5 + index * 3),
+}));
+const supportCards: Section[] = [
+  { image: support.image, blocks: support.blocks.slice(0, 3) },
+  { image: { src: '/media/pastoral.webp', alt: '' }, blocks: support.blocks.slice(3) },
+];
 ---
-<Site title="Home">
+<Site title="Home" home>
   <section class="hero">
+    <img class="hero-photo" src="/media/hero-door.webp" alt="" fetchpriority="high" />
+    <img class="hero-photo hero-cycle" src="/media/hero-community.webp" alt="" />
     <div class="wrap hero-content">
-      <div>
-        <h1>{home.title}</h1>
-        <a class="button" href="/new">Plan a visit</a>
-        <a class="hero-link" href="#upcoming-events">Upcoming events</a>
-      </div>
-      {hero.image && <img src={hero.image.src} alt={hero.image.alt} fetchpriority="high" />}
+      <h1>{home.title}</h1>
+      <a class="button" href="/new">Plan a visit</a>
     </div>
   </section>
-  <div class="wrap content">
-    {sections.map(section => <ContentSection section={section} />)}
+  <div class="welcome-band"><ContentSection section={welcome} /></div>
+  <div class="invitation-band">
+    <div class="wrap">
+      <ContentSection section={{ blocks: invitation.blocks.slice(0, 2) }} />
+      <div class="invitation-cards">
+        {invitationCards.map(section => <ContentSection section={section} />)}
+      </div>
+    </div>
+  </div>
+  <div class="support-band">
+    <div class="wrap">{supportCards.map(section => <ContentSection section={section} />)}</div>
   </div>
   <Events />
+  <div class="giving-band"><ContentSection section={giving} /></div>
+  <div class="music-band"><ContentSection section={music} /></div>
   <section class="wrap content latest">
     <h2>Latest sermons</h2>
     <Sermons />
