@@ -8,9 +8,9 @@ interface Props {
 const { sermon } = Astro.props;
 const audio = safeHref(sermon.audioUrl);
 ---
-  <article class="wrap content episode">
+  <article class="wrap episode">
     <h1>{sermon.title}</h1>
-    <p class="episode-date"><time datetime={sermon.date}>{displayDate(sermon.date)}</time></p>
+    <p class="episode-date"><time class="date" datetime={sermon.date}>{displayDate(sermon.date)}</time></p>
     {sermon.artwork && <img class="episode-art" src={withBase(sermon.artwork.src)} alt={sermon.artwork.alt} fetchpriority="high" />}
     {audio && <audio controls preload="none" src={audio}><a href={audio}>Listen to the recording</a></audio>}
     <div class="prose">
@@ -25,7 +25,7 @@ const audio = safeHref(sermon.audioUrl);
   </article>
 
 <style>
-  .episode { max-width: 59.5rem; padding-top: 4.6rem; }
+  .episode { max-width: 59.5rem; padding-block: var(--band-spacing); }
   .episode-date { margin-bottom: 2.8rem; }
   .episode-art { margin-bottom: 1.5rem; }
   .episode audio { width: 100%; margin-bottom: 2rem; }

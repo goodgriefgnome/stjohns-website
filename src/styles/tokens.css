@@ -1,0 +1,39 @@
+/* Design tokens: every colour and shared measurement the site uses, in one place. */
+:root {
+  /* Base colours. Nothing outside this block should name a raw colour. */
+  --paper: #fff;
+  --mist: #f8fafc;
+  --slate: #334155;
+  --sky: #7ea8ce;
+  --cream: #f2e9dc;
+  --navy: #0f172a;
+  --grey: #606b77;
+  --rule: #dae0e6;
+  --rust: #9f5c1b;
+
+  /* What each colour is for. */
+  --text-default: var(--navy);
+  --text-muted: var(--grey);
+  --surface-subtle: var(--mist);
+  --border-subtle: var(--rule);
+  --focus-ring: var(--rust);
+  --photo-scrim: #0006;
+  --photo-scrim-light: #0005;
+
+  /* Layout. */
+  --layout-width: 74rem;
+  --reading-width: 42rem;
+  --gutter: 1.5rem;
+  --wrap-width: min(100% - 2 * var(--gutter), var(--layout-width));
+  --radius: .25rem;
+
+  /* Vertical space above and below a band: the full amount, and a smaller one for the footer. */
+  --band-spacing: clamp(2rem, 6vw, 4rem);
+  --band-spacing-small: 2.5rem;
+}
+
+/* Breakpoints can't be variables, so these two widths repeat in media queries:
+   56rem (header shrinks) and 42rem (single column). */
+@media (max-width: 42rem) {
+  :root { --gutter: 1rem; }
+}

@@ -2,8 +2,10 @@
 import { withBase } from '../lib/base-path.mjs';
 import SiteNavigation from '../components/SiteNavigation.astro';
 import church from '../../inputs/church.json';
-import '../styles/site.css';
+import '../styles/tokens.css';
 import '../styles/palettes.css';
+import '../styles/base.css';
+import '../styles/content.css';
 import '../styles/noto-emoji.css';
 const { title, home = false, photoHeader = false } = Astro.props;
 ---
@@ -20,7 +22,7 @@ const { title, home = false, photoHeader = false } = Astro.props;
     <a class="skip" href="#content">Skip to content</a>
     <SiteNavigation home={home || photoHeader} />
     <main id="content"><slot /></main>
-    <footer class="site-footer">
+    <footer class="site-footer" data-palette="navy">
       <div class="wrap footer-content">
         <div><h2>Email</h2><a href={`mailto:${church.email}`}>{church.email}</a></div>
         <div><h2>Call Us</h2><a href={`tel:${church.telephone}`}>{church.telephoneLabel}</a></div>
@@ -36,12 +38,11 @@ const { title, home = false, photoHeader = false } = Astro.props;
 </html>
 
 <style>
-  .skip { position: absolute; top: .75rem; left: .75rem; transform: translateY(-200%); z-index: 10; background: white; padding: .5rem; }
+  .skip { position: absolute; top: .75rem; left: .75rem; transform: translateY(-200%); z-index: 10; background: var(--paper); padding: .5rem; }
   .skip:focus { transform: none; }
   .is-home, .has-photo-header { --home-header-height: 11rem; }
-  .footer-social { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.4rem; padding: 0 1rem 2rem; }
-  .site-footer { background: var(--text-default); color: #fff; }
-  .footer-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; padding-block: 2.5rem; }
+  .footer-social { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.4rem; padding: 0 1rem var(--band-spacing-small); }
+  .footer-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; padding-block: var(--band-spacing-small); }
   .footer-content h2 { font-size: 1.2rem; }
   @media (max-width: 42rem) {
     .footer-content { grid-template-columns: 1fr; }

@@ -8,12 +8,12 @@ const monthLabel = new Intl.DateTimeFormat('en-AU', { month: 'long', year: 'nume
 {[...months].map(([month, occurrences], index) => (
   <details class="event-month" open={index === 0}>
         <summary>{monthLabel.format(new Date(month + '-01T00:00:00Z'))}</summary>
-        <ul class="event-list">
+        <ul class="event-list" role="list">
           {occurrences.map(event => {
             const details = event.detailsUrl && safeHref(event.detailsUrl);
             const register = event.registrationUrl && safeHref(event.registrationUrl);
             return <li>
-              <time datetime={event.allDay ? event.startDate : event.start}>{displayDate(event.startDate)}</time>
+              <time class="date" datetime={event.allDay ? event.startDate : event.start}>{displayDate(event.startDate)}</time>
               <h3>{details ? <a href={withBase(details)}>{event.title}</a> : event.title}</h3>
               {!event.allDay && <p>{displayTime(event.start)} – {displayTime(event.end)}</p>}
               {event.location && <p>{event.location}</p>}
@@ -26,11 +26,10 @@ const monthLabel = new Intl.DateTimeFormat('en-AU', { month: 'long', year: 'nume
     ))}
 
 <style>
-  .event-list { list-style: none; padding: 0; }
   .event-list h3 { margin: .35rem 0; }
   .event-list p { margin: 0; }
   .body-copy { white-space: pre-line; overflow-wrap: anywhere; }
   .event-month { max-width: 56rem; }
   .event-list { margin: 0 0 1rem; display: grid; gap: .65rem; }
-  .event-list li { background: #fbfaf5; padding: .8rem 1rem; border-radius: .2rem; }
+  .event-list li { background: var(--paper); padding: .8rem 1rem; border-radius: var(--radius); }
 </style>

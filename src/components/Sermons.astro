@@ -2,10 +2,10 @@
 import { withBase } from '../lib/base-path.mjs';
 import { displayDate, sermons } from '../lib/content';
 ---
-<ul class="sermon-list">
+<ul class="sermon-list" role="list">
   {sermons.map(sermon => (
     <li>
-      <time datetime={sermon.date}>{displayDate(sermon.date)}</time>
+      <time class="date" datetime={sermon.date}>{displayDate(sermon.date)}</time>
       <h3><a href={withBase(`/episode/${sermon.slug}`)}>{sermon.title}</a></h3>
       <p>{sermon.scripture} · {sermon.preacher}</p>
     </li>
@@ -13,7 +13,6 @@ import { displayDate, sermons } from '../lib/content';
 </ul>
 
 <style>
-  .sermon-list { list-style: none; padding: 0; }
   .sermon-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem; }
   .sermon-list li { border: 1px solid var(--border-subtle); padding: 1.2rem; }
   .sermon-list h3 { margin: .35rem 0; }

@@ -4,7 +4,7 @@ import Home from '../content/home.mdx';
 import { withBase } from '../lib/base-path.mjs';
 ---
 <Page title="Home" width="standard">
-  <header class="hero" slot="hero">
+  <header class="hero photo-backdrop" data-palette="navy" slot="hero">
     <img src={withBase('/media/hero-door.webp')} alt="" fetchpriority="high" />
     <img class="hero-cycle" src={withBase('/media/hero-community.webp')} alt="" />
     <div class="wrap">
@@ -18,16 +18,12 @@ import { withBase } from '../lib/base-path.mjs';
 <style>
   /* The only home-page-specific design: two photos that fade between each other behind the tagline. */
   .hero {
-    position: relative;
-    isolation: isolate;
+    --scrim: var(--photo-scrim-light);
     min-height: 25.1rem;
-    padding: calc(var(--home-header-height) + 1.3rem) 0 4rem;
-    background: var(--text-default);
-    color: var(--paper);
+    padding: calc(var(--home-header-height) + 1.3rem) 0 var(--band-spacing);
     text-align: center;
   }
-  .hero img { position: absolute; inset: 0; height: 100%; object-fit: cover; z-index: -2; border-radius: 45% 45% .3rem .3rem / 28% 28% .3rem .3rem; }
-  .hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--photo-scrim-light); }
+  .hero img { border-radius: 45% 45% .3rem .3rem / 28% 28% .3rem .3rem; }
   .hero h1 { font-size: clamp(1.8rem, 3.15vw, 2.45rem); margin-bottom: 1.25rem; }
   .hero a { display: inline-block; padding: .3rem 1.7rem; text-decoration: none; font-weight: 650; text-transform: uppercase; }
   .hero-cycle { animation: hero-cycle 16s infinite; opacity: 0; }

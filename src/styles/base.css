@@ -1,3 +1,4 @@
+/* Element defaults and small patterns shared across the site. Colours and sizes come from tokens.css. */
 @font-face {
   font-family: Inter;
   src: url('/fonts/inter-latin.woff2') format('woff2');
@@ -8,12 +9,7 @@
 :root {
   font: 1rem/1.6 Inter, 'Noto Emoji', system-ui, sans-serif;
   color: var(--text-default);
-  background: #fff;
-  --layout-width: 74rem;
-  --reading-width: 42rem;
-  --gutter: 1.5rem;
-  --section-spacing: clamp(2rem, 6vw, 5rem);
-  --article-spacing: clamp(2rem, 6vw, 4rem);
+  background: var(--paper);
 }
 
 * { box-sizing: border-box; }
@@ -21,6 +17,26 @@ body { margin: 0; }
 img { display: block; width: 100%; height: auto; }
 a { color: inherit; text-underline-offset: .2em; }
 a:hover { text-decoration-thickness: .13em; }
+:focus-visible { outline: .18rem solid var(--focus-ring); outline-offset: .22rem; }
+h1, h2, h3 {
+  margin: 0 0 1rem;
+  font-family: inherit;
+  font-weight: 750;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+h1, h2 { font-size: clamp(1.75rem, 3vw, 2.15rem); }
+h3 { font-size: 1.45rem; }
+p { margin: 0 0 1rem; font-size: 1.125rem; }
+summary { cursor: pointer; }
+/* role="list" keeps a list announced as a list once its bullets are gone. */
+ul[role="list"] { list-style: none; padding: 0; }
+
+/* A date shown as a label, above a title or beside it. */
+.date { color: var(--text-muted); }
+
+.wrap { width: var(--wrap-width); margin-inline: auto; }
 
 /* Emphasis around or inside a link marks an action in authored content. */
 .text-link > a,
@@ -35,27 +51,19 @@ a:hover { text-decoration-thickness: .13em; }
   background: var(--action-bg, var(--sky));
   color: var(--action-text, var(--navy));
 }
-
 .page-content a > em { font-style: normal; }
-:focus-visible { outline: .18rem solid var(--focus-ring); outline-offset: .22rem; }
-h1, h2, h3 { line-height: 1.1; text-wrap: balance; margin: 0 0 1rem; }
-h1, h2, h3 { font-family: inherit; font-weight: 750; letter-spacing: -.02em; }
-h1, h2 { font-size: clamp(1.75rem, 3vw, 2.15rem); }
-h3 { font-size: 1.45rem; }
-p { margin: 0 0 1rem; font-size: 1.125rem; }
-summary { cursor: pointer; }
+
 /* An emoji that starts a heading in Markdown becomes a small icon above it. */
 .heading-icon { display: block; margin-bottom: .6rem; font: 1.35rem/1 'Noto Emoji', sans-serif; font-variant-emoji: text; color: var(--action-bg, var(--sky)); }
 .heading-icon::before { content: attr(data-icon) / ''; }
-time { color: var(--text-muted); }
-/* Times filled into running text by {{tokens}} read as part of the sentence. */
-.page-content p time { color: inherit; }
 
-.wrap { width: min(100% - 2 * var(--gutter), var(--layout-width)); margin-inline: auto; }
-.content { padding-block: var(--section-spacing); }
-
-@media (max-width: 42rem) {
-  :root { --gutter: 1rem; }
+/* Text over a photo: the photo fills the box behind the text, under a dark scrim.
+   Set --scrim to lighten or darken it. Cards are built by the cards directive. */
+:is(.photo-backdrop, .section-cards > div) {
+  position: relative;
+  isolation: isolate;
+  &::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--scrim, var(--photo-scrim)); }
+  & img { position: absolute; inset: 0; z-index: -2; height: 100%; max-height: none; object-fit: cover; }
 }
 
 @view-transition {

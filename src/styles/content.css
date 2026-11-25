@@ -1,0 +1,109 @@
+/* Page content: the column grid in Page.astro, and what the Markdown directives produce. */
+.page-content {
+  --page-measure: var(--reading-width);
+  display: grid;
+  grid-template-columns: minmax(var(--gutter), 1fr) minmax(0, var(--page-measure)) minmax(var(--gutter), 1fr);
+  padding-bottom: var(--band-spacing);
+
+  &.standard-measure {
+    --page-measure: var(--layout-width);
+    padding-top: var(--band-spacing);
+  }
+  &.standard-measure:has(> .article-band:first-child) { padding-top: 0; }
+  & > * { grid-column: 2; }
+  &:not(.standard-measure) > :first-child:not(.article-band) { margin-top: var(--band-spacing); }
+  & > :is(.article-band, .article-gallery) { grid-column: 1 / -1; }
+
+  /* Bands run edge to edge, with their content held to the page measure (or the layout width when wide). */
+  & > .article-band {
+    --band-measure: var(--page-measure);
+    margin: 0 0 var(--band-spacing);
+    padding: var(--band-spacing) max(var(--gutter), calc((100% - var(--band-measure)) / 2));
+  }
+  & > .article-band-wide { --band-measure: var(--layout-width); }
+  & .article-band + .article-band { margin-top: calc(-1 * var(--band-spacing)); }
+  & :is(.article-band, .media-body, .section-cards > div) > :last-child { margin-bottom: 0; }
+
+  & .article-lead { text-align: center; }
+  & .article-lead > *, & .article-cards > :not(.section-cards) { max-width: var(--reading-width); margin-inline: auto; }
+  & .article-lead p:last-child { margin-bottom: 0; }
+  & blockquote { margin: 0; }
+
+  & .section-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--gutter);
+    margin-top: 2rem;
+  }
+
+  & .article-cards { text-align: center; }
+  & .section-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; text-align: left; }
+  & .section-cards > div {
+    --scrim: var(--photo-scrim-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: clamp(19rem, 39vw, 29rem);
+    padding: 1.1rem;
+    color: var(--paper);
+  }
+  & .section-cards p:has(> img:only-child) { margin: 0; }
+  & .section-cards h3 { font-size: 1.5rem; }
+
+  & .article-media {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: center;
+    gap: clamp(1.5rem, 5vw, 4rem);
+  }
+  & .article-media[data-image='right'] { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  & .article-media[data-image='right'] .media-image { order: 1; }
+  & :is(.media-image, .article-gallery) img { aspect-ratio: 1; object-fit: cover; }
+
+  & > .article-gallery {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 1rem;
+    width: var(--wrap-width);
+    margin: 2rem auto 0;
+  }
+
+  /* Accordion: each <details> sits between rules, with a chevron that flips open. */
+  & details { border-top: .19rem solid currentColor; }
+  & details:not(:has(+ details)) { border-bottom: .19rem solid currentColor; }
+  & details > :last-child { margin-bottom: 1.25rem; }
+  & summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 1.1rem;
+    font-weight: 700;
+    list-style: none;
+  }
+  & summary::-webkit-details-marker { display: none; }
+  & summary::after {
+    content: '';
+    flex: none;
+    width: .6rem;
+    height: .6rem;
+    margin-right: .3rem;
+    border: solid currentColor;
+    border-width: 0 .17rem .17rem 0;
+    transform: translateY(-25%) rotate(45deg);
+    transition: transform .2s;
+  }
+  & details[open] summary::after { transform: translateY(25%) rotate(-135deg); }
+
+  @media (max-width: 42rem) {
+    & > .article-gallery { grid-auto-flow: row; }
+    & :is(.section-columns-explicit, .section-cards) { grid-template-columns: 1fr; }
+    & .article-media,
+    & .article-media[data-image='right'] { grid-template-columns: 1fr; }
+    & .article-media[data-image='right'] .media-image { order: 0; }
+  }
+}
+
+/* A default for images in bands, kept at plain-img specificity so photo cards and square crops override it. */
+:where(.page-content .article-band) img { max-height: 30rem; object-fit: contain; }
