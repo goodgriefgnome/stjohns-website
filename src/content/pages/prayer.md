@@ -1,5 +1,6 @@
 ---
 title: Prayer & Pastoral Care
+hero: /media/pastoral.webp
 palette: white
 ---
 

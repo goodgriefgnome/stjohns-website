@@ -1,5 +1,6 @@
 ---
 title: Serve
+hero: /media/children.webp
 width: standard
 palette: white
 ---

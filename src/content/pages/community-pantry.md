@@ -1,5 +1,6 @@
 ---
 title: Community Pantry
+hero: /media/hero-community.webp
 width: standard
 palette: white
 ---

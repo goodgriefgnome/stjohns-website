@@ -1,5 +1,6 @@
 ---
 title: Contact Us
+hero: /media/2d3b2c8de277f17a6f05.jpg
 palette: white
 ---
 
