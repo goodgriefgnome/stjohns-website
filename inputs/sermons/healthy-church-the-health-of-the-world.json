@@ -3,6 +3,7 @@
   "slug": "healthy-church-the-health-of-the-world",
   "title": "Healthy Church: The Health of the World",
   "date": "2026-11-22",
+  "publishedAt": "2026-11-22T10:30:00Z",
   "scripture": "Titus 3",
   "series": "Healthy Church: Paul's Letter to Titus",
   "preacher": "Richard Glover",
@@ -13,9 +14,11 @@
     "Churches do so by working for the common good of all people, energised by the blessed hope of the return of Jesus, to make all things new. That work of renewal has begun already in his people, whom the Spirit is renewing in godliness, making us agents of renewal as we wait for the Lord's return."
   ],
   "audioUrl": "https://www.stjohnsanglican.org.au/tcctrack/audio/1276730/listens.mp3",
+  "audioBytes": 27860323,
   "durationSeconds": 1741,
   "artwork": {
     "src": "/media/healthy-church.webp",
-    "alt": "Healthy Church series artwork showing the church’s architectural blueprint"
+    "alt": "Healthy Church series artwork showing the church’s architectural blueprint",
+    "podcastSrc": "/media/podcast/healthy-church.jpg"
   }
 }

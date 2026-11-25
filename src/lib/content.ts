@@ -5,13 +5,18 @@ export interface Sermon {
   slug: string;
   title: string;
   date: string;
+  /** Feed publish time (ISO 8601). Falls back to `date` when missing. */
+  publishedAt?: string;
   scripture: string;
   series: string;
   preacher: string;
   description: string[];
   audioUrl: string;
+  /** Size of the audio file in bytes, required by the podcast feed's <enclosure>. */
+  audioBytes: number;
   durationSeconds: number;
-  artwork?: { src: string; alt: string };
+  /** `podcastSrc` is a square JPEG (1400–3000px) for podcast apps, which don't accept WebP. */
+  artwork?: { src: string; alt: string; podcastSrc?: string };
 }
 export interface Event {
   id: string;

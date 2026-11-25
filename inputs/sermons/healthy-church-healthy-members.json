@@ -3,6 +3,7 @@
   "slug": "healthy-church-healthy-members",
   "title": "Healthy Church: Healthy Members",
   "date": "2026-11-15",
+  "publishedAt": "2026-11-15T10:30:00Z",
   "scripture": "Titus 2",
   "series": "Healthy Church: Paul's Letter to Titus",
   "preacher": "Richard Glover",
@@ -15,9 +16,11 @@
     "But most fundamentally, we learn that the self-control required for a life of virtue is only possible as the Holy Spirit renews the desires of our hearts."
   ],
   "audioUrl": "https://www.stjohnsanglican.org.au/tcctrack/audio/1269210/listens.mp3",
+  "audioBytes": 44414850,
   "durationSeconds": 1851,
   "artwork": {
     "src": "/media/healthy-church.webp",
-    "alt": "Healthy Church series artwork showing the church’s architectural blueprint"
+    "alt": "Healthy Church series artwork showing the church’s architectural blueprint",
+    "podcastSrc": "/media/podcast/healthy-church.jpg"
   }
 }
