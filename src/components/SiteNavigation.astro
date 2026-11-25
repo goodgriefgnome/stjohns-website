@@ -79,6 +79,7 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     toggle.addEventListener('click', () => {
       // Put the close button exactly where the menu button is, so the bars read as turning into an X.
       const box = toggle.getBoundingClientRect();
+      overlay.style.setProperty('--toggle-color', getComputedStyle(toggle).color);
       overlay.style.setProperty('--toggle-top', `${box.top}px`);
       overlay.style.setProperty('--toggle-end', `${document.documentElement.clientWidth - box.right}px`);
       overlay.showModal();
@@ -229,9 +230,23 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   .bar::before, .bar::after { content: ''; }
   .bar::before { top: -9px; }
   .bar::after { top: 9px; }
-  .menu-close .bar { background: transparent; }
-  .menu-close .bar::before { top: 0; transform: rotate(45deg); }
-  .menu-close .bar::after { top: 0; transform: rotate(-45deg); }
+  /* The close button starts as the three menu bars and turns into an X as the overlay opens (and back). */
+  .menu-close { color: var(--toggle-color, inherit); }
+  .menu-close .bar, .menu-close .bar::before, .menu-close .bar::after {
+    transition: transform .5s var(--ease-live), top .5s var(--ease-live);
+  }
+  .menu-close { transition: color .5s var(--ease-live); }
+  .menu-close .bar { transition: background-color .25s var(--ease-live); }
+  .navigation-overlay[open] .menu-close { color: var(--text-default); }
+  .navigation-overlay[open] .menu-close .bar { background: transparent; }
+  .navigation-overlay[open] .menu-close .bar::before { top: 0; transform: rotate(45deg); }
+  .navigation-overlay[open] .menu-close .bar::after { top: 0; transform: rotate(-45deg); }
+  @starting-style {
+    .navigation-overlay[open] .menu-close { color: var(--toggle-color, inherit); }
+    .navigation-overlay[open] .menu-close .bar { background: currentcolor; }
+    .navigation-overlay[open] .menu-close .bar::before { top: -9px; transform: none; }
+    .navigation-overlay[open] .menu-close .bar::after { top: 9px; transform: none; }
+  }
 
   .navigation-overlay {
     position: fixed;
@@ -280,6 +295,12 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   .overlay-nav :global(ul) { margin: 0 0 .5em; padding: 0 0 0 37px; list-style: none; }
   .overlay-nav :global(li a) { display: block; padding-block: .5em; margin-bottom: .5em; font-size: 1.0625rem; line-height: 1; text-decoration: none; }
 
+  /* Closing fades the dropdown out where the browser supports animating <details> content. */
+  .desktop-nav :global(details)::details-content {
+    opacity: 0;
+    transition: opacity 200ms var(--ease-live), content-visibility 200ms allow-discrete;
+  }
+  .desktop-nav :global(details[open])::details-content { opacity: 1; }
   @media (prefers-reduced-motion: no-preference) {
     .desktop-nav :global(details[open] ul) { animation: reveal-menu 200ms var(--ease-live) both; }
     .desktop-nav :global(details[open] li) { animation: reveal-item 250ms var(--ease-live) both; }
@@ -291,7 +312,7 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     .desktop-nav :global(details[open] li:nth-child(n+6)) { animation-delay: 300ms; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .navigation-overlay { transition: none; }
+    .navigation-overlay, .menu-close, .menu-close .bar, .menu-close .bar::before, .menu-close .bar::after, .desktop-nav :global(details)::details-content { transition: none; }
     .desktop-nav :global(> a::after), .desktop-nav :global(summary::after), .desktop-nav :global(li a) { transition: none; }
   }
   /* Card scales up from slightly small; the links fade in one after another. */
