@@ -55,11 +55,22 @@ ul[role="list"] { list-style: none; padding: 0; }
   color: var(--action-text, var(--navy));
 }
 .action-bar {
-  padding: .57rem 0;
+  position: relative;
+  padding: .57rem 0 calc(.57rem + 4px);
   color: inherit;
-  border-bottom: 4px solid currentColor;
-  box-sizing: content-box;
 }
+/* The bar retracts to the right on hover and grows back from the left, as on live. */
+.action-bar::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 4px;
+  background: currentColor;
+  transform-origin: left;
+  transition: transform .5s cubic-bezier(.33, 0, .19, 1);
+}
+.action-bar:hover::after { transform: scaleX(0); transform-origin: right; }
+@media (prefers-reduced-motion: reduce) { .action-bar::after { transition: none; } }
 
 /* An emoji that starts a heading in Markdown becomes a small icon above it. */
 .heading-icon { display: block; margin-bottom: .6rem; font: 1.35rem/1 'Noto Emoji', sans-serif; font-variant-emoji: text; color: var(--action-bg, var(--sky)); }
