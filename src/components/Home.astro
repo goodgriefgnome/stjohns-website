@@ -1,0 +1,30 @@
+---
+import Site from '../layouts/Site.astro';
+import ContentSection from './ContentSection.astro';
+import Events from './Events.astro';
+import Sermons from './Sermons.astro';
+import { pages } from '../lib/content';
+const home = pages.find(page => page.route === '/')!;
+const [hero, ...sections] = home.sections;
+---
+<Site title="Home">
+  <section class="hero">
+    <div class="wrap hero-content">
+      <div>
+        <h1>{home.title}</h1>
+        <a class="button" href="/new">Plan a visit</a>
+        <a class="hero-link" href="#upcoming-events">Upcoming events</a>
+      </div>
+      {hero.image && <img src={hero.image.src} alt={hero.image.alt} fetchpriority="high" />}
+    </div>
+  </section>
+  <div class="wrap content">
+    {sections.map(section => <ContentSection section={section} />)}
+  </div>
+  <Events />
+  <section class="wrap content latest">
+    <h2>Latest sermons</h2>
+    <Sermons />
+    <a href="/sermons">More about our sermons</a>
+  </section>
+</Site>

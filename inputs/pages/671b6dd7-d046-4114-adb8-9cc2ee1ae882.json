@@ -1,0 +1,28 @@
+{
+  "route": "/671b6dd7-d046-4114-adb8-9cc2ee1ae882",
+  "label": "Banksia Women",
+  "title": "Banksia Women",
+  "sections": [
+    {
+      "blocks": [
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Banksia Women assists women who have experienced domestic and family violence. They run sessions and workshops which facilitate long term healing. To find out more about Banksia Women, visit their website. "
+            }
+          ]
+        },
+        {
+          "kind": "link",
+          "runs": [
+            {
+              "text": "Visit the Banksia Women website",
+              "href": "https://www.banksiawomen.org.au"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

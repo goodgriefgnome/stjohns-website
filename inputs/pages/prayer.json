@@ -1,0 +1,64 @@
+{
+  "route": "/prayer",
+  "label": "Prayer & Pastoral Care",
+  "title": "Prayer & Pastoral Care",
+  "sections": [
+    {
+      "blocks": [
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Prayer is at the centre of everything we do as a church. Our Sunday services are based on The Book of Common Prayer, and they are designed as participatory training for a whole life of prayer. We are always happy to pray for you and with you. "
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "blocks": [
+        {
+          "kind": "heading",
+          "runs": [
+            {
+              "text": "What do you need prayer for?"
+            }
+          ]
+        },
+        {
+          "kind": "link",
+          "runs": [
+            {
+              "text": "Email a prayer request",
+              "href": "mailto:hello@stjohnsanglican.org.au"
+            }
+          ]
+        },
+        {
+          "kind": "heading",
+          "runs": [
+            {
+              "text": "Our Pastoral Care team are here for you"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Our ministers do a lot of different things in their roles, but one of their highest priorities and greatest joys is to meet with people individually to provide counsel and prayer. "
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Whether you’re struggling with your mental health, having conflict in a relationship, facing a sticky situation at work, or for whatever other reason – we’re here for you. Email us to make a time to meet."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

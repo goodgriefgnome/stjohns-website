@@ -1,0 +1,94 @@
+[
+  {
+    "route": "/new",
+    "label": "I Am New"
+  },
+  {
+    "route": "/list",
+    "label": "Mailing List"
+  },
+  {
+    "route": "/sunday-services",
+    "label": "Sunday Services"
+  },
+  {
+    "route": "/childrens-ministry",
+    "label": "Children's Ministry"
+  },
+  {
+    "route": "/community-groups",
+    "label": "Community Groups"
+  },
+  {
+    "route": "/prayer",
+    "label": "Prayer & Pastoral Care"
+  },
+  {
+    "route": "/welcome",
+    "label": "Welcome"
+  },
+  {
+    "route": "/about",
+    "label": "About Us"
+  },
+  {
+    "route": "/our-team",
+    "label": "Our Team"
+  },
+  {
+    "route": "/what-is-christianity",
+    "label": "What Is Christianity?"
+  },
+  {
+    "route": "/sermons",
+    "label": "Sermons"
+  },
+  {
+    "route": "/christianity-art--culture",
+    "label": "Christianity, Art + Culture"
+  },
+  {
+    "route": "/music-ministry",
+    "label": "Music Ministry + Choir"
+  },
+  {
+    "route": "/concert-series",
+    "label": "Twilight Music Series"
+  },
+  {
+    "route": "/creatives-collective",
+    "label": "Creatives Collective"
+  },
+  {
+    "route": "/serve",
+    "label": "Serve"
+  },
+  {
+    "route": "/rough-edges-2",
+    "label": "Rough Edges"
+  },
+  {
+    "route": "/671b6dd7-d046-4114-adb8-9cc2ee1ae882",
+    "label": "Banksia Women"
+  },
+  {
+    "route": "/christianity--social-concern",
+    "label": "Christianity + Social Concern"
+  },
+  {
+    "route": "/faith-work-and-economics",
+    "label": "Faith, Work + Economics"
+  },
+  {
+    "route": "/community-pantry",
+    "label": "Community Pantry"
+  },
+  {
+    "route": "/contact",
+    "label": "Contact"
+  },
+  {
+    "route": "/give",
+    "label": "Give"
+  }
+]

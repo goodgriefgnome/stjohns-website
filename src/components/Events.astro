@@ -1,0 +1,30 @@
+---
+import { displayDate, displayTime, events, safeHref } from '../lib/content';
+const months = Map.groupBy(events, event => event.startDate.slice(0, 7));
+const monthLabel = new Intl.DateTimeFormat('en-AU', { month: 'long', year: 'numeric', timeZone: 'Australia/Sydney' });
+---
+<section id="upcoming-events" class="band">
+  <div class="wrap">
+    <h2>Upcoming events</h2>
+    {events.length === 0 && <p>No upcoming events are listed.</p>}
+    {[...months].map(([month, occurrences], index) => (
+      <details class="event-month" open={index === 0}>
+        <summary>{monthLabel.format(new Date(month + '-01T00:00:00Z'))}</summary>
+        <ul class="event-list">
+          {occurrences.map(event => {
+            const details = event.detailsUrl && safeHref(event.detailsUrl);
+            const register = event.registrationUrl && safeHref(event.registrationUrl);
+            return <li>
+              <time datetime={event.allDay ? event.startDate : event.start}>{displayDate(event.startDate)}</time>
+              <h3>{details ? <a href={details}>{event.title}</a> : event.title}</h3>
+              {!event.allDay && <p>{displayTime(event.start)} – {displayTime(event.end)}</p>}
+              {event.location && <p>{event.location}</p>}
+              {event.description && <p class="body-copy">{event.description}</p>}
+              {register && <a href={register}>Register</a>}
+            </li>;
+          })}
+        </ul>
+      </details>
+    ))}
+  </div>
+</section>

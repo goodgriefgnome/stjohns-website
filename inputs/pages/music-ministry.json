@@ -1,0 +1,78 @@
+{
+  "route": "/music-ministry",
+  "label": "Music Ministry + Choir",
+  "title": "Music Ministry & Choir",
+  "sections": [
+    {
+      "blocks": [
+        {
+          "kind": "heading",
+          "runs": [
+            {
+              "text": "Music Ministry"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Musical worship is one of the most important things that happens in the church."
+            },
+            {
+              "text": " "
+            },
+            {
+              "text": "The songs we sing together are not mere window dressing, but rather have a decisive role to play in shaping our beliefs and forming our souls. It is often the music that takes the teaching of the gospel beyond being merely information in our heads, and plants it as life-changing truth deep in our hearts. Therefore, we place a high value on musical worship when we gather each week. "
+            }
+          ]
+        }
+      ],
+      "image": {
+        "src": "/media/b82d99f45a3b22dd843d.webp",
+        "alt": ""
+      }
+    },
+    {
+      "blocks": [
+        {
+          "kind": "heading",
+          "runs": [
+            {
+              "text": "Choir"
+            }
+          ]
+        },
+        {
+          "kind": "link",
+          "runs": [
+            {
+              "text": "click here",
+              "href": "https://form.jotform.com/231380582288057?fbclid=IwAR3Ud0mAwm6XbiqNSE6dPtABAunkOLw0CkCBAjgCqy-VB2dZSeJIsGPZCGM_aem_AVZOGnnyUwvh_eILpZraFuX40pkpmdnL7P5KPdnETgPU9pFQlFbSBtWhEPNzffVoxGE"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "blocks": [
+        {
+          "kind": "heading",
+          "runs": [
+            {
+              "text": "Join the Music Team"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "We are always eager to welcome new people to our music team. If you sing or play an instrument, and are interested in helping the community at St John’s worship God through music, then please reach out to our music minister, Sam Giddy."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

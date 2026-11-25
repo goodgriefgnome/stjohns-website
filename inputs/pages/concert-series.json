@@ -1,0 +1,219 @@
+{
+  "route": "/concert-series",
+  "label": "Twilight Music Series",
+  "title": "Twilight Music ",
+  "sections": [
+    {
+      "blocks": [
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "This year at St John’s, we are pleased to host a twilight series of concerts and choir services. Entry to these events is free, although we welcome donations to support the ongoing ministry of St John's."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "blocks": [
+        {
+          "kind": "heading",
+          "runs": [
+            {
+              "text": "2026 Program"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 17 January"
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "Violin and Piano Recital with Chen Le and Ned Kellenberge"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 21 February"
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "Jazz Originals with Leo Bae"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 21 March"
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "Easter Choir Concert"
+            },
+            {
+              "text": "\n"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 18 April "
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "Flametree Trio (with Jenny Duck-Chong and Jo Allan)"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 16 May"
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "Jordan Chung Jazz Quartet"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 20 June"
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "Nulla in Mundo Pax Sincera: Music from the Italian Baroque"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 18 July"
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "Organ Recital with Cynthia Bui"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 15 August"
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "Cornett and Sackbutt Recital"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 19 September"
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "Choral evensong with St John’s Choir"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 17 October "
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "An evening of vocal hits with Jassy Husk"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 21 November"
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "Aurelian Ensemble (Miranda Ilchef, Emily Cavey, Stacey Yang)"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Saturday 19 December"
+            },
+            {
+              "text": "\n"
+            },
+            {
+              "text": "Community Carols by Candlelight"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Sign up to our mailing list to stay up-to-date with our music events"
+            }
+          ]
+        },
+        {
+          "kind": "link",
+          "runs": [
+            {
+              "text": "Sign Up Here",
+              "href": "https://mailchi.mp/5c10ce47bd31/st-johns-music"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

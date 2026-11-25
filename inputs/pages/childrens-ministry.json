@@ -1,0 +1,90 @@
+{
+  "route": "/childrens-ministry",
+  "label": "Children's Ministry",
+  "title": "Children's Ministry",
+  "sections": [
+    {
+      "blocks": [
+        {
+          "kind": "heading",
+          "runs": [
+            {
+              "text": "“Let the children come to me,\" Jesus said. \"Do not hinder them, for to such belongs the kingdom of God.”"
+            },
+            {
+              "text": "\n"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Mark 10:14"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "blocks": [
+        {
+          "kind": "heading",
+          "runs": [
+            {
+              "text": "Jesus welcomed children to himself – as his church, we seek to do the same. We work together to engage the hearts and minds of our children and nurture them as Jesus' disciples."
+            }
+          ]
+        },
+        {
+          "kind": "heading",
+          "runs": [
+            {
+              "text": "Children's Chapel"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Children’s Chapel is a formative time in which children are taught to be 'little worshipers.' The sacred stories from God's word, told from generation to generation, are our primary source for experiencing and knowing God. We teach children these stories in a fun way that engages their senses and imagination so that they see themselves as participants in God's story. We care deeply about the safety of every child that enters the doors of our church. All of our staff and children’s ministry volunteers possess a valid Working With Children Check and have completed the Anglican Diocese of Sydney’s Safe Ministry training."
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "For more information please email Nerida Peart."
+            }
+          ]
+        }
+      ],
+      "image": {
+        "src": "/media/d6fb64fb0496459a900e.webp",
+        "alt": "<span style=\"line-height: 1.7rem;\">Jesus welcomed children to himself – as his church, we seek to do the same. We work together to engage the hearts and minds of our children and nurture them as Jesus' disciples.</span>"
+      }
+    },
+    {
+      "blocks": [
+        {
+          "kind": "heading",
+          "runs": [
+            {
+              "text": "Need more info?"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Please fill out the form below and we will help you and your family get connected."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

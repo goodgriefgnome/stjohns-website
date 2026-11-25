@@ -1,0 +1,54 @@
+---
+import navigation from '../../inputs/navigation.json';
+import '../styles/site.css';
+const { title } = Astro.props;
+const groups = [
+  { label: 'Visit', links: navigation.slice(0, 6) },
+  { label: 'Explore', links: navigation.slice(6, 15) },
+  { label: 'Community', links: navigation.slice(15, 21) },
+];
+---
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} | St John’s Darlinghurst</title>
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="/">St John’s <span>Darlinghurst</span></a>
+        <nav aria-label="Main navigation">
+          {groups.map(group => (
+            <details name="main-nav">
+              <summary>{group.label}</summary>
+              <ul>{group.links.map(link => (
+                <li><a href={link.route} aria-current={Astro.url.pathname === link.route ? 'page' : undefined}>{link.label}</a></li>
+              ))}</ul>
+            </details>
+          ))}
+          <a href="/contact">Contact</a>
+          <a href="/give">Give</a>
+        </nav>
+      </div>
+    </header>
+    <main id="content"><slot /></main>
+    <footer class="site-footer">
+      <div class="wrap footer-content">
+        <div>
+          <a class="brand" href="/">St John’s <span>Darlinghurst</span></a>
+          <p>120 Darlinghurst Road, Darlinghurst NSW 2010</p>
+        </div>
+        <div>
+          <a href="mailto:hello@stjohnsanglican.org.au">Email us</a>
+          <a href="https://maps.app.goo.gl/LaHHmXnDT7HQyh3GA">Get directions</a>
+          <a href="https://www.youtube.com/channel/UC_hFhunnSSLzBTvbNmgjZ9g">YouTube</a>
+          <a href="https://www.instagram.com/stjohnsdarlinghurst">Instagram</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

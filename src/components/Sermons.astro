@@ -1,0 +1,12 @@
+---
+import { displayDate, sermons } from '../lib/content';
+---
+<ul class="sermon-list">
+  {sermons.map(sermon => (
+    <li>
+      <time datetime={sermon.date}>{displayDate(sermon.date)}</time>
+      <h3><a href={`/episode/${sermon.slug}`}>{sermon.title}</a></h3>
+      <p>{sermon.scripture} · {sermon.preacher}</p>
+    </li>
+  ))}
+</ul>

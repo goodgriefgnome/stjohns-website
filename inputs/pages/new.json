@@ -1,0 +1,36 @@
+{
+  "route": "/new",
+  "label": "I Am New",
+  "title": "Are you new?",
+  "sections": [
+    {
+      "blocks": [
+        {
+          "kind": "heading",
+          "runs": [
+            {
+              "text": "Get in Touch"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "runs": [
+            {
+              "text": "Do you need more information as you consider making St John’s your church home?"
+            }
+          ]
+        },
+        {
+          "kind": "link",
+          "runs": [
+            {
+              "text": "Email the church",
+              "href": "mailto:hello@stjohnsanglican.org.au"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

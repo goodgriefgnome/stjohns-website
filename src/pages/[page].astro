@@ -1,0 +1,21 @@
+---
+import Site from '../layouts/Site.astro';
+import ContentSection from '../components/ContentSection.astro';
+import Sermons from '../components/Sermons.astro';
+import { pages, type Page } from '../lib/content';
+
+export function getStaticPaths() {
+  return pages.filter(page => page.route !== '/').map(page => ({
+    params: { page: page.route.slice(1) },
+    props: { page },
+  }));
+}
+const { page } = Astro.props as { page: Page };
+---
+<Site title={page.title}>
+  <div class="title-band"><div class="wrap"><h1>{page.title}</h1></div></div>
+  <div class="wrap content">
+    {page.route === '/sermons' && <Sermons />}
+    {page.sections.map(section => <ContentSection section={section} />)}
+  </div>
+</Site>

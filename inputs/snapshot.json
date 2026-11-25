@@ -1,0 +1,9 @@
+{
+  "date": "2026-11-25",
+  "timezone": "Australia/Sydney",
+  "sources": {
+    "pages": "https://www.stjohnsanglican.org.au",
+    "sermons": "https://rss.stjohnsanglican.org.au/sermons",
+    "events": "https://calendar.stjohnsanglican.org.au/api/events"
+  }
+}
