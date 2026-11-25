@@ -15,7 +15,7 @@ const formatter = new Intl.DateTimeFormat('en-AU', {
 ---
 {[...programs].map(([year, program]) => (
   <section>
-    <h2>{year} Program</h2>
+    <h2 class="program-heading">{year} Program</h2>
     {Astro.slots.has('default') && <p><slot /></p>}
     <ul class="concert-program" role="list">
       {program.map(concert => (
@@ -26,6 +26,7 @@ const formatter = new Intl.DateTimeFormat('en-AU', {
 ))}
 
 <style>
+  .program-heading { text-align: center; }
   .concert-program li { margin-bottom: 1rem; }
   .concert-program time { font-weight: 700; }
 </style>

@@ -59,7 +59,7 @@ St John’s is a church community… Our roots in Darlinghurst go back to 1849. 
 ![](/media/articles/about-3.webp)
 :::
 
-::::section{palette="cream" layout="columns"}
+::::section{palette="cream" layout="columns" align="left"}
 :::column
 ## Our History
 

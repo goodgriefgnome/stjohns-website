@@ -18,7 +18,7 @@ Through this discipline of generosity, we learn to see everything we have as a g
 St John’s relies on the generosity of its members and community to fund its ministries in Darlinghurst and beyond. Your support will allow us to do even more. So, for the sake of your own spiritual growth, as well as the growth of God’s kingdom, we invite you to partner with us financially.
 :::
 
-:::section{palette="blue" layout="columns"}
+:::section{palette="blue" layout="columns" align="center"}
 ## Ways to give
 
 ### 🖥️ Direct Deposit

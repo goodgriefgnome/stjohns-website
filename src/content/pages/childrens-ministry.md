@@ -32,7 +32,7 @@ For more information please email [{{children.name}}](mailto:{{children.email}})
 **[I have a question about Children's Ministry](mailto:{{children.email}})**
 :::
 
-:::section{palette="blue"}
+:::section{palette="blue" align="center"}
 ## Need more info?
 
 We can help you and your family get connected.
