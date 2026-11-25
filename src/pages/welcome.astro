@@ -1,16 +1,19 @@
 ---
+import church from '../../inputs/church.json';
+import ServiceTimes from '../components/ServiceTimes.astro';
+import ActionLink from '../components/ActionLink.astro';
 import Page from '../layouts/Page.astro';
 import ContentSection from '../components/ContentSection.astro';
 ---
 <Page title="Welcome">
   <ContentSection>
-    <p class="body-copy">We meet every Sunday at 10am and 5pm at 120 Darlinghurst Road Darlinghurst. Come and join us.</p>
-    <p class="text-link"><a href="/contact">Plan your visit</a></p>
+    <p>We meet every Sunday at <ServiceTimes /> at {church.streetAddress}, {church.locality}. Come and join us.</p>
+    <ActionLink href="/contact">Plan your visit</ActionLink>
   </ContentSection>
   <ContentSection>
     <h2>St John’s Anglican Church is a diverse community ranging from sceptics to committed followers of Jesus. </h2>
   </ContentSection>
   <ContentSection>
-    <p class="body-copy">We are located 350m from King’s Cross Station in Darlinghurst. If you are traveling here by car, there's parking in the basement of the HammondCare building next door and in local streets. </p>
+    <p>We are located 350m from King’s Cross Station in Darlinghurst. If you are traveling here by car, there's parking in the basement of the HammondCare building next door and in local streets. </p>
   </ContentSection>
 </Page>

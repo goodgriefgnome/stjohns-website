@@ -1,39 +1,17 @@
 ---
+import ActionLink from '../components/ActionLink.astro';
+import ConcertProgram from '../components/ConcertProgram.astro';
 import Page from '../layouts/Page.astro';
 import ContentSection from '../components/ContentSection.astro';
 ---
 <Page title="Twilight Music ">
   <ContentSection>
-    <p class="body-copy">This year at St John’s, we are pleased to host a twilight series of concerts and choir services. Entry to these events is free, although we welcome donations to support the ongoing ministry of St John's.</p>
+    <p>This year at St John’s, we are pleased to host a twilight series of concerts and choir services. Entry to these events is free, although we welcome donations to support the ongoing ministry of St John's.</p>
   </ContentSection>
   <ContentSection>
     <h2>2026 Program</h2>
-    <p class="body-copy">Saturday 17 January
-Violin and Piano Recital with Chen Le and Ned Kellenberge</p>
-    <p class="body-copy">Saturday 21 February
-Jazz Originals with Leo Bae</p>
-    <p class="body-copy">Saturday 21 March
-Easter Choir Concert
-</p>
-    <p class="body-copy">Saturday 18 April 
-Flametree Trio (with Jenny Duck-Chong and Jo Allan)</p>
-    <p class="body-copy">Saturday 16 May
-Jordan Chung Jazz Quartet</p>
-    <p class="body-copy">Saturday 20 June
-Nulla in Mundo Pax Sincera: Music from the Italian Baroque</p>
-    <p class="body-copy">Saturday 18 July
-Organ Recital with Cynthia Bui</p>
-    <p class="body-copy">Saturday 15 August
-Cornett and Sackbutt Recital</p>
-    <p class="body-copy">Saturday 19 September
-Choral evensong with St John’s Choir</p>
-    <p class="body-copy">Saturday 17 October 
-An evening of vocal hits with Jassy Husk</p>
-    <p class="body-copy">Saturday 21 November
-Aurelian Ensemble (Miranda Ilchef, Emily Cavey, Stacey Yang)</p>
-    <p class="body-copy">Saturday 19 December
-Community Carols by Candlelight</p>
-    <p class="body-copy">Sign up to our mailing list to stay up-to-date with our music events</p>
-    <p class="text-link"><a href="https://mailchi.mp/5c10ce47bd31/st-johns-music">Sign Up Here</a></p>
+    <ConcertProgram />
+    <p>Sign up to our mailing list to stay up-to-date with our music events</p>
+    <ActionLink href="https://mailchi.mp/5c10ce47bd31/st-johns-music">Sign Up Here</ActionLink>
   </ContentSection>
 </Page>

@@ -1,0 +1,25 @@
+---
+interface Concert {
+  date: string;
+  title: string;
+}
+const concerts = Object.values(import.meta.glob<Concert>('../../inputs/concerts/*.json', { eager: true, import: 'default' }))
+  .sort((a, b) => a.date.localeCompare(b.date));
+const programs = Map.groupBy(concerts, concert => concert.date.slice(0, 4));
+const formatter = new Intl.DateTimeFormat('en-AU', {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+---
+{[...programs].map(([year, program]) => (
+  <section>
+    <h2>{year} Program</h2>
+    <ul class="concert-program">
+      {program.map(concert => (
+        <li><time datetime={concert.date}>{formatter.format(new Date(concert.date))}</time><br />{concert.title}</li>
+      ))}
+    </ul>
+  </section>
+))}

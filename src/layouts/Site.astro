@@ -1,4 +1,5 @@
 ---
+import church from '../../inputs/church.json';
 import '../styles/site.css';
 const { title, home = false } = Astro.props;
 const groups = [
@@ -67,9 +68,9 @@ const groups = [
     <main id="content"><slot /></main>
     <footer class="site-footer">
       <div class="wrap footer-content">
-        <div><h2>Email</h2><a href="mailto:hello@stjohnsanglican.org.au">hello@stjohnsanglican.org.au</a></div>
-        <div><h2>Call Us</h2><a href="tel:+61401775556">0401 775 556</a></div>
-        <div><h2>Find Us</h2><a href="https://maps.app.goo.gl/LaHHmXnDT7HQyh3GA">120 Darlinghurst Road, Darlinghurst 2010</a></div>
+        <div><h2>Email</h2><a href={`mailto:${church.email}`}>{church.email}</a></div>
+        <div><h2>Call Us</h2><a href={`tel:${church.telephone}`}>{church.telephoneLabel}</a></div>
+        <div><h2>Find Us</h2><a href={church.directionsUrl}>{church.streetAddress}, {church.locality} {church.postcode}</a></div>
       </div>
       <div class="footer-social">
         <a href="https://www.instagram.com/stjohnsdarlinghurst">Instagram</a>

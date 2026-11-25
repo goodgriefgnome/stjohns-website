@@ -162,3 +162,9 @@ nav details:nth-last-of-type(1) ul { left: auto; right: 0; }
 }
 
 .team-member + .team-member { margin-top: 1.75rem; }
+
+.prose p { white-space: pre-line; overflow-wrap: anywhere; }
+.prose address { font-style: normal; margin-bottom: 1rem; }
+.concert-program { list-style: none; padding: 0; }
+.concert-program li { margin-bottom: 1rem; }
+.concert-program time, .prose time[datetime*=":"] { color: inherit; }

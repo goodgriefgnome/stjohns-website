@@ -1,11 +1,13 @@
 ---
+import church from '../../inputs/church.json';
+import ActionLink from '../components/ActionLink.astro';
 import Page from '../layouts/Page.astro';
 import ContentSection from '../components/ContentSection.astro';
 ---
 <Page title="Are you new?">
   <ContentSection>
     <h2>Get in Touch</h2>
-    <p class="body-copy">Do you need more information as you consider making St John’s your church home?</p>
-    <p class="text-link"><a href="mailto:hello@stjohnsanglican.org.au">Email the church</a></p>
+    <p>Do you need more information as you consider making St John’s your church home?</p>
+    <ActionLink href={`mailto:${church.email}`}>Email the church</ActionLink>
   </ContentSection>
 </Page>

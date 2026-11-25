@@ -1,0 +1,12 @@
+{
+  "email": "hello@stjohnsanglican.org.au",
+  "telephone": "+61401775556",
+  "telephoneLabel": "0401 775 556",
+  "streetAddress": "120 Darlinghurst Road",
+  "locality": "Darlinghurst",
+  "region": "NSW",
+  "postcode": "2010",
+  "postalAddress": "PO Box 465, Kings Cross NSW 1340",
+  "directionsUrl": "https://maps.app.goo.gl/LaHHmXnDT7HQyh3GA",
+  "sundayServiceTimes": ["10:00", "17:00"]
+}

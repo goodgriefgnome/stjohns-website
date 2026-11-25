@@ -1,22 +1,24 @@
 ---
+import church from '../../inputs/church.json';
+import ServiceTimes from '../components/ServiceTimes.astro';
 import Page from '../layouts/Page.astro';
 import ContentSection from '../components/ContentSection.astro';
 ---
 <Page title="Sunday Services">
   <ContentSection>
-    <p class="body-copy"> Even if you have never attended a church service before, you are very welcome at St John’s. </p>
+    <p> Even if you have never attended a church service before, you are very welcome at St John’s. We meet at <ServiceTimes /> each Sunday. </p>
   </ContentSection>
   <ContentSection>
-    <p class="body-copy">If you're planning a visit to St Johns' here's some helpful information.</p>
-    <p class="body-copy">Our worship is structured on the Anglican prayer book, allowing it to be both contemporary in feel and ancient in form. Each week we sing, we listen to the Bible read and preached, we pray, and then we come to the table for holy communion. While we make it easy to participate, you will not stand out if you just choose to listen.</p>
-    <p class="body-copy">Absolutely! Children are always welcome at St John’s. We have a  growing children’s ministry. We offer a creche area in the church hall for the really little ones, and kids 4 and up go to Children’s Chapel during the sermon.
+    <p>If you're planning a visit to St Johns' here's some helpful information.</p>
+    <p>Our worship is structured on the Anglican prayer book, allowing it to be both contemporary in feel and ancient in form. Each week we sing, we listen to the Bible read and preached, we pray, and then we come to the table for holy communion. While we make it easy to participate, you will not stand out if you just choose to listen.</p>
+    <p>Absolutely! Children are always welcome at St John’s. We have a  growing children’s ministry. We offer a creche area in the church hall for the really little ones, and kids 4 and up go to Children’s Chapel during the sermon.
 </p>
-    <p class="body-copy">We start our services on time, so arriving just a few minutes early will allow you to find a seat and get settled.</p>
-    <p class="body-copy">Our services typically run for no longer than 75 minutes.</p>
-    <p class="body-copy">There is no dress code at St John’s. Most people dress casually. Come as you are.</p>
+    <p>We start our services on time, so arriving just a few minutes early will allow you to find a seat and get settled.</p>
+    <p>Our services typically run for no longer than 75 minutes.</p>
+    <p>There is no dress code at St John’s. Most people dress casually. Come as you are.</p>
   </ContentSection>
   <ContentSection>
     <h2>Need more info?</h2>
-    <p class="body-copy">Email us at [email protected] or fill out our contact form below.</p>
+    <p>Email us at <a href={`mailto:${church.email}`}>{church.email}</a>.</p>
   </ContentSection>
 </Page>
