@@ -230,22 +230,28 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   .bar::before, .bar::after { content: ''; }
   .bar::before { top: -9px; }
   .bar::after { top: 9px; }
-  /* The close button starts as the three menu bars and turns into an X as the overlay opens (and back). */
-  .menu-close { color: var(--toggle-color, inherit); }
-  .menu-close .bar, .menu-close .bar::before, .menu-close .bar::after {
-    transition: transform .5s var(--ease-live), top .5s var(--ease-live);
+  /* The close button starts as the three menu bars and turns into an X as the overlay opens (and back),
+     timed as on live: the middle bar shrinks away first, then the outer bars swing round into the X. */
+  .menu-close .bar {
+    color: var(--toggle-color, inherit);
+    background: linear-gradient(currentcolor, currentcolor) center / 100% 100% no-repeat;
+    transition: background-size .5s var(--ease-live), color .5s var(--ease-live);
   }
-  .menu-close { transition: color .5s var(--ease-live); }
-  .menu-close .bar { transition: background-color .25s var(--ease-live); }
-  .navigation-overlay[open] .menu-close { color: var(--text-default); }
-  .navigation-overlay[open] .menu-close .bar { background: transparent; }
-  .navigation-overlay[open] .menu-close .bar::before { top: 0; transform: rotate(45deg); }
-  .navigation-overlay[open] .menu-close .bar::after { top: 0; transform: rotate(-45deg); }
+  .menu-close .bar::before, .menu-close .bar::after {
+    color: var(--toggle-color, inherit);
+    transition: transform .5s var(--ease-live), top .5s var(--ease-live), color .5s var(--ease-live);
+  }
+  .navigation-overlay[open] .menu-close .bar { color: var(--text-default); background-size: 0 100%; }
+  .navigation-overlay[open] .menu-close .bar::before, .navigation-overlay[open] .menu-close .bar::after {
+    color: var(--text-default);
+    transition-delay: .5s;
+  }
+  .navigation-overlay[open] .menu-close .bar::before { top: 0; transform: rotate(135deg); }
+  .navigation-overlay[open] .menu-close .bar::after { top: 0; transform: rotate(-135deg); }
   @starting-style {
-    .navigation-overlay[open] .menu-close { color: var(--toggle-color, inherit); }
-    .navigation-overlay[open] .menu-close .bar { background: currentcolor; }
-    .navigation-overlay[open] .menu-close .bar::before { top: -9px; transform: none; }
-    .navigation-overlay[open] .menu-close .bar::after { top: 9px; transform: none; }
+    .navigation-overlay[open] .menu-close .bar { color: var(--toggle-color, inherit); background-size: 100% 100%; }
+    .navigation-overlay[open] .menu-close .bar::before { top: -9px; transform: none; color: var(--toggle-color, inherit); }
+    .navigation-overlay[open] .menu-close .bar::after { top: 9px; transform: none; color: var(--toggle-color, inherit); }
   }
 
   .navigation-overlay {
@@ -312,7 +318,7 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     .desktop-nav :global(details[open] li:nth-child(n+6)) { animation-delay: 300ms; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .navigation-overlay, .menu-close, .menu-close .bar, .menu-close .bar::before, .menu-close .bar::after, .desktop-nav :global(details)::details-content { transition: none; }
+    .navigation-overlay, .menu-close .bar, .menu-close .bar::before, .menu-close .bar::after, .desktop-nav :global(details)::details-content { transition: none; }
     .desktop-nav :global(> a::after), .desktop-nav :global(summary::after), .desktop-nav :global(li a) { transition: none; }
   }
   /* Card scales up from slightly small; the links fade in one after another. */
