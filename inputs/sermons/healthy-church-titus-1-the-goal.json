@@ -3,6 +3,7 @@
   "slug": "healthy-church-titus-1-the-goal",
   "title": "Healthy Church: The Goal",
   "date": "2026-11-08",
+  "service": "10:00",
   "scripture": "Titus 1",
   "series": "Healthy Church: Paul's Letter to Titus",
   "preacher": "Richard Glover",
@@ -14,9 +15,11 @@
     "And all that makes for a healthy church is applied to a particular sphere of church life: pastoral leadership."
   ],
   "audioUrl": "https://www.stjohnsanglican.org.au/tcctrack/audio/1252743/listens.mp3",
+  "audioBytes": 65638080,
   "durationSeconds": 1641,
   "artwork": {
     "src": "/media/healthy-church.webp",
-    "alt": "Healthy Church series artwork showing the church’s architectural blueprint"
+    "alt": "Healthy Church series artwork showing the church’s architectural blueprint",
+    "podcastSrc": "/media/podcast/healthy-church.jpg"
   }
 }
