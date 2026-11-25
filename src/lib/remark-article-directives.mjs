@@ -1,6 +1,13 @@
+import { directiveFromMarkdown } from 'mdast-util-directive';
+import { directive } from 'micromark-extension-directive';
 import { visit } from 'unist-util-visit';
 
 export default function articleDirectives() {
+  const data = this.data();
+  // Register block syntax only. Inline colons are used in verse references.
+  (data.micromarkExtensions ??= []).push({ flow: directive().flow });
+  (data.fromMarkdownExtensions ??= []).push(directiveFromMarkdown());
+
   return (tree, file) => {
     visit(tree, 'containerDirective', node => {
       if (node.name === 'lead') {
