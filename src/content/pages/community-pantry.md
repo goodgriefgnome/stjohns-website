@@ -12,6 +12,6 @@ Our Community Pantry offers two bags of groceries worth $50 for $15 each.
 
 The Community Pantry will start on Wednesday 11 February and then every other Wednesday through the year.
 
-*[Email for more information](mailto:louisam@stjohnsanglican.org.au)*
+*[Email for more information](mailto:{{communityPantry.email}})*
 
 ![Community Pantry sign outside the church hall](/media/d9bd8bb2c95d96887db9.webp)

@@ -1,7 +1,7 @@
 import { visit, SKIP } from 'unist-util-visit';
 import { church as defaultChurch, formatServiceTime, listSeparator } from './church.mjs';
 
-const token = /\{\{\s*([A-Za-z]+)\s*\}\}/g;
+const token = /\{\{\s*([A-Za-z]+(?:\.[A-Za-z]+)?)\s*\}\}/g;
 
 // Replaces {{name}} with a value from inputs/church.json, in text and in link URLs.
 // astro.config.mjs passes the data in, so that editing church.json changes the
@@ -12,7 +12,31 @@ export default function churchTokens({ church = defaultChurch } = {}) {
     address: `${church.streetAddress}, ${church.locality} ${church.region} ${church.postcode}`,
   };
 
+  // A role points at a person, or straight at an inbox. People and roles share
+  // one namespace, so {{music.email}} and {{sam.email}} read the same way.
+  const { people = {}, roles = {} } = church;
+  for (const [key, role] of Object.entries(roles)) {
+    if (key in people) throw new Error(`church.json: "${key}" is both a person and a role. Rename one.`);
+    if (('person' in role) === ('email' in role)) throw new Error(`church.json: role "${key}" needs either "person" or "email", not both.`);
+    if (role.person && !people[role.person]) throw new Error(`church.json: role "${key}" names unknown person "${role.person}".`);
+  }
+  const contacts = {
+    ...people,
+    ...Object.fromEntries(Object.entries(roles).map(([key, role]) => [key, role.person ? people[role.person] : { email: role.email }])),
+  };
+
+  // {{music.email}} or {{richard.name}}
+  const contactValue = (name, file, node) => {
+    const [key, field] = name.split('.');
+    const contact = contacts[key];
+    if (!contact) file.fail(`Unknown person or role in {{${name}}}. Choose ${Object.keys(contacts).sort().join(', ')}.`, node);
+    if (typeof contact[field] === 'string') return contact[field];
+    const fields = Object.keys(contact).filter(f => typeof contact[f] === 'string');
+    file.fail(`{{${name}}} has no value. "${key}" only has ${fields.join(' and ')}.`, node);
+  };
+
   const plainValue = (name, file, node) => {
+    if (name.includes('.')) return contactValue(name, file, node);
     const value = derived[name] ?? church[name];
     if (typeof value === 'string') return value;
     const known = [...Object.keys(church).filter(key => typeof church[key] === 'string'), ...Object.keys(derived), 'serviceTimes'];

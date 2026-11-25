@@ -21,5 +21,5 @@ Our ministers do a lot of different things in their roles, but one of their high
 
 Whether you’re struggling with your mental health, having conflict in a relationship, facing a sticky situation at work, or for whatever other reason – we’re here for you. Email us to make a time to meet.
 
-*[Email us](mailto:richardg@stjohnsanglican.org.au)*
+*[Email us](mailto:{{pastoralCare.email}})*
 :::

@@ -14,7 +14,7 @@ The architecture spec calls for ordinary Astro components, typed reusable layout
 | `/prayer` | Authored pastoral information with the shared church email. |
 | `/welcome` | Authored invitation and venue guidance using shared service times and location. |
 | `/about` | Markdown vision, history and Acknowledgement of Country. |
-| `/our-team` | Directory component reads one record per person, with name, role, biography paragraphs and display order. |
+| `/our-team` | Markdown page with one alternating image-and-text section per person. Email buttons use person tokens such as `{{richard.email}}`. |
 | `/what-is-christianity` | Markdown article with blockquotes. |
 | `/sermons` | Authored podcast link and a listing composed from sermon records. |
 | `/episode/:slug` | The same episode component renders each of the three captured sermon records, with one title, date, set of metadata and player. |
@@ -44,5 +44,7 @@ Use `:::section{palette="blue" layout="columns"}` for a row of related items. Ea
 In Markdown and MDX, write `*[Plan a visit](/new)*` for a link with the action style. Ordinary links use the standard underline.
 
 To use shared church details in a Markdown page, write a token such as `{{email}}`. The build replaces it with the value from `inputs/church.json`, in text and in link addresses, so `[{{email}}](mailto:{{email}})` makes an email link. Any string key in that file works, for example `{{telephone}}`, `{{telephoneLabel}}`, `{{streetAddress}}` or `{{postalAddress}}`. `{{address}}` gives the full street address, and `{{serviceTimes}}` gives the Sunday times as “10am and 5pm”. It works only in text, not in a link. An unknown token stops the build and lists the valid names. Tokens inside backticks stay as written.
+
+Staff emails go through roles, so a page asks for whoever does a job, not a named person. In `church.json`, `people` holds each person's `name` and optional `email`, and `roles` maps a job to either a `person` or a plain `email` inbox. For example, `music` points at `sam`, while `communityPantry` points straight at the church inbox. Write `{{music.email}}` or `{{music.name}}` for a role, or `{{sam.email}}` for a person. When someone changes job, edit the role, and every page follows. Asking for a field that does not exist, such as the name of an inbox-only role, stops the build. Dotted tokens do not work in `.mdx` pages, because MDX reads `{a.b}` as code.
 
 A page that needs a live component, such as the concert program, can be an `.mdx` file in `src/content/pages/`. Import the component under the frontmatter and place it like an HTML tag, for example `<ConcertProgram />`. Directives, action links and tokens work the same as in `.md`. Plain Markdown is still the default, because MDX treats a stray `<` or `{` in prose as code.

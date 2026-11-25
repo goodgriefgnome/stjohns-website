@@ -45,7 +45,8 @@ export default function articleDirectives() {
         }
         let imageSide;
         if (node.name === 'section' && node.attributes?.layout === 'media') {
-          const imageSides = ['left', 'right'];
+          // As on the live site, alternating image rows start with the image on the right.
+          const imageSides = ['right', 'left'];
           imageSide = node.attributes.image ?? imageSides[mediaCount % 2];
           if (!imageSides.includes(imageSide)) {
             file.fail(`Unknown image side "${imageSide}". Choose left or right.`, node);

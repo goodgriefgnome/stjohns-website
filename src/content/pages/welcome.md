@@ -22,7 +22,7 @@ Our church is far more than just a building or a social club; it is a family of 
 :::
 ::::
 
-:::section{palette="cream" layout="media"}
+:::section{palette="cream" layout="media" image="left"}
 ![Stand-in for the map of St John’s location](/media/hero-door.webp)
 
 <details>
