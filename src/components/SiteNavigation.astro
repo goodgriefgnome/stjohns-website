@@ -13,12 +13,12 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     <a class="brand" href={withBase('/')}><img src={logo} width="400" height="377" alt="St John’s Darlinghurst" /></a>
     <nav class="desktop-nav" aria-label="Main navigation"><NavigationLinks /></nav>
     <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="navigation-overlay" aria-expanded="false">
-      <span class="hamburger" aria-hidden="true"></span>
+      <span class="bar" aria-hidden="true"></span>
     </button>
   </div>
   <dialog id="navigation-overlay" class="navigation-overlay" aria-label="Site navigation">
     <form method="dialog" class="overlay-controls">
-      <button class="menu-close" aria-label="Close navigation" autofocus>×</button>
+      <button class="menu-close" aria-label="Close navigation" autofocus><span class="bar" aria-hidden="true"></span></button>
     </form>
     <nav class="overlay-nav" aria-label="Main navigation"><NavigationLinks overlay /></nav>
   </dialog>
@@ -77,6 +77,10 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     });
 
     toggle.addEventListener('click', () => {
+      // Put the close button exactly where the menu button is, so the bars read as turning into an X.
+      const box = toggle.getBoundingClientRect();
+      overlay.style.setProperty('--toggle-top', `${box.top}px`);
+      overlay.style.setProperty('--toggle-end', `${document.documentElement.clientWidth - box.right}px`);
       overlay.showModal();
       toggle.setAttribute('aria-expanded', 'true');
     });
@@ -106,30 +110,31 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
 
 <style>
   .site-header { background: var(--paper); color: var(--text-default); position: relative; z-index: 2; }
-  .home-header { position: absolute; inset: 0 0 auto; background: transparent; color: var(--paper); }
+  .home-header { position: absolute; inset: 0 0 auto; width: 100%; background: transparent; color: var(--paper); }
   .header-inner {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: .75rem 2rem;
-    width: calc(100% - 2.4rem);
+    width: calc(100% - 2.25rem);
     min-height: 5.65rem;
-    padding-block: 1rem;
+    padding-block: 1.125rem;
     margin-inline: auto;
   }
   .home-header .header-inner { min-height: var(--home-header-height); }
   .brand { flex: none; }
   .brand img { width: 3.5rem; }
-  .home-header .brand img { width: 10rem; }
+  .home-header .brand img { width: 165px; }
 
   .desktop-nav {
     display: flex;
     flex-wrap: wrap;
     flex: none;
-    gap: .6rem clamp(.85rem, 3.1vw, 2.4rem);
+    gap: .6rem clamp(.85rem, 3vw, 2.7rem);
     align-items: center;
     max-width: 100%;
+    font-size: clamp(1rem, 1vw, 1.25rem);
   }
   .navigation-ready .desktop-nav { flex-wrap: nowrap; max-width: none; width: max-content; }
   .header-inner:not(.navigation-ready) { flex-wrap: wrap; }
@@ -140,50 +145,93 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     visibility: hidden;
     clip-path: inset(50%);
   }
-  .desktop-nav :global(> a) { text-decoration: none; }
+  .desktop-nav :global(> a), .desktop-nav :global(summary) { position: relative; text-decoration: none; line-height: 1; }
   .desktop-nav :global(details) { position: relative; }
   nav :global(summary) { list-style: none; }
   nav :global(summary::-webkit-details-marker) { display: none; }
+
+  /* A bar grows out from the middle under the hovered, focused or opened link, as on live. */
+  .desktop-nav :global(> a::after), .desktop-nav :global(summary::after) {
+    content: '';
+    position: absolute;
+    inset: auto 0 -.5em;
+    height: 2px;
+    border-radius: 100px;
+    background: currentcolor;
+    transform: scaleX(0);
+    transition: transform .5s var(--ease-live);
+  }
+  .desktop-nav :global(> a:hover::after), .desktop-nav :global(> a:focus-visible::after),
+  .desktop-nav :global(details:hover > summary::after), .desktop-nav :global(details[open] > summary::after),
+  .desktop-nav :global(summary:focus-visible::after) { transform: scaleX(1); }
+
+  /* The dropdown: a 1.5em transparent bridge keeps the pointer inside, then a white card. */
   .desktop-nav :global(ul) {
     position: absolute;
     inset-inline-start: 0;
     z-index: 1;
+    isolation: isolate;
     margin: 0;
-    padding: .65rem;
-    width: min(17rem, 72vw);
+    padding: 1.5em 0 0;
+    width: 200px;
     list-style: none;
-    border-radius: var(--radius);
-    background: var(--paper);
+    font-size: 1.125rem;
+    font-weight: 600;
     color: var(--text-default);
-    box-shadow: 0 .2rem 1rem #0003;
+  }
+  .desktop-nav :global(ul::before) {
+    content: '';
+    position: absolute;
+    inset: 1.5em 0 0;
+    z-index: -1;
+    border-radius: var(--menu-radius);
+    background: var(--paper);
   }
   .desktop-nav :global([data-align="end"] ul) { inset-inline: auto 0; }
-  .desktop-nav :global(li a) { display: block; padding: .45rem .55rem; text-decoration: none; }
-  .desktop-nav :global(li a:hover), .desktop-nav :global(li a[aria-current]) { background: var(--surface-subtle); }
+  .desktop-nav :global(li) { padding: 0 .5em .5em; }
+  .desktop-nav :global(li:first-child) { padding-top: .5em; }
+  .desktop-nav :global(li a) {
+    display: block;
+    padding: 1em 1.25em;
+    border-radius: var(--menu-radius);
+    font-size: .9em;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    text-decoration: none;
+    transition: background-color .25s;
+  }
+  .desktop-nav :global(li a:hover) { background: var(--hover-tint); }
 
+  /* The three-bar menu button; the open overlay shows the same bars crossed into an X. */
   .menu-toggle, .menu-close {
-    display: grid;
-    place-items: center;
-    min-width: 2.75rem;
-    min-height: 2.75rem;
-    padding: .5rem;
+    position: relative;
+    display: block;
+    width: 34px;
+    height: 34px;
+    padding: 0;
     border: 0;
     background: transparent;
     color: inherit;
     cursor: pointer;
   }
   .menu-toggle { display: none; }
-  .navigation-compact .menu-toggle { display: grid; }
-  .hamburger, .hamburger::before, .hamburger::after {
-    display: block;
-    width: 1.5rem;
+  .navigation-compact .menu-toggle { display: block; }
+  /* Extend the touch target beyond the 34px drawing. */
+  .menu-toggle::before, .menu-close::before { content: ''; position: absolute; inset: -.55rem; }
+  .bar, .bar::before, .bar::after {
+    position: absolute;
+    inset-inline: 0;
     height: 2px;
-    background: currentColor;
+    background: currentcolor;
   }
-  .hamburger { position: relative; }
-  .hamburger::before, .hamburger::after { position: absolute; content: ''; }
-  .hamburger::before { top: -.4rem; }
-  .hamburger::after { top: .4rem; }
+  .bar { top: calc(50% - 1px); }
+  .bar::before, .bar::after { content: ''; }
+  .bar::before { top: -9px; }
+  .bar::after { top: 9px; }
+  .menu-close .bar { background: transparent; }
+  .menu-close .bar::before { top: 0; transform: rotate(45deg); }
+  .menu-close .bar::after { top: 0; transform: rotate(-45deg); }
 
   .navigation-overlay {
     position: fixed;
@@ -193,40 +241,68 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     height: 100%;
     max-height: none;
     margin: 0;
-    padding: var(--gutter);
+    padding: 80px 20px 0;
     border: 0;
+    overflow-y: auto;
     overscroll-behavior: contain;
     background: var(--paper);
     color: var(--text-default);
+    opacity: 0;
+    transition: opacity .5s var(--ease-live) .05s, overlay .5s allow-discrete, display .5s allow-discrete;
   }
+  .navigation-overlay[open] { opacity: 1; }
+  @starting-style { .navigation-overlay[open] { opacity: 0; } }
   :global(html:has(.navigation-overlay[open])) { overflow: hidden; }
-  .overlay-controls { display: flex; justify-content: flex-end; }
-  .menu-close { font-size: 2rem; line-height: 1; }
-  .overlay-nav { max-width: var(--reading-width); margin-inline: auto; }
+  /* The close button sits exactly where the menu button was (see the script). */
+  .menu-close { position: absolute; top: var(--toggle-top, 1.125rem); inset-inline-end: var(--toggle-end, 1.125rem); }
+  .overlay-nav { max-width: var(--reading-width); margin-inline: auto; font-size: 1rem; }
   .overlay-nav :global(> a), .overlay-nav :global(summary) {
     display: block;
-    padding: .75rem 0;
-    border-bottom: 1px solid var(--border-subtle);
-    font-size: 1.125rem;
+    padding: .5em 0;
+    margin-bottom: .5em;
+    line-height: 1;
     text-decoration: none;
   }
-  .overlay-nav :global(summary) { display: flex; justify-content: space-between; gap: 1rem; }
-  .overlay-nav :global(summary::after) { content: '+' / ''; }
-  .overlay-nav :global(details[open] > summary::after) { content: '−' / ''; }
-  .overlay-nav :global(ul) { margin: .5rem 0; padding-inline-start: 1rem; list-style: none; }
-  .overlay-nav :global(li a) { display: block; padding-block: .5rem; }
+  .overlay-nav :global(summary) { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  /* A chevron that flips when the group is open. */
+  .overlay-nav :global(summary::after) {
+    content: '';
+    flex: none;
+    width: 24px;
+    height: 24px;
+    margin-block: -4px;
+    position: relative;
+    top: 3px;
+    background: currentcolor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  .overlay-nav :global(details[open] > summary::after) { transform: scaleY(-1); }
+  .overlay-nav :global(ul) { margin: 0 0 .5em; padding: 0 0 0 37px; list-style: none; }
+  .overlay-nav :global(li a) { display: block; padding-block: .5em; margin-bottom: .5em; font-size: 1.0625rem; line-height: 1; text-decoration: none; }
 
   @media (prefers-reduced-motion: no-preference) {
-    .desktop-nav :global(details[open] ul), .navigation-overlay[open] {
-      animation: reveal-menu 160ms ease-out both;
-    }
+    .desktop-nav :global(details[open] ul) { animation: reveal-menu 200ms var(--ease-live) both; }
+    .desktop-nav :global(details[open] li) { animation: reveal-item 250ms var(--ease-live) both; }
+    .desktop-nav :global(details[open] li:nth-child(1)) { animation-delay: 50ms; }
+    .desktop-nav :global(details[open] li:nth-child(2)) { animation-delay: 100ms; }
+    .desktop-nav :global(details[open] li:nth-child(3)) { animation-delay: 150ms; }
+    .desktop-nav :global(details[open] li:nth-child(4)) { animation-delay: 200ms; }
+    .desktop-nav :global(details[open] li:nth-child(5)) { animation-delay: 250ms; }
+    .desktop-nav :global(details[open] li:nth-child(n+6)) { animation-delay: 300ms; }
   }
+  @media (prefers-reduced-motion: reduce) {
+    .navigation-overlay { transition: none; }
+    .desktop-nav :global(> a::after), .desktop-nav :global(summary::after), .desktop-nav :global(li a) { transition: none; }
+  }
+  /* Card scales up from slightly small; the links fade in one after another. */
   @keyframes reveal-menu {
-    from { opacity: 0; transform: translateY(-.35rem); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(1em) scale(.9); }
+  }
+  @keyframes reveal-item {
+    from { opacity: 0; }
   }
   @media (max-width: 56rem) {
     .home-header .header-inner { min-height: 0; }
-    .home-header .brand img { width: 6rem; }
+    .home-header .brand img { width: 110px; }
   }
 </style>

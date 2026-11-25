@@ -17,6 +17,7 @@
   --surface-subtle: var(--mist);
   --border-subtle: var(--rule);
   --focus-ring: var(--rust);
+  --hover-tint: #0000000d;
   --photo-scrim: #0006;
   --photo-scrim-light: #0005;
 
@@ -26,6 +27,9 @@
   --gutter: 1.5rem;
   --wrap-width: min(100% - 2 * var(--gutter), var(--layout-width));
   --radius: .25rem;
+  --menu-radius: 6px;
+  /* The easing live uses for hover, menu and bar animations. */
+  --ease-live: cubic-bezier(.33, 0, .19, 1);
 
   /* Vertical space above and below a band: the full amount, and a smaller one for the footer. */
   --band-spacing: clamp(2rem, 6vw, 4rem);
