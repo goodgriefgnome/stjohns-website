@@ -16,6 +16,7 @@ const formatter = new Intl.DateTimeFormat('en-AU', {
 {[...programs].map(([year, program]) => (
   <section>
     <h2>{year} Program</h2>
+    {Astro.slots.has('default') && <p><slot /></p>}
     <ul class="concert-program">
       {program.map(concert => (
         <li><time datetime={concert.date}>{formatter.format(new Date(concert.date))}</time><br />{concert.title}</li>
@@ -27,5 +28,5 @@ const formatter = new Intl.DateTimeFormat('en-AU', {
 <style>
   .concert-program { list-style: none; padding: 0; }
   .concert-program li { margin-bottom: 1rem; }
-  .concert-program time { color: inherit; }
+  .concert-program time { color: inherit; font-weight: 700; }
 </style>

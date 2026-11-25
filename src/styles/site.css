@@ -48,6 +48,8 @@ summary { cursor: pointer; }
 .heading-icon { display: block; margin-bottom: .6rem; font: 1.35rem/1 'Noto Emoji', sans-serif; font-variant-emoji: text; color: var(--action-bg, var(--sky)); }
 .heading-icon::before { content: attr(data-icon) / ''; }
 time { color: var(--text-muted); }
+/* Times filled into running text by {{tokens}} read as part of the sentence. */
+.page-content p time { color: inherit; }
 
 .wrap { width: min(100% - 2 * var(--gutter), var(--layout-width)); margin-inline: auto; }
 .content { padding-block: var(--section-spacing); }

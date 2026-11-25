@@ -11,13 +11,15 @@ Prayer is at the centre of everything we do as a church. Our Sunday services are
 :::section{palette="cream"}
 ## What do you need prayer for?
 
-[Email a prayer request](mailto:{{email}})
-:::
+Please fill out the prayer request form below and our ministry team will pray for your needs.
 
-:::section{palette="blue"}
+[Email a prayer request](mailto:{{email}})
+
 ## Our Pastoral Care team are here for you
 
 Our ministers do a lot of different things in their roles, but one of their highest priorities and greatest joys is to meet with people individually to provide counsel and prayer.
 
 Whether you’re struggling with your mental health, having conflict in a relationship, facing a sticky situation at work, or for whatever other reason – we’re here for you. Email us to make a time to meet.
+
+*[Email us](mailto:richardg@stjohnsanglican.org.au)*
 :::
