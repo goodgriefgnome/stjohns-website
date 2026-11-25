@@ -8,7 +8,7 @@ The architecture spec calls for ordinary Astro components, typed reusable layout
 | `/new` | Short authored invitation with the shared church email as the contact action. |
 | `/list` | Markdown signup explanation and hosted subscription link. |
 | `/sunday-services` | Authored visitor guidance with the shared weekly service schedule and church email. |
-| `/childrens-ministry` | Authored scripture quotation, ministry explanation, illustration and contact action. |
+| `/childrens-ministry` | Markdown scripture quotation, two alternating image-and-text sections (`layout="media"`) and contact action. |
 | `/community-groups` | Markdown explanation of how groups work and how to ask about joining. The page currently has no named group roster. |
 | `/prayer` | Authored pastoral information with the shared church email. |
 | `/welcome` | Authored invitation and venue guidance using shared service times and location. |

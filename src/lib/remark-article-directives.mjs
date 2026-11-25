@@ -10,6 +10,7 @@ export default function articleDirectives() {
   (data.fromMarkdownExtensions ??= []).push(directiveFromMarkdown());
 
   return (tree, file) => {
+    let mediaCount = 0;
     visit(tree, 'containerDirective', node => {
       if (node.name === 'lead' || node.name === 'section') {
         const isLead = node.name === 'lead';
@@ -42,15 +43,37 @@ export default function articleDirectives() {
             })),
           }];
         }
+        let imageSide;
+        if (node.name === 'section' && node.attributes?.layout === 'media') {
+          const imageSides = ['left', 'right'];
+          imageSide = node.attributes.image ?? imageSides[mediaCount % 2];
+          if (!imageSides.includes(imageSide)) {
+            file.fail(`Unknown image side "${imageSide}". Choose left or right.`, node);
+          }
+          mediaCount += 1;
+          // The first paragraph that holds only an image becomes the side image.
+          const imageIndex = node.children.findIndex(child =>
+            child.type === 'paragraph' &&
+            child.children.filter(inline => inline.type !== 'text' || inline.value.trim()).every(inline => inline.type === 'image') &&
+            child.children.some(inline => inline.type === 'image'));
+          if (imageIndex === -1) file.fail('Put a Markdown image on its own line inside a media section.', node);
+          const [image] = node.children.splice(imageIndex, 1);
+          node.children = [
+            { ...image, data: { hName: 'div', hProperties: { className: ['media-image'] } } },
+            { type: 'containerDirective', name: 'media-body', data: { hName: 'div', hProperties: { className: ['media-body'] } }, children: node.children },
+          ];
+        }
         node.data = {
           hName: isLead ? 'div' : 'section',
           hProperties: {
             className: [
               'article-band',
               ...(isLead ? ['article-lead'] : []),
-              ...(node.attributes?.layout === 'columns' ? ['article-band-wide'] : []),
+              ...(['columns', 'media'].includes(node.attributes?.layout) ? ['article-band-wide'] : []),
+              ...(imageSide ? ['article-media'] : []),
             ],
             'data-palette': palette,
+            ...(imageSide && { 'data-image': imageSide }),
           },
         };
       }

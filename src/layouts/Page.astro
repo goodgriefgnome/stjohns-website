@@ -84,6 +84,16 @@ const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
     gap: var(--gutter);
     margin-top: 2rem;
   }
+  .page-content :global(.article-media) {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: center;
+    gap: clamp(1.5rem, 5vw, 4rem);
+  }
+  .page-content :global(.article-media[data-image='right']) { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  .page-content :global(.article-media[data-image='right'] .media-image) { order: 1; }
+  .page-content :global(.article-media .media-image img) { width: 100%; aspect-ratio: 1; object-fit: cover; max-height: none; }
+  .page-content :global(.media-body > :last-child) { margin-bottom: 0; }
   .page-content :global(.article-band > :last-child) { margin-bottom: 0; }
   .page-content :global(.article-band + .article-band) { margin-top: calc(-1 * var(--article-spacing)); }
   .page-content :global(.article-band img) { max-height: 30rem; object-fit: contain; }
@@ -109,5 +119,8 @@ const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
   @media (max-width: 42rem) {
     .page-content :global(> .article-gallery) { grid-auto-flow: row; }
     .page-content :global(.section-columns-explicit) { grid-template-columns: 1fr; }
+    .page-content :global(.article-media),
+    .page-content :global(.article-media[data-image='right']) { grid-template-columns: 1fr; }
+    .page-content :global(.article-media[data-image='right'] .media-image) { order: 0; }
   }
 </style>
