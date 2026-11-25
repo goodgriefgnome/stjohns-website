@@ -69,7 +69,7 @@ const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
     padding-block: var(--section-spacing);
   }
   .page-content :global(> *) { grid-column: 2; }
-  .page-content:not(.standard-measure) :global(> :first-child) { margin-top: var(--article-spacing); }
+  .page-content:not(.standard-measure) :global(> :first-child:not(.article-band)) { margin-top: var(--article-spacing); }
   .page-content :global(> :is(.article-band, .article-gallery)) { grid-column: 1 / -1; }
   .page-content :global(> .article-band) {
     margin: 0 0 var(--article-spacing);
@@ -98,8 +98,32 @@ const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
   .page-content :global(.article-band > :last-child) { margin-bottom: 0; }
   .page-content :global(.article-band + .article-band) { margin-top: calc(-1 * var(--article-spacing)); }
   .page-content :global(.article-band img) { max-height: 30rem; object-fit: contain; }
-  .page-content :global(details summary) { font-weight: 700; font-size: 1.45rem; }
-  .page-content :global(details[open] summary) { margin-bottom: 1rem; }
+  /* Accordion: each <details> sits between rules, with a chevron that flips open. */
+  .page-content :global(details) { border-top: .19rem solid currentColor; }
+  .page-content :global(details:not(:has(+ details))) { border-bottom: .19rem solid currentColor; }
+  .page-content :global(details summary) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 1.1rem;
+    font-weight: 700;
+    list-style: none;
+  }
+  .page-content :global(details summary::-webkit-details-marker) { display: none; }
+  .page-content :global(details summary::after) {
+    content: '';
+    flex: none;
+    width: .6rem;
+    height: .6rem;
+    margin-right: .3rem;
+    border: solid currentColor;
+    border-width: 0 .17rem .17rem 0;
+    transform: translateY(-25%) rotate(45deg);
+    transition: transform .2s;
+  }
+  .page-content :global(details[open] summary::after) { transform: translateY(25%) rotate(-135deg); }
+  .page-content :global(details > :last-child) { margin-bottom: 1.25rem; }
   .page-content :global(.article-lead) { text-align: center; }
   .page-content :global(blockquote) { margin: 0; }
   .page-content :global(.article-lead p:last-child) { margin-bottom: 0; }
