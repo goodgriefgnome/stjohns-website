@@ -1,4 +1,44 @@
 ---
-import Home from '../components/Home.astro';
+import Page from '../layouts/Page.astro';
+import Home from '../content/home.mdx';
+import { withBase } from '../lib/base-path.mjs';
 ---
-<Home />
+<Page title="Home" width="standard">
+  <header class="hero" slot="hero">
+    <img src={withBase('/media/hero-door.webp')} alt="" fetchpriority="high" />
+    <img class="hero-cycle" src={withBase('/media/hero-community.webp')} alt="" />
+    <div class="wrap">
+      <h1>Truth, Beauty, and Goodness for the heart of the city.</h1>
+      <a data-palette="blue" href={withBase('/new')}>Plan a visit</a>
+    </div>
+  </header>
+  <Home />
+</Page>
+
+<style>
+  /* The only home-page-specific design: two photos that fade between each other behind the tagline. */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 25.1rem;
+    padding: calc(var(--home-header-height) + 1.3rem) 0 4rem;
+    background: var(--text-default);
+    color: var(--paper);
+    text-align: center;
+  }
+  .hero img { position: absolute; inset: 0; height: 100%; object-fit: cover; z-index: -2; border-radius: 45% 45% .3rem .3rem / 28% 28% .3rem .3rem; }
+  .hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--photo-scrim-light); }
+  .hero h1 { font-size: clamp(1.8rem, 3.15vw, 2.45rem); margin-bottom: 1.25rem; }
+  .hero a { display: inline-block; padding: .3rem 1.7rem; text-decoration: none; font-weight: 650; text-transform: uppercase; }
+  .hero-cycle { animation: hero-cycle 16s infinite; opacity: 0; }
+  @keyframes hero-cycle {
+    0%, 41%, 100% { opacity: 0; }
+    50%, 91% { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hero-cycle { display: none; } }
+  @media (max-width: 56rem) { .hero { padding-top: 11.5rem; } }
+  @media (max-width: 42rem) {
+    .hero { padding-top: 13rem; }
+    .hero img { max-height: 24rem; }
+  }
+</style>

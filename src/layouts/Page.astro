@@ -15,11 +15,13 @@ const { title, width = 'standard', hero, heroFocus, heroSubtitle, palette } = As
 if (palette && !palettes.includes(palette)) throw new Error(`Unknown page palette: ${palette}`);
 const isReading = width === 'reading';
 const Frame = isReading ? 'article' : 'div';
+// A page can supply its own hero markup instead of the standard photo header.
+const customHero = Astro.slots.has('hero');
 const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
 ---
-<Site title={title} photoHeader={Boolean(hero)}>
+<Site title={title} photoHeader={Boolean(hero) || customHero}>
   <Frame data-palette={palette ?? (isReading ? 'cream' : undefined)}>
-    {hero ? (
+    {customHero ? <slot name="hero" /> : hero ? (
       <header class="article-hero" data-palette="navy">
         <img src={withBase(hero)} alt="" fetchpriority="high" style={focalPoint && { objectPosition: focalPoint }} />
         <div>
@@ -94,6 +96,23 @@ const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
   .page-content :global(.article-media[data-image='right']) { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
   .page-content :global(.article-media[data-image='right'] .media-image) { order: 1; }
   .page-content :global(.article-media .media-image img) { width: 100%; aspect-ratio: 1; object-fit: cover; max-height: none; }
+  .page-content :global(.article-cards) { text-align: center; }
+  .page-content :global(.article-cards > :not(.section-cards)) { max-width: var(--reading-width); margin-inline: auto; }
+  .page-content :global(.section-cards) { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; text-align: left; }
+  .page-content :global(.section-cards > div) {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: clamp(19rem, 39vw, 29rem);
+    padding: 1.1rem;
+    color: var(--paper);
+  }
+  .page-content :global(.section-cards > div::after) { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--photo-scrim-light); }
+  .page-content :global(.section-cards p:has(> img:only-child)) { margin: 0; }
+  .page-content :global(.section-cards h3) { font-size: 1.5rem; }
+  .page-content :global(.section-cards > div > :last-child) { margin-bottom: 0; }
   .page-content :global(.media-body > :last-child) { margin-bottom: 0; }
   .page-content :global(.article-band > :last-child) { margin-bottom: 0; }
   .page-content :global(.article-band + .article-band) { margin-top: calc(-1 * var(--article-spacing)); }
@@ -125,6 +144,7 @@ const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
   .page-content :global(details[open] summary::after) { transform: translateY(25%) rotate(-135deg); }
   .page-content :global(details > :last-child) { margin-bottom: 1.25rem; }
   .page-content :global(.article-lead) { text-align: center; }
+  .page-content :global(.article-lead > *) { max-width: var(--reading-width); margin-inline: auto; }
   .page-content :global(blockquote) { margin: 0; }
   .page-content :global(.article-lead p:last-child) { margin-bottom: 0; }
   .page-content :global(> .article-gallery) {
@@ -138,12 +158,13 @@ const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
     list-style: none;
   }
   .page-content :global(.article-gallery img) { aspect-ratio: 1; object-fit: cover; }
+  .page-content :global(.section-cards img) { position: absolute; inset: 0; z-index: -2; height: 100%; max-height: none; object-fit: cover; }
   @media (max-width: 56rem) {
     .article-hero { padding-top: 8rem; }
   }
   @media (max-width: 42rem) {
     .page-content :global(> .article-gallery) { grid-auto-flow: row; }
-    .page-content :global(.section-columns-explicit) { grid-template-columns: 1fr; }
+    .page-content :global(:is(.section-columns-explicit, .section-cards)) { grid-template-columns: 1fr; }
     .page-content :global(.article-media),
     .page-content :global(.article-media[data-image='right']) { grid-template-columns: 1fr; }
     .page-content :global(.article-media[data-image='right'] .media-image) { order: 0; }

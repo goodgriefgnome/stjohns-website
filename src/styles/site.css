@@ -24,7 +24,7 @@ a:hover { text-decoration-thickness: .13em; }
 
 /* Emphasis around or inside a link marks an action in authored content. */
 .text-link > a,
-:where(.page-content, .home-page) :is(em > a, a:has(> em)) {
+.page-content :is(em > a, a:has(> em)) {
   display: inline-block;
   font-style: normal;
   font-size: 1.1rem;
@@ -36,7 +36,7 @@ a:hover { text-decoration-thickness: .13em; }
   color: var(--action-text, var(--navy));
 }
 
-:where(.page-content, .home-page) a > em { font-style: normal; }
+.page-content a > em { font-style: normal; }
 :focus-visible { outline: .18rem solid var(--focus-ring); outline-offset: .22rem; }
 h1, h2, h3 { line-height: 1.1; text-wrap: balance; margin: 0 0 1rem; }
 h1, h2, h3 { font-family: inherit; font-weight: 750; letter-spacing: -.02em; }

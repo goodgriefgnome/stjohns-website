@@ -18,7 +18,9 @@ export default function articleDirectives() {
         if (!palettes.includes(palette)) {
           file.fail(`Unknown palette "${palette}". Choose ${palettes.join(', ')}.`, node);
         }
-        if (node.name === 'section' && node.attributes?.layout === 'columns') {
+        // Cards are columns whose image fills the card behind the text.
+        const isCards = node.name === 'section' && node.attributes?.layout === 'cards';
+        if (node.name === 'section' && (node.attributes?.layout === 'columns' || isCards)) {
           const columns = [];
           const intro = [];
           const hasExplicitColumns = node.children.some(child => child.type === 'containerDirective' && child.name === 'column');
@@ -34,7 +36,7 @@ export default function articleDirectives() {
           node.children = [...intro, {
             type: 'containerDirective',
             name: 'column-grid',
-            data: { hName: 'div', hProperties: { className: hasExplicitColumns ? ['section-columns', 'section-columns-explicit'] : ['section-columns'] } },
+            data: { hName: 'div', hProperties: { className: ['section-columns', ...(hasExplicitColumns ? ['section-columns-explicit'] : []), ...(isCards ? ['section-cards'] : [])] } },
             children: columns.map(children => ({
               type: 'containerDirective',
               name: 'column',
@@ -70,7 +72,8 @@ export default function articleDirectives() {
             className: [
               'article-band',
               ...(isLead ? ['article-lead'] : []),
-              ...(['columns', 'media'].includes(node.attributes?.layout) ? ['article-band-wide'] : []),
+              ...(['columns', 'cards', 'media'].includes(node.attributes?.layout) ? ['article-band-wide'] : []),
+              ...(isCards ? ['article-cards'] : []),
               ...(imageSide ? ['article-media'] : []),
             ],
             'data-palette': palette,

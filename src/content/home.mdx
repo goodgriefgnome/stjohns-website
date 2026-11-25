@@ -1,115 +1,88 @@
-import ServiceTimes from '../components/ServiceTimes.astro';
-import ContentSection from '../components/ContentSection.astro';
 import Events from '../components/Events.astro';
 import Sermons from '../components/Sermons.astro';
 
-<section class="hero">
-<img class="hero-photo" src="/media/hero-door.webp" alt="" fetchpriority="high" />
-<img class="hero-photo hero-cycle" src="/media/hero-community.webp" alt="" />
-<div class="wrap hero-content">
-<h1>Truth, Beauty, and Goodness for the heart of the city.</h1>
-<a class="button" data-palette="blue" href="/new">Plan a visit</a>
-</div>
-</section>
-
-<div class="welcome-band" data-palette="navy">
-<ContentSection>
-
-## Welcome to St John's Darlinghurst
+:::lead
+## Welcome to St John’s Darlinghurst
 
 Our church is far more than just a building or a social club; it is a family of people who are seeking truth, practising goodness, and creating beauty.
 
-*[MORE ABOUT US](/about)*
+*[More about us](/about)* *[Upcoming events](#upcoming-events)*
+:::
 
-*[UPCOMING EVENTS](#upcoming-events)*
-</ContentSection>
-</div>
+:::section{palette="mist" layout="cards"}
+## You’re invited!
 
-<div class="invitation-band" data-palette="mist">
-<div class="wrap">
-<ContentSection>
+If you’ve never been to a church service before, you’re welcome at St John’s. Our services are held every Sunday {{serviceTimes}}.
 
-## You're invited!
+### Worship In-Person
 
-If you've never been to a church service before, you're welcome at St John's. Our services are held every Sunday <ServiceTimes />.
+![](/media/worship.webp)
 
-</ContentSection>
-<div class="invitation-cards">
-<ContentSection image="/media/worship.webp" alt="">
-
-## Worship In-Person
-
-Join us on Sundays by attending one of our services at <ServiceTimes />.
+Join us on Sundays by attending one of our services at {{serviceTimes}}.
 
 *[Get Directions](/contact)*
-</ContentSection>
-<ContentSection image="/media/children.webp" alt="">
 
-## Children's Ministry
+### Children’s Ministry
+
+![](/media/children.webp)
 
 Jesus welcomed children to Himself; as His church, we seek to do the same.
 
 *[Learn more](/childrens-ministry)*
-</ContentSection>
-<ContentSection image="/media/groups.webp" alt="">
 
-## Community Groups
+### Community Groups
 
-Smaller gatherings of those who worship regularly at St John's on Sundays.
+![](/media/groups.webp)
+
+Smaller gatherings of those who worship regularly at St John’s on Sundays.
 
 *[Learn more](/community-groups)*
-</ContentSection>
-</div>
-</div>
-</div>
+:::
 
-<div class="support-band" data-palette="cream">
-<div class="wrap">
-<ContentSection image="/media/c079731d7867fc71ae6f.jpg" alt="Are you new?">
+:::section{layout="media"}
+![Are you new?](/media/c079731d7867fc71ae6f.jpg)
 
 ## Are you new?
 
-Considering St John's as your church home? Wondering how you can grow in your relationship with Jesus? Find out what your next steps are.
+Considering St John’s as your church home? Wondering how you can grow in your relationship with Jesus? Find out what your next steps are.
 
 *[Learn More](/new)*
-</ContentSection>
-<ContentSection image="/media/pastoral.webp" alt="">
+:::
+
+:::section{layout="media"}
+![](/media/pastoral.webp)
 
 ## Are you okay?
 
 Whether you’re struggling with your mental health, having conflict in relationships, trying to work out your vocation, or for whatever other reason, our pastoral team is here for you.
 
 *[Get in Touch](/prayer)*
-</ContentSection>
-</div>
-</div>
+:::
+
+:::section{palette="mist"}
+## Upcoming events
 
 <Events />
+:::
 
-<div class="giving-band" data-palette="navy">
-<ContentSection>
-
+:::lead
 ## Give Online
 
 *[Learn More](/give)*
-</ContentSection>
-</div>
+:::
 
-<div class="music-band">
-<ContentSection>
+:::lead{palette="white"}
+## Listen Again…
 
-## Listen Again...
-
-St John's has an archive of your favourite songs on YouTube.
+St John’s has an archive of your favourite songs on YouTube.
 
 *[Listen on YouTube](https://www.youtube.com/channel/UC_hFhunnSSLzBTvbNmgjZ9g)*
-</ContentSection>
-</div>
+:::
 
-<section class="wrap content latest">
-
+:::section{palette="white"}
 ## Latest sermons
 
 <Sermons />
-<a href="/sermons">More about our sermons</a>
-</section>
+
+[More about our sermons](/sermons)
+:::

@@ -4,12 +4,9 @@ import { displayDate, displayTime, events, safeHref } from '../lib/content';
 const months = Map.groupBy(events, event => event.startDate.slice(0, 7));
 const monthLabel = new Intl.DateTimeFormat('en-AU', { month: 'long', year: 'numeric', timeZone: 'Australia/Sydney' });
 ---
-<section id="upcoming-events" class="band">
-  <div class="wrap">
-    <h2>Upcoming events</h2>
-    {events.length === 0 && <p>No upcoming events are listed.</p>}
-    {[...months].map(([month, occurrences], index) => (
-      <details class="event-month" open={index === 0}>
+{events.length === 0 && <p>No upcoming events are listed.</p>}
+{[...months].map(([month, occurrences], index) => (
+  <details class="event-month" open={index === 0}>
         <summary>{monthLabel.format(new Date(month + '-01T00:00:00Z'))}</summary>
         <ul class="event-list">
           {occurrences.map(event => {
@@ -27,17 +24,13 @@ const monthLabel = new Intl.DateTimeFormat('en-AU', { month: 'long', year: 'nume
         </ul>
       </details>
     ))}
-  </div>
-</section>
 
 <style>
-  .band { background: var(--surface-subtle); padding-block: clamp(2rem, 5vw, 5rem); }
   .event-list { list-style: none; padding: 0; }
   .event-list h3 { margin: .35rem 0; }
   .event-list p { margin: 0; }
   .body-copy { white-space: pre-line; overflow-wrap: anywhere; }
-  .event-month { max-width: 56rem; border-bottom: 1px solid var(--border-subtle); }
-  .event-month summary { font-weight: 650; padding-block: .7rem; }
+  .event-month { max-width: 56rem; }
   .event-list { margin: 0 0 1rem; display: grid; gap: .65rem; }
   .event-list li { background: #fbfaf5; padding: .8rem 1rem; border-radius: .2rem; }
 </style>
