@@ -13,6 +13,6 @@ interface Props {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
-<Page {...entry.data} prose>
+<Page {...entry.data}>
   <Content />
 </Page>

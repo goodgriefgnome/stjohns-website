@@ -9,7 +9,7 @@ const logo = home ? '/media/logo-white.webp' : '/media/logo-dark.webp';
 ---
 <header class:list={['site-header', { 'home-header': home }]} data-site-navigation>
   <div class="header-inner">
-    <a class="brand" href="/"><img src={logo} alt="St John’s Darlinghurst" /></a>
+    <a class="brand" href="/"><img src={logo} width="400" height="377" alt="St John’s Darlinghurst" /></a>
     <nav class="desktop-nav" aria-label="Main navigation"><NavigationLinks /></nav>
     <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="navigation-overlay" aria-expanded="false">
       <span class="hamburger" aria-hidden="true"></span>
@@ -23,18 +23,19 @@ const logo = home ? '/media/logo-white.webp' : '/media/logo-dark.webp';
   </dialog>
 </header>
 
-<script>
+<!-- Resolve the menu mode as soon as the header is parsed, before laying out the page body. -->
+<script is:inline>
   const header = document.querySelector<HTMLElement>('[data-site-navigation]');
   const row = header?.querySelector<HTMLElement>('.header-inner');
   const brand = row?.querySelector<HTMLElement>('.brand');
   const desktop = row?.querySelector<HTMLElement>('.desktop-nav');
-  const toggle = row?.querySelector<HTMLButtonElement>('.menu-toggle');
-  const overlay = header?.querySelector<HTMLDialogElement>('.navigation-overlay');
+  const toggle = row?.querySelector('.menu-toggle');
+  const overlay = header?.querySelector('.navigation-overlay');
 
   if (row && brand && desktop && toggle && overlay) {
-    const disclosures = desktop.querySelectorAll<HTMLDetailsElement>('details');
+    const disclosures = desktop.querySelectorAll('details');
 
-    function closeSubmenu(group: HTMLDetailsElement) {
+    function closeSubmenu(group) {
       if (group.contains(document.activeElement) && document.activeElement !== group.querySelector('summary')) {
         group.querySelector('summary')?.focus();
       }
@@ -44,7 +45,7 @@ const logo = home ? '/media/logo-white.webp' : '/media/logo-dark.webp';
     for (const group of disclosures) {
       group.addEventListener('pointerenter', event => {
         if (event.pointerType === 'mouse') {
-          const focused = desktop.querySelector<HTMLDetailsElement>('details[open]:focus-within');
+          const focused = desktop.querySelector('details[open]:focus-within');
           if (!focused || focused === group) group.open = true;
         }
       });
@@ -59,7 +60,6 @@ const logo = home ? '/media/logo-white.webp' : '/media/logo-dark.webp';
       group.querySelector('summary')?.addEventListener('click', event => {
         if (event.pointerType === 'mouse' && group.open) event.preventDefault();
       });
-
     }
 
     document.addEventListener('pointerdown', event => {
@@ -81,11 +81,11 @@ const logo = home ? '/media/logo-white.webp' : '/media/logo-dark.webp';
     });
     overlay.addEventListener('close', () => {
       toggle.setAttribute('aria-expanded', 'false');
-      for (const group of overlay.querySelectorAll<HTMLDetailsElement>('details[open]')) group.open = false;
+      for (const group of overlay.querySelectorAll('details[open]')) group.open = false;
     });
 
+    row.classList.add('navigation-ready');
     const updateNavigation = () => {
-      row.classList.add('navigation-ready');
       const gap = Number.parseFloat(getComputedStyle(row).columnGap);
       const compact = brand.getBoundingClientRect().width + desktop.getBoundingClientRect().width + gap
         > row.getBoundingClientRect().width;
@@ -97,9 +97,9 @@ const logo = home ? '/media/logo-white.webp' : '/media/logo-dark.webp';
       }
     };
 
+    updateNavigation();
     const observer = new ResizeObserver(updateNavigation);
     for (const element of [row, brand, desktop]) observer.observe(element);
-    updateNavigation();
   }
 </script>
 
@@ -111,7 +111,6 @@ const logo = home ? '/media/logo-white.webp' : '/media/logo-dark.webp';
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
     gap: .75rem 2rem;
     width: calc(100% - 2.4rem);
     min-height: 5.65rem;
@@ -132,7 +131,7 @@ const logo = home ? '/media/logo-white.webp' : '/media/logo-dark.webp';
     max-width: 100%;
   }
   .navigation-ready .desktop-nav { flex-wrap: nowrap; max-width: none; width: max-content; }
-  .navigation-ready { flex-wrap: nowrap; }
+  .header-inner:not(.navigation-ready) { flex-wrap: wrap; }
   /* Keep the hidden desktop row measurable as fonts and available space change. */
   .navigation-compact .desktop-nav {
     position: absolute;
