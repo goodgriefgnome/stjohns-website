@@ -31,7 +31,7 @@ Nerida is our Assistant Minister, with a focus on children’s ministry and the
 
 She studied theology at Regent College, Vancouver with a minor in snowboarding at Whistler. She loves meeting people and hearing their stories. She loves the beach, reading novels and drinking coffee - sometimes all at the same time!  Nerida is married to Angus and they have three wonderful children.
 
-*[Email Nerida](mailto:{{nerida.email}})*
+*[Email Nerida](mailto:{{neridap.email}})*
 :::
 
 :::section{palette="white" layout="media"}

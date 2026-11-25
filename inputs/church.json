@@ -12,14 +12,14 @@
   "inboxes": {
     "hello": "Louise Lee",
     "richardg": "Richard Glover",
-    "nerida": "Nerida Peart",
+    "neridap": "Nerida Peart",
     "martin": "Martin Robinson",
     "samg": "Sam Giddy"
   },
   "roles": {
     "rector": "richardg",
     "music": "samg",
-    "children": "nerida",
+    "children": "neridap",
     "admin": "hello"
   }
 }
