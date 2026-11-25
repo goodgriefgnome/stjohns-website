@@ -17,3 +17,16 @@ if (palette !== undefined && !palettes.includes(palette)) {
     <slot />
   </div>
 </section>
+
+<style>
+  .content-section + .content-section { border-top: 1px solid var(--line); margin-top: 2rem; padding-top: 2rem; }
+  .with-photo { display: grid; grid-template-columns: minmax(12rem, .65fr) minmax(0, 1fr); align-items: start; gap: clamp(1rem, 4vw, 3rem); }
+  .with-photo > img { border-radius: .3rem; max-height: 29rem; object-fit: cover; }
+  .prose { max-width: 70ch; }
+  .prose :global(h2:not(:first-child)) { margin-top: 1.75rem; }
+  .prose :global(p) { white-space: pre-line; overflow-wrap: anywhere; }
+  .prose :global(address) { font-style: normal; margin-bottom: 1rem; }
+  @media (max-width: 42rem) {
+    .with-photo { grid-template-columns: 1fr; }
+  }
+</style>

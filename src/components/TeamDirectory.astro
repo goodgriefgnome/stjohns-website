@@ -20,3 +20,7 @@ const team = Object.values(import.meta.glob<TeamMember>('../../inputs/team/*.jso
       </article>
     ))}
 </ContentSection>
+
+<style>
+  .team-member + .team-member { margin-top: 1.75rem; }
+</style>

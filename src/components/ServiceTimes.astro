@@ -12,3 +12,7 @@ const times = church.sundayServiceTimes;
 {times.map((time, index) => (
   <>{index > 0 && (index === times.length - 1 ? ' and ' : ', ')}<time datetime={time}>{formatter.format(new Date(`2000-01-01T${time}:00Z`)).replace(/:00|\s/g, '').toLowerCase()}</time></>
 ))}
+
+<style>
+  time { color: inherit; }
+</style>

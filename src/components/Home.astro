@@ -82,3 +82,45 @@ import Sermons from './Sermons.astro';
     <a href="/sermons">More about our sermons</a>
   </section>
 </Site>
+
+<style>
+  .hero { background: var(--dark); color: #fff; }
+  .hero-photo { aspect-ratio: 4 / 3; object-fit: cover; border-radius: 45% 45% .3rem .3rem / 28% 28% .3rem .3rem; }
+  .button { display: inline-block; padding: .3rem 1.7rem; text-decoration: none; font-weight: 650; text-transform: uppercase; }
+  .hero { position: relative; isolation: isolate; min-height: 25.1rem; display: grid; align-items: start; }
+  .hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+  .hero-cycle { animation: hero-cycle 16s infinite; opacity: 0; }
+  @keyframes hero-cycle { 0%, 41%, 100% { opacity: 0; } 50%, 91% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .hero-cycle { display: none; } }
+  .hero::after, .invitation-cards :global(.content-section)::after { content: ''; position: absolute; inset: 0; background: #0005; z-index: -1; }
+  .hero-content { display: block; padding: 12.3rem 0 4rem; text-align: center; }
+  .hero-content h1 { font-size: clamp(1.8rem, 3.15vw, 2.45rem); margin-bottom: 1.25rem; }
+  .welcome-band, .giving-band, .music-band { padding: 4.15rem 1.5rem; text-align: center; }
+  .welcome-band :global(.prose), .giving-band :global(.prose), .music-band :global(.prose), .invitation-band :global(.prose) { margin-inline: auto; }
+  .welcome-band :global(.prose), .invitation-band :global(> .wrap > .content-section .prose) { max-width: 42rem; }
+  .welcome-band :global(.text-link) { display: inline-block; margin: .7rem .25rem 0; }
+  .invitation-band { padding-block: 4.2rem; text-align: center; }
+  .invitation-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin-top: 2rem; text-align: left; }
+  .invitation-cards :global(.content-section) { display: grid; position: relative; isolation: isolate; align-content: end; color: white; min-height: clamp(19rem,39vw,29rem); margin: 0; border: 0; padding: 1.1rem; }
+  .invitation-cards :global(.content-section img) { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; object-fit: cover; border-radius: 0; z-index: -2; }
+  .invitation-cards :global(.prose) { margin: 0; }
+  .invitation-cards :global(h2), .support-band :global(h2) { font-size: 1.5rem; }
+  .invitation-cards :global(.text-link), .support-band :global(.text-link) { margin: 1.5rem 0 .15rem; }
+  .support-band { padding-block: 4rem; }
+  .support-band :global(.wrap) { max-width: 65rem; }
+  .support-band :global(.content-section) { grid-template-columns: repeat(2,minmax(0,1fr)); align-items: center; gap: 3rem; }
+  .support-band :global(.content-section:first-child img) { grid-column: 2; grid-row: 1; }
+  .support-band :global(.content-section:first-child .prose) { grid-column: 1; grid-row: 1; }
+  .support-band :global(.content-section + .content-section) { border: 0; margin: 2.8rem 0 0; padding: 0; }
+  .support-band :global(img) { aspect-ratio: 1; max-height: none; border-radius: 0; }
+  @media (max-width: 56rem) {
+    .hero-content { padding-top: 11.5rem; }
+  }
+  @media (max-width: 42rem) {
+    .hero-content { padding-top: 13rem; }
+    .hero-photo { max-height: 24rem; }
+    .invitation-cards, .support-band :global(.content-section) { grid-template-columns: 1fr; }
+    .support-band :global(.content-section:first-child img), .support-band :global(.content-section:first-child .prose) { grid-column: auto; grid-row: auto; }
+    .support-band :global(.content-section) { gap: 1.5rem; }
+  }
+</style>
