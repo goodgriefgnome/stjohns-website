@@ -1,15 +1,16 @@
 ---
+import { withBase } from '../lib/base-path.mjs';
 import NavigationLinks from './NavigationLinks.astro';
 
 interface Props {
   home: boolean;
 }
 const { home } = Astro.props;
-const logo = home ? '/media/logo-white.webp' : '/media/logo-dark.webp';
+const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp');
 ---
 <header class:list={['site-header', { 'home-header': home }]} data-site-navigation>
   <div class="header-inner">
-    <a class="brand" href="/"><img src={logo} width="400" height="377" alt="St John’s Darlinghurst" /></a>
+    <a class="brand" href={withBase('/')}><img src={logo} width="400" height="377" alt="St John’s Darlinghurst" /></a>
     <nav class="desktop-nav" aria-label="Main navigation"><NavigationLinks /></nav>
     <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="navigation-overlay" aria-expanded="false">
       <span class="hamburger" aria-hidden="true"></span>

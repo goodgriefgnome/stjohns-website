@@ -1,7 +1,8 @@
 ---
+import { withBase } from '../lib/base-path.mjs';
 interface Props {
   href: string;
 }
 const { href } = Astro.props;
 ---
-<p class="text-link"><a href={href}><slot /></a></p>
+<p class="text-link"><a href={withBase(href)}><slot /></a></p>

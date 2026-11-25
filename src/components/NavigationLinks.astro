@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../lib/base-path.mjs';
 interface Props {
   overlay?: boolean;
 }
@@ -38,14 +39,14 @@ const groups = [
   ] },
 ];
 ---
-<a href="/">Home</a>
+<a href={withBase("/")}>Home</a>
 {groups.map(group => (
   <details name={overlay ? 'overlay-nav' : 'desktop-nav'} data-align={group.desktopMenu}>
     <summary>{group.label}</summary>
     <ul>{group.links.map(link => (
-      <li><a href={link.route} aria-current={Astro.url.pathname === link.route ? 'page' : undefined}>{link.label}</a></li>
+      <li><a href={withBase(link.route)} aria-current={Astro.url.pathname.replace(/\/$/, "") === withBase(link.route) ? 'page' : undefined}>{link.label}</a></li>
     ))}</ul>
   </details>
 ))}
-<a href="/contact">Contact</a>
-<a href="/give">Give</a>
+<a href={withBase("/contact")}>Contact</a>
+<a href={withBase("/give")}>Give</a>
