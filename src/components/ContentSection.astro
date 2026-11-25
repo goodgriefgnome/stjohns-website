@@ -1,15 +1,13 @@
 ---
-import { type Section } from '../lib/content';
-import Inline from './Inline.astro';
-const { section } = Astro.props as { section: Section };
+interface Props {
+  image?: string;
+  alt?: string;
+}
+const { image, alt = '' } = Astro.props;
 ---
-<section class:list={['content-section', { 'with-photo': section.image }]}>
-  {section.image && <img src={section.image.src} alt={section.image.alt} loading="lazy" />}
+<section class:list={['content-section', { 'with-photo': image }]}>
+  {image && <img src={image} alt={alt} loading="lazy" />}
   <div class="prose">
-    {section.blocks.map(block => {
-      if (block.kind === 'heading') return <h2><Inline runs={block.runs} /></h2>;
-      if (block.kind === 'link') return <p class="text-link"><Inline runs={block.runs} /></p>;
-      return <p class:list={['body-copy', { 'list-item': block.kind === 'item' }]}><Inline runs={block.runs} /></p>;
-    })}
+    <slot />
   </div>
 </section>

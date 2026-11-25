@@ -1,8 +1,0 @@
----
-import { safeHref, type Run } from '../lib/content';
-const { runs } = Astro.props as { runs: Run[] };
----
-{runs.map(run => {
-  const href = run.href && safeHref(run.href);
-  return href ? <a href={href}>{run.text}</a> : run.text;
-})}

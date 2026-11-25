@@ -1,6 +1,6 @@
 # St John’s Darlinghurst website prototype
 
-Static Astro site generated from the committed snapshots in `inputs/`.
+Static Astro site built from authored templates in `src/` and committed content snapshots in `inputs/`.
 
 ## Build locally
 
@@ -16,7 +16,8 @@ Astro writes the static site to `dist/`. The build reads local files and require
 
 ## Content snapshots
 
-- `inputs/pages/` contains one record per captured page. Sections contain text and link runs plus an optional local image.
+- Edit page copy and layout in `src/pages/`. The homepage is shared by `/` and `/home` via `src/components/Home.astro`. The shared navigation lives in `src/layouts/Site.astro`.
+- `inputs/team/` contains one record per team member, with a name, role, biography paragraphs and display order.
 - `inputs/sermons/` contains the latest three episodes at capture time, one record per episode. Each record has a stable feed ID, route slug, date, passage, series, preacher, description and playback URL.
 - `inputs/events/` contains one record per calendar occurrence, including its time and local calendar date. The homepage groups occurrences by month using the captured calendar window.
 - `inputs/snapshot.json` records the source URLs, capture date and timezone.

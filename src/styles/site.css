@@ -160,3 +160,5 @@ nav details:nth-last-of-type(1) ul { left: auto; right: 0; }
   nav ul { max-height: 54vh; overflow-y: auto; }
   nav details:nth-of-type(n+3) ul { left: auto; right: -1rem; }
 }
+
+.team-member + .team-member { margin-top: 1.75rem; }

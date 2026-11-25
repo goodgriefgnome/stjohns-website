@@ -1,0 +1,25 @@
+---
+import Page from '../layouts/Page.astro';
+import ContentSection from '../components/ContentSection.astro';
+
+interface TeamMember {
+  name: string;
+  role: string;
+  biography: string[];
+  order: number;
+}
+
+const team = Object.values(import.meta.glob<TeamMember>('../../inputs/team/*.json', { eager: true, import: 'default' }))
+  .sort((a, b) => a.order - b.order);
+---
+<Page title="Our Team">
+  <ContentSection>
+    {team.map(member => (
+      <div class="team-member">
+        <h2>{member.name}</h2>
+        <p class="body-copy"><strong>{member.role}</strong></p>
+        {member.biography.map(paragraph => <p class="body-copy">{paragraph}</p>)}
+      </div>
+    ))}
+  </ContentSection>
+</Page>

@@ -3,43 +3,77 @@ import Site from '../layouts/Site.astro';
 import ContentSection from './ContentSection.astro';
 import Events from './Events.astro';
 import Sermons from './Sermons.astro';
-import { pages, type Section } from '../lib/content';
-
-const home = pages.find(page => page.route === '/')!;
-const [, welcome, invitation, support, giving, music] = home.sections;
-const invitationCards = ['worship', 'children', 'groups'].map((name, index): Section => ({
-  image: { src: `/media/${name}.webp`, alt: '' },
-  blocks: invitation.blocks.slice(2 + index * 3, 5 + index * 3),
-}));
-const supportCards: Section[] = [
-  { image: support.image, blocks: support.blocks.slice(0, 3) },
-  { image: { src: '/media/pastoral.webp', alt: '' }, blocks: support.blocks.slice(3) },
-];
 ---
 <Site title="Home" home>
   <section class="hero">
     <img class="hero-photo" src="/media/hero-door.webp" alt="" fetchpriority="high" />
     <img class="hero-photo hero-cycle" src="/media/hero-community.webp" alt="" />
     <div class="wrap hero-content">
-      <h1>{home.title}</h1>
+      <h1>Truth, Beauty, and Goodness for the heart of the city.</h1>
       <a class="button" href="/new">Plan a visit</a>
     </div>
   </section>
-  <div class="welcome-band"><ContentSection section={welcome} /></div>
+  <div class="welcome-band">
+    <ContentSection>
+      <h2>Welcome to St John's Darlinghurst</h2>
+      <p class="body-copy">Our church is far more than just a building or a social club; it is a family of people who are seeking truth, practising goodness, and creating beauty.</p>
+      <p class="text-link"><a href="/about">MORE ABOUT US</a></p>
+      <p class="text-link"><a href="#upcoming-events">UPCOMING EVENTS</a></p>
+    </ContentSection>
+  </div>
   <div class="invitation-band">
     <div class="wrap">
-      <ContentSection section={{ blocks: invitation.blocks.slice(0, 2) }} />
+      <ContentSection>
+        <h2>You're invited!</h2>
+        <p class="body-copy">If you've never been to a church service before, you're welcome at St John's. Our services are held every Sunday 10am and 5pm.</p>
+      </ContentSection>
       <div class="invitation-cards">
-        {invitationCards.map(section => <ContentSection section={section} />)}
+        <ContentSection image="/media/worship.webp" alt="">
+          <h2>Worship In-Person</h2>
+          <p class="body-copy">Join us on Sundays by attending one of our services at 10AM &amp; 5PM.</p>
+          <p class="text-link"><a href="/contact">Get Directions</a></p>
+        </ContentSection>
+        <ContentSection image="/media/children.webp" alt="">
+          <h2>Children's Ministry</h2>
+          <p class="body-copy">Jesus welcomed children to Himself; as His church, we seek to do the same.</p>
+          <p class="text-link"><a href="/childrens-ministry">Learn more</a></p>
+        </ContentSection>
+        <ContentSection image="/media/groups.webp" alt="">
+          <h2>Community Groups</h2>
+          <p class="body-copy">Smaller gatherings of those who worship regularly at St John's on Sundays.</p>
+          <p class="text-link"><a href="/community-groups">Learn more</a></p>
+        </ContentSection>
       </div>
     </div>
   </div>
   <div class="support-band">
-    <div class="wrap">{supportCards.map(section => <ContentSection section={section} />)}</div>
+    <div class="wrap">
+      <ContentSection image="/media/c079731d7867fc71ae6f.jpg" alt="Are you new?">
+        <h2>Are you new?</h2>
+        <p class="body-copy">Considering St John's as your church home? Wondering how you can grow in your relationship with Jesus? Find out what your next steps are.</p>
+        <p class="text-link"><a href="/new">Learn More</a></p>
+      </ContentSection>
+      <ContentSection image="/media/pastoral.webp" alt="">
+        <h2>Are you okay?</h2>
+        <p class="body-copy">Whether you’re struggling with your mental health, having conflict in relationships, trying to work out your vocation, or for whatever other reason, our pastoral team is here for you.</p>
+        <p class="text-link"><a href="/prayer">Get in Touch</a></p>
+      </ContentSection>
+    </div>
   </div>
   <Events />
-  <div class="giving-band"><ContentSection section={giving} /></div>
-  <div class="music-band"><ContentSection section={music} /></div>
+  <div class="giving-band">
+    <ContentSection>
+      <h2>Give Online</h2>
+      <p class="text-link"><a href="/give">Learn More</a></p>
+    </ContentSection>
+  </div>
+  <div class="music-band">
+    <ContentSection>
+      <h2>Listen Again...</h2>
+      <p class="body-copy">St John's has an archive of your favourite songs on YouTube.</p>
+      <p class="text-link"><a href="https://www.youtube.com/channel/UC_hFhunnSSLzBTvbNmgjZ9g">Listen on YouTube</a></p>
+    </ContentSection>
+  </div>
   <section class="wrap content latest">
     <h2>Latest sermons</h2>
     <Sermons />
