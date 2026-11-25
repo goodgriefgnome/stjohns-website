@@ -17,10 +17,34 @@ export default function articleDirectives() {
         if (!palettes.includes(palette)) {
           file.fail(`Unknown palette "${palette}". Choose ${palettes.join(', ')}.`, node);
         }
+        if (node.name === 'section' && node.attributes?.layout === 'columns') {
+          const columns = [];
+          const intro = [];
+          for (const child of node.children) {
+            if (child.type === 'heading' && child.depth === 3) columns.push([]);
+            (columns.at(-1) ?? intro).push(child);
+          }
+          if (!columns.length) file.fail('Use level-three headings to start columns.', node);
+          node.children = [...intro, {
+            type: 'containerDirective',
+            name: 'column-grid',
+            data: { hName: 'div', hProperties: { className: ['section-columns'] } },
+            children: columns.map(children => ({
+              type: 'containerDirective',
+              name: 'column',
+              data: { hName: 'div' },
+              children,
+            })),
+          }];
+        }
         node.data = {
           hName: isLead ? 'div' : 'section',
           hProperties: {
-            className: isLead ? ['article-band', 'article-lead'] : ['article-band'],
+            className: [
+              'article-band',
+              ...(isLead ? ['article-lead'] : []),
+              ...(node.attributes?.layout === 'columns' ? ['article-band-wide'] : []),
+            ],
             'data-palette': palette,
           },
         };

@@ -1,4 +1,5 @@
 ---
+import { palettes } from '../lib/palettes.mjs';
 import Site from './Site.astro';
 import heroFocalPoints from '../media/article-hero-focus.json';
 
@@ -6,19 +7,25 @@ interface Props {
   title: string;
   width: 'standard' | 'reading';
   hero?: string;
+  heroSubtitle?: string;
+  palette?: typeof palettes[number];
 }
-const { title, width, hero } = Astro.props;
+const { title, width, hero, heroSubtitle, palette } = Astro.props;
+if (palette && !palettes.includes(palette)) throw new Error(`Unknown page palette: ${palette}`);
 const isReading = width === 'reading';
 const Frame = isReading ? 'article' : 'div';
 const focalPoints: Record<string, number[]> = heroFocalPoints;
 const focalPoint = hero && focalPoints[hero]?.map(coordinate => `${coordinate}%`).join(' ');
 ---
-<Site title={title}>
-  <Frame data-palette={isReading ? 'cream' : undefined}>
+<Site title={title} photoHeader={Boolean(hero)}>
+  <Frame data-palette={palette ?? (isReading ? 'cream' : undefined)}>
     {hero ? (
       <header class="article-hero" data-palette="navy">
         <img src={hero} alt="" fetchpriority="high" style={focalPoint && { objectPosition: focalPoint }} />
-        <h1>{title}</h1>
+        <div>
+          <h1>{title}</h1>
+          {heroSubtitle && <p class="hero-subtitle">{heroSubtitle}</p>}
+        </div>
       </header>
     ) : (
       <div class="title-band"><div class="wrap"><h1>{title}</h1></div></div>
@@ -37,8 +44,8 @@ const focalPoint = hero && focalPoints[hero]?.map(coordinate => `${coordinate}%`
     isolation: isolate;
     display: grid;
     place-items: center;
-    min-height: clamp(13rem, 25vw, 21rem);
-    padding: 2rem 1rem;
+    min-height: clamp(17rem, 35vw, 25rem);
+    padding: var(--home-header-height) var(--gutter) 3rem;
     text-align: center;
   }
   .article-hero img {
@@ -50,6 +57,7 @@ const focalPoint = hero && focalPoints[hero]?.map(coordinate => `${coordinate}%`
   }
   .article-hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--photo-scrim); }
   .article-hero h1 { margin: 0; }
+  .hero-subtitle { margin: 1rem 0 0; }
   .article-content {
     display: grid;
     grid-template-columns: minmax(var(--gutter), 1fr) minmax(0, var(--reading-width)) minmax(var(--gutter), 1fr);
@@ -62,6 +70,20 @@ const focalPoint = hero && focalPoints[hero]?.map(coordinate => `${coordinate}%`
     margin: 0 0 var(--article-spacing);
     padding: var(--article-spacing) max(var(--gutter), calc((100% - var(--reading-width)) / 2));
   }
+  .article-content :global(> .article-band-wide) {
+    padding-inline: max(var(--gutter), calc((100% - var(--layout-width)) / 2));
+  }
+  .article-content :global(.section-columns) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--gutter);
+    margin-top: 2rem;
+  }
+  .article-content :global(.article-band > :last-child) { margin-bottom: 0; }
+  .article-content :global(.article-band + .article-band) { margin-top: calc(-1 * var(--article-spacing)); }
+  .article-content :global(.article-band img) { max-height: 30rem; object-fit: contain; }
+  .article-content :global(details summary) { font-weight: 700; font-size: 1.45rem; }
+  .article-content :global(details[open] summary) { margin-bottom: 1rem; }
   .article-content :global(.article-lead) { text-align: center; }
   .article-content :global(blockquote) { margin: 0; }
   .article-content :global(.article-lead p:last-child) { margin-bottom: 0; }
@@ -76,6 +98,9 @@ const focalPoint = hero && focalPoints[hero]?.map(coordinate => `${coordinate}%`
     list-style: none;
   }
   .article-content :global(.article-gallery img) { aspect-ratio: 1; object-fit: cover; }
+  @media (max-width: 56rem) {
+    .article-hero { padding-top: 8rem; }
+  }
   @media (max-width: 42rem) {
     .article-content :global(> .article-gallery) { grid-auto-flow: row; }
   }

@@ -1,6 +1,7 @@
 ---
 title: "Stay in touch"
-layout: ../layouts/Page.astro
+layout: ../layouts/Article.astro
+palette: white
 ---
 
 Sign up for news from St John’s Darlinghurst.

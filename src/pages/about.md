@@ -1,9 +1,12 @@
 ---
 title: "About Us"
-layout: ../layouts/Page.astro
+layout: ../layouts/Article.astro
+palette: white
 ---
 
-## Vision & Values
+:::section{palette="white"}
+<details>
+<summary>Vision &amp; Values</summary>
 
 Our roots in Darlinghurst go back to 1849. But our true origins run much deeper than that. After his death and resurrection, Jesus Christ established the church to embody his presence to the world. As a community whose life revolves around God’s word and the sacraments, we are, for all our faults, a concrete manifestation of the presence of Christ.
 
@@ -13,9 +16,23 @@ We love being in inner-city Sydney, a place that is densely packed with a divers
 
 [Banksia Women](https://www.roughedges.org/banksia-women)
 
----
+</details>
+:::
 
+:::lead
+Our roots in Darlinghurst go back to 1849. But our true origins run much deeper than that. After his death and resurrection, Jesus Christ established the church to embody his presence to the world. As a community whose life revolves around God’s word and the sacraments, we are, for all our faults, a concrete manifestation of the presence of Christ.
+:::
+
+:::gallery
+![](/media/articles/about-1.webp)
+![](/media/articles/about-2.webp)
+![](/media/articles/about-3.webp)
+:::
+
+:::section{palette="cream"}
 ## Our History
+
+![Historic photograph of St John’s](/media/articles/about-4.webp)
 
 St John’s began in the 1840s when a new parish church was created to serve the area. Long a popular area with the traditional custodians of the Eora Nation, Darlinghurst was quickly becoming the most fashionable residential area for the well-to-do of Sydney.
 
@@ -24,11 +41,12 @@ Today the area contains a vibrant mix of ages, socioeconomic conditions, and ide
 St John’s has always attempted to manifest the love of Christ in tangible ways to a complex and ever-evolving area. In the 1970s the motor-bike riding rector started “Johnny’s Club”, a large and successful outreach to local youth. In the 1980s and 1990s the church was deeply engaged in ministering to those who were affected by the AIDS pandemic.
 
 In recent decades the parish has developed a robust set of social services like the “Rough Edges” drop-in centre for those experiencing homelessness and the “Banksia Women” service for women who have been affected by domestic violence. Most recently it entered into a longterm partnership with Hammondcare to build an aged care home onsite to provide comfort and dignity to the most vulnerable elderly people in the city.
+:::
 
----
-
+:::section{palette="blue"}
 ## Acknowledgement of Country
 
 We acknowledge that St John’s Darlinghurst is located on the land of the Gadigal people of the Eora nation. We have been privileged to gather here continuously since 1849, but its traditional custodians have belonged to this land from time immemorial. As we worship the God who made all people in his image we acknowledge and pay our respects to those whom God entrusted with the stewardship of this place, and especially to their elders—past, present, and emerging.
 
 We recognise the impact that colonisation has had upon Aboriginal and Torres Strait Islander peoples. As a church we acknowledge with sorrow that, at different points throughout Australian history, those bearing the name of Christ were involved in dispossession, theft, injustice, the removal of Indigenous children from their families, and other sinful acts. These things grieve God, and they never should have happened. We are truly sorry, and we pray that God would empower us in the pursuit of justice for, and reconciliation with, Indigenous peoples.
+:::

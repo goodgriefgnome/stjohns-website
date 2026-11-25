@@ -3,7 +3,7 @@ import SiteNavigation from '../components/SiteNavigation.astro';
 import church from '../../inputs/church.json';
 import '../styles/site.css';
 import '../styles/palettes.css';
-const { title, home = false } = Astro.props;
+const { title, home = false, photoHeader = false } = Astro.props;
 ---
 <!doctype html>
 <html lang="en-AU">
@@ -13,9 +13,9 @@ const { title, home = false } = Astro.props;
     <meta name="robots" content="noindex, nofollow" />
     <title>{title} | St John’s Darlinghurst</title>
   </head>
-  <body class:list={{ "is-home": home }}>
+  <body class:list={{ "is-home": home, "has-photo-header": photoHeader }}>
     <a class="skip" href="#content">Skip to content</a>
-    <SiteNavigation home={home} />
+    <SiteNavigation home={home || photoHeader} />
     <main id="content"><slot /></main>
     <footer class="site-footer">
       <div class="wrap footer-content">
@@ -35,7 +35,7 @@ const { title, home = false } = Astro.props;
 <style>
   .skip { position: absolute; top: .75rem; left: .75rem; transform: translateY(-200%); z-index: 10; background: white; padding: .5rem; }
   .skip:focus { transform: none; }
-  .is-home { --home-header-height: 11rem; }
+  .is-home, .has-photo-header { --home-header-height: 11rem; }
   .footer-social { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.4rem; padding: 0 1rem 2rem; }
   .site-footer { background: var(--text-default); color: #fff; }
   .footer-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; padding-block: 2.5rem; }

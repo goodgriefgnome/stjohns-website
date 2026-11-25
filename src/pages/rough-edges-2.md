@@ -1,7 +1,13 @@
 ---
 title: "Rough Edges"
-layout: ../layouts/Page.astro
+layout: ../layouts/Article.astro
+palette: mist
 ---
+
+:::gallery
+![](/media/articles/rough-edges-2-1.webp)
+![](/media/articles/rough-edges-2-2.webp)
+:::
 
 Rough Edges runs a drop-in centre open for dinner 7.30-9pm Monday to Thursday, providing hearty meals and a place to connect with others for people in need.
 

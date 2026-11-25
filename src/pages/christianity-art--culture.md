@@ -1,7 +1,11 @@
 ---
 title: "Christianity, Art + Culture"
-layout: ../layouts/Page.astro
+layout: ../layouts/Article.astro
+palette: white
 ---
+
+:::section{palette="white"}
+![Crucified Hand artwork](/media/articles/christianity-art--culture-1.webp)
 
 Brett Whiteley and Harriett Collard, Crucified Hand, circa 1989.
 
@@ -16,3 +20,4 @@ We are proud to have many artists in our church community, including people that
 Being an artist and a Christian often presents unique challenges. As Makoto Fujimura puts it, “we artists are often exiled twice: once by the church, and then, because of our faith, by the world.”
 
 Recognising this sense of exile, St John’s is committed to encouraging and investing in Christian people who are artists, and to building bridges with those in the local arts community. Due to our belief in a God who is the ultimate Artist, we recognise the arts as having intrinsic value. If you’re an artist of whatever sort, we’d love to meet you, to learn more about the things you’re making, and to hear how we might best support you in your calling.
+:::
