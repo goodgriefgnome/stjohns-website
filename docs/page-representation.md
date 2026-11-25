@@ -39,7 +39,7 @@ Section palettes use `white`, `mist`, `blue`, `cream`, or `navy`. In Astro, use 
 
 Collection entries default to a narrow reading column. Add `width: standard` for the regular page width. Omit `hero` for a simple title band. Astro routes that use `Page.astro` directly default to the standard width.
 
-Use `:::section{palette="blue" layout="columns"}` for a row of related items. Each level-three heading starts a column. Use the normal section directive for a full-width colour band with a reading-width body.
+Use `:::section{palette="blue" layout="columns"}` for a row of related items. Each level-three heading starts a column. To put a small icon above a heading, start the heading with an emoji, as in `### 🍞 Food`. It is drawn in monochrome Noto Emoji, in the section's action colour. Use the normal section directive for a full-width colour band with a reading-width body.
 
 In Markdown and MDX, write `*[Plan a visit](/new)*` for a link with the action style. Ordinary links use the standard underline.
 

@@ -21,17 +21,17 @@ St John’s relies on the generosity of its members and community to fund its mi
 :::section{palette="blue" layout="columns"}
 ## Ways to give
 
-### Direct Deposit
+### 🖥️ Direct Deposit
 
 [See the church’s direct deposit details](https://www.stjohnsanglican.org.au/give)
 
-### Give Online
+### 🔔 Give Online
 
 Click below to give securely online using your bank or credit card.
 
 *[GIVE ONLINE](https://give.tithe.ly/?formId=534cb90a-6865-11ee-90fc-1260ab546d11&kiosk=true)*
 
-### Cheque
+### 🏛️ Cheque
 
 [See the church’s cheque instructions](https://www.stjohnsanglican.org.au/give)
 :::

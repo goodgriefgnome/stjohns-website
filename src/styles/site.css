@@ -6,7 +6,7 @@
 }
 
 :root {
-  font: 1rem/1.6 Inter, system-ui, sans-serif;
+  font: 1rem/1.6 Inter, 'Noto Emoji', system-ui, sans-serif;
   color: var(--text-default);
   background: #fff;
   --layout-width: 74rem;
@@ -44,6 +44,9 @@ h1, h2 { font-size: clamp(1.75rem, 3vw, 2.15rem); }
 h3 { font-size: 1.45rem; }
 p { margin: 0 0 1rem; font-size: 1.125rem; }
 summary { cursor: pointer; }
+/* An emoji that starts a heading in Markdown becomes a small icon above it. */
+.heading-icon { display: block; margin-bottom: .6rem; font: 1.35rem/1 'Noto Emoji', sans-serif; font-variant-emoji: text; color: var(--action-bg, var(--sky)); }
+.heading-icon::before { content: attr(data-icon) / ''; }
 time { color: var(--text-muted); }
 
 .wrap { width: min(100% - 2 * var(--gutter), var(--layout-width)); margin-inline: auto; }
