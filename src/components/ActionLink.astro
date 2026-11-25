@@ -2,7 +2,8 @@
 import { withBase } from '../lib/base-path.mjs';
 interface Props {
   href: string;
+  variant?: 'filled' | 'bar';
 }
-const { href } = Astro.props;
+const { href, variant = 'bar' } = Astro.props;
 ---
-<p class="text-link"><a href={withBase(href)}><slot /></a></p>
+<p class="actions"><a class={`action action-${variant}`} href={withBase(href)}><slot /></a></p>

@@ -17,7 +17,7 @@ Richard is our Senior Minister (Rector), leading and overseeing the mission of S
 
 Richard grew up on the South Coast of NSW and then spent the last twenty years living in Sydney’s Inner West before moving to Darlinghurst. He has degrees in history, political economy, and theology. He’s married to Alison, and they have four school-aged kids.
 
-*[Email Richard](mailto:{{richardg.email}})*
+**[Email Richard](mailto:{{richardg.email}})**
 :::
 
 :::section{palette="white" layout="media"}
@@ -31,7 +31,7 @@ Nerida is our Assistant Minister, with a focus on children’s ministry and the
 
 She studied theology at Regent College, Vancouver with a minor in snowboarding at Whistler. She loves meeting people and hearing their stories. She loves the beach, reading novels and drinking coffee - sometimes all at the same time!  Nerida is married to Angus and they have three wonderful children.
 
-*[Email Nerida](mailto:{{neridap.email}})*
+**[Email Nerida](mailto:{{neridap.email}})**
 :::
 
 :::section{palette="white" layout="media"}

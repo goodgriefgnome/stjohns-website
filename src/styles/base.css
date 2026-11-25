@@ -38,20 +38,28 @@ ul[role="list"] { list-style: none; padding: 0; }
 
 .wrap { width: var(--wrap-width); margin-inline: auto; }
 
-/* Emphasis around or inside a link marks an action in authored content. */
-.text-link > a,
-.page-content :is(em > a, a:has(> em)) {
+/* Links alone in a paragraph, marked in Markdown as **filled** or *bar* (see rehype-actions). */
+.actions { margin-inline: -.3rem; }  /* links are inline, so they follow the band's text alignment */
+.action {
   display: inline-block;
+  margin: 0 .3rem;
   font-style: normal;
   font-size: 1.1rem;
   font-weight: 600;
   line-height: 1.6;
   text-decoration: none;
+}
+.action-filled {
   padding: .57rem 1.75rem;
   background: var(--action-bg, var(--sky));
   color: var(--action-text, var(--navy));
 }
-.page-content a > em { font-style: normal; }
+.action-bar {
+  padding: .57rem 0;
+  color: inherit;
+  border-bottom: 4px solid currentColor;
+  box-sizing: content-box;
+}
 
 /* An emoji that starts a heading in Markdown becomes a small icon above it. */
 .heading-icon { display: block; margin-bottom: .6rem; font: 1.35rem/1 'Noto Emoji', sans-serif; font-variant-emoji: text; color: var(--action-bg, var(--sky)); }

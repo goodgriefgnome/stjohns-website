@@ -29,7 +29,7 @@ We care deeply about the safety of every child that enters the doors of our chur
 
 For more information please email [{{children.name}}](mailto:{{children.email}}).
 
-*[I have a question about Children's Ministry](mailto:{{children.email}})*
+**[I have a question about Children's Ministry](mailto:{{children.email}})**
 :::
 
 :::section{palette="blue"}

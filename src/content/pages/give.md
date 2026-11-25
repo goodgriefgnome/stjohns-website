@@ -29,7 +29,7 @@ St John’s relies on the generosity of its members and community to fund its mi
 
 Click below to give securely online using your bank or credit card.
 
-*[GIVE ONLINE](https://give.tithe.ly/?formId=534cb90a-6865-11ee-90fc-1260ab546d11&kiosk=true)*
+**[GIVE ONLINE](https://give.tithe.ly/?formId=534cb90a-6865-11ee-90fc-1260ab546d11&kiosk=true)**
 
 ### 🏛️ Cheque
 

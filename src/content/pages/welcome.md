@@ -7,7 +7,7 @@ palette: white
 :::lead
 We meet every Sunday at {{serviceTimes}} at {{streetAddress}}, {{locality}}. Come and join us.
 
-*[Plan your visit](/contact)*
+**[Plan your visit](/contact)**
 :::
 
 ::::section{palette="mist" layout="columns"}

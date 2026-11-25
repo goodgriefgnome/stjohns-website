@@ -4,6 +4,7 @@ import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import articleDirectives from './src/lib/remark-article-directives.mjs';
 import churchTokens from './src/lib/remark-church-tokens.mjs';
+import rehypeActions from './src/lib/rehype-actions.mjs';
 import rehypeBaseLinks from './src/lib/rehype-base-links.mjs';
 import rehypeHeadingIcons from './src/lib/rehype-heading-icons.mjs';
 
@@ -30,7 +31,7 @@ export default defineConfig({
   markdown: {
     processor: unified({
       remarkPlugins: [articleDirectives, [churchTokens, { church }]],
-      rehypePlugins: [rehypeHeadingIcons, [rehypeBaseLinks, { base }]],
+      rehypePlugins: [rehypeActions, rehypeHeadingIcons, [rehypeBaseLinks, { base }]],
     }),
   },
   vite: { server: { fs: { strict: true } } },
