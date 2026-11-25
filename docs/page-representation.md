@@ -31,3 +31,5 @@ The architecture spec calls for ordinary Astro components, typed reusable layout
 | `/give` | Authored giving appeal and provider link. |
 
 Page routes compose shared layouts, content sections and links. Components and the stylesheet own presentation details. The source snapshots remain local files at build time.
+
+The three Markdown articles use `Article.astro`. The layout looks for the hero photo at `public/media/articles/<page-slug>.webp`. To feature an opening paragraph or quotation, put it between `:::lead` and a line containing only `:::`. To group photos, put ordinary Markdown images between `:::gallery` and `:::`, one per line. The live examples show both patterns.

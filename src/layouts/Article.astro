@@ -1,19 +1,75 @@
 ---
-import Page from './Page.astro';
-import ContentSection from '../components/ContentSection.astro';
+import Site from './Site.astro';
 
 const { frontmatter } = Astro.props;
+const slug = Astro.url.pathname.split('/').filter(Boolean).at(-1);
+const heroPath = `/media/articles/${slug}.webp`;
 ---
-<Page title={frontmatter.title}>
-  <ContentSection>
-    <slot />
-  </ContentSection>
-</Page>
+<Site title={frontmatter.title}>
+  <article class="article" data-article={slug}>
+    <header class="article-hero">
+      <img src={heroPath} alt="" fetchpriority="high" />
+      <h1>{frontmatter.title}</h1>
+    </header>
+    <div class="article-content">
+      <slot />
+    </div>
+  </article>
+</Site>
 
-<style is:global>
-  .prose hr {
-    border: 0;
-    border-top: 1px solid var(--line);
-    margin-block: 2rem;
+<style>
+  .article { background: #f2e9dc; color: #0f172a; }
+  .article-hero {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    min-height: clamp(13rem, 25vw, 21rem);
+    padding: 2rem 1rem;
+    background: #0f172a;
+    color: white;
+    text-align: center;
+  }
+  .article-hero img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    height: 100%;
+    object-fit: cover;
+  }
+  .article-hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: #0006; }
+  .article-hero h1 { margin: 0; }
+  [data-article="faith-work-and-economics"] .article-hero img { object-position: 39% 80%; }
+  .article-content {
+    display: grid;
+    grid-template-columns: minmax(1rem, 1fr) minmax(0, 50rem) minmax(1rem, 1fr);
+    padding-bottom: clamp(2rem, 6vw, 4rem);
+  }
+  .article-content :global(> *) { grid-column: 2; }
+  .article-content :global(> :first-child) { margin-top: clamp(2rem, 6vw, 4rem); }
+  .article-content :global(> .article-lead) {
+    grid-column: 1 / -1;
+    margin: 0 0 clamp(2rem, 6vw, 4rem);
+    padding: clamp(2rem, 6vw, 4rem) max(1rem, calc((100% - 50rem) / 2));
+    background: #0f172a;
+    color: white;
+    text-align: center;
+  }
+  .article-content :global(blockquote) { margin: 0; }
+  .article-content :global(.article-lead p:last-child) { margin-bottom: 0; }
+  .article-content :global(> .article-gallery) {
+    grid-column: 1 / -1;
+    width: min(calc(100% - 2rem), 71.5rem);
+    margin: 2rem auto 0;
+    padding: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 1rem;
+    list-style: none;
+  }
+  .article-content :global(.article-gallery img) { aspect-ratio: 1; object-fit: cover; }
+  @media (max-width: 42rem) {
+    .article-content :global(> .article-gallery) { grid-auto-flow: row; }
   }
 </style>
