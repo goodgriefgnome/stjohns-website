@@ -41,15 +41,14 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
           <section class="event-day" id={`d-${date}`}>
             <h4><time datetime={date}>{displayDay(date)}</time></h4>
             {dayEvents.map(event => {
-              const details = event.detailsUrl && safeHref(event.detailsUrl);
               const register = event.registrationUrl && safeHref(event.registrationUrl);
               const when = [displayTimes(event), displayRecurrence(event)].filter(Boolean).join(' · ');
               return <article class="event" data-series={series(event)} data-end={event.end}>
-                <h5>{details ? <a href={withBase(details)}>{event.title}</a> : event.title}</h5>
+                <h5>{event.title}</h5>
                 {when && <p>{when}</p>}
                 {event.location && <p>{event.location}</p>}
                 {describes(event) && <p class="description">{event.description}</p>}
-                {register && <p><a href={withBase(register)}>Register</a></p>}
+                {register && <p class="event-links"><a href={withBase(register)}>Register</a></p>}
               </article>;
             })}
           </section>
