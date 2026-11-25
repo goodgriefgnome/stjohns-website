@@ -1,14 +1,17 @@
 ---
 import Site from './Site.astro';
+import heroFocalPoints from '../media/article-hero-focus.json';
 
 const { frontmatter } = Astro.props;
 const slug = Astro.url.pathname.split('/').filter(Boolean).at(-1);
 const heroPath = `/media/articles/${slug}.webp`;
+const focalPoints: Record<string, number[]> = heroFocalPoints;
+const focalPoint = focalPoints[heroPath]?.map(coordinate => `${coordinate}%`).join(' ');
 ---
 <Site title={frontmatter.title}>
-  <article class="article" data-article={slug}>
+  <article class="article">
     <header class="article-hero">
-      <img src={heroPath} alt="" fetchpriority="high" />
+      <img src={heroPath} alt="" fetchpriority="high" style={focalPoint && { objectPosition: focalPoint }} />
       <h1>{frontmatter.title}</h1>
     </header>
     <div class="article-content">
@@ -39,7 +42,6 @@ const heroPath = `/media/articles/${slug}.webp`;
   }
   .article-hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: #0006; }
   .article-hero h1 { margin: 0; }
-  [data-article="faith-work-and-economics"] .article-hero img { object-position: 39% 80%; }
   .article-content {
     display: grid;
     grid-template-columns: minmax(1rem, 1fr) minmax(0, 50rem) minmax(1rem, 1fr);
