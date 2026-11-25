@@ -25,10 +25,10 @@ const logo = home ? '/media/logo-white.webp' : '/media/logo-dark.webp';
 
 <!-- Resolve the menu mode as soon as the header is parsed, before laying out the page body. -->
 <script is:inline>
-  const header = document.querySelector<HTMLElement>('[data-site-navigation]');
-  const row = header?.querySelector<HTMLElement>('.header-inner');
-  const brand = row?.querySelector<HTMLElement>('.brand');
-  const desktop = row?.querySelector<HTMLElement>('.desktop-nav');
+  const header = document.querySelector('[data-site-navigation]');
+  const row = header?.querySelector('.header-inner');
+  const brand = row?.querySelector('.brand');
+  const desktop = row?.querySelector('.desktop-nav');
   const toggle = row?.querySelector('.menu-toggle');
   const overlay = header?.querySelector('.navigation-overlay');
 
