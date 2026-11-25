@@ -19,9 +19,9 @@ Astro writes the static site to `dist/`. The build reads local files and require
 See the [page-by-page representation review](docs/page-representation.md).
 
 - Edit written pages in `src/content/pages/` and component-driven routes in `src/pages/`. Edit the shared homepage composition in `src/content/home.mdx`. It renders at `/`. The shared navigation lives in `src/layouts/Site.astro`.
-- `inputs/church.json` holds shared contact details, Sunday service times, staff inboxes (`inboxes`) and which inbox handles what (`roles`).
+- `inputs/church.json` holds shared contact details, Sunday services (`services`: each name has a dated history of start times, so changing a time keeps old sermons on their old time), staff inboxes (`inboxes`) and which inbox handles what (`roles`).
 - `inputs/concerts/` contains one dated entry per concert.
-- `inputs/sermons/` contains the latest three episodes at capture time, one record per episode. Each record has a stable feed ID, route slug, date, service start time (`service`, Sydney local time, used as the feed's publish time), passage, series, preacher, description, playback URL and audio size in bytes. The same records build the podcast feed at `/sermons-rss.xml` (`src/pages/sermons-rss.xml.ts`), which needs square JPEG artwork in `artwork.podcastSrc`.
+- `inputs/sermons/` contains the latest three episodes at capture time, one record per episode. Each record has a stable feed ID, route slug, date, service (`service`, a name from `church.json`, whose time on that date is the feed's publish time), passage, series, preacher, description, playback URL and audio size in bytes. The same records build the podcast feed at `/sermons-rss.xml` (`src/pages/sermons-rss.xml.ts`), which needs square JPEG artwork in `artwork.podcastSrc`.
 - `inputs/events/` contains one record per calendar occurrence, including its time, local calendar date, series (`eventId`) and Church Center's schedule text (`recurrence`). The homepage lists the occurrences from the build day to the end of the month two months later, grouped by month and day beside a mini calendar; a small script hides any that have finished since the build.
 - `inputs/snapshot.json` records the source URLs, capture date and timezone.
 

@@ -1,5 +1,5 @@
 import { visit, SKIP } from 'unist-util-visit';
-import { church as defaultChurch, formatServiceTime, listSeparator } from './church.mjs';
+import { church as defaultChurch, currentServiceTimes, formatServiceTime, listSeparator } from './church.mjs';
 
 const token = /\{\{\s*([A-Za-z]+(?:\.[A-Za-z]+)?)\s*\}\}/g;
 
@@ -45,7 +45,7 @@ export default function churchTokens({ church = defaultChurch } = {}) {
   };
 
   // "10am and 5pm", with each time in a <time> element.
-  const serviceTimes = () => church.sundayServiceTimes.flatMap((time, index, times) => [
+  const serviceTimes = () => currentServiceTimes(church).flatMap((time, index, times) => [
     ...(index ? [{ type: 'text', value: listSeparator(index, times.length) }] : []),
     { type: 'text', value: formatServiceTime(time), data: { hName: 'time', hProperties: { dateTime: time } } },
   ]);

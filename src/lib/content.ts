@@ -1,3 +1,4 @@
+import { serviceTimeOn } from './church.mjs';
 import snapshot from '../../inputs/snapshot.json';
 
 export interface Sermon {
@@ -5,7 +6,7 @@ export interface Sermon {
   slug: string;
   title: string;
   date: string;
-  /** Local start time ("HH:MM", Sydney) of the service the sermon was recorded at. */
+  /** The service the sermon was recorded at, a key of `services` in inputs/church.json, e.g. "morning". */
   service: string;
   scripture: string;
   series: string;
@@ -44,11 +45,11 @@ export const events = Object.values(import.meta.glob<Event>('../../inputs/events
 const date = new Intl.DateTimeFormat('en-AU', { dateStyle: 'long', timeZone: snapshot.timezone });
 export const displayDate = (value: string) => date.format(new Date(value.length === 10 ? value + 'T00:00:00Z' : value));
 
-// The moment a sermon was preached: its date at its service's local start time.
+// The moment a sermon was preached: its date at its service's start time on that date.
 export function sermonStart({ date, service }: Sermon) {
-  if (!/^\d{2}:\d{2}$/.test(service)) throw new Error(`Sermon on ${date} needs a service time like "10:00", not "${service}"`);
+  const time = serviceTimeOn(service, date);
   // Read the wall-clock time as if it were UTC, then subtract Sydney's offset from UTC at that moment.
-  const asUtc = new Date(`${date}T${service}:00Z`);
+  const asUtc = new Date(`${date}T${time}:00Z`);
   const offset = (instant: Date) => {
     const parts = Object.fromEntries(
       new Intl.DateTimeFormat('en-US', { timeZone: snapshot.timezone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
