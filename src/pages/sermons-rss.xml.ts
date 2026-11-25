@@ -2,7 +2,7 @@
 // It mirrors rss.stjohnsanglican.org.au/sermons: RSS 2.0 plus Apple's itunes: tags.
 import type { APIContext } from 'astro';
 import { church } from '../lib/church.mjs';
-import { sermons, type Sermon } from '../lib/content';
+import { sermonStart, sermons, type Sermon } from '../lib/content';
 
 const show = {
   title: 'St John’s Darlinghurst',
@@ -21,7 +21,6 @@ const escapeHtml = (text: string) => text.replace(/[&<>]/g, char => ({ '&': '&am
 // HTML descriptions go in CDATA, which needs no escaping unless the text itself contains "]]>".
 const cdata = (html: string) => `<![CDATA[${html.replaceAll(']]>', ']]]]><![CDATA[>')}]]>`;
 
-const pubDate = (sermon: Sermon) => new Date(sermon.publishedAt ?? `${sermon.date}T00:00:00Z`).toUTCString();
 
 // Same layout as the live feed: heading, passage, series, preacher, then the blurb.
 const showNotes = (sermon: Sermon) =>
@@ -46,7 +45,7 @@ export function GET({ site }: APIContext) {
       <description>${cdata(showNotes(sermon))}</description>
       <link>${absolute(`/episode/${sermon.slug}`)}</link>
       <guid isPermaLink="false">${escape(sermon.id)}</guid>
-      <pubDate>${pubDate(sermon)}</pubDate>
+      <pubDate>${sermonStart(sermon).toUTCString()}</pubDate>
       <enclosure url="${escape(sermon.audioUrl)}" length="${sermon.audioBytes}" type="audio/mpeg"/>
       <itunes:duration>${sermon.durationSeconds}</itunes:duration>
       <itunes:explicit>false</itunes:explicit>${art ? `
