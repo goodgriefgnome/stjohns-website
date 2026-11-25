@@ -9,17 +9,18 @@
   "postalAddress": "PO Box 465, Kings Cross NSW 1340",
   "directionsUrl": "https://maps.app.goo.gl/LaHHmXnDT7HQyh3GA",
   "sundayServiceTimes": ["10:00", "17:00"],
-  "people": {
-    "richard": { "name": "Richard Glover", "email": "richardg@stjohnsanglican.org.au" },
-    "nerida": { "name": "Nerida Peart", "email": "nerida@stjohnsanglican.org.au" },
-    "martin": { "name": "Martin Robinson" },
-    "sam": { "name": "Sam Giddy", "email": "samg@stjohnsanglican.org.au" }
+  "inboxes": {
+    "hello": "Louise Lee",
+    "richardg": "Richard Glover",
+    "nerida": "Nerida Peart",
+    "martin": "Martin Robinson",
+    "samg": "Sam Giddy"
   },
   "roles": {
-    "pastoralCare": { "person": "richard" },
-    "childrensMinistry": { "person": "nerida" },
-    "music": { "person": "sam" },
-    "communityPantry": { "email": "hello@stjohnsanglican.org.au" },
-    "volunteering": { "email": "hello@stjohnsanglican.org.au" }
+    "pastoralCare": "richardg",
+    "childrensMinistry": "nerida",
+    "music": "samg",
+    "communityPantry": "hello",
+    "volunteering": "hello"
   }
 }

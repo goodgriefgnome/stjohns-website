@@ -17,7 +17,7 @@ Richard is our Senior Minister (Rector), leading and overseeing the mission of S
 
 Richard grew up on the South Coast of NSW and then spent the last twenty years living in Sydney’s Inner West before moving to Darlinghurst. He has degrees in history, political economy, and theology. He’s married to Alison, and they have four school-aged kids.
 
-*[Email Richard](mailto:{{richard.email}})*
+*[Email Richard](mailto:{{richardg.email}})*
 :::
 
 :::section{palette="white" layout="media"}

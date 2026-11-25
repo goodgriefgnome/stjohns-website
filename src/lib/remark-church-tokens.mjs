@@ -12,27 +12,28 @@ export default function churchTokens({ church = defaultChurch } = {}) {
     address: `${church.streetAddress}, ${church.locality} ${church.region} ${church.postcode}`,
   };
 
-  // A role points at a person, or straight at an inbox. People and roles share
-  // one namespace, so {{music.email}} and {{sam.email}} read the same way.
-  const { people = {}, roles = {} } = church;
-  for (const [key, role] of Object.entries(roles)) {
-    if (key in people) throw new Error(`church.json: "${key}" is both a person and a role. Rename one.`);
-    if (('person' in role) === ('email' in role)) throw new Error(`church.json: role "${key}" needs either "person" or "email", not both.`);
-    if (role.person && !people[role.person]) throw new Error(`church.json: role "${key}" names unknown person "${role.person}".`);
+  // Inboxes are keyed by the part before the @, with the name of whoever reads
+  // them. A role names the inbox that handles it, so {{music.email}} and
+  // {{samg.email}} read the same way.
+  const domain = church.email.split('@')[1];
+  const { inboxes = {}, roles = {} } = church;
+  const contact = inbox => ({ name: inboxes[inbox], email: `${inbox}@${domain}` });
+  for (const [key, inbox] of Object.entries(roles)) {
+    if (key in inboxes) throw new Error(`church.json: "${key}" is both an inbox and a role. Rename the role.`);
+    if (!(inbox in inboxes)) throw new Error(`church.json: role "${key}" names unknown inbox "${inbox}".`);
   }
-  const contacts = {
-    ...people,
-    ...Object.fromEntries(Object.entries(roles).map(([key, role]) => [key, role.person ? people[role.person] : { email: role.email }])),
-  };
+  const contacts = Object.fromEntries([
+    ...Object.keys(inboxes).map(inbox => [inbox, contact(inbox)]),
+    ...Object.entries(roles).map(([key, inbox]) => [key, contact(inbox)]),
+  ]);
 
-  // {{music.email}} or {{richard.name}}
+  // {{music.email}} or {{richardg.name}}
   const contactValue = (name, file, node) => {
     const [key, field] = name.split('.');
-    const contact = contacts[key];
-    if (!contact) file.fail(`Unknown person or role in {{${name}}}. Choose ${Object.keys(contacts).sort().join(', ')}.`, node);
-    if (typeof contact[field] === 'string') return contact[field];
-    const fields = Object.keys(contact).filter(f => typeof contact[f] === 'string');
-    file.fail(`{{${name}}} has no value. "${key}" only has ${fields.join(' and ')}.`, node);
+    if (!contacts[key]) file.fail(`Unknown inbox or role in {{${name}}}. Choose ${Object.keys(contacts).sort().join(', ')}.`, node);
+    const value = contacts[key][field];
+    if (typeof value === 'string' && value) return value;
+    file.fail(`{{${name}}} has no value. Use {{${key}.name}} or {{${key}.email}}.`, node);
   };
 
   const plainValue = (name, file, node) => {
