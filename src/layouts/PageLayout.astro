@@ -103,5 +103,6 @@ const focalPoint = hero && focalPoints[hero]?.map(coordinate => `${coordinate}%`
   }
   @media (max-width: 42rem) {
     .article-content :global(> .article-gallery) { grid-auto-flow: row; }
+    .article-content :global(.section-columns-explicit) { grid-template-columns: 1fr; }
   }
 </style>

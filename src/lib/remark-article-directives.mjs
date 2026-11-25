@@ -20,15 +20,20 @@ export default function articleDirectives() {
         if (node.name === 'section' && node.attributes?.layout === 'columns') {
           const columns = [];
           const intro = [];
+          const hasExplicitColumns = node.children.some(child => child.type === 'containerDirective' && child.name === 'column');
           for (const child of node.children) {
-            if (child.type === 'heading' && child.depth === 3) columns.push([]);
+            if (child.type === 'containerDirective' && child.name === 'column') {
+              columns.push(child.children);
+              continue;
+            }
+            if (!hasExplicitColumns && child.type === 'heading' && child.depth === 3) columns.push([]);
             (columns.at(-1) ?? intro).push(child);
           }
-          if (!columns.length) file.fail('Use level-three headings to start columns.', node);
+          if (!columns.length) file.fail('Use :::column blocks or level-three headings to start columns.', node);
           node.children = [...intro, {
             type: 'containerDirective',
             name: 'column-grid',
-            data: { hName: 'div', hProperties: { className: ['section-columns'] } },
+            data: { hName: 'div', hProperties: { className: hasExplicitColumns ? ['section-columns', 'section-columns-explicit'] : ['section-columns'] } },
             children: columns.map(children => ({
               type: 'containerDirective',
               name: 'column',
