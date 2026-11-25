@@ -27,9 +27,9 @@ Children’s Chapel is a formative time in which children are taught to be 'litt
 
 We care deeply about the safety of every child that enters the doors of our church. All of our staff and children’s ministry volunteers possess a valid Working With Children Check and have completed the Anglican Diocese of Sydney’s Safe Ministry training.
 
-For more information please email [{{childrensMinistry.name}}](mailto:{{childrensMinistry.email}}).
+For more information please email [{{children.name}}](mailto:{{children.email}}).
 
-*[I have a question about Children's Ministry](mailto:{{childrensMinistry.email}})*
+*[I have a question about Children's Ministry](mailto:{{children.email}})*
 :::
 
 :::section{palette="blue"}

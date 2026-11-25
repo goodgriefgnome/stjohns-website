@@ -17,10 +17,9 @@
     "samg": "Sam Giddy"
   },
   "roles": {
-    "pastoralCare": "richardg",
-    "childrensMinistry": "nerida",
+    "rector": "richardg",
     "music": "samg",
-    "communityPantry": "hello",
-    "volunteering": "hello"
+    "children": "nerida",
+    "admin": "hello"
   }
 }
