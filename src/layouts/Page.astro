@@ -1,12 +1,16 @@
 ---
 import PageLayout from './PageLayout.astro';
+import ContentSection from '../components/ContentSection.astro';
 
-interface Props {
+interface PageOptions {
   title: string;
   hero?: string;
 }
-const { title, hero } = Astro.props;
+type Props = PageOptions | { frontmatter: PageOptions };
+
+const props = Astro.props;
+const { title, hero } = 'frontmatter' in props ? props.frontmatter : props;
 ---
 <PageLayout title={title} width="standard" hero={hero}>
-  <slot />
+  {'frontmatter' in props ? <ContentSection><slot /></ContentSection> : <slot />}
 </PageLayout>

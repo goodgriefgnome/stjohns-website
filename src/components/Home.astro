@@ -1,128 +1,57 @@
 ---
-import ServiceTimes from './ServiceTimes.astro';
-import ActionLink from './ActionLink.astro';
+import Homepage from '../content/home.mdx';
 import Site from '../layouts/Site.astro';
-import ContentSection from './ContentSection.astro';
-import Events from './Events.astro';
-import Sermons from './Sermons.astro';
 ---
 <Site title="Home" home>
-  <section class="hero">
-    <img class="hero-photo" src="/media/hero-door.webp" alt="" fetchpriority="high" />
-    <img class="hero-photo hero-cycle" src="/media/hero-community.webp" alt="" />
-    <div class="wrap hero-content">
-      <h1>Truth, Beauty, and Goodness for the heart of the city.</h1>
-      <a class="button" data-palette="blue" href="/new">Plan a visit</a>
-    </div>
-  </section>
-  <div class="welcome-band" data-palette="navy">
-    <ContentSection>
-      <h2>Welcome to St John's Darlinghurst</h2>
-      <p>Our church is far more than just a building or a social club; it is a family of people who are seeking truth, practising goodness, and creating beauty.</p>
-      <ActionLink href="/about">MORE ABOUT US</ActionLink>
-      <ActionLink href="#upcoming-events">UPCOMING EVENTS</ActionLink>
-    </ContentSection>
-  </div>
-  <div class="invitation-band" data-palette="mist">
-    <div class="wrap">
-      <ContentSection>
-        <h2>You're invited!</h2>
-        <p>If you've never been to a church service before, you're welcome at St John's. Our services are held every Sunday <ServiceTimes />.</p>
-      </ContentSection>
-      <div class="invitation-cards">
-        <ContentSection image="/media/worship.webp" alt="">
-          <h2>Worship In-Person</h2>
-          <p>Join us on Sundays by attending one of our services at <ServiceTimes />.</p>
-          <ActionLink href="/contact">Get Directions</ActionLink>
-        </ContentSection>
-        <ContentSection image="/media/children.webp" alt="">
-          <h2>Children's Ministry</h2>
-          <p>Jesus welcomed children to Himself; as His church, we seek to do the same.</p>
-          <ActionLink href="/childrens-ministry">Learn more</ActionLink>
-        </ContentSection>
-        <ContentSection image="/media/groups.webp" alt="">
-          <h2>Community Groups</h2>
-          <p>Smaller gatherings of those who worship regularly at St John's on Sundays.</p>
-          <ActionLink href="/community-groups">Learn more</ActionLink>
-        </ContentSection>
-      </div>
-    </div>
-  </div>
-  <div class="support-band" data-palette="cream">
-    <div class="wrap">
-      <ContentSection image="/media/c079731d7867fc71ae6f.jpg" alt="Are you new?">
-        <h2>Are you new?</h2>
-        <p>Considering St John's as your church home? Wondering how you can grow in your relationship with Jesus? Find out what your next steps are.</p>
-        <ActionLink href="/new">Learn More</ActionLink>
-      </ContentSection>
-      <ContentSection image="/media/pastoral.webp" alt="">
-        <h2>Are you okay?</h2>
-        <p>Whether you’re struggling with your mental health, having conflict in relationships, trying to work out your vocation, or for whatever other reason, our pastoral team is here for you.</p>
-        <ActionLink href="/prayer">Get in Touch</ActionLink>
-      </ContentSection>
-    </div>
-  </div>
-  <Events />
-  <div class="giving-band" data-palette="navy">
-    <ContentSection>
-      <h2>Give Online</h2>
-      <ActionLink href="/give">Learn More</ActionLink>
-    </ContentSection>
-  </div>
-  <div class="music-band">
-    <ContentSection>
-      <h2>Listen Again...</h2>
-      <p>St John's has an archive of your favourite songs on YouTube.</p>
-      <ActionLink href="https://www.youtube.com/channel/UC_hFhunnSSLzBTvbNmgjZ9g">Listen on YouTube</ActionLink>
-    </ContentSection>
-  </div>
-  <section class="wrap content latest">
-    <h2>Latest sermons</h2>
-    <Sermons />
-    <a href="/sermons">More about our sermons</a>
-  </section>
+  <div class="home-page"><Homepage /></div>
 </Site>
 
-<style>
-  .button { display: inline-block; padding: .3rem 1.7rem; text-decoration: none; font-weight: 650; text-transform: uppercase; }
-  .hero {
-    --hero-top-padding: calc(var(--home-header-height) + 1.3rem);
-    background: var(--text-default);
-    color: var(--paper);
-    position: relative; isolation: isolate; min-height: 25.1rem; display: grid; align-items: start; }
-  .hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; border-radius: 45% 45% .3rem .3rem / 28% 28% .3rem .3rem; }
-  .hero-cycle { animation: hero-cycle 16s infinite; opacity: 0; }
-  @keyframes hero-cycle { 0%, 41%, 100% { opacity: 0; } 50%, 91% { opacity: 1; } }
-  @media (prefers-reduced-motion: reduce) { .hero-cycle { display: none; } }
-  .hero::after, .invitation-cards :global(.content-section)::after { content: ''; position: absolute; inset: 0; background: var(--photo-scrim-light); z-index: -1; }
-  .hero-content { display: block; padding: var(--hero-top-padding) 0 4rem; text-align: center; }
-  .hero-content h1 { font-size: clamp(1.8rem, 3.15vw, 2.45rem); margin-bottom: 1.25rem; }
-  .welcome-band, .giving-band, .music-band { padding: 4.15rem 1.5rem; text-align: center; }
-  .welcome-band :global(.prose), .giving-band :global(.prose), .music-band :global(.prose), .invitation-band :global(.prose) { margin-inline: auto; }
-  .welcome-band :global(.prose), .invitation-band :global(> .wrap > .content-section .prose) { max-width: 42rem; }
-  .welcome-band :global(.text-link) { display: inline-block; margin: .7rem .25rem 0; }
-  .invitation-band { padding-block: 4.2rem; text-align: center; }
-  .invitation-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin-top: 2rem; text-align: left; }
-  .invitation-cards :global(.content-section) { display: grid; position: relative; isolation: isolate; align-content: end; color: white; min-height: clamp(19rem,39vw,29rem); margin: 0; border: 0; padding: 1.1rem; }
-  .invitation-cards :global(.content-section img) { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; object-fit: cover; border-radius: 0; z-index: -2; }
-  .invitation-cards :global(.prose) { margin: 0; }
-  .invitation-cards :global(h2), .support-band :global(h2) { font-size: 1.5rem; }
-  .invitation-cards :global(.text-link), .support-band :global(.text-link) { margin: 1.5rem 0 .15rem; }
-  .support-band { padding-block: 4rem; }
-  .support-band :global(.wrap) { max-width: 65rem; }
-  .support-band :global(.content-section) { grid-template-columns: repeat(2,minmax(0,1fr)); align-items: center; gap: 3rem; }
-  .support-band :global(.content-section:first-child img) { grid-column: 2; grid-row: 1; }
-  .support-band :global(.content-section:first-child .prose) { grid-column: 1; grid-row: 1; }
-  .support-band :global(.content-section + .content-section) { border: 0; margin: 2.8rem 0 0; padding: 0; }
-  .support-band :global(img) { aspect-ratio: 1; max-height: none; border-radius: 0; }
-  @media (max-width: 56rem) {
-    .hero { --hero-top-padding: 11.5rem; }
+<style is:global>
+  .home-page {
+    .button { display: inline-block; padding: .3rem 1.7rem; text-decoration: none; font-weight: 650; text-transform: uppercase; }
+    .hero {
+      --hero-top-padding: calc(var(--home-header-height) + 1.3rem);
+      background: var(--text-default);
+      color: var(--paper);
+      position: relative; isolation: isolate; min-height: 25.1rem; display: grid; align-items: start; }
+    .hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; border-radius: 45% 45% .3rem .3rem / 28% 28% .3rem .3rem; }
+    .hero-cycle { animation: home-hero-cycle 16s infinite; opacity: 0; }
+
+    @media (prefers-reduced-motion: reduce) { .hero-cycle { display: none; } }
+    .hero::after, .invitation-cards .content-section::after { content: ''; position: absolute; inset: 0; background: var(--photo-scrim-light); z-index: -1; }
+    .hero-content { display: block; padding: var(--hero-top-padding) 0 4rem; text-align: center; }
+    .hero-content h1 { font-size: clamp(1.8rem, 3.15vw, 2.45rem); margin-bottom: 1.25rem; }
+    .welcome-band, .giving-band, .music-band { padding: 4.15rem 1.5rem; text-align: center; }
+    .welcome-band .prose, .giving-band .prose, .music-band .prose, .invitation-band .prose { margin-inline: auto; }
+    .welcome-band .prose, .invitation-band > .wrap > .content-section .prose { max-width: 42rem; }
+    .welcome-band .text-link { display: inline-block; margin: .7rem .25rem 0; }
+    .invitation-band { padding-block: 4.2rem; text-align: center; }
+    .invitation-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin-top: 2rem; text-align: left; }
+    .invitation-cards .content-section { display: grid; position: relative; isolation: isolate; align-content: end; color: white; min-height: clamp(19rem,39vw,29rem); margin: 0; border: 0; padding: 1.1rem; }
+    .invitation-cards .content-section img { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; object-fit: cover; border-radius: 0; z-index: -2; }
+    .invitation-cards .prose { margin: 0; }
+    .invitation-cards h2, .support-band h2 { font-size: 1.5rem; }
+    .invitation-cards .text-link, .support-band .text-link { margin: 1.5rem 0 .15rem; }
+    .support-band { padding-block: 4rem; }
+    .support-band .wrap { max-width: 65rem; }
+    .support-band .content-section { grid-template-columns: repeat(2,minmax(0,1fr)); align-items: center; gap: 3rem; }
+    .support-band .content-section:first-child img { grid-column: 2; grid-row: 1; }
+    .support-band .content-section:first-child .prose { grid-column: 1; grid-row: 1; }
+    .support-band .content-section + .content-section { border: 0; margin: 2.8rem 0 0; padding: 0; }
+    .support-band img { aspect-ratio: 1; max-height: none; border-radius: 0; }
+    @media (max-width: 56rem) {
+      .hero { --hero-top-padding: 11.5rem; }
+    }
+    @media (max-width: 42rem) {
+      .hero { --hero-top-padding: 13rem; }
+      .hero-photo { max-height: 24rem; }
+      .invitation-cards, .support-band .content-section { grid-template-columns: 1fr; }
+      .support-band .content-section:first-child img, .support-band .content-section:first-child .prose { grid-column: auto; grid-row: auto; }
+      .support-band .content-section { gap: 1.5rem; }
+    }
   }
-  @media (max-width: 42rem) {
-    .hero { --hero-top-padding: 13rem; }
-    .hero-photo { max-height: 24rem; }
-    .invitation-cards, .support-band :global(.content-section) { grid-template-columns: 1fr; }
-    .support-band :global(.content-section:first-child img), .support-band :global(.content-section:first-child .prose) { grid-column: auto; grid-row: auto; }
-    .support-band :global(.content-section) { gap: 1.5rem; }
+  @keyframes home-hero-cycle {
+    0%, 41%, 100% { opacity: 0; }
+    50%, 91% { opacity: 1; }
   }
 </style>

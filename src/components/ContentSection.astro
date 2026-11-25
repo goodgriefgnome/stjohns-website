@@ -25,6 +25,7 @@ if (palette !== undefined && !palettes.includes(palette)) {
   .prose { max-width: 70ch; }
   .prose :global(h2:not(:first-child)) { margin-top: 1.75rem; }
   .prose :global(p) { white-space: pre-line; overflow-wrap: anywhere; }
+  .prose :global(hr) { border: 0; border-top: 1px solid var(--border-subtle); margin-block: 2rem; }
   .prose :global(address) { font-style: normal; margin-bottom: 1rem; }
   @media (max-width: 42rem) {
     .with-photo { grid-template-columns: 1fr; }
