@@ -4,6 +4,7 @@ import { unified } from '@astrojs/markdown-remark';
 import articleDirectives from './src/lib/remark-article-directives.mjs';
 import churchTokens from './src/lib/remark-church-tokens.mjs';
 import rehypeBaseLinks from './src/lib/rehype-base-links.mjs';
+import rehypeHeadingIcons from './src/lib/rehype-heading-icons.mjs';
 
 // GitHub Pages serves the site from a subfolder. The deploy workflow sets these;
 // local dev and builds keep serving from the root.
@@ -19,7 +20,7 @@ export default defineConfig({
   markdown: {
     processor: unified({
       remarkPlugins: [articleDirectives, churchTokens],
-      rehypePlugins: [[rehypeBaseLinks, { base }]],
+      rehypePlugins: [rehypeHeadingIcons, [rehypeBaseLinks, { base }]],
     }),
   },
   vite: { server: { fs: { strict: true } } },
