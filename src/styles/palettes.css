@@ -14,9 +14,11 @@
   --photo-scrim-light: #0005;
 }
 
+/* Actions are sky buttons, or navy on a sky band. */
+[data-palette] { --action-bg: var(--sky); --action-text: var(--navy); }
 [data-palette="white"] { --section-bg: var(--paper); --section-text: var(--navy); }
 [data-palette="mist"] { --section-bg: var(--mist); --section-text: var(--slate); }
-[data-palette="blue"] { --section-bg: var(--sky); --section-text: var(--navy); }
+[data-palette="blue"] { --section-bg: var(--sky); --section-text: var(--navy); --action-bg: var(--navy); --action-text: var(--paper); }
 [data-palette="cream"] { --section-bg: var(--cream); --section-text: var(--navy); }
 [data-palette="navy"] { --section-bg: var(--navy); --section-text: var(--paper); }
 

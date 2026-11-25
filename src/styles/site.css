@@ -25,11 +25,15 @@ a:hover { text-decoration-thickness: .13em; }
 /* Emphasis around or inside a link marks an action in authored content. */
 .text-link > a,
 :where(.page-content, .home-page) :is(em > a, a:has(> em)) {
+  display: inline-block;
   font-style: normal;
-  font-weight: 650;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.6;
   text-decoration: none;
-  border-bottom: .22rem solid currentColor;
-  padding-bottom: .2rem;
+  padding: .57rem 1.75rem;
+  background: var(--action-bg, var(--sky));
+  color: var(--action-text, var(--navy));
 }
 
 :where(.page-content, .home-page) a > em { font-style: normal; }
