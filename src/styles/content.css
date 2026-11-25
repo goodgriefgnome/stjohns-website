@@ -10,6 +10,7 @@
     padding-top: var(--band-spacing);
   }
   &.standard-measure:has(> .article-band:first-child) { padding-top: 0; }
+  &:has(> .article-band:last-child) { padding-bottom: 0; }
   & > * { grid-column: 2; }
   &:not(.standard-measure) > :first-child:not(.article-band) { margin-top: var(--band-spacing); }
   & > :is(.article-band, .article-gallery) { grid-column: 1 / -1; }
@@ -20,6 +21,7 @@
     margin: 0 0 var(--band-spacing);
     padding: var(--band-spacing) max(var(--gutter), calc((100% - var(--band-measure)) / 2));
   }
+  & > .article-band:last-child { margin-bottom: 0; }
   & > .article-band-wide { --band-measure: var(--layout-width); }
   & .article-band + .article-band { margin-top: calc(-1 * var(--band-spacing)); }
   & :is(.article-band, .media-body, .section-cards > div) > :last-child { margin-bottom: 0; }
