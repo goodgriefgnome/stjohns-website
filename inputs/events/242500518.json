@@ -1,11 +1,13 @@
 {
   "id": "242500518",
+  "eventId": "23373827",
   "title": "10 am service only (no 5pm service)",
   "start": "2026-12-26T23:00:00.000Z",
   "end": "2026-12-26T23:00:00.000Z",
   "allDay": false,
   "startDate": "2026-12-27",
   "endDate": "2026-12-27",
+  "recurrence": "Sunday, December 27, 2026 from 10:00am to 11:15am",
   "location": "",
   "description": "",
   "detailsUrl": "https://stjohnsdarlinghurst.churchcenter.com/calendar/event/242500518",

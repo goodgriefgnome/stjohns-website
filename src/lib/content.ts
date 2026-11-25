@@ -15,11 +15,15 @@ export interface Sermon {
 }
 export interface Event {
   id: string;
+  /** The Church Center event that a repeating occurrence belongs to. */
+  eventId?: string;
   title: string;
   start: string;
   end: string;
   startDate: string;
   endDate: string;
+  /** Church Center's description of the schedule, e.g. "Every other Wednesday from 10:00am to 11:00am beginning 04/11/2026". */
+  recurrence?: string;
   allDay: boolean;
   location: string;
   description: string;
@@ -33,9 +37,7 @@ export const events = Object.values(import.meta.glob<Event>('../../inputs/events
   .sort((a, b) => Date.parse(a.start) - Date.parse(b.start));
 
 const date = new Intl.DateTimeFormat('en-AU', { dateStyle: 'long', timeZone: snapshot.timezone });
-const clock = new Intl.DateTimeFormat('en-AU', { timeStyle: 'short', timeZone: snapshot.timezone });
 export const displayDate = (value: string) => date.format(new Date(value.length === 10 ? value + 'T00:00:00Z' : value));
-export const displayTime = (value: string) => clock.format(new Date(value));
 
 export function safeHref(href: string) {
   try {

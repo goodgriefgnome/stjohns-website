@@ -1,11 +1,13 @@
 {
   "id": "242498123",
+  "eventId": "23373821",
   "title": "Twilight Concert Series – A Christmas Concert",
   "start": "2026-12-23T07:00:00.000Z",
   "end": "2026-12-23T08:00:00.000Z",
   "allDay": false,
   "startDate": "2026-12-23",
   "endDate": "2026-12-23",
+  "recurrence": "Wednesday, December 23, 2026 from 6:00pm to 7:00pm",
   "location": "",
   "description": "",
   "detailsUrl": "https://stjohnsdarlinghurst.churchcenter.com/calendar/event/242498123",

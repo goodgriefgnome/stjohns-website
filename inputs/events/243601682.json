@@ -1,11 +1,13 @@
 {
   "id": "243601682",
+  "eventId": "23525357",
   "title": "CSU Wagga Wagga mission-exposure team visiting St. John's",
   "start": "2026-12-08T13:00:00.000Z",
   "end": "2026-12-13T12:59:59.000Z",
   "allDay": true,
   "startDate": "2026-12-09",
   "endDate": "2026-12-13",
+  "recurrence": "Wednesday, December 9, 2026 start of day to Sunday, December 13, 2026 end of day",
   "location": "",
   "description": "",
   "detailsUrl": "https://stjohnsdarlinghurst.churchcenter.com/calendar/event/243601682",

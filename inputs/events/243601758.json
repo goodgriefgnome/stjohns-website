@@ -1,11 +1,13 @@
 {
   "id": "243601758",
+  "eventId": "23525380",
   "title": "5pm service recommences",
   "start": "2027-01-10T06:00:00.000Z",
   "end": "2027-01-10T06:01:00.000Z",
   "allDay": false,
   "startDate": "2027-01-10",
   "endDate": "2027-01-10",
+  "recurrence": "Sunday, January 10, 2027 from 5:00pm to 5:01pm",
   "location": "",
   "description": "",
   "detailsUrl": "https://stjohnsdarlinghurst.churchcenter.com/calendar/event/243601758",

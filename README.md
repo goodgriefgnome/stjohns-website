@@ -22,7 +22,7 @@ See the [page-by-page representation review](docs/page-representation.md).
 - `inputs/church.json` holds shared contact details, Sunday service times, staff inboxes (`inboxes`) and which inbox handles what (`roles`).
 - `inputs/concerts/` contains one dated entry per concert.
 - `inputs/sermons/` contains the latest three episodes at capture time, one record per episode. Each record has a stable feed ID, route slug, date, passage, series, preacher, description and playback URL.
-- `inputs/events/` contains one record per calendar occurrence, including its time and local calendar date. The homepage groups occurrences by month using the captured calendar window.
+- `inputs/events/` contains one record per calendar occurrence, including its time, local calendar date, series (`eventId`) and Church Center's schedule text (`recurrence`). The homepage lists the occurrences from the build day to the end of the month two months later, grouped by month and day beside a mini calendar; a small script hides any that have finished since the build.
 - `inputs/snapshot.json` records the source URLs, capture date and timezone.
 
 Page images are small local copies for the prototype. Sermon playback uses the existing public media URLs. Giving and mailing list signup link to their hosted services. Contact and prayer requests use email links. The prototype has no live import job, admin interface or publication automation.

@@ -1,11 +1,13 @@
 {
   "id": "243601681",
+  "eventId": "23373808",
   "title": "Coro Innominata chamber choir concert: 30 Below",
   "start": "2026-11-28T08:00:00.000Z",
   "end": "2026-11-28T10:00:00.000Z",
   "allDay": false,
   "startDate": "2026-11-28",
   "endDate": "2026-11-28",
+  "recurrence": "Saturday, November 28, 2026 from 7:00pm to 9:00pm",
   "location": "",
   "description": "",
   "detailsUrl": "https://stjohnsdarlinghurst.churchcenter.com/calendar/event/243601681",

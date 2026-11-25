@@ -1,11 +1,13 @@
 {
   "id": "242606340",
+  "eventId": "23373823",
   "title": "Christmas Eve service",
   "start": "2026-12-24T12:00:00.000Z",
   "end": "2026-12-24T12:00:00.000Z",
   "allDay": false,
   "startDate": "2026-12-24",
   "endDate": "2026-12-24",
+  "recurrence": "Thursday, December 24, 2026 from 11:00pm to end of day",
   "location": "",
   "description": "",
   "detailsUrl": "https://stjohnsdarlinghurst.churchcenter.com/calendar/event/242606340",

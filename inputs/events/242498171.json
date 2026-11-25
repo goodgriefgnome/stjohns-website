@@ -1,11 +1,13 @@
 {
   "id": "242498171",
+  "eventId": "23373797",
   "title": "Pot-luck lunch after service",
   "start": "2027-08-08T01:30:00.000Z",
   "end": "2027-08-08T04:00:00.000Z",
   "allDay": false,
   "startDate": "2027-08-08",
   "endDate": "2027-08-08",
+  "recurrence": "The second Sunday of every month from 11:30am to 2:00pm beginning 08/11/2026",
   "location": "",
   "description": "",
   "detailsUrl": "https://stjohnsdarlinghurst.churchcenter.com/calendar/event/242498171",

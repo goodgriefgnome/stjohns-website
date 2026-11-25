@@ -1,11 +1,13 @@
 {
   "id": "242498206",
+  "eventId": "23373825",
   "title": "Christmas Day service",
   "start": "2026-12-24T22:00:00.000Z",
   "end": "2026-12-24T22:00:00.000Z",
   "allDay": false,
   "startDate": "2026-12-25",
   "endDate": "2026-12-25",
+  "recurrence": "Friday, December 25, 2026 from 9:00am to 10:15am",
   "location": "",
   "description": "",
   "detailsUrl": "https://stjohnsdarlinghurst.churchcenter.com/calendar/event/242498206",
