@@ -1,19 +1,12 @@
 ---
-import Site from './Site.astro';
+import PageLayout from './PageLayout.astro';
 
 interface Props {
   title: string;
+  hero?: string;
 }
-const { title } = Astro.props;
+const { title, hero } = Astro.props;
 ---
-<Site title={title}>
-  <div class="title-band"><div class="wrap"><h1>{title}</h1></div></div>
-  <div class="wrap content">
-    <slot />
-  </div>
-</Site>
-
-<style>
-  .title-band { background: var(--surface-subtle); text-align: center; padding-block: 3.75rem; }
-  h1 { margin-bottom: 0; }
-</style>
+<PageLayout title={title} width="standard" hero={hero}>
+  <slot />
+</PageLayout>

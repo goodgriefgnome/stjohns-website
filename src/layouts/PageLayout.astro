@@ -1,0 +1,82 @@
+---
+import Site from './Site.astro';
+import heroFocalPoints from '../media/article-hero-focus.json';
+
+interface Props {
+  title: string;
+  width: 'standard' | 'reading';
+  hero?: string;
+}
+const { title, width, hero } = Astro.props;
+const isReading = width === 'reading';
+const Frame = isReading ? 'article' : 'div';
+const focalPoints: Record<string, number[]> = heroFocalPoints;
+const focalPoint = hero && focalPoints[hero]?.map(coordinate => `${coordinate}%`).join(' ');
+---
+<Site title={title}>
+  <Frame data-palette={isReading ? 'cream' : undefined}>
+    {hero ? (
+      <header class="article-hero" data-palette="navy">
+        <img src={hero} alt="" fetchpriority="high" style={focalPoint && { objectPosition: focalPoint }} />
+        <h1>{title}</h1>
+      </header>
+    ) : (
+      <div class="title-band"><div class="wrap"><h1>{title}</h1></div></div>
+    )}
+    <div class={isReading ? 'article-content' : 'wrap content'}>
+      <slot />
+    </div>
+  </Frame>
+</Site>
+
+<style>
+  .title-band { background: var(--surface-subtle); text-align: center; padding-block: 3.75rem; }
+  .title-band h1 { margin-bottom: 0; }
+  .article-hero {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    min-height: clamp(13rem, 25vw, 21rem);
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  .article-hero img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    height: 100%;
+    object-fit: cover;
+  }
+  .article-hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--photo-scrim); }
+  .article-hero h1 { margin: 0; }
+  .article-content {
+    display: grid;
+    grid-template-columns: minmax(var(--gutter), 1fr) minmax(0, var(--reading-width)) minmax(var(--gutter), 1fr);
+    padding-bottom: var(--article-spacing);
+  }
+  .article-content :global(> *) { grid-column: 2; }
+  .article-content :global(> :first-child) { margin-top: var(--article-spacing); }
+  .article-content :global(> :is(.article-band, .article-gallery)) { grid-column: 1 / -1; }
+  .article-content :global(> .article-band) {
+    margin: 0 0 var(--article-spacing);
+    padding: var(--article-spacing) max(var(--gutter), calc((100% - var(--reading-width)) / 2));
+  }
+  .article-content :global(.article-lead) { text-align: center; }
+  .article-content :global(blockquote) { margin: 0; }
+  .article-content :global(.article-lead p:last-child) { margin-bottom: 0; }
+  .article-content :global(> .article-gallery) {
+    width: min(calc(100% - 2 * var(--gutter)), var(--layout-width));
+    margin: 2rem auto 0;
+    padding: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 1rem;
+    list-style: none;
+  }
+  .article-content :global(.article-gallery img) { aspect-ratio: 1; object-fit: cover; }
+  @media (max-width: 42rem) {
+    .article-content :global(> .article-gallery) { grid-auto-flow: row; }
+  }
+</style>

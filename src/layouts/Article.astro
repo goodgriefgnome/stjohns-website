@@ -1,71 +1,16 @@
 ---
-import Site from './Site.astro';
-import heroFocalPoints from '../media/article-hero-focus.json';
+import PageLayout from './PageLayout.astro';
 
+interface Props {
+  frontmatter: {
+    title: string;
+    hero?: string | null;
+  };
+}
 const { frontmatter } = Astro.props;
 const slug = Astro.url.pathname.split('/').filter(Boolean).at(-1);
-const heroPath = `/media/articles/${slug}.webp`;
-const focalPoints: Record<string, number[]> = heroFocalPoints;
-const focalPoint = focalPoints[heroPath]?.map(coordinate => `${coordinate}%`).join(' ');
+const hero = frontmatter.hero === undefined ? `/media/articles/${slug}.webp` : frontmatter.hero ?? undefined;
 ---
-<Site title={frontmatter.title}>
-  <article data-palette="cream">
-    <header class="article-hero" data-palette="navy">
-      <img src={heroPath} alt="" fetchpriority="high" style={focalPoint && { objectPosition: focalPoint }} />
-      <h1>{frontmatter.title}</h1>
-    </header>
-    <div class="article-content">
-      <slot />
-    </div>
-  </article>
-</Site>
-
-<style>
-  .article-hero {
-    position: relative;
-    isolation: isolate;
-    display: grid;
-    place-items: center;
-    min-height: clamp(13rem, 25vw, 21rem);
-    padding: 2rem 1rem;
-    text-align: center;
-  }
-  .article-hero img {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    height: 100%;
-    object-fit: cover;
-  }
-  .article-hero::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--photo-scrim); }
-  .article-hero h1 { margin: 0; }
-  .article-content {
-    display: grid;
-    grid-template-columns: minmax(var(--gutter), 1fr) minmax(0, var(--reading-width)) minmax(var(--gutter), 1fr);
-    padding-bottom: var(--article-spacing);
-  }
-  .article-content :global(> *) { grid-column: 2; }
-  .article-content :global(> :first-child) { margin-top: var(--article-spacing); }
-  .article-content :global(> :is(.article-band, .article-gallery)) { grid-column: 1 / -1; }
-  .article-content :global(> .article-band) {
-    margin: 0 0 var(--article-spacing);
-    padding: var(--article-spacing) max(var(--gutter), calc((100% - var(--reading-width)) / 2));
-  }
-  .article-content :global(.article-lead) { text-align: center; }
-  .article-content :global(blockquote) { margin: 0; }
-  .article-content :global(.article-lead p:last-child) { margin-bottom: 0; }
-  .article-content :global(> .article-gallery) {
-    width: min(calc(100% - 2 * var(--gutter)), var(--layout-width));
-    margin: 2rem auto 0;
-    padding: 0;
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(0, 1fr);
-    gap: 1rem;
-    list-style: none;
-  }
-  .article-content :global(.article-gallery img) { aspect-ratio: 1; object-fit: cover; }
-  @media (max-width: 42rem) {
-    .article-content :global(> .article-gallery) { grid-auto-flow: row; }
-  }
-</style>
+<PageLayout title={frontmatter.title} width="reading" hero={hero}>
+  <slot />
+</PageLayout>
