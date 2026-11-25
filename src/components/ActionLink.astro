@@ -5,8 +5,3 @@ interface Props {
 const { href } = Astro.props;
 ---
 <p class="text-link"><a href={href}><slot /></a></p>
-
-<style>
-  .text-link a { font-weight: 650; }
-  .text-link a { text-decoration: none; border-bottom: .22rem solid currentColor; padding-bottom: .2rem; }
-</style>

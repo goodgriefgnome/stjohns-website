@@ -21,6 +21,18 @@ body { margin: 0; }
 img { display: block; width: 100%; height: auto; }
 a { color: inherit; text-underline-offset: .2em; }
 a:hover { text-decoration-thickness: .13em; }
+
+/* Emphasis around or inside a link marks an action in authored content. */
+.text-link > a,
+:where(.page-content, .home-page) :is(em > a, a:has(> em)) {
+  font-style: normal;
+  font-weight: 650;
+  text-decoration: none;
+  border-bottom: .22rem solid currentColor;
+  padding-bottom: .2rem;
+}
+
+:where(.page-content, .home-page) a > em { font-style: normal; }
 :focus-visible { outline: .18rem solid var(--focus-ring); outline-offset: .22rem; }
 h1, h2, h3 { line-height: 1.1; text-wrap: balance; margin: 0 0 1rem; }
 h1, h2, h3 { font-family: inherit; font-weight: 750; letter-spacing: -.02em; }
