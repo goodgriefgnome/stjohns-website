@@ -1,21 +1,20 @@
 ---
 import { palettes } from '../lib/palettes.mjs';
 import Site from './Site.astro';
-import heroFocalPoints from '../media/article-hero-focus.json';
 
 interface Props {
   title: string;
   width?: 'standard' | 'reading';
   hero?: string;
+  heroFocus?: [number, number];
   heroSubtitle?: string;
   palette?: typeof palettes[number];
 }
-const { title, width = 'standard', hero, heroSubtitle, palette } = Astro.props;
+const { title, width = 'standard', hero, heroFocus, heroSubtitle, palette } = Astro.props;
 if (palette && !palettes.includes(palette)) throw new Error(`Unknown page palette: ${palette}`);
 const isReading = width === 'reading';
 const Frame = isReading ? 'article' : 'div';
-const focalPoints: Record<string, number[]> = heroFocalPoints;
-const focalPoint = hero && focalPoints[hero]?.map(coordinate => `${coordinate}%`).join(' ');
+const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
 ---
 <Site title={title} photoHeader={Boolean(hero)}>
   <Frame data-palette={palette ?? (isReading ? 'cream' : undefined)}>

@@ -1,6 +1,7 @@
 ---
 title: "Christianity, Art + Culture"
 hero: /media/articles/christianity-art--culture.webp
+heroFocus: [49.7, 46.79]
 palette: white
 ---
 

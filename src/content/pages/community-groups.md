@@ -1,6 +1,7 @@
 ---
 title: "Community Groups"
 hero: /media/articles/community-groups.webp
+heroFocus: [39.12, 19.38]
 palette: white
 ---
 

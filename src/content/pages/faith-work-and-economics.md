@@ -1,6 +1,7 @@
 ---
 title: "Faith, Work and Economics"
 hero: /media/articles/faith-work-and-economics.webp
+heroFocus: [39, 80]
 ---
 
 :::lead

@@ -1,6 +1,7 @@
 ---
 title: "Rough Edges"
 hero: /media/articles/rough-edges-2.webp
+heroFocus: [51.65, 23.59]
 palette: mist
 ---
 
