@@ -1,0 +1,19 @@
+---
+import Page from './Page.astro';
+import ContentSection from '../components/ContentSection.astro';
+
+const { frontmatter } = Astro.props;
+---
+<Page title={frontmatter.title}>
+  <ContentSection>
+    <slot />
+  </ContentSection>
+</Page>
+
+<style is:global>
+  .prose hr {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin-block: 2rem;
+  }
+</style>
