@@ -1,0 +1,232 @@
+---
+import NavigationLinks from './NavigationLinks.astro';
+
+interface Props {
+  home: boolean;
+}
+const { home } = Astro.props;
+const logo = home ? '/media/logo-white.webp' : '/media/logo-dark.webp';
+---
+<header class:list={['site-header', { 'home-header': home }]} data-site-navigation>
+  <div class="header-inner">
+    <a class="brand" href="/"><img src={logo} alt="St John’s Darlinghurst" /></a>
+    <nav class="desktop-nav" aria-label="Main navigation"><NavigationLinks /></nav>
+    <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="navigation-overlay" aria-expanded="false">
+      <span class="hamburger" aria-hidden="true"></span>
+    </button>
+  </div>
+  <dialog id="navigation-overlay" class="navigation-overlay" aria-label="Site navigation">
+    <form method="dialog" class="overlay-controls">
+      <button class="menu-close" aria-label="Close navigation" autofocus>×</button>
+    </form>
+    <nav class="overlay-nav" aria-label="Main navigation"><NavigationLinks overlay /></nav>
+  </dialog>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-navigation]');
+  const row = header?.querySelector<HTMLElement>('.header-inner');
+  const brand = row?.querySelector<HTMLElement>('.brand');
+  const desktop = row?.querySelector<HTMLElement>('.desktop-nav');
+  const toggle = row?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const overlay = header?.querySelector<HTMLDialogElement>('.navigation-overlay');
+
+  if (row && brand && desktop && toggle && overlay) {
+    const disclosures = desktop.querySelectorAll<HTMLDetailsElement>('details');
+
+    function closeSubmenu(group: HTMLDetailsElement) {
+      if (group.contains(document.activeElement) && document.activeElement !== group.querySelector('summary')) {
+        group.querySelector('summary')?.focus();
+      }
+      group.open = false;
+    }
+
+    for (const group of disclosures) {
+      group.addEventListener('pointerenter', event => {
+        if (event.pointerType === 'mouse') {
+          const focused = desktop.querySelector<HTMLDetailsElement>('details[open]:focus-within');
+          if (!focused || focused === group) group.open = true;
+        }
+      });
+      group.addEventListener('pointerleave', event => {
+        if (event.pointerType === 'mouse' && !group.matches(':focus-within')) group.open = false;
+      });
+      group.addEventListener('focusout', event => {
+        if (event.relatedTarget instanceof Node && !group.contains(event.relatedTarget) && !group.matches(':hover')) {
+          group.open = false;
+        }
+      });
+      group.querySelector('summary')?.addEventListener('click', event => {
+        if (event.pointerType === 'mouse' && group.open) event.preventDefault();
+      });
+
+    }
+
+    document.addEventListener('pointerdown', event => {
+      if (event.target instanceof Node && !desktop.contains(event.target)) {
+        for (const group of disclosures) group.open = false;
+      }
+    });
+    desktop.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        for (const group of disclosures) {
+          if (group.open) closeSubmenu(group);
+        }
+      }
+    });
+
+    toggle.addEventListener('click', () => {
+      overlay.showModal();
+      toggle.setAttribute('aria-expanded', 'true');
+    });
+    overlay.addEventListener('close', () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      for (const group of overlay.querySelectorAll<HTMLDetailsElement>('details[open]')) group.open = false;
+    });
+
+    const updateNavigation = () => {
+      row.classList.add('navigation-ready');
+      const gap = Number.parseFloat(getComputedStyle(row).columnGap);
+      const compact = brand.getBoundingClientRect().width + desktop.getBoundingClientRect().width + gap
+        > row.getBoundingClientRect().width;
+      row.classList.toggle('navigation-compact', compact);
+      desktop.inert = compact;
+      if (!compact && overlay.open) {
+        overlay.close();
+        desktop.querySelector('a')?.focus();
+      }
+    };
+
+    const observer = new ResizeObserver(updateNavigation);
+    for (const element of [row, brand, desktop]) observer.observe(element);
+    updateNavigation();
+  }
+</script>
+
+<style>
+  .site-header { background: var(--paper); color: var(--text-default); position: relative; z-index: 2; }
+  .home-header { position: absolute; inset: 0 0 auto; background: transparent; color: var(--paper); }
+  .header-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .75rem 2rem;
+    width: calc(100% - 2.4rem);
+    min-height: 5.65rem;
+    padding-block: 1rem;
+    margin-inline: auto;
+  }
+  .home-header .header-inner { min-height: var(--home-header-height); }
+  .brand { flex: none; }
+  .brand img { width: 3.5rem; }
+  .home-header .brand img { width: 10rem; }
+
+  .desktop-nav {
+    display: flex;
+    flex-wrap: wrap;
+    flex: none;
+    gap: .6rem clamp(.85rem, 3.1vw, 2.4rem);
+    align-items: center;
+    max-width: 100%;
+  }
+  .navigation-ready .desktop-nav { flex-wrap: nowrap; max-width: none; width: max-content; }
+  .navigation-ready { flex-wrap: nowrap; }
+  /* Keep the hidden desktop row measurable as fonts and available space change. */
+  .navigation-compact .desktop-nav {
+    position: absolute;
+    inset-inline-end: 0;
+    visibility: hidden;
+    clip-path: inset(50%);
+  }
+  .desktop-nav :global(> a) { text-decoration: none; }
+  .desktop-nav :global(details) { position: relative; }
+  nav :global(summary) { list-style: none; }
+  nav :global(summary::-webkit-details-marker) { display: none; }
+  .desktop-nav :global(ul) {
+    position: absolute;
+    inset-inline-start: 0;
+    z-index: 1;
+    margin: 0;
+    padding: .65rem;
+    width: min(17rem, 72vw);
+    list-style: none;
+    border-radius: .25rem;
+    background: var(--paper);
+    color: var(--text-default);
+    box-shadow: 0 .2rem 1rem #0003;
+  }
+  .desktop-nav :global([data-align="end"] ul) { inset-inline: auto 0; }
+  .desktop-nav :global(li a) { display: block; padding: .45rem .55rem; text-decoration: none; }
+  .desktop-nav :global(li a:hover), .desktop-nav :global(li a[aria-current]) { background: var(--surface-subtle); }
+
+  .menu-toggle, .menu-close {
+    display: grid;
+    place-items: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: .5rem;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+  .menu-toggle { display: none; }
+  .navigation-compact .menu-toggle { display: grid; }
+  .hamburger, .hamburger::before, .hamburger::after {
+    display: block;
+    width: 1.5rem;
+    height: 2px;
+    background: currentColor;
+  }
+  .hamburger { position: relative; }
+  .hamburger::before, .hamburger::after { position: absolute; content: ''; }
+  .hamburger::before { top: -.4rem; }
+  .hamburger::after { top: .4rem; }
+
+  .navigation-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: var(--gutter);
+    border: 0;
+    overscroll-behavior: contain;
+    background: var(--paper);
+    color: var(--text-default);
+  }
+  :global(html:has(.navigation-overlay[open])) { overflow: hidden; }
+  .overlay-controls { display: flex; justify-content: flex-end; }
+  .menu-close { font-size: 2rem; line-height: 1; }
+  .overlay-nav { max-width: var(--reading-width); margin-inline: auto; }
+  .overlay-nav :global(> a), .overlay-nav :global(summary) {
+    display: block;
+    padding: .75rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 1.125rem;
+    text-decoration: none;
+  }
+  .overlay-nav :global(summary) { display: flex; justify-content: space-between; gap: 1rem; }
+  .overlay-nav :global(summary::after) { content: '+' / ''; }
+  .overlay-nav :global(details[open] > summary::after) { content: '−' / ''; }
+  .overlay-nav :global(ul) { margin: .5rem 0; padding-inline-start: 1rem; list-style: none; }
+  .overlay-nav :global(li a) { display: block; padding-block: .5rem; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .desktop-nav :global(details[open] ul), .navigation-overlay[open] {
+      animation: reveal-menu 160ms ease-out both;
+    }
+  }
+  @keyframes reveal-menu {
+    from { opacity: 0; transform: translateY(-.35rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 56rem) {
+    .home-header .header-inner { min-height: 0; }
+    .home-header .brand img { width: 6rem; }
+  }
+</style>

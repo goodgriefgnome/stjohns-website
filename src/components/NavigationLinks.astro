@@ -1,0 +1,51 @@
+---
+interface Props {
+  overlay?: boolean;
+}
+const { overlay = false } = Astro.props;
+const groups = [
+  { label: 'Connect', links: [
+    { route: '/new', label: 'I Am New' },
+    { route: '/list', label: 'Mailing List' },
+    { route: '/sunday-services', label: 'Sunday Services' },
+    { route: '/childrens-ministry', label: "Children's Ministry" },
+    { route: '/community-groups', label: 'Community Groups' },
+    { route: '/prayer', label: 'Prayer & Pastoral Care' },
+  ] },
+  { label: 'About', links: [
+    { route: '/welcome', label: 'Welcome' },
+    { route: '/about', label: 'About Us' },
+    { route: '/our-team', label: 'Our Team' },
+  ] },
+  { label: 'Truth', links: [
+    { route: '/what-is-christianity', label: 'What Is Christianity?' },
+    { route: '/sermons', label: 'Sermons' },
+    { route: 'https://pod.link/1605851775', label: 'Sermons podcast' },
+  ] },
+  { label: 'Beauty', links: [
+    { route: '/christianity-art--culture', label: 'Christianity, Art + Culture' },
+    { route: '/music-ministry', label: 'Music Ministry + Choir' },
+    { route: '/concert-series', label: 'Twilight Music Series' },
+    { route: '/creatives-collective', label: 'Creatives Collective' },
+  ] },
+  { label: 'Goodness', desktopMenu: 'end', links: [
+    { route: '/serve', label: 'Serve' },
+    { route: '/rough-edges-2', label: 'Rough Edges' },
+    { route: '/671b6dd7-d046-4114-adb8-9cc2ee1ae882', label: 'Banksia Women' },
+    { route: '/christianity--social-concern', label: 'Christianity + Social Concern' },
+    { route: '/faith-work-and-economics', label: 'Faith, Work + Economics' },
+    { route: '/community-pantry', label: 'Community Pantry' },
+  ] },
+];
+---
+<a href="/home">Home</a>
+{groups.map(group => (
+  <details name={overlay ? 'overlay-nav' : 'desktop-nav'} data-align={group.desktopMenu}>
+    <summary>{group.label}</summary>
+    <ul>{group.links.map(link => (
+      <li><a href={link.route} aria-current={Astro.url.pathname === link.route ? 'page' : undefined}>{link.label}</a></li>
+    ))}</ul>
+  </details>
+))}
+<a href="/contact">Contact</a>
+<a href="/give">Give</a>

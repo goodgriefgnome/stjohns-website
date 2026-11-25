@@ -1,42 +1,9 @@
 ---
+import SiteNavigation from '../components/SiteNavigation.astro';
 import church from '../../inputs/church.json';
 import '../styles/site.css';
 import '../styles/palettes.css';
 const { title, home = false } = Astro.props;
-const groups = [
-  { label: 'Connect', links: [
-    { route: '/new', label: 'I Am New' },
-    { route: '/list', label: 'Mailing List' },
-    { route: '/sunday-services', label: 'Sunday Services' },
-    { route: '/childrens-ministry', label: "Children's Ministry" },
-    { route: '/community-groups', label: 'Community Groups' },
-    { route: '/prayer', label: 'Prayer & Pastoral Care' },
-  ] },
-  { label: 'About', compactMenu: 'inset', links: [
-    { route: '/welcome', label: 'Welcome' },
-    { route: '/about', label: 'About Us' },
-    { route: '/our-team', label: 'Our Team' },
-  ] },
-  { label: 'Truth', compactMenu: 'end', links: [
-    { route: '/what-is-christianity', label: 'What Is Christianity?' },
-    { route: '/sermons', label: 'Sermons' },
-    { route: 'https://pod.link/1605851775', label: 'Sermons podcast' },
-  ] },
-  { label: 'Beauty', compactMenu: 'end', links: [
-    { route: '/christianity-art--culture', label: 'Christianity, Art + Culture' },
-    { route: '/music-ministry', label: 'Music Ministry + Choir' },
-    { route: '/concert-series', label: 'Twilight Music Series' },
-    { route: '/creatives-collective', label: 'Creatives Collective' },
-  ] },
-  { label: 'Goodness', compactMenu: 'end', desktopMenu: 'end', links: [
-    { route: '/serve', label: 'Serve' },
-    { route: '/rough-edges-2', label: 'Rough Edges' },
-    { route: '/671b6dd7-d046-4114-adb8-9cc2ee1ae882', label: 'Banksia Women' },
-    { route: '/christianity--social-concern', label: 'Christianity + Social Concern' },
-    { route: '/faith-work-and-economics', label: 'Faith, Work + Economics' },
-    { route: '/community-pantry', label: 'Community Pantry' },
-  ] },
-];
 ---
 <!doctype html>
 <html lang="en-AU">
@@ -48,24 +15,7 @@ const groups = [
   </head>
   <body class:list={{ "is-home": home }}>
     <a class="skip" href="#content">Skip to content</a>
-    <header class="site-header">
-      <div class="wrap header-inner">
-        <a class="brand" href="/"><img src={home ? "/media/logo-white.webp" : "/media/logo-dark.webp"} alt="St John’s Darlinghurst" /></a>
-        <nav aria-label="Main navigation">
-          <a href="/home">Home</a>
-          {groups.map(group => (
-            <details name="main-nav" data-compact-menu={group.compactMenu} data-desktop-menu={group.desktopMenu}>
-              <summary>{group.label}</summary>
-              <ul>{group.links.map(link => (
-                <li><a href={link.route} aria-current={Astro.url.pathname === link.route ? 'page' : undefined}>{link.label}</a></li>
-              ))}</ul>
-            </details>
-          ))}
-          <a href="/contact">Contact</a>
-          <a href="/give">Give</a>
-        </nav>
-      </div>
-    </header>
+    <SiteNavigation home={home} />
     <main id="content"><slot /></main>
     <footer class="site-footer">
       <div class="wrap footer-content">
@@ -86,37 +36,11 @@ const groups = [
   .skip { position: absolute; top: .75rem; left: .75rem; transform: translateY(-200%); z-index: 10; background: white; padding: .5rem; }
   .skip:focus { transform: none; }
   .is-home { --home-header-height: 11rem; }
-  .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .75rem 2rem; padding-block: 1rem; }
-  .brand { display: inline-flex; flex-direction: column; line-height: 1; text-decoration: none; font-size: 1.65rem; }
-  nav { display: flex; gap: .6rem clamp(.85rem, 3.1vw, 2.4rem); align-items: center; flex-wrap: wrap; }
-  nav > a { text-decoration: none; }
-  nav details { position: relative; }
-  nav ul { position: absolute; left: 0; z-index: 4; list-style: none; margin: .45rem 0 0; padding: .65rem; width: min(17rem, 72vw); background: #fff; color: var(--text-default); border-radius: .25rem; box-shadow: 0 .2rem 1rem #0003; }
-  nav li a { display: block; padding: .45rem .55rem; text-decoration: none; }
-  nav li a:hover, nav li a[aria-current] { background: var(--surface-subtle); }
-  .site-header { background: #fff; color: var(--text-default); position: relative; z-index: 2; }
-  .header-inner { width: calc(100% - 2.4rem); max-width: none; min-height: 5.65rem; }
-  .site-header .brand img { width: 3.5rem; }
-  nav summary { list-style: none; }
-  nav summary::-webkit-details-marker { display: none; }
-  nav [data-desktop-menu="end"] ul { left: auto; right: 0; }
-  .is-home .site-header { position: absolute; inset: 0 0 auto; background: transparent; color: white; }
-  .is-home .header-inner { min-height: var(--home-header-height); }
-  .is-home .site-header .brand img { width: 10rem; }
   .footer-social { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.4rem; padding: 0 1rem 2rem; }
   .site-footer { background: var(--text-default); color: #fff; }
   .footer-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; padding-block: 2.5rem; }
   .footer-content h2 { font-size: 1.2rem; }
-  @media (max-width: 56rem) {
-    .is-home .header-inner { min-height: 0; }
-    .is-home .site-header .brand img { width: 6rem; }
-    nav { row-gap: .45rem; }
-  }
   @media (max-width: 42rem) {
-    nav { width: 100%; }
-    nav [data-compact-menu="inset"] ul { left: auto; right: -2rem; }
-    nav ul { max-height: 54vh; overflow-y: auto; }
-    nav [data-compact-menu="end"] ul { left: auto; right: -1rem; }
     .footer-content { grid-template-columns: 1fr; }
   }
 </style>
