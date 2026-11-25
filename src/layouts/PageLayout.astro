@@ -9,11 +9,13 @@ interface Props {
   hero?: string;
   heroSubtitle?: string;
   palette?: typeof palettes[number];
+  prose?: boolean;
 }
-const { title, width, hero, heroSubtitle, palette } = Astro.props;
+const { title, width, hero, heroSubtitle, palette, prose = false } = Astro.props;
 if (palette && !palettes.includes(palette)) throw new Error(`Unknown page palette: ${palette}`);
 const isReading = width === 'reading';
-const Frame = isReading ? 'article' : 'div';
+const usesProseGrid = isReading || prose;
+const Frame = usesProseGrid ? 'article' : 'div';
 const focalPoints: Record<string, number[]> = heroFocalPoints;
 const focalPoint = hero && focalPoints[hero]?.map(coordinate => `${coordinate}%`).join(' ');
 ---
@@ -30,7 +32,7 @@ const focalPoint = hero && focalPoints[hero]?.map(coordinate => `${coordinate}%`
     ) : (
       <div class="title-band"><div class="wrap"><h1>{title}</h1></div></div>
     )}
-    <div class={isReading ? 'article-content' : 'wrap content'}>
+    <div class:list={usesProseGrid ? ['article-content', { 'standard-measure': !isReading }] : ['wrap', 'content']}>
       <slot />
     </div>
   </Frame>
@@ -59,16 +61,18 @@ const focalPoint = hero && focalPoints[hero]?.map(coordinate => `${coordinate}%`
   .article-hero h1 { margin: 0; }
   .hero-subtitle { margin: 1rem 0 0; }
   .article-content {
+    --page-measure: var(--reading-width);
     display: grid;
-    grid-template-columns: minmax(var(--gutter), 1fr) minmax(0, var(--reading-width)) minmax(var(--gutter), 1fr);
+    grid-template-columns: minmax(var(--gutter), 1fr) minmax(0, var(--page-measure)) minmax(var(--gutter), 1fr);
     padding-bottom: var(--article-spacing);
   }
+  .article-content.standard-measure { --page-measure: var(--layout-width); }
   .article-content :global(> *) { grid-column: 2; }
   .article-content :global(> :first-child) { margin-top: var(--article-spacing); }
   .article-content :global(> :is(.article-band, .article-gallery)) { grid-column: 1 / -1; }
   .article-content :global(> .article-band) {
     margin: 0 0 var(--article-spacing);
-    padding: var(--article-spacing) max(var(--gutter), calc((100% - var(--reading-width)) / 2));
+    padding: var(--article-spacing) max(var(--gutter), calc((100% - var(--page-measure)) / 2));
   }
   .article-content :global(> .article-band-wide) {
     padding-inline: max(var(--gutter), calc((100% - var(--layout-width)) / 2));

@@ -1,6 +1,6 @@
 ---
 title: "Stay in touch"
-layout: Article
+hero: /media/articles/list.webp
 palette: white
 ---
 

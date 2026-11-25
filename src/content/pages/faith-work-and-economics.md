@@ -1,6 +1,6 @@
 ---
 title: "Faith, Work and Economics"
-layout: Article
+hero: /media/articles/faith-work-and-economics.webp
 ---
 
 :::lead

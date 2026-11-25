@@ -32,12 +32,10 @@ The architecture spec calls for ordinary Astro components, typed reusable layout
 
 Page routes compose shared layouts, content sections and links. Components and the stylesheet own presentation details. The source snapshots remain local files at build time.
 
-The photo-led Markdown pages use `Article.astro`. The layout looks for the hero photo at `public/media/articles/<page-slug>.webp`. To feature an opening paragraph or quotation, put it between `:::lead` and a line containing only `:::`. To group photos, put ordinary Markdown images between `:::gallery` and `:::`, one per line. The live examples show both patterns.
+Written pages live in `src/content/pages/`. A filename like `about.md` renders at `/about`. Every entry uses `Page.astro`. The optional `hero` field names the public image URL, independently of the content width. To feature an opening paragraph or quotation, put it between `:::lead` and a line containing only `:::`. To group photos, put ordinary Markdown images between `:::gallery` and `:::`, one per line. The live examples show both patterns.
 
 Section palettes use `white`, `mist`, `blue`, `cream`, or `navy`. In Astro, use `<ContentSection palette="navy">`. In Markdown, use `:::section{palette="navy"}` and close the block with `:::`. A lead defaults to navy and also accepts a palette override. Links inherit the section text colour.
 
-`Page.astro` and `Article.astro` share `PageLayout.astro`. Page defaults to the standard content width and a title band, and accepts a `hero` image path. Article defaults to the reading column and the hero path described above. Markdown frontmatter can supply a different `hero` path or use `hero: null` for a title band.
+Collection entries default to a narrow reading column. Add `width: standard` for the regular page width. Omit `hero` for a simple title band. Astro routes that use `Page.astro` directly default to the standard width.
 
 Use `:::section{palette="blue" layout="columns"}` for a row of related items. Each level-three heading starts a column. Use the normal section directive for a full-width colour band with a reading-width body.
-
-In Markdown or MDX frontmatter, use `layout: Page` for the standard layout or `layout: Article` for the reading layout.

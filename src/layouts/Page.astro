@@ -1,16 +1,17 @@
 ---
+import { palettes } from '../lib/palettes.mjs';
 import PageLayout from './PageLayout.astro';
-import ContentSection from '../components/ContentSection.astro';
 
-interface PageOptions {
+interface Props {
   title: string;
+  width?: 'standard' | 'reading';
   hero?: string;
+  heroSubtitle?: string;
+  palette?: typeof palettes[number];
+  prose?: boolean;
 }
-type Props = PageOptions | { frontmatter: PageOptions };
-
-const props = Astro.props;
-const { title, hero } = 'frontmatter' in props ? props.frontmatter : props;
+const { width = 'standard', ...options } = Astro.props;
 ---
-<PageLayout title={title} width="standard" hero={hero}>
-  {'frontmatter' in props ? <ContentSection><slot /></ContentSection> : <slot />}
+<PageLayout width={width} {...options}>
+  <slot />
 </PageLayout>

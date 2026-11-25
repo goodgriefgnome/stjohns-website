@@ -1,6 +1,6 @@
 ---
 title: "Community Groups"
-layout: Article
+hero: /media/articles/community-groups.webp
 palette: white
 ---
 

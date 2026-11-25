@@ -1,6 +1,6 @@
 ---
 title: "About Us"
-layout: Article
+hero: /media/articles/about.webp
 palette: white
 ---
 

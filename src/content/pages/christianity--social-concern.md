@@ -1,6 +1,6 @@
 ---
 title: "Christianity + Social Concern"
-layout: Article
+hero: /media/articles/christianity--social-concern.webp
 ---
 
 :::lead

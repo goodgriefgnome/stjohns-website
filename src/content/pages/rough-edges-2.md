@@ -1,6 +1,6 @@
 ---
 title: "Rough Edges"
-layout: Article
+hero: /media/articles/rough-edges-2.webp
 palette: mist
 ---
 

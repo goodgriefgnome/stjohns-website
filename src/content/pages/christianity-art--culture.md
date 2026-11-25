@@ -1,6 +1,6 @@
 ---
 title: "Christianity, Art + Culture"
-layout: Article
+hero: /media/articles/christianity-art--culture.webp
 palette: white
 ---
 

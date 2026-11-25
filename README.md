@@ -18,7 +18,7 @@ Astro writes the static site to `dist/`. The build reads local files and require
 
 See the [page-by-page representation review](docs/page-representation.md).
 
-- Edit page copy and layout in `src/pages/`. Edit the shared homepage composition in `src/content/home.mdx`. It renders at `/`. The shared navigation lives in `src/layouts/Site.astro`.
+- Edit written pages in `src/content/pages/` and component-driven routes in `src/pages/`. Edit the shared homepage composition in `src/content/home.mdx`. It renders at `/`. The shared navigation lives in `src/layouts/Site.astro`.
 - `inputs/church.json` holds shared contact details and Sunday service times.
 - `inputs/concerts/` contains one dated entry per concert.
 - `inputs/team/` contains one record per team member, with a name, role, biography paragraphs and display order.

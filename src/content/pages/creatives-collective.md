@@ -1,6 +1,6 @@
 ---
 title: "Creatives Collective"
-layout: Article
+hero: /media/articles/creatives-collective.webp
 palette: white
 ---
 

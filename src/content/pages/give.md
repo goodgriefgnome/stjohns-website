@@ -1,6 +1,6 @@
 ---
 title: "\"For all things come from You, and of your own we have given you.\" "
-layout: Article
+hero: /media/articles/give.webp
 heroSubtitle: "1 Chronicles 29:14"
 palette: white
 ---
