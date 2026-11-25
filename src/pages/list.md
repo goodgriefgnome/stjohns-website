@@ -1,6 +1,6 @@
 ---
 title: "Stay in touch"
-layout: ../layouts/Article.astro
+layout: Article
 palette: white
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "Creatives Collective"
-layout: ../layouts/Article.astro
+layout: Article
 palette: white
 ---
 

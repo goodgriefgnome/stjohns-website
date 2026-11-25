@@ -1,6 +1,6 @@
 ---
 title: "Faith, Work and Economics"
-layout: ../layouts/Article.astro
+layout: Article
 ---
 
 :::lead

@@ -1,6 +1,6 @@
 ---
 title: "Christianity, Art + Culture"
-layout: ../layouts/Article.astro
+layout: Article
 palette: white
 ---
 

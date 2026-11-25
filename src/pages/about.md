@@ -1,6 +1,6 @@
 ---
 title: "About Us"
-layout: ../layouts/Article.astro
+layout: Article
 palette: white
 ---
 

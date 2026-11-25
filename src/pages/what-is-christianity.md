@@ -1,6 +1,6 @@
 ---
 title: "What is Christianity?"
-layout: ../layouts/Article.astro
+layout: Article
 ---
 
 > ***It is no good asking for a simple religion. After all, real things are not simple.***\

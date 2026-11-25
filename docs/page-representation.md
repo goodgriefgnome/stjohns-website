@@ -4,7 +4,7 @@ The architecture spec calls for ordinary Astro components, typed reusable layout
 
 | Route | Representation |
 | --- | --- |
-| `/`, `/home` | One MDX homepage composition at `src/content/home.mdx`, shared by both routes. Welcome, ministry invitations, giving and music are authored sections. Shared service times, the calendar and latest sermons render from records. |
+| `/` | MDX homepage composition at `src/content/home.mdx`. Welcome, ministry invitations, giving and music are authored sections. Shared service times, the calendar and latest sermons render from records. |
 | `/new` | Short authored invitation with the shared church email as the contact action. |
 | `/list` | Markdown signup explanation and hosted subscription link. |
 | `/sunday-services` | Authored visitor guidance with the shared weekly service schedule and church email. |
@@ -39,3 +39,5 @@ Section palettes use `white`, `mist`, `blue`, `cream`, or `navy`. In Astro, use 
 `Page.astro` and `Article.astro` share `PageLayout.astro`. Page defaults to the standard content width and a title band, and accepts a `hero` image path. Article defaults to the reading column and the hero path described above. Markdown frontmatter can supply a different `hero` path or use `hero: null` for a title band.
 
 Use `:::section{palette="blue" layout="columns"}` for a row of related items. Each level-three heading starts a column. Use the normal section directive for a full-width colour band with a reading-width body.
+
+In Markdown or MDX frontmatter, use `layout: Page` for the standard layout or `layout: Article` for the reading layout.

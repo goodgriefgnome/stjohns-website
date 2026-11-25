@@ -1,6 +1,6 @@
 ---
 title: "Community Groups"
-layout: ../layouts/Article.astro
+layout: Article
 palette: white
 ---
 

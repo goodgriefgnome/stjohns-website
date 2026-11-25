@@ -1,6 +1,6 @@
 ---
 title: "Christianity + Social Concern"
-layout: ../layouts/Article.astro
+layout: Article
 ---
 
 :::lead

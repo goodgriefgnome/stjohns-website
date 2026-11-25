@@ -1,6 +1,6 @@
 ---
 title: "Rough Edges"
-layout: ../layouts/Article.astro
+layout: Article
 palette: mist
 ---
 
