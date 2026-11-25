@@ -8,5 +8,5 @@ palette: white
 
 Do you need more information as you consider making St John’s your church home?
 
-[Email the church](mailto:hello@stjohnsanglican.org.au)
+[Email the church](mailto:{{email}})
 :::

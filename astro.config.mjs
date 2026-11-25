@@ -2,6 +2,7 @@ import mdx from '@astrojs/mdx';
 import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import articleDirectives from './src/lib/remark-article-directives.mjs';
+import churchTokens from './src/lib/remark-church-tokens.mjs';
 import rehypeBaseLinks from './src/lib/rehype-base-links.mjs';
 
 // GitHub Pages serves the site from a subfolder. The deploy workflow sets these;
@@ -17,7 +18,7 @@ export default defineConfig({
   trailingSlash: 'ignore',
   markdown: {
     processor: unified({
-      remarkPlugins: [articleDirectives],
+      remarkPlugins: [articleDirectives, churchTokens],
       rehypePlugins: [[rehypeBaseLinks, { base }]],
     }),
   },

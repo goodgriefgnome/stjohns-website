@@ -6,7 +6,7 @@ import { palettes } from './lib/palettes.mjs';
 const percent = z.number().min(0).max(100);
 
 const pages = defineCollection({
-  loader: glob({ base: './src/content/pages', pattern: '*.md' }),
+  loader: glob({ base: './src/content/pages', pattern: '*.{md,mdx}' }),
   schema: z.object({
     title: z.string().min(1),
     width: z.enum(['reading', 'standard']).default('reading'),

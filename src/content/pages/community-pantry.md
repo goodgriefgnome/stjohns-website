@@ -17,5 +17,5 @@ Please come and join us for tea, coffee and biscuits. Our Community Pantry offer
 
 *[Check the calendar for pantry dates](/#upcoming-events)*
 
-*[Email for more information](mailto:hello@stjohnsanglican.org.au)*
+*[Email for more information](mailto:{{email}})*
 :::

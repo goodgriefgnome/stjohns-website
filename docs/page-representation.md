@@ -7,6 +7,7 @@ The architecture spec calls for ordinary Astro components, typed reusable layout
 | `/` | MDX homepage composition at `src/content/home.mdx`. Welcome, ministry invitations, giving and music are authored sections. Shared service times, the calendar and latest sermons render from records. |
 | `/new` | Short authored invitation with the shared church email as the contact action. |
 | `/list` | Markdown signup explanation and hosted subscription link. |
+| `/concert-series` | MDX page with authored introduction, the concert program component and a mailing-list link. |
 | `/sunday-services` | Authored visitor guidance with the shared weekly service schedule and church email. |
 | `/childrens-ministry` | Markdown scripture quotation, two alternating image-and-text sections (`layout="media"`) and contact action. |
 | `/community-groups` | Markdown explanation of how groups work and how to ask about joining. The page currently has no named group roster. |
@@ -41,3 +42,7 @@ Collection entries default to a narrow reading column. Add `width: standard` for
 Use `:::section{palette="blue" layout="columns"}` for a row of related items. Each level-three heading starts a column. Use the normal section directive for a full-width colour band with a reading-width body.
 
 In Markdown and MDX, write `*[Plan a visit](/new)*` for a link with the action style. Ordinary links use the standard underline.
+
+To use shared church details in a Markdown page, write a token such as `{{email}}`. The build replaces it with the value from `inputs/church.json`, in text and in link addresses, so `[{{email}}](mailto:{{email}})` makes an email link. Any string key in that file works, for example `{{telephone}}`, `{{telephoneLabel}}`, `{{streetAddress}}` or `{{postalAddress}}`. `{{address}}` gives the full street address, and `{{serviceTimes}}` gives the Sunday times as “10am and 5pm”. It works only in text, not in a link. An unknown token stops the build and lists the valid names. Tokens inside backticks stay as written.
+
+A page that needs a live component, such as the concert program, can be an `.mdx` file in `src/content/pages/`. Import the component under the frontmatter and place it like an HTML tag, for example `<ConcertProgram />`. Directives, action links and tokens work the same as in `.md`. Plain Markdown is still the default, because MDX treats a stray `<` or `{` in prose as code.

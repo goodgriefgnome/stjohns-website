@@ -10,7 +10,7 @@ Prayer is at the centre of everything we do as a church. Our Sunday services are
 :::section{palette="cream"}
 ## What do you need prayer for?
 
-[Email a prayer request](mailto:hello@stjohnsanglican.org.au)
+[Email a prayer request](mailto:{{email}})
 :::
 
 :::section{palette="blue"}
