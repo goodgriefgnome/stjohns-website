@@ -137,3 +137,7 @@ Second outer item.
 - One item that holds a list
 - Still the same item
 :::
+
+---
+
+[:icon[instagram]{style="brands" label="Instagram"}](https://example.org) and :icon[bell]

@@ -1,0 +1,9 @@
+/* Text for screen readers only: it is clipped away to nothing, but is still read aloud. */
+.visually-hidden {
+  position: absolute;
+  inline-size: var(--space-3xs);
+  block-size: var(--space-3xs);
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

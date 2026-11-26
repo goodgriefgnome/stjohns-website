@@ -1,7 +1,7 @@
 ---
 import { withBase } from '../lib/base-path.mjs';
 import SiteNavigation from '../components/SiteNavigation.astro';
-import church from '../../imported/church.json';
+import { getEntry, render } from 'astro:content';
 import '../styles/screen.css';
 import '../../theme/tokens.css';
 import '../../theme/roles.css';
@@ -11,12 +11,17 @@ import '../styles/patterns/section.css';
 import '../styles/patterns/photo-backdrop.css';
 import '../styles/patterns/hero.css';
 import '../styles/patterns/wrap.css';
+import '../styles/patterns/visually-hidden.css';
+import '../styles/patterns/site-footer.css';
 import '../styles/components/action.css';
 import '../styles/components/icon.css';
 import '../styles/components/accordion.css';
 import '../styles/components/date.css';
 import 'virtual:theme-layouts.css';
 import 'virtual:theme-behaviours.css';
+const footer = await getEntry('parts', '_footer');
+if (!footer) throw new Error('content/_footer.md is missing.');
+const { Content: FooterContent } = await render(footer);
 const { title, home = false, photoHeader = false } = Astro.props;
 ---
 <!doctype html>
@@ -32,28 +37,11 @@ const { title, home = false, photoHeader = false } = Astro.props;
     <a class="skip" href="#content">Skip to content</a>
     <SiteNavigation home={home || photoHeader} />
     <main id="content"><slot /></main>
-    <footer class="site-footer" data-palette="navy">
-      <div class="wrap footer-content">
-        <div><h2>Email</h2><a href={`mailto:${church.email}`}>{church.email}</a></div>
-        <div><h2>Call Us</h2><a href={`tel:${church.telephone}`}>{church.telephoneLabel}</a></div>
-        <div><h2>Find Us</h2><a href={church.directionsUrl}>{church.streetAddress}, {church.locality} {church.postcode}</a></div>
-      </div>
-      <div class="footer-social">
-        <a href="https://www.instagram.com/stjohnsdarlinghurst">Instagram</a>
-        <a href="https://www.youtube.com/channel/UC_hFhunnSSLzBTvbNmgjZ9g">YouTube</a>
-        <a href="https://www.facebook.com/stjohnsdarlo/">Facebook</a>
-      </div>
-    </footer>
+    <footer class="site-footer"><FooterContent /></footer>
   </body>
 </html>
 
 <style>
   .skip { position: absolute; top: var(--space-sm); left: var(--space-sm); transform: translateY(-200%); z-index: 10; background: var(--paper); padding: var(--space-2xs); }
   .skip:focus { transform: none; }
-  .footer-social { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-lg); padding: 0 var(--space-sm) var(--section-spacing-small); }
-  .footer-content { display: grid; grid-template-columns: 1fr; gap: var(--space-sm); text-align: center; padding-block: var(--section-spacing-small); }
-  .footer-content h2 { font-size: var(--font-subheading); }
-  @container style(--screen: medium) or style(--screen: wide) {
-    .footer-content { grid-template-columns: repeat(3, 1fr); }
-  }
 </style>

@@ -6,7 +6,7 @@ import { palettes } from '../theme/palettes.mjs';
 const percent = z.number().min(0).max(100);
 
 const pages = defineCollection({
-  loader: glob({ base: './content', pattern: ['*.{md,mdx}', '!index.mdx', '!README.md'] }),
+  loader: glob({ base: './content', pattern: ['*.{md,mdx}', '!index.mdx', '!README.md', '!_*'] }),
   schema: z.object({
     title: z.string().min(1),
     width: z.enum(['reading', 'standard']).default('reading'),
@@ -17,4 +17,9 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { pages };
+// Files starting with _ are parts of the site (the footer), not pages of their own.
+const parts = defineCollection({
+  loader: glob({ base: './content', pattern: '_*.md' }),
+});
+
+export const collections = { pages, parts };

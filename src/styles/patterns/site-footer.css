@@ -1,0 +1,8 @@
+/* The footer is content/_footer.md, drawn as an ordinary section. On top of that:
+   it sets the content width itself (pages get --page-measure from the page grid, the footer is outside it),
+   a row of icon-only links is spaced out, and the last line (the copyright) is small and muted.
+   CSS variables:
+   --page-measure  width of the footer's content (default --layout-width) */
+.site-footer { --page-measure: var(--layout-width); }
+.site-footer .section-inner > p:has(a .icon) { display: flex; justify-content: center; gap: var(--space-lg); margin-top: var(--space-xl); }
+.site-footer .section-inner > p:last-child { margin-top: var(--space-xl); font-size: var(--font-small); color: var(--text-muted); }

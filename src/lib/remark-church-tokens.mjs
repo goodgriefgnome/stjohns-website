@@ -10,6 +10,8 @@ export default function churchTokens({ church = defaultChurch } = {}) {
   // Values that are worked out from church.json rather than copied from it.
   const derived = {
     address: `${church.streetAddress}, ${church.locality} ${church.region} ${church.postcode}`,
+    // The year of the build, in Sydney, for the copyright line.
+    year: new Intl.DateTimeFormat('en-AU', { year: 'numeric', timeZone: 'Australia/Sydney' }).format(new Date()),
   };
 
   // Inboxes are keyed by the part before the @, with the name of whoever reads

@@ -1,3 +1,4 @@
+import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { directiveFromMarkdown } from 'mdast-util-directive';
@@ -8,12 +9,14 @@ import { SKIP, visit } from 'unist-util-visit';
 const iconStyles = new Map([
   ['solid', new Map(Object.values(fas).map(({ iconName, icon }) => [iconName, icon]))],
   ['regular', new Map(Object.values(far).map(({ iconName, icon }) => [iconName, icon]))],
+  ['brands', new Map(Object.values(fab).map(({ iconName, icon }) => [iconName, icon]))],
 ]);
 
 export default function articleDirectives() {
   const data = this.data();
   const { flow, text } = directive();
   const colon = ':'.charCodeAt(0);
+  const openBracket = '['.charCodeAt(0);
   const inline = text[colon];
   (data.micromarkExtensions ??= []).push({
     flow,
@@ -22,7 +25,8 @@ export default function articleDirectives() {
         ...inline,
         previous(code) {
           // A colon inside a reference like John 3:16 starts no directive.
-          const atBoundary = code === null || markdownLineEndingOrSpace(code);
+          // An icon can start a link's text: [:icon[bell]](/x).
+          const atBoundary = code === null || markdownLineEndingOrSpace(code) || code === openBracket;
           return atBoundary && inline.previous.call(this, code);
         },
       },
@@ -48,27 +52,43 @@ export default function articleDirectives() {
 
       const style = node.attributes?.style ?? 'solid';
       const icons = iconStyles.get(style);
-      if (!icons) file.fail(`Unknown icon style "${style}". Choose solid or regular.`, node);
+      if (!icons) file.fail(`Unknown icon style "${style}". Choose solid, regular or brands.`, node);
       const icon = icons.get(label.value);
       if (!icon) file.fail(`Unknown Font Awesome ${style} icon "${label.value}".`, node);
 
       const [width, height, , , paths] = icon;
       const leadsHeading = parent.type === 'heading' && index === 0;
-      node.data = {
-        hName: 'span',
-        hProperties: {
+      const svg = {
+        type: 'element',
+        tagName: 'svg',
+        properties: { viewBox: `0 0 ${width} ${height}`, focusable: 'false' },
+        children: [paths].flat().map(d => ({
+          type: 'element', tagName: 'path', properties: { d }, children: [],
+        })),
+      };
+      const iconSpan = {
+        type: 'element',
+        tagName: 'span',
+        properties: {
           className: ['icon', ...(leadsHeading ? ['icon-heading'] : [])],
           ariaHidden: 'true',
         },
-        hChildren: [{
-          type: 'element',
-          tagName: 'svg',
-          properties: { viewBox: `0 0 ${width} ${height}`, focusable: 'false' },
-          children: [paths].flat().map(d => ({
-            type: 'element', tagName: 'path', properties: { d }, children: [],
-          })),
-        }],
+        children: [svg],
       };
+      // label="..." gives an icon-only link a name for screen readers: the icon stays hidden from them
+      // and the label is read instead (it is hidden on screen).
+      const accessibleName = node.attributes?.label;
+      node.data = accessibleName
+        ? {
+            hName: 'span',
+            hChildren: [iconSpan, {
+              type: 'element',
+              tagName: 'span',
+              properties: { className: ['visually-hidden'] },
+              children: [{ type: 'text', value: accessibleName }],
+            }],
+          }
+        : { hName: iconSpan.tagName, hProperties: iconSpan.properties, hChildren: iconSpan.children };
     });
 
     visit(tree, 'containerDirective', node => {

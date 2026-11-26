@@ -6,4 +6,4 @@
   fill: currentColor;
   vertical-align: var(--icon-drop);
 }
-.icon-heading { display: block; margin-bottom: var(--space-2xs); font-size: var(--font-h3); line-height: 1; }
+.icon-heading { display: block; margin-bottom: var(--space-md); font-size: var(--font-h3); line-height: 1; }

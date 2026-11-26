@@ -147,6 +147,10 @@ It only works as the first line of an item. Anywhere else the build says no.
 
 ---
 
+## Parts of the site
+
+A file whose name starts with an underscore is a part of the site, not a page, so it gets no address of its own. `content/_footer.md` is the footer on every page, written like any page (a section, a columns layout, tokens and icons).
+
 ## Are you new?
 
 Considering St John's…
@@ -197,6 +201,7 @@ Don't type phone numbers, emails or service times into pages. Write a token in d
 |---|---|
 | `{{email}}`, `{{telephone}}`, `{{telephoneLabel}}` | The church email and phone number |
 | `{{streetAddress}}`, `{{locality}}`, `{{postalAddress}}`, `{{address}}` | The address |
+| `{{year}}` | The year the site was built, such as 2026 |
 | `{{serviceTimes}}` | The current Sunday times, such as "10am and 5pm" (text only, not inside a link) |
 | `{{music.email}}`, `{{music.name}}` | Whoever looks after that role. The roles are `rector`, `music`, `children` and `admin`. |
 | `{{richardg.email}}`, `{{neridap.name}}` | A particular person's inbox. The names are listed under `inboxes` in `imported/church.json`. |
@@ -205,7 +210,7 @@ Example: `**[Get in Touch](mailto:{{music.email}})**`.
 
 ## Icons
 
-`:icon[bell]` shows a small Font Awesome icon. Put one at the start of a heading (`### :icon[desktop] Direct Deposit`) and it sits above the heading. Use `:icon[bell]{style="regular"}` for the outline version. The names are at [fontawesome.com/search?ic=free](https://fontawesome.com/search?ic=free).
+`:icon[bell]` shows a small Font Awesome icon. Put one at the start of a heading (`### :icon[desktop] Direct Deposit`) and it sits above the heading. Use `:icon[bell]{style="regular"}` for the outline version. Use `{style="brands"}` for logos such as `:icon[instagram]{style="brands"}`. An icon on its own inside a link has no name for screen readers, so add `label`: `[:icon[instagram]{style="brands" label="Instagram"}](https://www.instagram.com/…)`. The names are at [fontawesome.com/search?ic=free](https://fontawesome.com/search?ic=free).
 
 ## Links and buttons
 
