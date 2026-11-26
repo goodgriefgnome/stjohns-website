@@ -1,0 +1,28 @@
+/* Accordion: each <details> sits between rules, with a chevron that flips open. */
+.page-content {
+  & details { border-top: .19rem solid currentColor; }
+  & details:not(:has(+ details)) { border-bottom: .19rem solid currentColor; }
+  & details > :last-child { margin-bottom: 1.25rem; }
+  & summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 1.1rem;
+    font-weight: 700;
+    list-style: none;
+  }
+  & summary::-webkit-details-marker { display: none; }
+  & summary::after {
+    content: '';
+    flex: none;
+    width: .6rem;
+    height: .6rem;
+    margin-right: .3rem;
+    border: solid currentColor;
+    border-width: 0 .17rem .17rem 0;
+    transform: translateY(-25%) rotate(45deg);
+    transition: transform .2s;
+  }
+  & details[open] summary::after { transform: translateY(25%) rotate(-135deg); }
+}

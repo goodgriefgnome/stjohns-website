@@ -3,9 +3,20 @@ import { withBase } from '../lib/base-path.mjs';
 import SiteNavigation from '../components/SiteNavigation.astro';
 import church from '../../inputs/church.json';
 import '../styles/tokens.css';
-import '../styles/palettes.css';
+import '../styles/roles.css';
 import '../styles/base.css';
-import '../styles/content.css';
+import '../styles/patterns/page-grid.css';
+import '../styles/patterns/band.css';
+import '../styles/patterns/columns.css';
+import '../styles/patterns/cards.css';
+import '../styles/patterns/media.css';
+import '../styles/patterns/gallery.css';
+import '../styles/patterns/photo-backdrop.css';
+import '../styles/patterns/wrap.css';
+import '../styles/components/action.css';
+import '../styles/components/icon.css';
+import '../styles/components/accordion.css';
+import '../styles/components/date.css';
 const { title, home = false, photoHeader = false } = Astro.props;
 ---
 <!doctype html>

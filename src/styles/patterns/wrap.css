@@ -1,0 +1,3 @@
+/* Wrap: centres a block at the layout width, with a gutter either side.
+   No knobs. */
+.wrap { width: var(--wrap-width); margin-inline: auto; }

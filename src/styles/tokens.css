@@ -1,6 +1,7 @@
-/* Design tokens: every colour and shared measurement the site uses, in one place. */
+/* Design tokens: raw values only. Every colour and shared measurement the site uses, named by what it IS.
+   What a value is FOR lives in roles.css. Nothing outside this file should name a raw colour. */
 :root {
-  /* Base colours. Nothing outside this block should name a raw colour. */
+  /* Base colours. */
   --paper: #fff;
   --mist: #f8fafc;
   --slate: #334155;
@@ -11,15 +12,10 @@
   --rule: #dae0e6;
   --rust: #9f5c1b;
 
-  /* What each colour is for. */
-  --text-default: var(--navy);
-  --text-muted: var(--grey);
-  --surface-subtle: var(--mist);
-  --border-subtle: var(--rule);
-  --focus-ring: var(--rust);
-  --hover-tint: #0000000d;
-  --photo-scrim: #0006;
-  --photo-scrim-light: #0005;
+  /* Black at a given strength (percent), for see-through layers. */
+  --black-5: #0000000d;
+  --black-33: #0005;
+  --black-40: #0006;
 
   /* Layout. */
   --layout-width: 74rem;

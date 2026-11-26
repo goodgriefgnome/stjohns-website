@@ -1,0 +1,39 @@
+/* Roles: what the raw values in tokens.css are FOR. Change a role to restyle every place that uses it. */
+:root {
+  /* Normal text. */
+  --text-default: var(--navy);
+  /* Quieter text, e.g. dates. */
+  --text-muted: var(--grey);
+  /* Pale panel background, e.g. the title band. */
+  --surface-subtle: var(--mist);
+  /* Thin lines between things. */
+  --border-subtle: var(--rule);
+  /* Outline shown around whatever has keyboard focus. */
+  --focus-ring: var(--rust);
+  /* Faint darkening when you hover over a menu item. */
+  --hover-tint: var(--black-5);
+  /* Dark see-through layer over photos, so white text stays readable. */
+  --photo-scrim: var(--black-40);
+  /* A lighter version of the photo scrim, for photo cards. */
+  --photo-scrim-light: var(--black-33);
+}
+
+/* Palettes: a band's background, text and button colours.
+   Each palette here must also be listed in src/lib/palettes.mjs (the build checks).
+   Buttons are sky, or navy on a sky band. */
+[data-palette] {
+  --action-bg: var(--sky);
+  --action-text: var(--navy);
+  background-color: var(--section-bg);
+  color: var(--section-text);
+}
+/* white: plain page colour */
+[data-palette="white"] { --section-bg: var(--paper); --section-text: var(--navy); }
+/* mist: a pale grey band for contrast */
+[data-palette="mist"] { --section-bg: var(--mist); --section-text: var(--slate); }
+/* blue: the sky-blue band, with white text and navy buttons */
+[data-palette="blue"] { --section-bg: var(--sky); --section-text: var(--paper); --action-bg: var(--navy); --action-text: var(--paper); }
+/* cream: the default for :::section */
+[data-palette="cream"] { --section-bg: var(--cream); --section-text: var(--navy); }
+/* navy: the default for :::lead, a dark band with white text */
+[data-palette="navy"] { --section-bg: var(--navy); --section-text: var(--paper); }

@@ -1,0 +1,19 @@
+/* Media: an image beside text. data-image="right" puts the image on the right.
+   No knobs yet. */
+.page-content {
+  & .article-media {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: center;
+    gap: clamp(1.5rem, 5vw, 4rem);
+  }
+  & .article-media[data-image='right'] { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  & .article-media[data-image='right'] .media-image { order: 1; }
+  & .media-image img { aspect-ratio: 1; object-fit: cover; }
+
+  @media (max-width: 42rem) {
+    & .article-media,
+    & .article-media[data-image='right'] { grid-template-columns: 1fr; }
+    & .article-media[data-image='right'] .media-image { order: 0; }
+  }
+}
