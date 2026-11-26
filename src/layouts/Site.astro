@@ -29,6 +29,8 @@ const { title, home = false, photoHeader = false } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href={withBase("/favicon-32.png")} type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href={withBase("/apple-touch-icon.png")} />
     <link rel="preload" href={withBase("/fonts/inter-latin.woff2")} as="font" type="font/woff2" crossorigin="anonymous" />
     <meta name="robots" content="noindex, nofollow" />
     <title>{title} | St John’s Darlinghurst</title>
