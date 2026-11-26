@@ -11,8 +11,8 @@
   --page-measure: var(--layout-width);
   padding-top: var(--band-spacing);
 }
-.page-content.standard-measure:has(> .article-band:first-child) { padding-top: 0; }
-.page-content:has(> .article-band:last-child) { padding-bottom: 0; }
+.page-content.standard-measure:has(> .band-outer:first-child) { padding-top: 0; }
+.page-content:has(> .band-outer:last-child) { padding-bottom: 0; }
 .page-content > * { grid-column: 2; }
-.page-content:not(.standard-measure) > :first-child:not(.article-band) { margin-top: var(--band-spacing); }
+.page-content:not(.standard-measure) > :first-child:not(.band-outer) { margin-top: var(--band-spacing); }
 .page-content > h2 { text-align: center; }

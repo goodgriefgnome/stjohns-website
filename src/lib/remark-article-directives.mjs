@@ -145,24 +145,34 @@ export default function articleDirectives() {
             child.children.some(inline => inline.type === 'image'));
           if (imageIndex === -1) file.fail('Put a Markdown image on its own line inside a media section.', node);
           const [image] = node.children.splice(imageIndex, 1);
-          node.children = [
-            { ...image, data: { hName: 'div', hProperties: { className: ['media-image'] } } },
-            { type: 'containerDirective', name: 'media-body', data: { hName: 'div', hProperties: { className: ['media-body'] } }, children: node.children },
-          ];
+          node.children = [{
+            type: 'containerDirective',
+            name: 'media',
+            data: { hName: 'div', hProperties: { className: ['article-media'], 'data-image': imageSide } },
+            children: [
+              { ...image, data: { hName: 'div', hProperties: { className: ['media-image'] } } },
+              { type: 'containerDirective', name: 'media-body', data: { hName: 'div', hProperties: { className: ['media-body'] } }, children: node.children },
+            ],
+          }];
         }
+        // Every band is two boxes: the outer one is measured, the inner one carries --band-size (see band.css).
+        node.children = [{
+          type: 'containerDirective',
+          name: 'band-inner',
+          data: { hName: 'div', hProperties: { className: ['band-inner'] } },
+          children: node.children,
+        }];
         node.data = {
           hName: isLead ? 'div' : 'section',
           hProperties: {
             className: [
-              'article-band',
+              'band-outer',
               ...(isLead ? ['article-lead'] : []),
               ...(['columns', 'cards', 'media'].includes(node.attributes?.layout) ? ['article-band-wide'] : []),
               ...(isCards ? ['article-cards'] : []),
-              ...(imageSide ? ['article-media'] : []),
             ],
             'data-palette': palette,
             ...(alignment && { 'data-align': alignment }),
-            ...(imageSide && { 'data-image': imageSide }),
           },
         };
       }

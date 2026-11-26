@@ -38,6 +38,9 @@ const currentDist = join(work, 'current-dist');
 
 function build(cwd, dist, label) {
   console.log(`Building ${label}…`);
+  // Both builds share node_modules, and Astro's content cache doesn't notice plugin changes, so start clean.
+  rmSync(join(root, 'node_modules/.astro'), { recursive: true, force: true });
+  rmSync(join(cwd, '.astro'), { recursive: true, force: true });
   const result = spawnSync(join(root, 'node_modules/.bin/astro'), ['build', '--outDir', dist], {
     cwd,
     encoding: 'utf8',

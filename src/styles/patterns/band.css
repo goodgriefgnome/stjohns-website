@@ -1,25 +1,34 @@
 /* Bands: full-width stripes of the page, each with its own palette. Bands span every column of the page grid.
+   Every band is two boxes: .band-outer (palette, padding, and the box whose width is measured) and
+   .band-inner inside it (holds the content, and carries --band-size). Always emit both together.
    Knobs:
-   --band-measure  width of the band's content (default --page-measure; --layout-width on wide bands) */
+   --band-measure  width of the band's content (default --page-measure; --layout-width on wide bands)
+   --band-size     set on .band-inner: "wide" once the band's content box is 42rem or more, else unset.
+                   Patterns inside ask it with @container style(--band-size: wide). 42rem equals
+                   --reading-width: change them together. */
 /* Bands run edge to edge, with their content held to the page measure (or the layout width when wide). */
-.article-band {
+.band-outer {
   --band-measure: var(--page-measure);
+  container: band / inline-size;
   grid-column: 1 / -1;
   margin: 0 0 var(--band-spacing);
   padding: var(--band-spacing) max(var(--gutter), calc((100% - var(--band-measure)) / 2));
 }
+@container band (width >= 42rem) {
+  .band-outer > .band-inner { --band-size: wide; }
+}
 .article-band-wide { --band-measure: var(--layout-width); }
-.article-band + .article-band { margin-top: calc(-1 * var(--band-spacing)); }
-.article-band:last-child { margin-bottom: 0; }
-.article-band > :last-child { margin-bottom: 0; }
+.band-outer + .band-outer { margin-top: calc(-1 * var(--band-spacing)); }
+.band-outer:last-child { margin-bottom: 0; }
+.band-inner > :last-child { margin-bottom: 0; }
 
-.article-band > h2,
-:is(.article-lead, .article-center, .article-band[data-align='center']) { text-align: center; }
-.article-band[data-align='left'],
-.article-band[data-align='left'] > h2 { text-align: left; }
+.band-inner > h2,
+:is(.article-lead, .article-center, .band-outer[data-align='center']) { text-align: center; }
+.band-outer[data-align='left'],
+.band-outer[data-align='left'] > .band-inner > h2 { text-align: left; }
 /* :not(:empty) only raises specificity, so these margins beat a child's own (e.g. an actions row). */
-.article-lead > :not(:empty) { max-width: var(--reading-width); margin-inline: auto; }
+.article-lead > .band-inner > :not(:empty) { max-width: var(--reading-width); margin-inline: auto; }
 .article-lead p:last-child { margin-bottom: 0; }
 
 /* A default for images in bands, kept at plain-img specificity so photo cards and square crops override it. */
-:where(.article-band) img { max-height: 30rem; object-fit: contain; }
+:where(.band-outer) img { max-height: 30rem; object-fit: contain; }

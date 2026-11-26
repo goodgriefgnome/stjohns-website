@@ -7,11 +7,7 @@
   gap: var(--gutter);
   margin-top: 2rem;
 }
-.article-band:has(> .section-columns:not(.section-cards)) {
-  container: column-section / inline-size;
-}
-/* Match --reading-width. Size queries measure the band's content box. */
-@container column-section (width >= 42rem) {
+@container style(--band-size: wide) {
   .section-columns:not(.section-cards) {
     grid-template-columns: repeat(var(--column-count), minmax(0, 1fr));
   }

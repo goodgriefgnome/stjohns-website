@@ -100,13 +100,14 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
   .events {
     --line: color-mix(in srgb, currentColor 25%, transparent);
     display: grid;
-    grid-template-columns: 17rem minmax(0, 1fr);
+    grid-template-columns: 1fr;
     gap: clamp(1.5rem, 4vw, 3rem);
     text-align: left;
   }
 
   /* Mini calendar: one month at a time, in a strip that snaps between months. */
   .event-calendar {
+    display: none;
     align-self: start;
     padding: 1rem;
     border: 1px solid var(--line);
@@ -139,7 +140,7 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
   /* The list scrolls inside a box as tall as the calendar beside it. */
   .event-list {
     position: relative;
-    contain: size;
+    max-height: 70vh;
     overflow-y: auto;
     padding-right: .5rem;
   }
@@ -154,10 +155,10 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
   .event p { margin: .15rem 0 0; font-size: var(--font-small); }
   .description { overflow-wrap: anywhere; }
 
-  /* Phones: no mini calendar, and the list gets most of the screen. */
-  @media (max-width: 42rem) {
-    .events { grid-template-columns: 1fr; }
-    .event-calendar { display: none; }
-    .event-list { contain: none; max-height: 70vh; }
+  /* Wide bands add the mini calendar. Narrow ones (phones) skip it and the list gets most of the screen. */
+  @container style(--band-size: wide) {
+    .events { grid-template-columns: 17rem minmax(0, 1fr); }
+    .event-calendar { display: block; }
+    .event-list { contain: size; max-height: none; }
   }
 </style>
