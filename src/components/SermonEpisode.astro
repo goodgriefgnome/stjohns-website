@@ -1,35 +1,75 @@
 ---
 import { withBase } from '../lib/base-path.mjs';
-import { displayDate, safeHref, type Sermon } from '../lib/content';
+import { mainPodcastUrl, serviceName } from '../lib/church.mjs';
+import { displayDate, safeHref, sermons, type Sermon } from '../lib/content';
+import { minutes, seriesSlug, shortDay } from '../lib/sermon-format.mjs';
+import AudioPlayer from './AudioPlayer.astro';
+import SermonFeature from './SermonFeature.astro';
 
+// A sermon's page, as three sections: its details and player (navy), its description (mist), and the rest of its series (blue).
 interface Props {
   sermon: Sermon;
 }
 const { sermon } = Astro.props;
 const audio = safeHref(sermon.audioUrl);
+// Every sermon in the series, oldest first.
+const inSeries = sermons.filter(other => other.series === sermon.series).reverse();
 ---
-  <article class="wrap episode">
-    <p class="episode-date"><time class="date" datetime={sermon.date}>{displayDate(sermon.date)}</time></p>
-    {sermon.artwork && <img class="episode-art" src={withBase(sermon.artwork.src)} alt={sermon.artwork.alt} fetchpriority="high" />}
-    {audio && <audio controls preload="none" src={audio}><a href={audio}>Listen to the recording</a></audio>}
-    <div>
-      <dl class="metadata">
-        <div><dt>Scripture</dt><dd>{sermon.scripture}</dd></div>
-        <div><dt>Series</dt><dd>{sermon.series}</dd></div>
-        <div><dt>Preacher</dt><dd>{sermon.preacher}</dd></div>
+<section class="section-outer" data-palette="navy">
+  <div class="section-inner">
+    <SermonFeature artwork={sermon.artwork}>
+      <p class="when"><time datetime={sermon.date}>{displayDate(sermon.date)}</time> · {serviceName(sermon.service)}</p>
+      <dl class="facts">
+        <div><dt class="label">Passage</dt><dd>{sermon.scripture}</dd></div>
+        <div><dt class="label">Preacher</dt><dd><a href={withBase(`/sermons?preacher=${encodeURIComponent(sermon.preacher)}`)}>{sermon.preacher}</a></dd></div>
+        <div><dt class="label">Series</dt><dd><a href={withBase(`/sermons?series=${seriesSlug(sermon.series)}`)}>{sermon.series}</a></dd></div>
+        <div><dt class="label">Length</dt><dd>{minutes(sermon.durationSeconds)} min</dd></div>
       </dl>
-      {sermon.description.map(paragraph => <p>{paragraph}</p>)}
-      <a href={withBase("/sermons")}>All sermons</a>
-    </div>
-  </article>
+      {audio && <AudioPlayer src={audio} durationSeconds={sermon.durationSeconds} title={sermon.title} artist={sermon.preacher} album={sermon.series} artwork={sermon.artwork?.podcastSrc} />}
+      <p class="links">{audio && <><a href={audio} download>Download MP3</a> · </>}<a href={mainPodcastUrl}>Subscribe to the podcast</a></p>
+    </SermonFeature>
+  </div>
+</section>
+
+<section class="section-outer" data-palette="mist">
+  <div class="section-inner">
+    {sermon.description.map(paragraph => <p>{paragraph}</p>)}
+  </div>
+</section>
+
+<section class="section-outer" data-palette="blue">
+  <div class="section-inner">
+    <h2>More in this series</h2>
+    <ol class="parts" role="list">
+      {inSeries.map((other, index) => (
+        <li>
+          <span class="number">{index + 1}</span>
+          <span class="part">
+            {other.slug === sermon.slug
+              ? <strong>{other.title} (this sermon)</strong>
+              : <a href={withBase(`/episode/${other.slug}`)}>{other.title}</a>}
+            <small>{other.scripture} · {shortDay(other.date)}</small>
+          </span>
+        </li>
+      ))}
+    </ol>
+    <p><a class="action action-bar" href={withBase('/sermons')}>All sermons</a></p>
+  </div>
+</section>
 
 <style>
-  .episode { max-width: var(--reading-width); padding-block: var(--section-spacing); }
-  .episode-date { margin-bottom: var(--space-xl); }
-  .episode-art { margin-bottom: var(--space-lg); }
-  .episode audio { width: 100%; margin-bottom: var(--space-xl); }
-  /* Narrowest a scripture, series or preacher column gets before they wrap. */
-  .metadata { --metadata-column: 9rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--metadata-column), 1fr)); gap: var(--space-sm); margin: 0 0 var(--space-lg); }
-  dt { font-size: var(--font-label); font-weight: var(--weight-label); }
-  dd { margin: 0; }
+  .when { margin: 0 0 var(--space-md); color: var(--text-quiet, var(--text-muted)); }
+  /* Field names beside their values. */
+  .facts { display: grid; grid-template-columns: auto 1fr; gap: var(--space-2xs) var(--space-md); margin: 0 0 var(--space-lg); }
+  .facts div { display: contents; }
+  .facts dt { align-self: center; }
+  .facts dd { margin: 0; }
+  .links { margin: var(--space-2xs) 0 0; font-size: var(--font-small); }
+  /* The series as numbered white cards. */
+  .parts { display: grid; gap: var(--space-2xs); margin: 0 auto var(--space-xl); padding: 0; }
+  .parts li { display: grid; grid-template-columns: var(--space-xl) 1fr; align-items: baseline; gap: var(--space-sm); padding: var(--space-sm); background: var(--paper); color: var(--text-default); }
+  .number { font-weight: var(--weight-title); color: var(--text-muted); text-align: right; }
+  .part { display: grid; justify-items: start; }
+  .part small { font-size: var(--font-small); color: var(--text-muted); }
+  .action { margin: 0; }
 </style>

@@ -4,7 +4,8 @@ width: standard
 ---
 
 import Events from '../src/components/Events.astro';
-import Sermons from '../src/components/Sermons.astro';
+import SermonRows from '../src/components/SermonRows.astro';
+import { sermons } from '../src/lib/content';
 
 ---
 ::hero{images="cycle"}
@@ -126,6 +127,6 @@ St John’s has an archive of your favourite songs on YouTube.
 
 ## Latest sermons
 
-<Sermons />
+<SermonRows sermons={sermons.slice(0, 3)} />
 
 [More about our sermons](/sermons)

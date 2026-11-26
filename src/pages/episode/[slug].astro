@@ -1,7 +1,7 @@
 ---
 import Hero from '../../components/Hero.astro';
 import SermonEpisode from '../../components/SermonEpisode.astro';
-import Site from '../../layouts/Site.astro';
+import Page from '../../layouts/Page.astro';
 import { sermons, type Sermon } from '../../lib/content';
 
 export function getStaticPaths() {
@@ -9,7 +9,7 @@ export function getStaticPaths() {
 }
 const { sermon } = Astro.props as { sermon: Sermon };
 ---
-<Site title={sermon.title} photoHeader>
-  <Hero title={sermon.title} />
+<Page title={sermon.title}>
+  <Hero title={sermon.title} slot="hero" />
   <SermonEpisode sermon={sermon} />
-</Site>
+</Page>
