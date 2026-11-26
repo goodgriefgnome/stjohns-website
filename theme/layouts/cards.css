@@ -1,7 +1,10 @@
-/* Cards: cards side by side, stacked on phones. A picture written first in a card fills the card behind its text; start with ::no-background (or no picture) for a plain card.
+/* Cards: cards side by side, stacked on phones. A picture written first in a card fills the card behind its text; with no picture (or ::no-background) the card is plain. On wide screens the cards line up row by row: the first block, then the middle block, then the last block (usually a button), so they sit level across cards.
    Variables:
      --cards-height  how tall a card is at least (default scales with the screen)
-     --cards-scrim   the dark layer over each photo, so the text stays readable (default --photo-scrim-light) */
+     --cards-scrim   the dark layer over each photo, so the text stays readable (default --photo-scrim-light)
+   Options:
+     align = bottom | top   (where the text sits in the card; bottom is the default)
+     fill = white | mist | blue | cream | navy   (a background colour for every card; the default is none) */
 :scope {
   /* How tall a card is at least. */
   --cards-height: clamp(19rem, 39vw, 29rem);
@@ -19,22 +22,54 @@
   flex-direction: column;
   justify-content: flex-end;
   min-height: var(--cards-height);
-  padding: var(--space-sm);
-  border: var(--line-thin) solid var(--border-subtle);
 }
+:scope[data-align='top'] .layout-item { justify-content: flex-start; }
 .layout-item > :last-child, .layout-body > :last-child { margin-bottom: 0; }
-.layout-body > .actions:last-child { margin-top: auto; }
 .layout-figure { margin-bottom: var(--space-sm); }
 
+/* Colour behind every card. */
+:scope[data-fill] .layout-item, .layout-item:has(> figure:first-child > img) { padding: var(--space-sm); }
+:scope[data-fill='white'] .layout-item { background: var(--paper); }
+:scope[data-fill='mist'] .layout-item { background: var(--mist); }
+:scope[data-fill='cream'] .layout-item { background: var(--cream); }
+:scope[data-fill='blue'] .layout-item { background: var(--sky); color: var(--paper); }
+:scope[data-fill='navy'] .layout-item { background: var(--navy); color: var(--paper); }
+
 /* A leading picture is the card's background: it fills the card, under a dark layer, and the text turns white. */
-.layout-item:has(> figure:first-child > img) { color: var(--paper); border-color: transparent; }
+.layout-item:has(> figure:first-child > img) { color: var(--paper); }
 .layout-item:has(> figure:first-child > img)::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--cards-scrim); }
 .layout-item > figure:first-child { position: absolute; inset: 0; z-index: -2; margin: 0; }
 .layout-item > figure:first-child img { position: absolute; inset: 0; height: 100%; max-height: none; object-fit: cover; }
+/* ::no-background holds the first place and shows nothing. */
+.layout-item > figure:first-child:not(:has(img)) { display: none; }
 
 @container style(--section-size: wide) {
   :scope {
     grid-template-columns: repeat(var(--item-count), minmax(0, 1fr));
+    /* Rows are shared by all the cards: a stretchy empty row on top (text sits at the bottom), then first, middle, last. */
+    grid-template-rows: 1fr auto auto auto;
+    row-gap: 0;
     min-height: var(--cards-height);
   }
+  :scope[data-align='top'] { grid-template-rows: auto 1fr auto; }
+  .layout-item { display: grid; grid-template-rows: subgrid; grid-row: 1 / -1; min-height: 0; }
+  .layout-body { display: contents; }
+  /* Blocks go in the rows by position: first, middle, last. In a card that starts with a picture the first block is inside the body. */
+  .layout-item:has(> figure:first-child) > .layout-body > :nth-child(1) { grid-row: 2; }
+  .layout-item:has(> figure:first-child) > .layout-body > :nth-child(2) { grid-row: 3; }
+  .layout-item:has(> figure:first-child) > .layout-body > :nth-child(3) { grid-row: 4; }
+  .layout-item:not(:has(> figure:first-child)) > :first-child { grid-row: 2; }
+  .layout-item:not(:has(> figure:first-child)) > .layout-body > :nth-child(1) { grid-row: 3; }
+  .layout-item:not(:has(> figure:first-child)) > .layout-body > :nth-child(2) { grid-row: 4; }
+  :scope[data-align='top'] .layout-item:has(> figure:first-child) > .layout-body > :nth-child(1) { grid-row: 1; }
+  :scope[data-align='top'] .layout-item:has(> figure:first-child) > .layout-body > :nth-child(2) { grid-row: 2; }
+  :scope[data-align='top'] .layout-item:has(> figure:first-child) > .layout-body > :nth-child(3) { grid-row: 3; }
+  :scope[data-align='top'] .layout-item:not(:has(> figure:first-child)) > :first-child { grid-row: 1; }
+  :scope[data-align='top'] .layout-item:not(:has(> figure:first-child)) > .layout-body > :nth-child(1) { grid-row: 2; }
+  :scope[data-align='top'] .layout-item:not(:has(> figure:first-child)) > .layout-body > :nth-child(2) { grid-row: 3; }
+  /* More blocks than rows: just stack them from the bottom (or top) of the card. */
+  .layout-item:has(> figure:first-child ~ .layout-body > :nth-child(4)),
+  .layout-item:not(:has(> figure:first-child)):has(> .layout-body > :nth-child(3)) { display: flex; }
+  .layout-item:has(> figure:first-child ~ .layout-body > :nth-child(4)) .layout-body,
+  .layout-item:not(:has(> figure:first-child)):has(> .layout-body > :nth-child(3)) .layout-body { display: block; }
 }

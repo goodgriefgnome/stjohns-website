@@ -65,8 +65,6 @@ Sparing almost no cost, the great architect Edmund Blacket was employed to desig
 
 It quickly became one of the densest, most controversial areas in Sydney—a “red light district” replete with crime, corrupt police, prostitution, drugs, and violence. It also became an enclave for those seeking to escape the mores and strictures of traditional society. In the 21st century Darlinghurst has undergone yet more significant shifts. While retaining much of its edgy and alternative character, it has also seen an influx of young professionals, families, and retirees, all of whom are attracted by its proximity to the CBD, the Harbour, and the nearby beaches.
 
----
-
 ![Historic photograph of St John’s](/media/articles/about-4.webp)
 
 Today the area contains a vibrant mix of ages, socioeconomic conditions, and ideologies. It is a truly unique cultural hub located in the heart of Sydney—a community abuzz with all the hopes and heartbreaks of life in the city.

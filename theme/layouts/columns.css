@@ -1,4 +1,4 @@
-/* Columns: items side by side, one column each, stacked on phones. Each column shows its contents in the order written; on wide screens a column that starts with a heading shares a first row with the others, so the text after it lines up.
+/* Columns: items side by side, one column each, stacked on phones. Nothing is lined up across columns: each column just shows its contents in order. A block with only one item flows its contents into two columns on wide screens, keeping every paragraph whole.
    Variables:
      --columns-gap   space between columns (default --gutter) */
 :scope {
@@ -10,22 +10,14 @@
 }
 .layout-figure { display: grid; gap: var(--space-sm); margin-bottom: var(--space-sm); }
 .layout-item > :last-child, .layout-body > :last-child { margin-bottom: 0; }
-.layout-body { display: flex; flex-direction: column; }
-/* A button row at the end of a column sits at the bottom, level across columns. */
-.layout-body > .actions:last-child { margin-top: auto; }
 
 @container style(--section-size: wide) {
-  :scope {
-    grid-template-columns: repeat(var(--item-count), minmax(0, 1fr));
-    /* A first row for headings, then a stretchy row for everything after them. */
-    grid-auto-rows: auto 1fr;
-  }
-  .layout-item { grid-row: span 2; display: flex; flex-direction: column; }
-  .layout-item:has(> :is(h2, h3, h4, h5, h6):first-child) {
-    display: grid;
-    grid-template-rows: subgrid;
-    row-gap: 0;
-  }
-  .layout-item > :first-child:is(h2, h3, h4, h5, h6) { grid-row: 1; }
-  .layout-item > .layout-body { grid-row: 2; }
+  :scope { grid-template-columns: repeat(var(--item-count), minmax(0, 1fr)); }
+  /* One item on its own: flow it into two balanced columns, never cutting a paragraph, picture or heading in half. */
+  :scope:has(> .layout-item:only-child) { grid-template-columns: minmax(0, 1fr); }
+  :scope:has(> .layout-item:only-child) .layout-item { column-count: 2; column-gap: var(--columns-gap); }
+  :scope:has(> .layout-item:only-child) .layout-body { display: contents; }
+  :scope:has(> .layout-item:only-child) .layout-item > *,
+  :scope:has(> .layout-item:only-child) .layout-body > * { break-inside: avoid; }
+  :scope:has(> .layout-item:only-child) :is(h2, h3, h4, h5, h6) { break-after: avoid; }
 }

@@ -120,8 +120,8 @@ Which layouts exist:
 
 | Layout | What it looks like | Settings |
 |---|---|---|
-| `:::columns` | Items side by side, stacked on phones. Headings line up across the row. | none |
-| `:::cards` | Cards. A picture at the very start of an item is the card's background, behind its text. | none |
+| `:::columns` | Items side by side, stacked on phones. Nothing is lined up across columns. If the block has just one item, its text flows into two columns on wide screens. | none |
+| `:::cards` | Cards. A picture at the very start of a card is its background, behind its text. Headings, text and buttons line up across the cards. | `align="top"` or `"bottom"` (the default): where the text sits. `fill="mist"` (or `white`, `blue`, `cream`, `navy`): a background colour; the default is none. |
 | `:::media` | A picture beside text. One block is one row of two items, the picture and the text, in the order you want on a phone. The picture swaps sides block by block. | `image="left"` or `"right"`: keep the picture on one side |
 | `:::gallery` | A row of square photos. Write it as a list, one photo per item: `- ![…](/media/…)`. | none |
 

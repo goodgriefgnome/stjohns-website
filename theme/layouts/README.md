@@ -30,7 +30,7 @@ The build turns each layout block into this HTML. You never write it, but you st
 
 - **Items are a list** (`ul`/`li`, or `ol` if the author wrote a numbered list), so screen readers announce "list, N items". The base styles already remove the bullets, indents and margins; you never reset them.
 - **Nothing is lifted or moved.** An item's contents stay in the order the author wrote them, and **the order in the Markdown is always the order shown on a narrow screen.** The one exception is a background.
-  - The item's **first block** stays outside `.layout-body`, so a layout can line it up across items (columns do this with headings) or use a leading picture as a background (cards do).
+  - The item's **first block** stays outside `.layout-body`, so a layout can line it up across items or use a leading picture as a background (cards do both).
   - A paragraph that holds only pictures becomes `<figure class="layout-figure" style="--image-count: N">` where it sits, each `img` numbered `--i`. An item can have several figures. Pictures inside a text paragraph stay inline.
   - **Backgrounds:** style `.layout-item > figure:first-child` (for example `position: absolute; inset: 0`). Nothing is declared; an item that doesn't start with a picture just has no background. The author's `::no-background` line makes an empty `<figure class="layout-figure"></figure>` that holds that first place and shows nothing.
 - On the block: `--item-count` is the number of items. On each item: `--i` numbers them from 0.
@@ -145,8 +145,8 @@ Their header comments, so everyone can see every input in one place:
 
 | Layout | Header |
 |---|---|
-| `columns` | Items side by side, one column each, stacked on phones. Each column shows its contents in order; columns that start with a heading share a first row on wide screens. Variables: `--columns-gap`. |
-| `cards` | Photo cards side by side, stacked on phones. A picture that starts an item fills the card behind its text; without one the card is plain. Variables: `--cards-height`, `--cards-scrim`. |
+| `columns` | Items side by side, one column each, stacked on phones. Nothing lines up across columns. A block with one item flows into two columns on wide screens, keeping paragraphs whole. Variables: `--columns-gap`. |
+| `cards` | Cards side by side, stacked on phones. A picture that starts a card fills it behind the text. On wide screens cards line up first block, middle block, last block. Variables: `--cards-height`, `--cards-scrim`. Options: `align = bottom \| top`, `fill = white \| mist \| blue \| cream \| navy`. |
 | `media` | One block is one row of two items, a picture and text; on wide screens it swaps sides block by block. Variables: `--media-gap`. Options: `image = left \| right`. |
 | `gallery` | A row of square photos, stacked on phones. Variables: `--gallery-gap`. |
 
