@@ -21,18 +21,18 @@ St John’s relies on the generosity of its members and community to fund its mi
 :::section{palette="blue" layout="columns" align="center"}
 ## Ways to give
 
-### 🖥️ Direct Deposit
+### :icon[account_balance] Direct Deposit
 
 St John’s Anglican Church\
 BSB: 032 032 · Account: 811 496
 
-### 🔔 Give Online
+### :icon[credit_card] Give Online
 
 Click below to give securely online using your bank or credit card.
 
 **[GIVE ONLINE](https://give.tithe.ly/?formId=534cb90a-6865-11ee-90fc-1260ab546d11&kiosk=true)**
 
-### 🏛️ Cheque
+### :icon[payments] Cheque
 
 Payable to St John’s Church Darlinghurst\
 PO Box 465, Kings Cross NSW 1340

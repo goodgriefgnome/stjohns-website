@@ -39,7 +39,9 @@ Section palettes use `white`, `mist`, `blue`, `cream`, or `navy`. In Astro, use 
 
 Collection entries default to a narrow reading column. Add `width: standard` for the regular page width. Omit `hero` for a simple title band. Astro routes that use `Page.astro` directly default to the standard width.
 
-Use `:::section{palette="blue" layout="columns"}` for a row of related items. Each level-three heading starts a column. To put a small icon above a heading, start the heading with an emoji, as in `### 🍞 Food`. It is drawn in monochrome Noto Emoji, in the section's action colour. Use the normal section directive for a full-width colour band with a reading-width body.
+Use `:::section{palette="blue" layout="columns"}` for a row of related items. Each level-three heading starts a column. Use the normal section directive for a full-width colour band with a reading-width body.
+
+Write `:icon[credit_card]` for a decorative [Material Symbol](https://fonts.google.com/icons). Put it at the start of a heading, as in `### :icon[restaurant] Food`, to show it above the heading. In running text it stays inline, as in `Pay by card :icon[credit_card]`. Start the directive after whitespace or at the beginning of the line. The site serves the full filled Material Symbols Rounded font locally from `public/fonts/`.
 
 Columns stay in one row while the section has at least the site's reading width, then stack in reading order. In rows of heading-led columns and cards, headings, body text, and closing action links line up across the row.
 

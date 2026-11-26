@@ -5,9 +5,14 @@
   font-weight: 100 900;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Material Symbols Rounded';
+  src: url('/fonts/material-symbols-rounded.woff2') format('woff2');
+  font-display: block;
+}
 
 :root {
-  font: 1rem/1.6 Inter, 'Noto Emoji', system-ui, sans-serif;
+  font: 1rem/1.6 Inter, system-ui, sans-serif;
   color: var(--text-default);
   background: var(--paper);
 }
@@ -72,9 +77,18 @@ ul[role="list"] { list-style: none; padding: 0; }
 .action-bar:hover::after { transform: scaleX(0); transform-origin: right; }
 @media (prefers-reduced-motion: reduce) { .action-bar::after { transition: none; } }
 
-/* An emoji that starts a heading in Markdown becomes a small icon above it. */
-.heading-icon { display: block; margin-bottom: .6rem; font: 1.35rem/1 'Noto Emoji', sans-serif; font-variant-emoji: text; color: var(--action-bg, var(--sky)); }
-.heading-icon::before { content: attr(data-icon) / ''; }
+.material-symbol {
+  display: inline-block;
+  font: 1.2em/1 'Material Symbols Rounded', sans-serif;
+  font-feature-settings: 'liga';
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: -.125em;
+}
+.material-symbol::before { content: attr(data-icon); }
+.material-symbol.heading-icon { display: block; margin-bottom: .6rem; font-size: 1.5rem; color: var(--action-bg, var(--sky)); }
 
 /* Text over a photo: the photo fills the box behind the text, under a dark scrim.
    Set --scrim to lighten or darken it. Cards are built by the cards directive. */

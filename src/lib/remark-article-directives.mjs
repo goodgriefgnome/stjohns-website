@@ -1,15 +1,57 @@
 import { directiveFromMarkdown } from 'mdast-util-directive';
 import { directive } from 'micromark-extension-directive';
-import { visit } from 'unist-util-visit';
+import { markdownLineEndingOrSpace } from 'micromark-util-character';
+import { SKIP, visit } from 'unist-util-visit';
 import { palettes } from './palettes.mjs';
 
 export default function articleDirectives() {
   const data = this.data();
-  // Register block syntax only. Inline colons are used in verse references.
-  (data.micromarkExtensions ??= []).push({ flow: directive().flow });
+  const { flow, text } = directive();
+  const colon = ':'.charCodeAt(0);
+  const inline = text[colon];
+  (data.micromarkExtensions ??= []).push({
+    flow,
+    text: {
+      [colon]: {
+        ...inline,
+        previous(code) {
+          // A colon inside a reference like John 3:16 starts no directive.
+          const atBoundary = code === null || markdownLineEndingOrSpace(code);
+          return atBoundary && inline.previous.call(this, code);
+        },
+      },
+    },
+  });
   (data.fromMarkdownExtensions ??= []).push(directiveFromMarkdown());
 
   return (tree, file) => {
+    visit(tree, 'textDirective', (node, index, parent) => {
+      if (node.name !== 'icon') {
+        const { start, end } = node.position;
+        parent.children[index] = {
+          type: 'text',
+          value: file.toString().slice(start.offset, end.offset),
+        };
+        return SKIP;
+      }
+
+      const [label] = node.children;
+      if (node.children.length !== 1 || label?.type !== 'text' || !/^[a-z0-9_]+$/.test(label.value)) {
+        file.fail('Use a Material Symbol name, such as :icon[credit_card].', node);
+      }
+
+      const leadsHeading = parent.type === 'heading' && index === 0;
+      node.data = {
+        hName: 'span',
+        hProperties: {
+          className: ['material-symbol', ...(leadsHeading ? ['heading-icon'] : [])],
+          dataIcon: label.value,
+          ariaHidden: 'true',
+        },
+        hChildren: [],
+      };
+    });
+
     let mediaCount = 0;
     visit(tree, 'containerDirective', node => {
       if (node.name === 'lead' || node.name === 'section') {

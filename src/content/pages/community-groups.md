@@ -16,17 +16,17 @@ At the conclusion of every Sunday service we send everyone out on mission, sayin
 While every group is unique, they all include:
 :::
 
-### 🍞 Food
+### :icon[restaurant] Food
 
 Groups build relationships with one another and embody Christian unity by sharing dinner, nibbles, drinks, or dessert.
 
-### 👤 Reflection
+### :icon[psychology] Reflection
 
-### 🙏 Prayer
+### :icon[folded_hands] Prayer
 
 Each group spends time coming before God in worship, thanksgiving, and petition.
 
-### ❤️ Support
+### :icon[volunteer_activism] Support
 
 Groups act as nuclear families of the church, caring for one another and helping one another in ways both spiritual and practical.
 ::::
