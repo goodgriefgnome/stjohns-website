@@ -13,64 +13,45 @@ palette: white
 If you're planning a visit to St Johns' here's some helpful information.
 :::
 
-<details>
-<summary>What time do you meet?</summary>
+:::accordion
+- What time do you meet?
 
-10am: This is an all-ages worship service in the church, with creche for kids aged 1-3, and Children’s Chapel for kids aged 4-11. We have morning tea together after the service – stay around and get to know us.
+  10am: This is an all-ages worship service in the church, with creche for kids aged 1-3, and Children’s Chapel for kids aged 4-11. We have morning tea together after the service – stay around and get to know us.
 
-5pm: This is a welcoming all-ages worship service, but with a young adult vibe. Every week after the service we share a home-cooked meal together.
+  5pm: This is a welcoming all-ages worship service, but with a young adult vibe. Every week after the service we share a home-cooked meal together.
 
-</details>
+- What happens in your service?
 
-<details>
-<summary>What happens in your service?</summary>
+  Our worship is structured on the Anglican prayer book, allowing it to be both contemporary in feel and ancient in form. Each week we sing, we listen to the Bible read and preached, we pray, and then we come to the table for holy communion. While we make it easy to participate, you will not stand out if you just choose to listen.
 
-Our worship is structured on the Anglican prayer book, allowing it to be both contemporary in feel and ancient in form. Each week we sing, we listen to the Bible read and preached, we pray, and then we come to the table for holy communion. While we make it easy to participate, you will not stand out if you just choose to listen.
+- Where do you meet?
 
-</details>
+  You will find St John's {{streetAddress}} in {{locality}}. You can reach us via car or public transport.
 
-<details>
-<summary>Where do you meet?</summary>
+  By car: There is metered and free street parking available in Darlinghurst, and we also have some on-site parking under the Hammondcare building at 118 Darlinghurst Road. [Please email us](mailto:{{email}}) if you are visiting for the first time and would like us to help you with parking.
 
-You will find St John's {{streetAddress}} in {{locality}}. You can reach us via car or public transport.
+  By public transport: St John’s is a short walk from King’s Cross train station and there are bus stations nearby.
 
-By car: There is metered and free street parking available in Darlinghurst, and we also have some on-site parking under the Hammondcare building at 118 Darlinghurst Road. [Please email us](mailto:{{email}}) if you are visiting for the first time and would like us to help you with parking.
+- Are children welcome?
 
-By public transport: St John’s is a short walk from King’s Cross train station and there are bus stations nearby.
+  Absolutely! Children are always welcome at St John’s. We have a growing children’s ministry. We offer a creche area in the church hall for the really little ones, and kids 4 and up go to Children’s Chapel during the sermon.
 
-</details>
+- What time should I arrive?
 
-<details>
-<summary>Are children welcome?</summary>
+  We start our services on time, so arriving just a few minutes early will allow you to find a seat and get settled.
 
-Absolutely! Children are always welcome at St John’s. We have a growing children’s ministry. We offer a creche area in the church hall for the really little ones, and kids 4 and up go to Children’s Chapel during the sermon.
+- How long does it go for?
 
-</details>
+  Our services typically run for no longer than 75 minutes.
 
-<details>
-<summary>What time should I arrive?</summary>
+- What should I wear?
 
-We start our services on time, so arriving just a few minutes early will allow you to find a seat and get settled.
-
-</details>
-
-<details>
-<summary>How long does it go for?</summary>
-
-Our services typically run for no longer than 75 minutes.
-
-</details>
-
-<details>
-<summary>What should I wear?</summary>
-
-There is no dress code at St John’s. Most people dress casually. Come as you are.
-
-</details>
+  There is no dress code at St John’s. Most people dress casually. Come as you are.
+:::
 ::::
 
-:::section{palette="blue" align="center"}
+:::::section{palette="blue" align="center"}
 ## Need more info?
 
 Email us at [{{email}}](mailto:{{email}}) or fill out our [contact form](/contact).
-:::
+:::::

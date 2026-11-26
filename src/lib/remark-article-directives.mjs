@@ -178,6 +178,25 @@ export default function articleDirectives() {
         };
       }
 
+      if (node.name === 'accordion') {
+        const [list, ...extra] = node.children;
+        if (list?.type !== 'list' || extra.length) {
+          file.fail('An :::accordion holds one list and nothing else. If a paragraph fell out of the list, indent it under its item.', extra[0] ?? list ?? node);
+        }
+        node.data = { hName: 'div', hProperties: { className: ['accordion'] } };
+        node.children = list.children.map(item => {
+          const [title, ...body] = item.children;
+          if (title?.type !== 'paragraph') file.fail('Each accordion item starts with its title as a paragraph.', item);
+          if (!body.length) file.fail('Each accordion item needs body text, indented under its title.', item);
+          return {
+            type: 'containerDirective',
+            name: 'accordion-item',
+            data: { hName: 'details' },
+            children: [{ type: 'paragraph', data: { hName: 'summary' }, children: title.children }, ...body],
+          };
+        });
+      }
+
       if (node.name === 'center') {
         node.data = { hName: 'div', hProperties: { 'data-align': 'center' } };
       }

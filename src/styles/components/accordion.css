@@ -1,8 +1,8 @@
 /* Accordion: each <details> sits between rules, with a chevron that flips open. */
-.page-content details { border-top: .19rem solid currentColor; }
-.page-content details:not(:has(+ details)) { border-bottom: .19rem solid currentColor; }
-.page-content details > :last-child { margin-bottom: 1.25rem; }
-.page-content summary {
+.accordion details { border-top: .19rem solid currentColor; }
+.accordion details:not(:has(+ details)) { border-bottom: .19rem solid currentColor; }
+.accordion details > :last-child { margin-bottom: 1.25rem; }
+.accordion summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -11,8 +11,8 @@
   font-weight: var(--weight-strong);
   list-style: none;
 }
-.page-content summary::-webkit-details-marker { display: none; }
-.page-content summary::after {
+.accordion summary::-webkit-details-marker { display: none; }
+.accordion summary::after {
   content: '';
   flex: none;
   width: .6rem;
@@ -23,4 +23,4 @@
   transform: translateY(-25%) rotate(45deg);
   transition: transform .2s;
 }
-.page-content details[open] summary::after { transform: translateY(25%) rotate(-135deg); }
+.accordion details[open] summary::after { transform: translateY(25%) rotate(-135deg); }
