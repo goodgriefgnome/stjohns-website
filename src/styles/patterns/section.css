@@ -44,7 +44,7 @@
 :where(.section-outer) img { max-height: var(--section-image-max-height); object-fit: contain; }
 
 /* A picture (or a list of pictures) written in a section is a figure, in the place it was written. */
-.section-inner > .layout-figure { margin-bottom: var(--space-sm); }
+.section-inner > .layout-figure:not(:last-child) { margin-bottom: var(--space-sm); }
 /* aspect="7/5": the figure has that shape and every picture fills it, cropped around its focus. */
 .layout-figure[data-aspect] img { height: 100%; max-height: none; object-fit: cover; }
 
@@ -58,4 +58,4 @@
   width: min(100% - 2 * var(--gutter), var(--page-measure));
   margin-inline: auto;
 }
-.section-outer[data-width='full-bleed'] > .section-inner > .layout-figure { max-width: none; }
+.section-outer[data-width='full-bleed'] > .section-inner > .layout-figure { max-width: none; margin-bottom: 0; }
