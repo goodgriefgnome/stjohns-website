@@ -10,9 +10,10 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run check-styles && astro build",
+    "build": "npm run check-styles && npm test && astro build",
     "check-styles": "node scripts/check-styles.mjs",
     "preview": "astro preview",
+    "test": "node --test \"tests/**/*.test.mjs\"",
     "visual-diff": "node scripts/visual-diff.mjs"
   },
   "dependencies": {

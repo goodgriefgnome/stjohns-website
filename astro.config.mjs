@@ -3,6 +3,7 @@ import mdx from '@astrojs/mdx';
 import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import articleDirectives from './src/lib/remark-article-directives.mjs';
+import remarkLayouts from './src/lib/remark-layouts.mjs';
 import churchTokens from './src/lib/remark-church-tokens.mjs';
 import rehypeActions from './src/lib/rehype-actions.mjs';
 import rehypeBaseLinks from './src/lib/rehype-base-links.mjs';
@@ -29,7 +30,7 @@ export default defineConfig({
   trailingSlash: 'ignore',
   markdown: {
     processor: unified({
-      remarkPlugins: [articleDirectives, [churchTokens, { church }]],
+      remarkPlugins: [articleDirectives, remarkLayouts, [churchTokens, { church }]],
       rehypePlugins: [rehypeActions, [rehypeBaseLinks, { base }]],
     }),
   },
