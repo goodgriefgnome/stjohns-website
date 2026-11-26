@@ -23,13 +23,13 @@ a:hover { text-decoration-thickness: .13em; }
 h1, h2, h3 {
   margin: 0 0 1rem;
   font-family: inherit;
-  font-weight: var(--weight-heading);
   line-height: 1.1;
   letter-spacing: -.02em;
   text-wrap: balance;
 }
-h1, h2 { font-size: var(--font-heading); }
-h3 { font-size: var(--font-h3); }
+h1 { font-size: var(--font-title); font-weight: var(--weight-title); }
+h2 { font-size: var(--font-heading); font-weight: var(--weight-heading); }
+h3 { font-size: var(--font-h3); font-weight: var(--weight-heading); }
 p { margin: 0 0 1rem; font-size: var(--font-body); }
 blockquote { margin: 0 }
 summary { cursor: pointer; }

@@ -23,19 +23,23 @@
   --font-label: var(--size-xs);
   /* Button text. */
   --font-button: var(--size-md);
-  /* Headings one step down from a card title, e.g. a month in the events list, footer headings. */
+  /* Footer headings (Email, Call Us, Find Us): labels rather than section headings. */
   --font-subheading: var(--size-xl);
-  /* Small headings, e.g. card titles, and big symbols such as the calendar arrows. */
+  /* Small headings: every ###, e.g. card titles. Also big symbols such as the calendar arrows. */
   --font-h3: var(--size-2xl);
-  /* Main headings (h1 and h2). */
-  --font-heading: var(--size-heading);
+  /* The page title (h1): the biggest heading on the page. */
+  --font-title: var(--size-title);
+  /* Section headings: every ##, wherever it sits (band, column, image beside text, banner). */
+  --font-heading: var(--size-3xl);
   /* Menu links along the top. */
   --font-nav: clamp(var(--size-sm), 1vw, var(--size-xl));
   /* The big tagline on the home page. */
   --font-hero: var(--size-hero);
 
-  /* Headings, and anything that should stand out most, e.g. today in the calendar. */
-  --weight-heading: var(--weight-heavy);
+  /* The page title, and anything that should stand out most, e.g. today in the calendar. */
+  --weight-title: var(--weight-heavy);
+  /* Section headings and small headings (## and ###). */
+  --weight-heading: var(--weight-bold);
   /* Bold text, e.g. accordion titles and calendar days with events. */
   --weight-strong: var(--weight-bold);
   /* Small labels and event titles. */

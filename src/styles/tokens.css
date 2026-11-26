@@ -24,7 +24,8 @@
   --size-lg: 1.125rem;
   --size-xl: 1.25rem;
   --size-2xl: 1.5rem;
-  --size-heading: clamp(1.75rem, 3vw, 2.15rem);
+  --size-3xl: 2.25rem;
+  --size-title: clamp(2.25rem, 4vw, 3rem);
   --size-hero: clamp(1.8rem, 3.15vw, 2.45rem);
   --weight-regular: 400;
   --weight-semibold: 600;

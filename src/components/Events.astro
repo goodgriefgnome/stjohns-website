@@ -135,7 +135,7 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
   .days a::after { content: ''; position: absolute; bottom: .3rem; left: calc(50% - .125rem); width: .25rem; height: .25rem; border-radius: 50%; background: currentColor; }
   .days a:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
   .days .past { opacity: .4; }
-  .days .today :is(a, span) { font-weight: var(--weight-heading); box-shadow: inset 0 0 0 1px currentColor; }
+  .days .today :is(a, span) { font-weight: var(--weight-title); box-shadow: inset 0 0 0 1px currentColor; }
 
   /* The list scrolls inside a box as tall as the calendar beside it. */
   .event-list {
@@ -147,7 +147,7 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
   /* Gaps rather than margins, so groups the script hides leave no space behind. */
   .event-list, .event-month { display: grid; align-content: start; gap: 1.25rem; }
   .event-list { gap: 2rem; }
-  .event-month h3 { margin: 0; font-size: var(--font-subheading); }
+  .event-month h3 { margin: 0; }
   [hidden] { display: none; }
   .event-day h4 { margin: 0; font-size: var(--font-label); font-weight: var(--weight-label); text-transform: uppercase; letter-spacing: .045em; }
   .event { padding: .6rem 0; border-bottom: 1px solid var(--line); }
