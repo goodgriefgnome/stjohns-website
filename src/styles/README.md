@@ -3,8 +3,8 @@
 Files are sorted by **blast radius**: the file you're editing tells you how much of the site the edit can change.
 
 ```
-tokens.css        raw values: colours, the size and weight scales, widths, radii, band spacing, and the --screen flag
-roles.css         what values are FOR (--text-*, --photo-scrim, --font-*, --weight-*) and the five band palettes
+tokens.css        raw values: colours, the size, weight, spacing, line and radius scales, widths, band spacing, and the --screen flag
+roles.css         what values are FOR (--text-*, --photo-scrim, --font-*, --weight-*, hero and menu sizes) and the five band palettes
 base.css          bare element defaults: @font-face, :root, body, img, a, headings, p
 patterns/         layout of the page: page-grid, band, columns, cards, media, gallery, photo-backdrop, wrap
 components/       small pieces: action (buttons), icon, accordion, date
@@ -20,6 +20,17 @@ Imported in that order by `Site.astro`. Astro components that live in one file (
 4. **Flat, low-specificity selectors.** Single classes, no nesting under `.page-content` (only `page-grid.css` and `accordion.css` mention it). Use `:where()` when a default must be easy to override.
 5. **Class prefix tells you the layer.** `band-*`, `cols`/`col`/`cards`, `media`, `gallery`, `page-*` are patterns; `action*`, `icon*`, `accordion`, `date` are components.
 6. **No cascade layers** (decided in 82c5eae; revisit if specificity fights appear).
+
+## Sizes, spacing, lines and corners
+
+- **No loose numbers.** Every length is a token, a role, or a formula built from them. Spacing uses `--space-3xs … --space-xl`, line thickness `--line-thin/medium/thick/bar`, corners `--radius-sm/md/round/pill`. Derived values are written as the formula (`calc(50% - var(--dot-size) / 2)`), never as a constant.
+- A measurement that must stay exact (a button's padding, a drawn size such as the menu button or logo) is a **role** in `roles.css`. A value used by one component only is a **local knob**: a custom property at the top of that component's style block with a one-line comment (`--burger-gap: 9px` in `SiteNavigation.astro`). Custom properties are the only place a raw number may appear outside `tokens.css` and `roles.css`.
+- **Headings are sized by level**, wherever they sit: h1 `--font-title` (the biggest), every `##` `--font-heading`, every `###` `--font-h3`. Don't resize a heading because of where it is; footer headings are the one exception (labels, `--font-subheading`).
+- **Every page has a hero** (`Hero.astro`, class `.hero`): `hero:` front matter, or `defaultHero` in `inputs/church.json`. Don't call it "header", which means the site header (logo and menu).
+
+## Content directives
+
+`:::banner` (a centred band held to the reading width, navy by default), `:::section` (columns, cards, media layouts), `:::center` and `align="center"` (both set `data-align`, one CSS rule), `:::gallery`, and `:::accordion` (one list: first paragraph of each item is the title, the rest is the body).
 
 ## Breakpoints: two questions
 
@@ -50,7 +61,7 @@ Nothing writes a width except `tokens.css` and `band.css`. Ask a named question 
 
 ## Commands
 
-- `npm run check-styles` fails on: a palette missing from `palettes.mjs` or the CSS, a raw colour outside `tokens.css`, a `font-size`/`font-weight` that isn't a `--font-*`/`--weight-*` role (or `inherit`/`1em`), a width query outside `tokens.css`/`band.css`, a `band-outer` with no `band-inner`. It runs at the start of `npm run build`.
+- `npm run check-styles` fails on: a palette missing from `palettes.mjs` or the CSS, a raw colour outside `tokens.css`, a raw length (rem, px, em, vw…) in any property outside `tokens.css`/`roles.css`/custom-property knobs, a `font-size`/`font-weight` that isn't a `--font-*`/`--weight-*` role (or `inherit`/`1em`), a width query outside `tokens.css`/`band.css`, a `band-outer` with no `band-inner`. It runs at the start of `npm run build`.
 - `npm run visual-diff` compares every page (390 and 1280px) against `HEAD` and lists pages that changed. A pure refactor should report none.
 
 ## Glossary
