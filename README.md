@@ -26,3 +26,15 @@ See the [page-by-page representation review](docs/page-representation.md).
 - `inputs/snapshot.json` records the source URLs, capture date and timezone.
 
 Page images are small local copies for the prototype. Sermon playback uses the existing public media URLs. Giving and mailing list signup link to their hosted services. Contact and prayer requests use email links. The prototype has no live import job, admin interface or publication automation.
+
+## Visual diff
+
+Before changing CSS, see exactly which pages a change affects:
+
+```sh
+npm run visual-diff                  # working copy vs HEAD
+npm run visual-diff -- <git-ref>     # working copy vs any commit/branch
+npm run visual-diff -- --out <dir>   # write results somewhere else
+```
+
+It builds the site at the ref (in a temporary git worktree) and from the working copy, screenshots every page (found automatically from the build) at 390px and 1280px, and compares pixel by pixel. "Today" is frozen so Events renders the same in both, animations are off, and extra shots cover the home hero's second photo, the open mobile menu and an open desktop dropdown. It prints changed pages with the share of pixels that differ, and writes `report.txt` plus, for each changed page, `*.compare.png` (before | after | diff) and `*.diff.png` (red highlights) into `.visual-diff/` (git-ignored). Takes about a minute. Uses the Playwright Chromium already installed; no screenshots are ever committed.

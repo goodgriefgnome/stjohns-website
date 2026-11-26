@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "visual-diff": "node scripts/visual-diff.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "7.3.10",
@@ -18,5 +19,9 @@
     "micromark-extension-directive": "4.0.0",
     "micromark-util-character": "2.1.1",
     "unist-util-visit": "5.2.0"
+  },
+  "devDependencies": {
+    "pixelmatch": "^8.0.0",
+    "pngjs": "^7.0.0"
   }
 }
