@@ -1,4 +1,4 @@
-import church from '../../inputs/church.json' with { type: 'json' };
+import church from '../../imported/church.json' with { type: 'json' };
 
 export { church };
 
@@ -6,7 +6,7 @@ export { church };
 // The entry that applies on a date is the latest one whose "from" is on or before it.
 export function serviceTimeOn(service, date, data = church) {
   const history = data.services[service];
-  if (!history) throw new Error(`Unknown service "${service}". Choose ${Object.keys(data.services).join(', ')} (see inputs/church.json).`);
+  if (!history) throw new Error(`Unknown service "${service}". Choose ${Object.keys(data.services).join(', ')} (see imported/church.json).`);
   const entry = history.filter(({ from }) => from <= date).sort((a, b) => a.from.localeCompare(b.from)).at(-1);
   if (!entry) throw new Error(`The ${service} service has no time on ${date}. Its history starts ${history.map(({ from }) => from).sort()[0]}.`);
   return entry.time;

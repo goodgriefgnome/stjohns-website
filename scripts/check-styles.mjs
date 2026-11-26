@@ -1,27 +1,27 @@
 // Style checks, run by `npm run check-styles` (and at the start of `npm run build`).
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { palettes } from '../src/lib/palettes.mjs';
+import { palettes } from '../theme/palettes.mjs';
 
 const problems = [];
 
-// Palettes: the list in palettes.mjs and the [data-palette="name"] rules in src/styles must match.
+// Palettes: the list in palettes.mjs and the [data-palette="name"] rules in theme/ and src/styles must match.
 function cssFiles(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
     e.isDirectory() ? cssFiles(join(dir, e.name)) : e.name.endsWith('.css') ? [join(dir, e.name)] : []);
 }
 const inCss = new Set();
-for (const file of cssFiles('src/styles')) {
+for (const file of [...cssFiles('theme'), ...cssFiles('src/styles')]) {
   for (const [, name] of readFileSync(file, 'utf8').matchAll(/\[data-palette=["']([^"']+)["']\]/g)) inCss.add(name);
 }
 for (const name of palettes) {
-  if (!inCss.has(name)) problems.push(`Palette "${name}" is in palettes.mjs but has no [data-palette="${name}"] rule in src/styles`);
+  if (!inCss.has(name)) problems.push(`Palette "${name}" is in palettes.mjs but has no [data-palette="${name}"] rule in theme/ or src/styles`);
 }
 for (const name of inCss) {
-  if (!palettes.includes(name)) problems.push(`Palette "${name}" has a [data-palette="${name}"] rule in src/styles but is not listed in src/lib/palettes.mjs`);
+  if (!palettes.includes(name)) problems.push(`Palette "${name}" has a [data-palette="${name}"] rule in theme/ or src/styles but is not listed in theme/palettes.mjs`);
 }
 
-// Style rules: scan src/**/*.css and the <style> blocks of src/**/*.astro.
+// Style rules: scan theme/**/*.css, src/**/*.css and the <style> blocks of src/**/*.astro.
 const blank = (text) => text.replace(/[^\n]/g, ' ');
 const allFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
   const path = join(dir, e.name);
@@ -45,7 +45,7 @@ function suggest(prop, length) {
   return Object.entries(STEPS).sort((a, b) => Math.abs(a[1] - rem) - Math.abs(b[1] - rem))[0][0];
 }
 const COLOUR = /#[0-9a-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch)\(|\b(?:white|black|red|green|blue|gray|grey|yellow|orange|purple|pink|brown|navy|teal|silver)\b/i;
-for (const file of allFiles('src')) {
+for (const file of [...allFiles('theme'), ...allFiles('src')]) {
   const name = file.split('/').pop();
   const source = readFileSync(file, 'utf8');
   const blocks = file.endsWith('.css') ? [[0, source]] : [...source.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => [m.index + m[0].indexOf(m[1]), m[1]]);
@@ -72,7 +72,7 @@ for (const file of allFiles('src')) {
       if (loose.length) problems.push(`${where(m.index)}: raw length ${loose.join(', ')} in "${prop}: ${value.trim()}" (use ${suggest(prop, loose[0])}, or a role or knob)`);
     }
     for (const m of css.matchAll(/@(?:media|container)[^{]*\b(?:width|inline-size)\b[^{]*/g)) {
-      if (name !== 'tokens.css' && name !== 'band.css') problems.push(`${where(m.index)}: width query "${m[0].trim()}" (only tokens.css and band.css may have one; ask --screen instead)`);
+      if (name !== 'screen.css' && name !== 'band.css') problems.push(`${where(m.index)}: width query "${m[0].trim()}" (only screen.css and band.css may have one; ask --screen instead)`);
     }
   }
 }

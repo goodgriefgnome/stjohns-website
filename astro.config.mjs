@@ -14,7 +14,7 @@ const base = process.env.SITE_BASE ?? '/';
 
 // Markdown {{tokens}} read this file. Passing its contents to the plugin puts them
 // in the config, and watching it restarts dev, so cached pages refresh on edits.
-const churchFile = new URL('./inputs/church.json', import.meta.url);
+const churchFile = new URL('./imported/church.json', import.meta.url);
 const church = JSON.parse(readFileSync(churchFile, 'utf8'));
 const watchChurch = {
   name: 'watch-church-data',

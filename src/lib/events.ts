@@ -1,5 +1,5 @@
 // The home page's event calendar: which events to show, grouped the way the list and mini calendar need them.
-import snapshot from '../../inputs/snapshot.json';
+import snapshot from '../../imported/snapshot.json';
 import { events, type Event } from './content';
 
 const timeZone = snapshot.timezone;

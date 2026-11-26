@@ -1,12 +1,12 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { palettes } from './lib/palettes.mjs';
+import { palettes } from '../theme/palettes.mjs';
 
 const percent = z.number().min(0).max(100);
 
 const pages = defineCollection({
-  loader: glob({ base: './src/content/pages', pattern: '*.{md,mdx}' }),
+  loader: glob({ base: './content', pattern: ['*.{md,mdx}', '!index.mdx'] }),
   schema: z.object({
     title: z.string().min(1),
     width: z.enum(['reading', 'standard']).default('reading'),

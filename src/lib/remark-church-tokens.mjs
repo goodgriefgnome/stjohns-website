@@ -3,7 +3,7 @@ import { church as defaultChurch, currentServiceTimes, formatServiceTime, listSe
 
 const token = /\{\{\s*([A-Za-z]+(?:\.[A-Za-z]+)?)\s*\}\}/g;
 
-// Replaces {{name}} with a value from inputs/church.json, in text and in link URLs.
+// Replaces {{name}} with a value from imported/church.json, in text and in link URLs.
 // astro.config.mjs passes the data in, so that editing church.json changes the
 // config and the dev server re-renders cached Markdown.
 export default function churchTokens({ church = defaultChurch } = {}) {

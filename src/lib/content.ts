@@ -1,12 +1,12 @@
 import { serviceTimeOn } from './church.mjs';
-import snapshot from '../../inputs/snapshot.json';
+import snapshot from '../../imported/snapshot.json';
 
 export interface Sermon {
   id: string;
   slug: string;
   title: string;
   date: string;
-  /** The service the sermon was recorded at, a key of `services` in inputs/church.json, e.g. "morning". */
+  /** The service the sermon was recorded at, a key of `services` in imported/church.json, e.g. "morning". */
   service: string;
   scripture: string;
   series: string;
@@ -37,9 +37,9 @@ export interface Event {
   registrationUrl: string | null;
 }
 
-export const sermons = Object.values(import.meta.glob<Sermon>('../../inputs/sermons/*.json', { eager: true, import: 'default' }))
+export const sermons = Object.values(import.meta.glob<Sermon>('../../imported/sermons/*.json', { eager: true, import: 'default' }))
   .sort((a, b) => b.date.localeCompare(a.date));
-export const events = Object.values(import.meta.glob<Event>('../../inputs/events/*.json', { eager: true, import: 'default' }))
+export const events = Object.values(import.meta.glob<Event>('../../imported/events/*.json', { eager: true, import: 'default' }))
   .sort((a, b) => Date.parse(a.start) - Date.parse(b.start));
 
 const date = new Intl.DateTimeFormat('en-AU', { dateStyle: 'long', timeZone: snapshot.timezone });

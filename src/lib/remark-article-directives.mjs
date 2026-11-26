@@ -4,7 +4,7 @@ import { directiveFromMarkdown } from 'mdast-util-directive';
 import { directive } from 'micromark-extension-directive';
 import { markdownLineEndingOrSpace } from 'micromark-util-character';
 import { SKIP, visit } from 'unist-util-visit';
-import { palettes } from './palettes.mjs';
+import { palettes } from '../../theme/palettes.mjs';
 
 const iconStyles = new Map([
   ['solid', new Map(Object.values(fas).map(({ iconName, icon }) => [iconName, icon]))],

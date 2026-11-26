@@ -63,14 +63,3 @@
   --band-spacing: clamp(2rem, 6vw, 4rem);
   --band-spacing-small: 2.5rem;
 }
-
-/* Which size of screen we're on, so nothing else needs a width number. Narrow is the default;
-   the queries below switch it up. Ask with a style query, narrow layout first:
-     @container style(--screen: wide) { ... }
-     @container style(--screen: medium) or style(--screen: wide) { ... }   (wider than narrow)
-   narrow: up to 42rem. medium: over 42rem up to 56rem. wide: over 56rem.
-   42rem equals --reading-width: change them together. A style query reads the parent's value, so a
-   rule can't use --screen to style :root itself, which is why --gutter is set here too. */
-:root { --screen: narrow; --gutter: var(--space-sm); }
-@media (width > 42rem) { :root { --screen: medium; --gutter: var(--space-lg); } }
-@media (width > 56rem) { :root { --screen: wide; } }

@@ -1,0 +1,7 @@
+{
+  "name": "stjohns-admin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Placeholder for the admin app (a separate npm workspace). Nothing is built here yet."
+}

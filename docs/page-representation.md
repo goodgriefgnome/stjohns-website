@@ -4,7 +4,7 @@ The architecture spec calls for ordinary Astro components, typed reusable layout
 
 | Route | Representation |
 | --- | --- |
-| `/` | MDX homepage composition at `src/content/home.mdx`. Welcome, ministry invitations, giving and music are authored sections. Shared service times, the calendar and latest sermons render from records. |
+| `/` | MDX homepage composition at `content/index.mdx`. Welcome, ministry invitations, giving and music are authored sections. Shared service times, the calendar and latest sermons render from records. |
 | `/new` | Short authored invitation with the shared church email as the contact action. |
 | `/list` | Markdown signup explanation and hosted subscription link. |
 | `/concert-series` | MDX page with authored introduction, the concert program component and a mailing-list link. |
@@ -33,7 +33,7 @@ The architecture spec calls for ordinary Astro components, typed reusable layout
 
 Page routes compose shared layouts, content sections and links. Components and the stylesheet own presentation details. The source snapshots remain local files at build time.
 
-Written pages live in `src/content/pages/`. A filename like `about.md` renders at `/about`. Every entry uses `Page.astro`. The optional `hero` field names the public image URL, independently of the content width. Use `heroFocus: [39, 80]` to set the horizontal and vertical crop position in percentages from 0 to 100. Omit it for a centred crop. To feature an opening paragraph or quotation, put it between `:::banner` and a line containing only `:::`. To group photos, put ordinary Markdown images between `:::gallery` and `:::`, one per line. The live examples show both patterns. For expandable questions and answers, use `:::accordion` holding one list: each item's first paragraph is the title and the rest, indented under it, is the body.
+Written pages live in `content/`. A filename like `about.md` renders at `/about`. Every entry uses `Page.astro`. The optional `hero` field names the public image URL, independently of the content width. Use `heroFocus: [39, 80]` to set the horizontal and vertical crop position in percentages from 0 to 100. Omit it for a centred crop. To feature an opening paragraph or quotation, put it between `:::banner` and a line containing only `:::`. To group photos, put ordinary Markdown images between `:::gallery` and `:::`, one per line. The live examples show both patterns. For expandable questions and answers, use `:::accordion` holding one list: each item's first paragraph is the title and the rest, indented under it, is the body.
 
 Section palettes use `white`, `mist`, `blue`, `cream`, or `navy`. In Astro, use `<ContentSection palette="navy">`. In Markdown, use `:::section{palette="navy"}` and close the block with `:::`. A banner (a centred band held to the reading width) defaults to navy and also accepts a palette override. Links inherit the section text colour.
 
@@ -49,8 +49,8 @@ Use `##` for a major heading at the page or section level. These headings are ce
 
 In Markdown and MDX, write `*[Plan a visit](/new)*` for a link with the action style. Ordinary links use the standard underline.
 
-To use shared church details in a Markdown page, write a token such as `{{email}}`. The build replaces it with the value from `inputs/church.json`, in text and in link addresses, so `[{{email}}](mailto:{{email}})` makes an email link. Any string key in that file works, for example `{{telephone}}`, `{{telephoneLabel}}`, `{{streetAddress}}` or `{{postalAddress}}`. `{{address}}` gives the full street address, and `{{serviceTimes}}` gives the Sunday times as “10am and 5pm”. It works only in text, not in a link. An unknown token stops the build and lists the valid names. Tokens inside backticks stay as written.
+To use shared church details in a Markdown page, write a token such as `{{email}}`. The build replaces it with the value from `imported/church.json`, in text and in link addresses, so `[{{email}}](mailto:{{email}})` makes an email link. Any string key in that file works, for example `{{telephone}}`, `{{telephoneLabel}}`, `{{streetAddress}}` or `{{postalAddress}}`. `{{address}}` gives the full street address, and `{{serviceTimes}}` gives the Sunday times as “10am and 5pm”. It works only in text, not in a link. An unknown token stops the build and lists the valid names. Tokens inside backticks stay as written.
 
 Staff emails go through roles, so a page asks for whoever does a job, not a named person. In `church.json`, `inboxes` lists each address by the part before the @, with the name of whoever reads it, for example `"samg": "Sam Giddy"`. The domain comes from the church `email`. `roles` maps a job to an inbox, for example `"music": "samg"`. Write `{{music.email}}` or `{{music.name}}` for a role, or `{{samg.email}}` for an inbox. When someone changes job, edit the role, and every page follows. An unknown inbox, role or field stops the build. Dotted tokens do not work in `.mdx` pages, because MDX reads `{a.b}` as code.
 
-A page that needs a live component, such as the concert program, can be an `.mdx` file in `src/content/pages/`. Import the component under the frontmatter and place it like an HTML tag, for example `<ConcertProgram />`. Directives, action links and tokens work the same as in `.md`. Plain Markdown is still the default, because MDX treats a stray `<` or `{` in prose as code.
+A page that needs a live component, such as the concert program, can be an `.mdx` file in `content/`. Import the component under the frontmatter and place it like an HTML tag, for example `<ConcertProgram />`. Directives, action links and tokens work the same as in `.md`. Plain Markdown is still the default, because MDX treats a stray `<` or `{` in prose as code.
