@@ -37,14 +37,19 @@
   & blockquote { margin: 0; }
 
   & .section-columns {
-    --column-min: 14rem;
-    --row-min: calc(var(--column-count) * var(--column-min) + (var(--column-count) - 1) * var(--gutter));
-    /* Any shortfall rounds up to the available width, so every column takes its own row. */
-    --track-min: min(100%, max(var(--column-min), round(up, max(0px, calc(var(--row-min) - 100%)), 100%)));
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(var(--track-min), 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--gutter);
     margin-top: 2rem;
+  }
+  & .article-band:has(> .section-columns:not(.section-cards)) {
+    container: column-section / inline-size;
+  }
+  /* Match --reading-width. Size queries measure the band's content box. */
+  @container column-section (width >= 42rem) {
+    & .section-columns:not(.section-cards) {
+      grid-template-columns: repeat(var(--column-count), minmax(0, 1fr));
+    }
   }
   & .section-columns > .section-column {
     display: grid;
@@ -137,7 +142,7 @@
 
   @media (max-width: 42rem) {
     & > .article-gallery { grid-auto-flow: row; }
-    & :is(.section-columns-explicit, .section-cards) { grid-template-columns: 1fr; }
+    & .section-cards { grid-template-columns: 1fr; }
     & .section-cards > .section-column { display: flex; grid-row: auto; }
     & .article-media,
     & .article-media[data-image='right'] { grid-template-columns: 1fr; }

@@ -45,7 +45,6 @@ export default function articleDirectives() {
               hProperties: {
                 className: [
                   'section-columns',
-                  ...(hasExplicitColumns ? ['section-columns-explicit'] : []),
                   ...(isCards ? ['section-cards'] : []),
                 ],
                 style: `--column-count: ${columns.length}`,
