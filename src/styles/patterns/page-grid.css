@@ -1,18 +1,18 @@
 /* The page column grid in Page.astro: a centred reading column with a gutter either side.
    Knobs:
-   --page-measure  width of the content column (default --reading-width; --layout-width with .standard-measure) */
+   --page-measure  width of the content column (default --reading-width; --layout-width with .page-wide) */
 .page-content {
   --page-measure: var(--reading-width);
   display: grid;
   grid-template-columns: minmax(var(--gutter), 1fr) minmax(0, var(--page-measure)) minmax(var(--gutter), 1fr);
   padding-bottom: var(--band-spacing);
 }
-.page-content.standard-measure {
+.page-content.page-wide {
   --page-measure: var(--layout-width);
   padding-top: var(--band-spacing);
 }
-.page-content.standard-measure:has(> .band-outer:first-child) { padding-top: 0; }
+.page-content.page-wide:has(> .band-outer:first-child) { padding-top: 0; }
 .page-content:has(> .band-outer:last-child) { padding-bottom: 0; }
 .page-content > * { grid-column: 2; }
-.page-content:not(.standard-measure) > :first-child:not(.band-outer) { margin-top: var(--band-spacing); }
+.page-content:not(.page-wide) > :first-child:not(.band-outer) { margin-top: var(--band-spacing); }
 .page-content > h2 { text-align: center; }

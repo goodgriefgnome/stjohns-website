@@ -48,7 +48,7 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
                 {when && <p>{when}</p>}
                 {event.location && <p>{event.location}</p>}
                 {describes(event) && <p class="description">{event.description}</p>}
-                {register && <p class="event-links"><a href={withBase(register)}>Register</a></p>}
+                {register && <p><a href={withBase(register)}>Register</a></p>}
               </article>;
             })}
           </section>

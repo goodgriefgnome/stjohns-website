@@ -26,13 +26,13 @@ const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
         <img src={withBase(hero)} alt="" fetchpriority="high" style={focalPoint && { objectPosition: focalPoint }} />
         <div>
           <h1>{title}</h1>
-          {heroSubtitle && <p class="hero-subtitle">{heroSubtitle}</p>}
+          {heroSubtitle && <p>{heroSubtitle}</p>}
         </div>
       </header>
     ) : (
       <div class="title-band"><div class="wrap"><h1>{title}</h1></div></div>
     )}
-    <div class:list={['page-content', { 'standard-measure': !isReading }]}>
+    <div class:list={['page-content', { 'page-wide': !isReading }]}>
       <slot />
     </div>
   </Frame>

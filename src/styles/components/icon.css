@@ -1,8 +1,8 @@
 /* Markdown icons (:icon[name]): a Font Awesome inline SVG that takes the text colour. */
-.content-icon svg {
+.icon svg {
   inline-size: 1em;
   block-size: 1em;
   fill: currentColor;
   vertical-align: -.125em;
 }
-.heading-icon { display: block; margin-bottom: .6rem; font-size: var(--font-h3); line-height: 1; }
+.icon-heading { display: block; margin-bottom: .6rem; font-size: var(--font-h3); line-height: 1; }

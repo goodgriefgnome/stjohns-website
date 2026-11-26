@@ -1,6 +1,6 @@
 /* Media: an image beside text. data-image="right" puts the image on the right.
    No knobs yet. */
-.article-media {
+.media {
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
@@ -10,7 +10,7 @@
 .media-body > :last-child { margin-bottom: 0; }
 
 @container style(--band-size: wide) {
-  .article-media { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
-  .article-media[data-image='right'] { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
-  .article-media[data-image='right'] .media-image { order: 1; }
+  .media { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+  .media[data-image='right'] { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  .media[data-image='right'] .media-image { order: 1; }
 }

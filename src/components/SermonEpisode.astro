@@ -13,7 +13,7 @@ const audio = safeHref(sermon.audioUrl);
     <p class="episode-date"><time class="date" datetime={sermon.date}>{displayDate(sermon.date)}</time></p>
     {sermon.artwork && <img class="episode-art" src={withBase(sermon.artwork.src)} alt={sermon.artwork.alt} fetchpriority="high" />}
     {audio && <audio controls preload="none" src={audio}><a href={audio}>Listen to the recording</a></audio>}
-    <div class="prose">
+    <div>
       <dl class="metadata">
         <div><dt>Scripture</dt><dd>{sermon.scripture}</dd></div>
         <div><dt>Series</dt><dd>{sermon.series}</dd></div>

@@ -1,26 +1,26 @@
 /* Columns: side-by-side text columns inside a band.
    Knobs:
    --column-count  number of columns once the band is wide enough (set by the directive) */
-.section-columns {
+.cols {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--gutter);
   margin-top: 2rem;
 }
 @container style(--band-size: wide) {
-  .section-columns:not(.section-cards) {
+  .cols:not(.cards) {
     grid-template-columns: repeat(var(--column-count), minmax(0, 1fr));
   }
 }
-.section-columns > .section-column {
+.cols > .col {
   display: grid;
   grid-template-rows: subgrid;
   grid-row: span 2;
   row-gap: 0;
 }
-.column-body {
+.col-body {
   display: flex;
   flex-direction: column;
 }
-.column-body > :last-child { margin-bottom: 0; }
-.column-body > .actions:last-child { margin-top: auto; }
+.col-body > :last-child { margin-bottom: 0; }
+.col-body > .actions:last-child { margin-top: auto; }

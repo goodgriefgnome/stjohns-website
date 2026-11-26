@@ -3,16 +3,16 @@
    --column-count  number of cards across (set by the directive)
    --card-height   minimum card height
    --scrim         darkness of the layer over each photo (see photo-backdrop.css) */
-.article-cards { text-align: center; }
-.article-cards > .band-inner > :not(.section-cards) { max-width: var(--reading-width); margin-inline: auto; }
-.article-cards[data-align] > .band-inner > .section-cards { text-align: inherit; }
-.section-cards {
+.band-cards { text-align: center; }
+.band-cards > .band-inner > :not(.cards) { max-width: var(--reading-width); margin-inline: auto; }
+.band-cards[data-align] > .band-inner > .cards { text-align: inherit; }
+.cards {
   --card-height: clamp(19rem, 39vw, 29rem);
   grid-template-columns: 1fr;
   gap: 1rem;
   text-align: left;
 }
-.section-cards > div {
+.cards > div {
   --scrim: var(--photo-scrim-light);
   display: flex;
   flex-direction: column;
@@ -21,18 +21,18 @@
   padding: 1.1rem;
   color: var(--paper);
 }
-.section-cards > div > :last-child { margin-bottom: 0; }
-.section-cards p:has(> img:only-child) { margin: 0; }
-.section-cards > .section-column { display: flex; grid-row: auto; }
+.cards > div > :last-child { margin-bottom: 0; }
+.cards p:has(> img:only-child) { margin: 0; }
+.cards > .col { display: flex; grid-row: auto; }
 
 @container style(--band-size: wide) {
-  .section-cards { grid-template-columns: repeat(var(--column-count), minmax(0, 1fr)); }
+  .cards { grid-template-columns: repeat(var(--column-count), minmax(0, 1fr)); }
   /* The shared first row leaves room above the copy on the photo cards. */
-  .section-cards:has(> .section-column) {
+  .cards:has(> .col) {
     min-height: var(--card-height);
     grid-auto-rows: 1fr auto auto;
   }
-  .section-cards > .section-column { display: grid; grid-row: span 3; }
-  .section-cards > .section-column > h3 { grid-row: 2; }
-  .section-cards .column-body { grid-row: 3; }
+  .cards > .col { display: grid; grid-row: span 3; }
+  .cards > .col > h3 { grid-row: 2; }
+  .cards .col-body { grid-row: 3; }
 }

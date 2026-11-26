@@ -1,6 +1,6 @@
 /* Gallery: a row of square photos (a column each on narrow screens). It spans every column of the page grid.
    No knobs yet. */
-.article-gallery {
+.gallery {
   grid-column: 1 / -1;
   display: grid;
   grid-auto-columns: minmax(0, 1fr);
@@ -8,8 +8,8 @@
   width: var(--wrap-width);
   margin: 2rem auto 0;
 }
-.article-gallery img { aspect-ratio: 1; object-fit: cover; }
+.gallery img { aspect-ratio: 1; object-fit: cover; }
 
 @container style(--screen: medium) or style(--screen: wide) {
-  .article-gallery { grid-auto-flow: column; }
+  .gallery { grid-auto-flow: column; }
 }

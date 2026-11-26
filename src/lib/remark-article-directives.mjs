@@ -58,7 +58,7 @@ export default function articleDirectives() {
       node.data = {
         hName: 'span',
         hProperties: {
-          className: ['content-icon', ...(leadsHeading ? ['heading-icon'] : [])],
+          className: ['icon', ...(leadsHeading ? ['icon-heading'] : [])],
           ariaHidden: 'true',
         },
         hChildren: [{
@@ -106,8 +106,8 @@ export default function articleDirectives() {
               hName: 'div',
               hProperties: {
                 className: [
-                  'section-columns',
-                  ...(isCards ? ['section-cards'] : []),
+                  'cols',
+                  ...(isCards ? ['cards'] : []),
                 ],
                 style: `--column-count: ${columns.length}`,
               },
@@ -118,11 +118,11 @@ export default function articleDirectives() {
               return {
                 type: 'containerDirective',
                 name: 'column',
-                data: { hName: 'div', hProperties: { className: [...(hasHeading ? ['section-column'] : []), ...(isCards ? ['photo-backdrop'] : [])] } },
+                data: { hName: 'div', hProperties: { className: [...(hasHeading ? ['col'] : []), ...(isCards ? ['photo-backdrop'] : [])] } },
                 children: hasHeading ? [heading, {
                   type: 'containerDirective',
-                  name: 'column-body',
-                  data: { hName: 'div', hProperties: { className: ['column-body'] } },
+                  name: 'col-body',
+                  data: { hName: 'div', hProperties: { className: ['col-body'] } },
                   children: body,
                 }] : children,
               };
@@ -148,7 +148,7 @@ export default function articleDirectives() {
           node.children = [{
             type: 'containerDirective',
             name: 'media',
-            data: { hName: 'div', hProperties: { className: ['article-media'], 'data-image': imageSide } },
+            data: { hName: 'div', hProperties: { className: ['media'], 'data-image': imageSide } },
             children: [
               { ...image, data: { hName: 'div', hProperties: { className: ['media-image'] } } },
               { type: 'containerDirective', name: 'media-body', data: { hName: 'div', hProperties: { className: ['media-body'] } }, children: node.children },
@@ -167,9 +167,9 @@ export default function articleDirectives() {
           hProperties: {
             className: [
               'band-outer',
-              ...(isLead ? ['article-lead'] : []),
-              ...(['columns', 'cards', 'media'].includes(node.attributes?.layout) ? ['article-band-wide'] : []),
-              ...(isCards ? ['article-cards'] : []),
+              ...(isLead ? ['band-lead'] : []),
+              ...(['columns', 'cards', 'media'].includes(node.attributes?.layout) ? ['band-wide'] : []),
+              ...(isCards ? ['band-cards'] : []),
             ],
             'data-palette': palette,
             ...(alignment && { 'data-align': alignment }),
@@ -178,7 +178,7 @@ export default function articleDirectives() {
       }
 
       if (node.name === 'center') {
-        node.data = { hName: 'div', hProperties: { className: ['article-center'] } };
+        node.data = { hName: 'div', hProperties: { className: ['band-center'] } };
       }
 
       if (node.name === 'gallery') {
@@ -189,7 +189,7 @@ export default function articleDirectives() {
         if (!images.length || images.some(image => image.type !== 'image')) {
           file.fail('Use Markdown images inside :::gallery.', node);
         }
-        node.data = { hName: 'ul', hProperties: { className: ['article-gallery'], role: 'list' } };
+        node.data = { hName: 'ul', hProperties: { className: ['gallery'], role: 'list' } };
         node.children = images.map(image => ({
           type: 'paragraph',
           data: { hName: 'li' },
