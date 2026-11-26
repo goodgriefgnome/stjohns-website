@@ -4,6 +4,10 @@
   --text-default: var(--navy);
   /* Quieter text, e.g. dates. */
   --text-muted: var(--grey);
+  /* Text a step quieter than the section's own text, e.g. field labels and dates on a dark section where grey (--text-muted) is too faint. Each palette's section text colour at reduced strength. */
+  --text-quiet-strength: 80%;
+  /* The empty part of a progress bar (the audio player's slider): the text colour at low strength. */
+  --bar-track: color-mix(in srgb, currentColor 25%, transparent);
   /* Thin lines between things. */
   --border-subtle: var(--rule);
   /* Outline shown around whatever has keyboard focus. */
@@ -101,6 +105,7 @@
   --action-bg: var(--sky);
   --action-text: var(--paper);
   --accent: var(--sky);
+  --text-quiet: color-mix(in srgb, var(--section-text) var(--text-quiet-strength), transparent);
   background-color: var(--section-bg);
   color: var(--section-text);
 }

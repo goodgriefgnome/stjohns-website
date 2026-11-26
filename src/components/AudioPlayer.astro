@@ -1,0 +1,146 @@
+---
+import { withBase } from '../lib/base-path.mjs';
+import { clock } from '../lib/sermon-format.mjs';
+
+// A compact player for a sermon's audio. Without JavaScript the browser's own player shows;
+// with it, the script below swaps that for a round play button, the time, a thin position bar and the length.
+interface Props {
+  src: string;
+  durationSeconds: number;
+  title: string;
+  /** Shown on the phone's lock screen. */
+  artist: string;
+  album: string;
+  /** Square artwork for the lock screen, a path starting with "/". */
+  artwork?: string;
+}
+const { src, durationSeconds, title, artist, album, artwork } = Astro.props;
+---
+<div class="player" data-player data-title={title} data-artist={artist} data-album={album} data-artwork={artwork && withBase(artwork)}>
+  <audio controls preload="none" src={src}></audio>
+  <div class="controls" hidden>
+    <button type="button" class="play" aria-label="Play">
+      <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9.5-5.5z" fill="currentColor" /></svg>
+      <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 2.5h3.5v11H3.5zM9 2.5h3.5v11H9z" fill="currentColor" /></svg>
+    </button>
+    <span class="time elapsed">0:00</span>
+    <input class="slider" type="range" min="0" max={durationSeconds} step="1" value="0" aria-label="Position" />
+    <span class="time total">{clock(durationSeconds)}</span>
+  </div>
+</div>
+
+<script>
+  import { clock } from '../lib/sermon-format.mjs';
+
+  const audios: HTMLAudioElement[] = [];
+  for (const player of document.querySelectorAll<HTMLElement>('[data-player]')) {
+    const audio = player.querySelector('audio')!;
+    const controls = player.querySelector<HTMLElement>('.controls')!;
+    const button = player.querySelector<HTMLButtonElement>('.play')!;
+    const elapsed = player.querySelector<HTMLElement>('.elapsed')!;
+    const total = player.querySelector<HTMLElement>('.total')!;
+    const slider = player.querySelector<HTMLInputElement>('.slider')!;
+    audios.push(audio);
+
+    // Take over from the browser's own player.
+    audio.removeAttribute('controls');
+    controls.hidden = false;
+
+    const show = () => {
+      const length = Number(slider.max) || 1;
+      slider.value = String(Math.floor(audio.currentTime));
+      slider.style.setProperty('--played', String(audio.currentTime / length));
+      slider.setAttribute('aria-valuetext', `${clock(audio.currentTime)} of ${clock(length)}`);
+      elapsed.textContent = clock(audio.currentTime);
+    };
+    const showPlaying = (playing: boolean) => {
+      player.toggleAttribute('data-playing', playing);
+      button.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    };
+
+    button.addEventListener('click', () => { if (audio.paused) audio.play(); else audio.pause(); });
+    slider.addEventListener('input', () => { audio.currentTime = Number(slider.value); show(); });
+    audio.addEventListener('timeupdate', show);
+    // The real length is known once the file starts loading; until then the build's length is used.
+    audio.addEventListener('durationchange', () => {
+      if (!Number.isFinite(audio.duration)) return;
+      slider.max = String(Math.floor(audio.duration));
+      total.textContent = clock(audio.duration);
+      show();
+    });
+    audio.addEventListener('pause', () => showPlaying(false));
+    audio.addEventListener('ended', () => showPlaying(false));
+    audio.addEventListener('play', () => {
+      showPlaying(true);
+      for (const other of audios) if (other !== audio) other.pause();
+      if ('mediaSession' in navigator) {
+        const { title, artist, album, artwork } = player.dataset;
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title, artist, album,
+          artwork: artwork ? [{ src: new URL(artwork, location.href).href, sizes: '1400x1400', type: 'image/jpeg' }] : [],
+        });
+        navigator.mediaSession.setActionHandler('play', () => audio.play());
+        navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+      }
+    });
+    show();
+  }
+</script>
+
+<style>
+  /* Size of the round play button, and of the slider's round handle. */
+  .player { --button-size: 3rem; --thumb-size: .875rem; }
+  .player audio { width: 100%; }
+  .controls { display: flex; align-items: center; gap: var(--space-sm); }
+  .controls[hidden] { display: none; }
+  .play {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: var(--button-size);
+    height: var(--button-size);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-round);
+    background: var(--action-bg, var(--sky));
+    color: var(--action-text, var(--paper));
+    cursor: pointer;
+  }
+  .play svg { width: 40%; }
+  /* The play triangle looks centred a little to the right of true centre. */
+  .icon-play { margin-left: 8%; }
+  .icon-pause { display: none; }
+  [data-playing] .icon-play { display: none; }
+  [data-playing] .icon-pause { display: block; }
+  .time { font-size: var(--font-label); font-variant-numeric: tabular-nums; }
+
+  /* The position slider: a thin bar with a round handle. The played part is filled using --played (0 to 1), which the script sets. */
+  .slider {
+    --played: 0;
+    flex: 1;
+    min-width: 0;
+    height: var(--tap-target);
+    margin: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    appearance: none;
+  }
+  .slider::-webkit-slider-runnable-track {
+    height: var(--line-bar);
+    border-radius: var(--radius-pill);
+    background: linear-gradient(to right, currentColor calc(var(--played) * 100%), var(--bar-track) 0);
+  }
+  .slider::-webkit-slider-thumb {
+    appearance: none;
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    margin-top: calc((var(--line-bar) - var(--thumb-size)) / 2);
+    border: 0;
+    border-radius: var(--radius-round);
+    background: currentColor;
+  }
+  .slider::-moz-range-track { height: var(--line-bar); border-radius: var(--radius-pill); background: var(--bar-track); }
+  .slider::-moz-range-progress { height: var(--line-bar); border-radius: var(--radius-pill); background: currentColor; }
+  .slider::-moz-range-thumb { width: var(--thumb-size); height: var(--thumb-size); border: 0; border-radius: var(--radius-round); background: currentColor; }
+</style>

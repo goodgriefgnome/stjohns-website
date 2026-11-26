@@ -1,0 +1,9 @@
+/* A small-capitals label, such as "LATEST SERMON · 22 NOVEMBER 2026" or the field names in a sermon's facts.
+   It is a step quieter than the section's text (see --text-quiet in roles.css). */
+.label {
+  font-size: var(--font-label);
+  font-weight: var(--weight-label);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+  color: var(--text-quiet, var(--text-muted));
+}
