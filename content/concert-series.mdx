@@ -5,13 +5,17 @@ heroFocus: [50, 40]
 width: standard
 palette: white
 ---
+
 import ConcertProgram from '../src/components/ConcertProgram.astro';
 
-:::banner
-This year at St John’s, we are pleased to host a twilight series of concerts and choir services. Entry to these events is free, although we welcome donations to support the ongoing ministry of St John's.
-:::
+---
+::banner
 
-::::section{palette="cream"}
+This year at St John’s, we are pleased to host a twilight series of concerts and choir services. Entry to these events is free, although we welcome donations to support the ongoing ministry of St John's.
+
+---
+::section{palette="cream" text="wide"}
+
 <ConcertProgram>All concerts start at 6pm and last for approximately 45 minutes.</ConcertProgram>
 
 :::center
@@ -19,4 +23,3 @@ Sign up to our mailing list to stay up-to-date with our music events
 
 **[Sign Up Here](https://mailchi.mp/5c10ce47bd31/st-johns-music)**
 :::
-::::

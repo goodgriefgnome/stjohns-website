@@ -3,9 +3,12 @@ title: "Christianity + Social Concern"
 hero: /media/articles/christianity--social-concern.webp
 ---
 
-:::banner
+---
+::banner
+
 > **“Living justly means living in constant recognition of the claims of community on us; it means disadvantaging ourselves in order to advantage others.”**
-:::
+
+---
 
 Christianity is all about the gospel. And the gospel is the declaration that Jesus is king. Jesus’ kingdom is good news – not just for the rich, powerful, and able, but for all people. So, when Jesus launched his mission he set the agenda by reading a text from the Hebrew prophet Isaiah:
 

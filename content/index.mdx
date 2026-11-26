@@ -1,18 +1,24 @@
 import Events from '../src/components/Events.astro';
 import Sermons from '../src/components/Sermons.astro';
 
-:::banner
+---
+::banner
+
 ## Welcome to St John’s Darlinghurst
 
 Our church is far more than just a building or a social club; it is a family of people who are seeking truth, practising goodness, and creating beauty.
 
 *[More about us](/about)* *[Upcoming events](#upcoming-events)*
-:::
 
-:::section{palette="mist" layout="cards"}
+---
+::section{palette="mist" align="center"}
+
 ## You’re invited!
 
 If you’ve never been to a church service before, you’re welcome at St John’s. Our services are held every Sunday {{serviceTimes}}.
+
+:::cards
+---
 
 ### Worship In-Person
 
@@ -22,6 +28,8 @@ Join us on Sundays by attending one of our services at {{serviceTimes}}.
 
 *[Get Directions](/contact)*
 
+---
+
 ### Children’s Ministry
 
 ![](/media/children.webp)
@@ -30,6 +38,8 @@ Jesus welcomed children to Himself; as His church, we seek to do the same.
 
 *[Learn more](/childrens-ministry)*
 
+---
+
 ### Community Groups
 
 ![](/media/groups.webp)
@@ -37,52 +47,63 @@ Jesus welcomed children to Himself; as His church, we seek to do the same.
 Smaller gatherings of those who worship regularly at St John’s on Sundays.
 
 *[Learn more](/community-groups)*
+
 :::
 
-:::section{layout="media"}
-![Are you new?](/media/c079731d7867fc71ae6f.jpg)
+---
+::section{palette="cream"}
+
+:::media
+---
 
 ## Are you new?
+
+![Are you new?](/media/c079731d7867fc71ae6f.jpg)
 
 Considering St John’s as your church home? Wondering how you can grow in your relationship with Jesus? Find out what your next steps are.
 
 *[Learn More](/new)*
-:::
 
-:::section{layout="media"}
-![](/media/pastoral.webp)
+---
 
 ## Are you okay?
+
+![](/media/pastoral.webp)
 
 Whether you’re struggling with your mental health, having conflict in relationships, trying to work out your vocation, or for whatever other reason, our pastoral team is here for you.
 
 *[Get in Touch](/prayer)*
+
 :::
 
-:::section{palette="blue"}
+---
+::section{palette="blue" text="wide"}
+
 ## Upcoming events
 
 <Events />
-:::
 
-:::banner
+---
+::banner
+
 ## Give Online
 
 *[Learn More](/give)*
-:::
 
-:::banner{palette="white"}
+---
+::banner{palette="white"}
+
 ## Listen Again…
 
 St John’s has an archive of your favourite songs on YouTube.
 
 **[Listen on YouTube](https://www.youtube.com/channel/UC_hFhunnSSLzBTvbNmgjZ9g)**
-:::
 
-:::section{palette="white"}
+---
+::section{palette="white" text="wide"}
+
 ## Latest sermons
 
 <Sermons />
 
 [More about our sermons](/sermons)
-:::

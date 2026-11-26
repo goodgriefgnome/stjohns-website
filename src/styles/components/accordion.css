@@ -1,5 +1,5 @@
 /* Accordion: each <details> sits between rules, with a chevron that flips open.
-   Knobs:
+   CSS variables:
    --chevron-size  size of the open/close chevron */
 .accordion { --chevron-size: .6rem; }
 .accordion details { border-top: var(--line-thick) solid currentColor; }

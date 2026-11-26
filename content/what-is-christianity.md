@@ -4,6 +4,8 @@ width: standard
 hero: /media/articles/what-is-christianity.webp
 ---
 
+::section{text="wide"}
+
 > ***It is no good asking for a simple religion. After all, real things are not simple.***\
 > — C.S. Lewis, Mere Christianity
 
@@ -26,7 +28,7 @@ Christianity is about following Jesus—about leaving behind the attempt to find
 Sometimes God performs a miracle and changes a life dramatically, in an instant. But for most of us, becoming a follower of Jesus is a process that plays out over time. The church is a hospitable community that wants to help you explore Christianity, no matter where you’re starting from.
 
 :::gallery
-![The church tower](/media/articles/what-is-christianity-1.webp)
-![The church entrance](/media/articles/what-is-christianity-2.webp)
-![People inside St John’s](/media/articles/what-is-christianity-3.webp)
+- ![The church tower](/media/articles/what-is-christianity-1.webp)
+- ![The church entrance](/media/articles/what-is-christianity-2.webp)
+- ![People inside St John’s](/media/articles/what-is-christianity-3.webp)
 :::

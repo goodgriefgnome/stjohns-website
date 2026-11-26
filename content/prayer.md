@@ -4,11 +4,14 @@ hero: /media/pastoral.webp
 palette: white
 ---
 
-:::banner
-Prayer is at the centre of everything we do as a church. Our Sunday services are based on The Book of Common Prayer, and they are designed as participatory training for a whole life of prayer. We are always happy to pray for you and with you.
-:::
+---
+::banner
 
-:::section{palette="cream" align="center"}
+Prayer is at the centre of everything we do as a church. Our Sunday services are based on The Book of Common Prayer, and they are designed as participatory training for a whole life of prayer. We are always happy to pray for you and with you.
+
+---
+::section{palette="cream" align="center"}
+
 ## What do you need prayer for?
 
 Please fill out the prayer request form below and our ministry team will pray for your needs.
@@ -22,4 +25,3 @@ Our ministers do a lot of different things in their roles, but one of their high
 Whether you’re struggling with your mental health, having conflict in a relationship, facing a sticky situation at work, or for whatever other reason – we’re here for you. Email us to make a time to meet.
 
 **[Email us](mailto:{{rector.email}})**
-:::

@@ -9,7 +9,7 @@
   gap: var(--gallery-gap);
 }
 .layout-figure { margin: 0; }
-.layout-figure img { aspect-ratio: 1; object-fit: cover; }
+.layout-figure img { aspect-ratio: 1; object-fit: cover; max-height: none; }
 
 @container style(--screen: medium) or style(--screen: wide) {
   :scope { grid-auto-flow: column; }

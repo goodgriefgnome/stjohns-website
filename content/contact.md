@@ -4,7 +4,9 @@ hero: /media/2d3b2c8de277f17a6f05.jpg
 palette: white
 ---
 
-:::section{palette="cream"}
+---
+::section{palette="cream"}
+
 ## We would love to hear from you
 
 Phone or message [{{telephoneLabel}}](tel:{{telephone}})\
@@ -12,9 +14,10 @@ Email [{{email}}](mailto:{{email}})
 
 {{streetAddress}}, {{locality}}\
 {{postalAddress}}
-:::
 
-:::::section{palette="blue"}
+---
+::section{palette="blue"}
+
 ## FAQs
 
 :::accordion
@@ -28,4 +31,3 @@ Email [{{email}}](mailto:{{email}})
 
   In the service, we sing both classic and contemporary songs led by the musicians who make up our community. We listen to portions of scripture read aloud, and then hear a sermon that relates the Bible to daily life. We take time to pray for our city, our church, and the world. And, every Sunday, our service culminates in Holy Communion, a joyful feast that is open to all baptised Christians and that embodies our relationship with God and with all other Christians throughout space and time.
 :::
-:::::

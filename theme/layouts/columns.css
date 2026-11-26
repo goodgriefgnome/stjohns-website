@@ -1,6 +1,8 @@
-/* Columns: items side by side, one column each, stacked on phones. Headings and bodies line up across the row.
+/* Columns: items side by side, one column each, stacked on phones. Items with a heading share rows, so their headings and texts line up across the row.
    Variables:
-     --columns-gap   space between columns (default --gutter) */
+     --columns-gap   space between columns (default --gutter)
+   Options:
+     picture = above | below   (put each item's picture above its text, the default, or below it) */
 :scope {
   /* Space between columns. */
   --columns-gap: var(--gutter);
@@ -8,24 +10,33 @@
   grid-template-columns: minmax(0, 1fr);
   gap: var(--columns-gap);
 }
-/* Each item is three rows tall (heading, text, picture) so the same rows line up across every column. */
-.layout-item {
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-row: span 3;
-  row-gap: 0;
-}
-h3 { grid-row: 1; }
-.layout-body {
-  grid-row: 2;
-  display: flex;
-  flex-direction: column;
-}
+/* An item is one free-standing column: its picture, then its text. */
+.layout-item { display: flex; flex-direction: column; }
+.layout-figure { display: grid; gap: var(--space-sm); margin-bottom: var(--space-sm); }
+.layout-body { display: flex; flex-direction: column; }
 .layout-body > :last-child { margin-bottom: 0; }
 /* A button row at the end of a column sits at the bottom, level across columns. */
 .layout-body > .actions:last-child { margin-top: auto; }
-.layout-figure { grid-row: 3; display: grid; gap: var(--space-sm); margin-top: var(--space-sm); }
+:scope[data-picture='below'] .layout-figure { order: 1; margin: var(--space-sm) 0 0; }
 
 @container style(--section-size: wide) {
-  :scope { grid-template-columns: repeat(var(--item-count), minmax(0, 1fr)); }
+  :scope {
+    grid-template-columns: repeat(var(--item-count), minmax(0, 1fr));
+    /* A heading row, then a stretchy text row, so a tall item without a heading never pushes a heading row open. */
+    grid-auto-rows: auto 1fr;
+  }
+  .layout-item { grid-row: span 2; }
+  /* An item with a heading takes part in shared rows: heading, then text, then (if it has a picture) the picture. */
+  .layout-item:has(> :is(h2, h3, h4, h5, h6)) {
+    display: grid;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+  }
+  .layout-item:has(> :is(h2, h3, h4, h5, h6) + .layout-figure) { grid-row: span 3; }
+  .layout-item > :is(h2, h3, h4, h5, h6) { grid-row: 1; }
+  .layout-item:has(> :is(h2, h3, h4, h5, h6)) > .layout-figure { grid-row: 2; }
+  .layout-item:has(> :is(h2, h3, h4, h5, h6)) > .layout-body { grid-row: 2; }
+  .layout-item:has(> :is(h2, h3, h4, h5, h6) + .layout-figure) > .layout-body { grid-row: 3; }
+  :scope[data-picture='below'] .layout-item:has(> :is(h2, h3, h4, h5, h6)) > .layout-figure { grid-row: 3; }
+  :scope[data-picture='below'] .layout-item:has(> :is(h2, h3, h4, h5, h6) + .layout-figure) > .layout-body { grid-row: 2; }
 }

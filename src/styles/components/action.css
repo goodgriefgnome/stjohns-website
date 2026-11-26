@@ -1,7 +1,7 @@
 /* Links alone in a paragraph, marked in Markdown as **filled** or *bar* (see rehype-actions).
-   Knobs (from the band's palette):
+   CSS variables (from the section's palette):
    --action-bg, --action-text  the filled button's colours */
-.actions { margin-inline: calc(-1 * var(--action-gap)); }  /* links are inline, so they follow the band's text alignment */
+.actions { margin-inline: calc(-1 * var(--action-gap)); }  /* links are inline, so they follow the section's text alignment */
 .action {
   display: inline-block;
   margin: 0 var(--action-gap);

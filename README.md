@@ -7,7 +7,7 @@ Static Astro site built from authored pages in `content/`, a look defined in `th
 | Folder | What lives there | Who edits it |
 |---|---|---|
 | `content/` | Written pages (`about.md`, …) and the home page `index.mdx`. One file = one page. | Editors |
-| `theme/` | The look: `tokens.css` (raw colours and sizes), `roles.css` (what they are for, plus the band palettes), `palettes.mjs` (palette names). | Whoever restyles the site |
+| `theme/` | The look: `tokens.css` (raw colours and sizes), `roles.css` (what they are for, plus the section palettes), `palettes.mjs` (palette names). | Whoever restyles the site |
 | `imported/` | Data the site reads: `church.json`, sermons, events, concerts. Hand-edited snapshots today, written by importers later. | Importers (later) |
 | `src/` | Code only: components, layouts, routes, plugins (`lib/`) and the structural CSS (`styles/`: base, patterns, components, the `--screen` flag). | Developers |
 | `public/` | Files served as-is: fonts and `media/` images. | |

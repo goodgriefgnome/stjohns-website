@@ -37,7 +37,7 @@
     grid-auto-rows: 1fr auto auto;
     min-height: var(--cards-height);
   }
-  .layout-item { display: grid; grid-template-rows: subgrid; grid-row: span 3; }
-  h3 { grid-row: 2; }
+  .layout-item { display: grid; grid-template-rows: subgrid; grid-row: span 3; row-gap: 0; }
+  .layout-item > :is(h2, h3, h4, h5, h6) { grid-row: 2; }
   .layout-body { grid-row: 3; }
 }

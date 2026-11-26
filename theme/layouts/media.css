@@ -17,24 +17,26 @@
   column-gap: var(--media-gap);
   align-items: center;
 }
-.layout-item > h2, .layout-item > h3 { grid-area: heading; align-self: end; }
-.layout-figure { grid-area: figure; margin-bottom: var(--space-sm); }
-.layout-figure img { aspect-ratio: 1; object-fit: cover; }
-.layout-body { grid-area: body; align-self: start; }
+.layout-item > :is(h2, h3, h4, h5, h6) { grid-area: heading; }
+.layout-figure { grid-area: figure; margin-bottom: var(--media-gap); }
+.layout-figure img { aspect-ratio: 1; object-fit: cover; max-height: none; }
+.layout-body { grid-area: body; }
 .layout-body > :last-child { margin-bottom: 0; }
 
 @container style(--section-size: wide) {
   /* Picture on the left (the default for the rows that swap to it). */
   .layout-item {
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-    grid-template-areas: "figure heading" "figure body";
+    /* The empty first and last rows share out any spare height, which keeps the text level with the middle of the picture. */
+    grid-template-rows: 1fr auto auto 1fr;
+    grid-template-areas: "figure ." "figure heading" "figure body" "figure .";
   }
-  .layout-figure { align-self: center; margin-bottom: 0; }
+  .layout-figure { margin-bottom: 0; }
   /* Picture on the right: first row of the first block, and every second row after it. */
   :scope[data-image='right'] .layout-item,
   :scope:not([data-image])[data-nth='odd'] .layout-item:nth-child(odd),
   :scope:not([data-image])[data-nth='even'] .layout-item:nth-child(even) {
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    grid-template-areas: "heading figure" "body figure";
+    grid-template-areas: ". figure" "heading figure" "body figure" ". figure";
   }
 }

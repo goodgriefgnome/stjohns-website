@@ -20,10 +20,11 @@ Whilst we are called to serve in every arena of our lives – in the home, the w
 
 There are many ways you may be able to serve at St John’s Darlinghurst. If you’d like to know more, or would like to get started, please fill out the form and indicate your interests.
 
-:::section{palette="blue" align="center"}
+---
+::section{palette="blue" align="center"}
+
 ## Interested in serving in the church?
 
 Please fill out the form below and one of the ministers will help you find the area that will best suit you.
 
 [Ask about serving](/contact)
-:::

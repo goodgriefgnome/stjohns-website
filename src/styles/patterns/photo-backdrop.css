@@ -1,6 +1,6 @@
 /* Text over a photo: the photo fills the box behind the text, under a dark scrim.
    Cards get this class from the cards directive.
-   Knobs:
+   CSS variables:
    --scrim  the layer over the photo (default --photo-scrim); set it to lighten or darken */
 .photo-backdrop {
   position: relative;

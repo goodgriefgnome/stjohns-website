@@ -2,11 +2,16 @@
 title: "Faith, Work and Economics"
 hero: /media/articles/faith-work-and-economics.webp
 heroFocus: [39, 80]
+width: standard
+palette: cream
 ---
 
-:::banner
+---
+::banner
+
 At the end of our church services every week, one of the ministers dismisses the congregation, saying: “Go in peace to love and serve the Lord.”
-:::
+
+---
 
 This ritual captures the fact that Sunday worship is not an end in and of itself, but something designed to send us into Monday equipped to do our work in such a way as to honour God and to serve the common good.
 
@@ -17,6 +22,6 @@ Whether you’re currently a busy professional, a stay-at-home parent, or someon
 Check out additional Faith & Work resources available through the [City to City Australia](https://citytocityaustralia.org.au/faith-work-resources) website.
 
 :::gallery
-![City street lined with buildings](/media/articles/faith-work-and-economics-1.webp)
-![People gathered at St John’s](/media/articles/faith-work-and-economics-2.webp)
+- ![City street lined with buildings](/media/articles/faith-work-and-economics-1.webp)
+- ![People gathered at St John’s](/media/articles/faith-work-and-economics-2.webp)
 :::

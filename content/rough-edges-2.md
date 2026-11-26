@@ -2,6 +2,7 @@
 title: "Rough Edges"
 hero: /media/articles/rough-edges-2.webp
 heroFocus: [51.65, 23.59]
+width: standard
 palette: mist
 ---
 
@@ -12,6 +13,6 @@ To find out about the volunteering opportunities available at Rough Edges contac
 **[Email Rough Edges](mailto:hello@roughedges.org.au)**
 
 :::gallery
-![](/media/articles/rough-edges-2-1.webp)
-![](/media/articles/rough-edges-2-2.webp)
+- ![](/media/articles/rough-edges-2-1.webp)
+- ![](/media/articles/rough-edges-2-2.webp)
 :::

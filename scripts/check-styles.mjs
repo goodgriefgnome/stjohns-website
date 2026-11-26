@@ -27,14 +27,14 @@ const allFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) 
   const path = join(dir, e.name);
   return e.isDirectory() ? allFiles(path) : /\.(css|astro)$/.test(e.name) ? [path] : [];
 });
-// Every band is two boxes: markup that makes a .band-outer must also make its .band-inner (see patterns/band.css).
+// Every section is two boxes: markup that makes a .section-outer must also make its .section-inner (see patterns/section.css).
 const markup = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
   const path = join(dir, e.name);
   return e.isDirectory() ? markup(path) : /\.(astro|mjs|ts|mdx?)$/.test(e.name) ? [path] : [];
 });
 for (const file of markup('src')) {
   const text = readFileSync(file, 'utf8');
-  if (text.includes('band-outer') && !text.includes('band-inner')) problems.push(`${file}: makes a band-outer but never a band-inner`);
+  if (text.includes('section-outer') && !text.includes('section-inner')) problems.push(`${file}: makes a section-outer but never a section-inner`);
 }
 const LENGTH = /(?<![\w.-])-?(?:\d+\.?\d*|\.\d+)(?:rem|px|em|vw|vh|vmin|vmax|ch|lh|svh|dvh)\b/g;
 const STEPS = { '--space-3xs': .25, '--space-2xs': .5, '--space-sm': 1, '--space-md': 1.25, '--space-lg': 1.5, '--space-xl': 2 };
@@ -64,15 +64,15 @@ for (const file of [...allFiles('theme'), ...allFiles('src')]) {
         problems.push(`${where(m.index)}: "${prop}: ${rawValue}" should use a --font-* or --weight-* role`);
       }
     }
-    // Lengths: every length is a token, a role or a formula of them. Custom properties (knobs) may hold raw values.
+    // Lengths: every length is a token, a role or a formula of them. Custom properties (CSS variables) may hold raw values.
     for (const m of css.matchAll(/([\w-]+)\s*:\s*([^;{}]+)/g)) {
       const [, prop, value] = m;
       if (prop.startsWith('--') || name === 'tokens.css' || name === 'roles.css') continue;
       const loose = (value.replace(/var\([^)]*\)/g, '').match(LENGTH) ?? []).filter((x) => !/^(1em|1lh)$/.test(x));
-      if (loose.length) problems.push(`${where(m.index)}: raw length ${loose.join(', ')} in "${prop}: ${value.trim()}" (use ${suggest(prop, loose[0])}, or a role or knob)`);
+      if (loose.length) problems.push(`${where(m.index)}: raw length ${loose.join(', ')} in "${prop}: ${value.trim()}" (use ${suggest(prop, loose[0])}, or a role or CSS variable)`);
     }
     for (const m of css.matchAll(/@(?:media|container)[^{]*\b(?:width|inline-size)\b[^{]*/g)) {
-      if (name !== 'screen.css' && name !== 'band.css' && name !== 'section.css') problems.push(`${where(m.index)}: width query "${m[0].trim()}" (only screen.css and band.css may have one; ask --screen instead)`);
+      if (name !== 'screen.css' && name !== 'section.css') problems.push(`${where(m.index)}: width query "${m[0].trim()}" (only screen.css and section.css may have one; ask --screen instead)`);
     }
   }
 }

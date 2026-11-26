@@ -26,18 +26,12 @@ export default function remarkLayouts({ registry } = {}) {
   return (tree, file) => {
     known ??= loadRegistry();
     const text = String(file.value ?? '');
-    // Pages that use none of the new syntax are left alone for now (the old directives still handle them).
-    if (!usesSections(tree)) return;
     checkHeadings(tree, file, text);
     checkBreaks(tree, file, known);
     checkOldSyntax(tree, file, known);
     splitSections(tree, file);
     buildLayouts(tree, file, known);
   };
-}
-
-function usesSections(tree) {
-  return tree.children.some(child => child.type === 'thematicBreak' || isSectionSetting(child));
 }
 
 // ---- Guards --------------------------------------------------------------------

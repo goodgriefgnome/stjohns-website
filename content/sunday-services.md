@@ -4,11 +4,14 @@ hero: /media/hero-door.webp
 palette: white
 ---
 
-:::banner
-**Even if you have never attended a church service before, you are very welcome at St John’s.**
-:::
+---
+::banner
 
-::::section{palette="white"}
+**Even if you have never attended a church service before, you are very welcome at St John’s.**
+
+---
+::section{palette="white"}
+
 :::center
 If you're planning a visit to St Johns' here's some helpful information.
 :::
@@ -48,10 +51,10 @@ If you're planning a visit to St Johns' here's some helpful information.
 
   There is no dress code at St John’s. Most people dress casually. Come as you are.
 :::
-::::
 
-:::::section{palette="blue" align="center"}
+---
+::section{palette="blue" align="center"}
+
 ## Need more info?
 
 Email us at [{{email}}](mailto:{{email}}) or fill out our [contact form](/contact).
-:::::

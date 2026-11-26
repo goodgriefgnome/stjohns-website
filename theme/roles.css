@@ -72,7 +72,7 @@
   --font-h3: var(--size-2xl);
   /* The page title (h1): the biggest heading on the page. */
   --font-title: var(--size-title);
-  /* Section headings: every ##, wherever it sits (band, column, image beside text, banner). */
+  /* Section headings: every ##, wherever it sits (section, column, image beside text, banner). */
   --font-heading: var(--size-3xl);
   /* Menu links along the top. */
   --font-nav: clamp(var(--size-sm), 1vw, var(--size-xl));
@@ -91,9 +91,9 @@
   --weight-button: var(--weight-semibold);
 }
 
-/* Palettes: a band's background, text and button colours.
-   Each palette here must also be listed in src/lib/palettes.mjs (the build checks).
-   Filled buttons are white text on sky, or white on navy on a sky band. */
+/* Palettes: a section's background, text and button colours.
+   Each palette here must also be listed in theme/palettes.mjs (the build checks).
+   Filled buttons are white text on sky, or white on navy on a sky section. */
 [data-palette] {
   --action-bg: var(--sky);
   --action-text: var(--paper);
@@ -102,11 +102,11 @@
 }
 /* white: plain page colour */
 [data-palette="white"] { --section-bg: var(--paper); --section-text: var(--navy); }
-/* mist: a pale grey band for contrast */
+/* mist: a pale grey section for contrast */
 [data-palette="mist"] { --section-bg: var(--mist); --section-text: var(--slate); }
-/* blue: the sky-blue band, with white text and navy buttons */
+/* blue: the sky-blue section, with white text and navy buttons */
 [data-palette="blue"] { --section-bg: var(--sky); --section-text: var(--paper); --action-bg: var(--navy); --action-text: var(--paper); }
-/* cream: the default for :::section */
+/* cream: a warm off-white section */
 [data-palette="cream"] { --section-bg: var(--cream); --section-text: var(--navy); }
-/* navy: the default for :::banner, a dark band with white text */
+/* navy: the default for ::banner, a dark section with white text */
 [data-palette="navy"] { --section-bg: var(--navy); --section-text: var(--paper); }

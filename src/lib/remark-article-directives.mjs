@@ -4,7 +4,6 @@ import { directiveFromMarkdown } from 'mdast-util-directive';
 import { directive } from 'micromark-extension-directive';
 import { markdownLineEndingOrSpace } from 'micromark-util-character';
 import { SKIP, visit } from 'unist-util-visit';
-import { palettes } from '../../theme/palettes.mjs';
 
 const iconStyles = new Map([
   ['solid', new Map(Object.values(fas).map(({ iconName, icon }) => [iconName, icon]))],
@@ -72,112 +71,7 @@ export default function articleDirectives() {
       };
     });
 
-    let mediaCount = 0;
     visit(tree, 'containerDirective', node => {
-      if (node.name === 'lead') file.fail('`:::lead` is now `:::banner`.', node);
-      if (node.name === 'banner' || node.name === 'section') {
-        const isBanner = node.name === 'banner';
-        const palette = node.attributes?.palette ?? (isBanner ? 'navy' : 'cream');
-        if (!palettes.includes(palette)) {
-          file.fail(`Unknown palette "${palette}". Choose ${palettes.join(', ')}.`, node);
-        }
-        const alignment = node.attributes?.align;
-        if (alignment !== undefined && alignment !== 'left' && alignment !== 'center') {
-          file.fail(`Unknown alignment "${alignment}". Choose left or center.`, node);
-        }
-        // Cards are columns whose image fills the card behind the text.
-        const isCards = node.name === 'section' && node.attributes?.layout === 'cards';
-        if (node.name === 'section' && (node.attributes?.layout === 'columns' || isCards)) {
-          const columns = [];
-          const intro = [];
-          const hasExplicitColumns = node.children.some(child => child.type === 'containerDirective' && child.name === 'column');
-          for (const child of node.children) {
-            if (child.type === 'containerDirective' && child.name === 'column') {
-              columns.push(child.children);
-              continue;
-            }
-            if (!hasExplicitColumns && child.type === 'heading' && child.depth === 3) columns.push([]);
-            (columns.at(-1) ?? intro).push(child);
-          }
-          if (!columns.length) file.fail('Use :::column blocks or level-three headings to start columns.', node);
-          node.children = [...intro, {
-            type: 'containerDirective',
-            name: 'column-grid',
-            data: {
-              hName: 'div',
-              hProperties: {
-                className: [
-                  'cols',
-                  ...(isCards ? ['cards'] : []),
-                ],
-                style: `--column-count: ${columns.length}`,
-              },
-            },
-            children: columns.map(children => {
-              const [heading, ...body] = children;
-              const hasHeading = !hasExplicitColumns && heading?.type === 'heading';
-              return {
-                type: 'containerDirective',
-                name: 'column',
-                data: { hName: 'div', hProperties: { className: [...(hasHeading ? ['col'] : []), ...(isCards ? ['photo-backdrop'] : [])] } },
-                children: hasHeading ? [heading, {
-                  type: 'containerDirective',
-                  name: 'col-body',
-                  data: { hName: 'div', hProperties: { className: ['col-body'] } },
-                  children: body,
-                }] : children,
-              };
-            }),
-          }];
-        }
-        let imageSide;
-        if (node.name === 'section' && node.attributes?.layout === 'media') {
-          // As on the live site, alternating image rows start with the image on the right.
-          const imageSides = ['right', 'left'];
-          imageSide = node.attributes.image ?? imageSides[mediaCount % 2];
-          if (!imageSides.includes(imageSide)) {
-            file.fail(`Unknown image side "${imageSide}". Choose left or right.`, node);
-          }
-          mediaCount += 1;
-          // The first paragraph that holds only an image becomes the side image.
-          const imageIndex = node.children.findIndex(child =>
-            child.type === 'paragraph' &&
-            child.children.filter(inline => inline.type !== 'text' || inline.value.trim()).every(inline => inline.type === 'image') &&
-            child.children.some(inline => inline.type === 'image'));
-          if (imageIndex === -1) file.fail('Put a Markdown image on its own line inside a media section.', node);
-          const [image] = node.children.splice(imageIndex, 1);
-          node.children = [{
-            type: 'containerDirective',
-            name: 'media',
-            data: { hName: 'div', hProperties: { className: ['media'], 'data-image': imageSide } },
-            children: [
-              { ...image, data: { hName: 'div', hProperties: { className: ['media-image'] } } },
-              { type: 'containerDirective', name: 'media-body', data: { hName: 'div', hProperties: { className: ['media-body'] } }, children: node.children },
-            ],
-          }];
-        }
-        // Every band is two boxes: the outer one is measured, the inner one carries --section-size (see band.css).
-        node.children = [{
-          type: 'containerDirective',
-          name: 'band-inner',
-          data: { hName: 'div', hProperties: { className: ['band-inner'] } },
-          children: node.children,
-        }];
-        node.data = {
-          hName: isBanner ? 'div' : 'section',
-          hProperties: {
-            className: [
-              'band-outer',
-              ...(isBanner ? ['band-banner'] : []),
-              ...(['columns', 'cards', 'media'].includes(node.attributes?.layout) ? ['band-wide'] : []),
-              ...(isCards ? ['band-cards'] : []),
-            ],
-            'data-palette': palette,
-            ...(alignment && { 'data-align': alignment }),
-          },
-        };
-      }
-
       if (node.name === 'accordion') {
         const [list, ...extra] = node.children;
         if (list?.type !== 'list' || extra.length) {
@@ -199,23 +93,6 @@ export default function articleDirectives() {
 
       if (node.name === 'center') {
         node.data = { hName: 'div', hProperties: { 'data-align': 'center' } };
-      }
-
-      // (Pages written with --- sections get their gallery from theme/layouts/gallery.css instead.)
-      if (node.name === 'gallery' && !node.data?.hProperties?.['data-layout']) {
-        const images = node.children.flatMap(block => {
-          if (block.type !== 'paragraph') file.fail('Use Markdown images inside :::gallery.', block);
-          return block.children.filter(child => child.type !== 'text' || child.value.trim());
-        });
-        if (!images.length || images.some(image => image.type !== 'image')) {
-          file.fail('Use Markdown images inside :::gallery.', node);
-        }
-        node.data = { hName: 'ul', hProperties: { className: ['gallery'], role: 'list' } };
-        node.children = images.map(image => ({
-          type: 'paragraph',
-          data: { hName: 'li' },
-          children: [image],
-        }));
       }
     });
   };
