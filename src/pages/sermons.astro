@@ -5,6 +5,7 @@ import SermonArchive from '../components/SermonArchive.astro';
 import SermonFeature from '../components/SermonFeature.astro';
 import Page from '../layouts/Page.astro';
 import { withBase } from '../lib/base-path.mjs';
+import { mainPodcastUrl } from '../lib/church.mjs';
 import { displayDate, sermons } from '../lib/content';
 import { blurb, minutes } from '../lib/sermon-format.mjs';
 
@@ -13,7 +14,9 @@ if (!latest) throw new Error('There are no sermons in imported/sermons.');
 const episode = withBase(`/episode/${latest.slug}`);
 ---
 <Page title="Our Sermons">
-  <Hero title="Our Sermons" slot="hero" />
+  <Hero title="Our Sermons" slot="hero">
+    <p class="actions"><a class="action action-filled" href={mainPodcastUrl}>Subscribe</a></p>
+  </Hero>
   <section class="section-outer latest" data-palette="navy">
     <div class="section-inner">
       <SermonFeature artwork={latest.artwork}>

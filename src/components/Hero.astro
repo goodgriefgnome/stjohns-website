@@ -6,7 +6,7 @@ interface Props {
   title: string;
 }
 // Pages written in Astro get the site's default hero. The markup is the same as a Markdown page's `::hero` (see
-// src/lib/remark-layouts.mjs), and styles/patterns/hero.css styles both.
+// src/lib/remark-layouts.mjs), and styles/patterns/hero.css styles both. Anything inside <Hero> goes under the title (a button, say).
 const { title } = Astro.props;
 ---
 <header class="hero photo-backdrop" data-palette="navy">
@@ -15,5 +15,6 @@ const { title } = Astro.props;
   </figure>
   <div>
     <h1>{title}</h1>
+    <slot />
   </div>
 </header>
