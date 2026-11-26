@@ -134,6 +134,9 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     padding-block: var(--space-md);
     margin-inline: auto;
   }
+  /* White menu text and the logo sit over the hero photo, so they get the hero's soft shadows. */
+  .home-header .desktop-nav :global(> a), .home-header .desktop-nav :global(summary) { text-shadow: var(--photo-shadow-tight), var(--photo-shadow-wide); }
+  .home-header .brand img { filter: drop-shadow(var(--photo-shadow-tight)) drop-shadow(var(--photo-shadow-wide)); }
   .home-header .header-inner { min-height: 0; }
   .brand { flex: none; }
   .brand img { width: var(--logo-width-plain); }

@@ -14,8 +14,11 @@
 
   /* Black at a given strength (percent), for see-through layers. */
   --black-5: #0000000d;
+  --black-30: #0000004d;
   --black-33: #0005;
   --black-40: #0006;
+  --black-50: #00000080;
+  --black-75: #000000bf;
 
   /* Type scale: sizes and weights named by step. What each is FOR (--font-*, --weight-*) lives in roles.css. */
   --size-xs: .875rem;

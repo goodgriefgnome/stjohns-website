@@ -1,0 +1,5 @@
+/* The photo at the top of every page: a gentle fade at the top and soft shadows keep white text and the logo readable.
+   CSS variables (roles.css): --hero-fade, --photo-shadow-tight, --photo-shadow-wide */
+.hero { --scrim: var(--hero-fade); }
+.hero > div { text-shadow: var(--photo-shadow-tight), var(--photo-shadow-wide); }
+.hero > div a { text-shadow: none; }

@@ -12,6 +12,11 @@
   --hover-tint: var(--black-5);
   /* Dark see-through layer over photos, so white text stays readable. */
   --photo-scrim: var(--black-40);
+  /* The hero photo's only darkening: a fade that is darkest at the very top (behind the logo and menu) and clear 55% of the way down. */
+  --hero-fade: linear-gradient(to bottom, var(--black-30), transparent 55%);
+  /* Soft shadow behind white text and the logo over a hero photo: a tight one for crisp edges, a wide one for a glow. */
+  --photo-shadow-tight: 0 1px 3px var(--black-75);
+  --photo-shadow-wide: 0 0 18px var(--black-50);
   /* A lighter version of the photo scrim, for photo cards. */
   --photo-scrim-light: var(--black-33);
 

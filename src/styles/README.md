@@ -64,6 +64,7 @@ Nothing writes a width except `screen.css` and `section.css`. Ask a named questi
 | page-grid | `--page-measure` |
 | section | `--section-measure`, `--section-image-max-height`, `--section-size` (set for you) |
 | photo-backdrop | `--scrim` |
+| hero | `--hero-fade`, `--photo-shadow-tight`, `--photo-shadow-wide` (roles in `roles.css`) |
 | action | `--action-bg`, `--action-text` (from the section's palette) |
 | columns, cards, media, gallery | each declares its own in its header comment in `theme/layouts/` |
 | cycle | `--cycle-time` (a role in `roles.css`) |
