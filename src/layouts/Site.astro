@@ -8,6 +8,7 @@ import '../../theme/roles.css';
 import '../styles/base.css';
 import '../styles/patterns/page-grid.css';
 import '../styles/patterns/band.css';
+import '../styles/patterns/section.css';
 import '../styles/patterns/columns.css';
 import '../styles/patterns/cards.css';
 import '../styles/patterns/media.css';
@@ -18,6 +19,8 @@ import '../styles/components/action.css';
 import '../styles/components/icon.css';
 import '../styles/components/accordion.css';
 import '../styles/components/date.css';
+import 'virtual:theme-layouts.css';
+import 'virtual:theme-behaviours.css';
 const { title, home = false, photoHeader = false } = Astro.props;
 ---
 <!doctype html>
@@ -51,8 +54,8 @@ const { title, home = false, photoHeader = false } = Astro.props;
 <style>
   .skip { position: absolute; top: var(--space-sm); left: var(--space-sm); transform: translateY(-200%); z-index: 10; background: var(--paper); padding: var(--space-2xs); }
   .skip:focus { transform: none; }
-  .footer-social { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-lg); padding: 0 var(--space-sm) var(--band-spacing-small); }
-  .footer-content { display: grid; grid-template-columns: 1fr; gap: var(--space-sm); text-align: center; padding-block: var(--band-spacing-small); }
+  .footer-social { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-lg); padding: 0 var(--space-sm) var(--section-spacing-small); }
+  .footer-content { display: grid; grid-template-columns: 1fr; gap: var(--space-sm); text-align: center; padding-block: var(--section-spacing-small); }
   .footer-content h2 { font-size: var(--font-subheading); }
   @container style(--screen: medium) or style(--screen: wide) {
     .footer-content { grid-template-columns: repeat(3, 1fr); }

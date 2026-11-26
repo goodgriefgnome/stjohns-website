@@ -38,7 +38,7 @@ components/       small pieces: action (buttons), icon, accordion, date
 Nothing writes a width except `screen.css` and `band.css`. Ask a named question instead, narrow layout first:
 
 - **Window width** (header, hero, footer, gallery): `@container style(--screen: wide) { … }`, or `style(--screen: medium) or style(--screen: wide)` for "wider than narrow". `screen.css` sets `--screen` to narrow (up to 42rem), medium (up to 56rem) or wide.
-- **Band width** (columns, cards, media, events list): `@container style(--band-size: wide) { … }`. Every band is two boxes, `.band-outer` (measured) and `.band-inner` (carries `--band-size`). A style query reads the *parent's* flag, so a rule can't style the element that sets the flag: put the layout on a child of `.band-inner`. Always make both boxes together; `check-styles` fails if markup makes a `band-outer` without a `band-inner`.
+- **Band width** (columns, cards, media, events list): `@container style(--section-size: wide) { … }`. Every band is two boxes, `.band-outer` (measured) and `.band-inner` (carries `--section-size`). A style query reads the *parent's* flag, so a rule can't style the element that sets the flag: put the layout on a child of `.band-inner`. Always make both boxes together; `check-styles` fails if markup makes a `band-outer` without a `band-inner`.
 
 42rem is deliberately `--reading-width`; change them together.
 
@@ -46,7 +46,7 @@ Nothing writes a width except `screen.css` and `band.css`. Ask a named question 
 
 - *A new brand colour:* a raw value in `tokens.css`; a role in `roles.css` if it has a job.
 - *Make all dates a bit bolder:* the role it uses (`--weight-label`?) in `roles.css`, or `components/date.css` if it's only dates.
-- *A new kind of layout inside a band (say a timeline):* a new file in `patterns/` with knobs documented at the top, asking `--band-size`; import it in `Site.astro`.
+- *A new kind of layout inside a band (say a timeline):* a new file in `patterns/` with knobs documented at the top, asking `--section-size`; import it in `Site.astro`.
 - *A one-off tweak to the events list:* the scoped `<style>` in `Events.astro`, using roles for any size or colour. If you need a size that no role has, snap to the nearest role or add a general role.
 
 ## Knobs
@@ -54,7 +54,7 @@ Nothing writes a width except `screen.css` and `band.css`. Ask a named question 
 | Pattern | Knobs |
 |---|---|
 | page-grid | `--page-measure` |
-| band | `--band-measure`, `--band-size` (set for you) |
+| band | `--section-measure`, `--section-size` (set for you) |
 | columns | `--column-count` (set by the directive) |
 | cards | `--column-count`, `--card-height`, `--scrim` |
 | photo-backdrop | `--scrim` |

@@ -156,7 +156,7 @@ export default function articleDirectives() {
             ],
           }];
         }
-        // Every band is two boxes: the outer one is measured, the inner one carries --band-size (see band.css).
+        // Every band is two boxes: the outer one is measured, the inner one carries --section-size (see band.css).
         node.children = [{
           type: 'containerDirective',
           name: 'band-inner',
@@ -201,7 +201,8 @@ export default function articleDirectives() {
         node.data = { hName: 'div', hProperties: { 'data-align': 'center' } };
       }
 
-      if (node.name === 'gallery') {
+      // (Pages written with --- sections get their gallery from theme/layouts/gallery.css instead.)
+      if (node.name === 'gallery' && !node.data?.hProperties?.['data-layout']) {
         const images = node.children.flatMap(block => {
           if (block.type !== 'paragraph') file.fail('Use Markdown images inside :::gallery.', block);
           return block.children.filter(child => child.type !== 'text' || child.value.trim());

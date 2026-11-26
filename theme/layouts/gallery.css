@@ -1,0 +1,16 @@
+/* Gallery: a row of square photos, one column each on wider screens and stacked on phones. Write it as a list, one photo per item.
+   Variables:
+     --gallery-gap   space between photos (default --space-sm) */
+:scope {
+  /* Space between photos. */
+  --gallery-gap: var(--space-sm);
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--gallery-gap);
+}
+.layout-figure { margin: 0; }
+.layout-figure img { aspect-ratio: 1; object-fit: cover; }
+
+@container style(--screen: medium) or style(--screen: wide) {
+  :scope { grid-auto-flow: column; }
+}

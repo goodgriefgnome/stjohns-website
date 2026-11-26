@@ -20,7 +20,7 @@ const registry = registryFrom({
   behaviours: ['cycle'],
 });
 const processor = await createMarkdownProcessor({
-  remarkPlugins: [articleDirectives, [remarkLayouts, { registry }]],
+  remarkPlugins: [[remarkLayouts, { registry }], articleDirectives],
   rehypePlugins: [rehypeActions],
 });
 const render = async markdown => (await processor.render(markdown)).code;

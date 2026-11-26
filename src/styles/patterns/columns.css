@@ -7,7 +7,7 @@
   gap: var(--gutter);
   margin-top: var(--space-xl);
 }
-@container style(--band-size: wide) {
+@container style(--section-size: wide) {
   .cols:not(.cards) {
     grid-template-columns: repeat(var(--column-count), minmax(0, 1fr));
   }

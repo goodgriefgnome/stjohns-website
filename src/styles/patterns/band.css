@@ -1,26 +1,26 @@
 /* Bands: full-width stripes of the page, each with its own palette. Bands span every column of the page grid.
    Every band is two boxes: .band-outer (palette, padding, and the box whose width is measured) and
-   .band-inner inside it (holds the content, and carries --band-size). Always emit both together.
+   .band-inner inside it (holds the content, and carries --section-size). Always emit both together.
    Knobs:
-   --band-measure  width of the band's content (default --page-measure; --layout-width on wide bands)
-   --band-image-max-height  tallest an image in a band gets (default 30rem)
-   --band-size     set on .band-inner: "wide" once the band's content box is 42rem or more, else unset.
-                   Patterns inside ask it with @container style(--band-size: wide). 42rem equals
+   --section-measure  width of the band's content (default --page-measure; --layout-width on wide bands)
+   --section-image-max-height  tallest an image in a band gets (default 30rem)
+   --section-size     set on .band-inner: "wide" once the band's content box is 42rem or more, else unset.
+                   Patterns inside ask it with @container style(--section-size: wide). 42rem equals
                    --reading-width: change them together. */
 /* Bands run edge to edge, with their content held to the page measure (or the layout width when wide). */
 .band-outer {
-  --band-measure: var(--page-measure);
-  --band-image-max-height: 30rem;
+  --section-measure: var(--page-measure);
+  --section-image-max-height: 30rem;
   container: band / inline-size;
   grid-column: 1 / -1;
-  margin: 0 0 var(--band-spacing);
-  padding: var(--band-spacing) max(var(--gutter), calc((100% - var(--band-measure)) / 2));
+  margin: 0 0 var(--section-spacing);
+  padding: var(--section-spacing) max(var(--gutter), calc((100% - var(--section-measure)) / 2));
 }
 @container band (width >= 42rem) {
-  .band-outer > .band-inner { --band-size: wide; }
+  .band-outer > .band-inner { --section-size: wide; }
 }
-.band-wide { --band-measure: var(--layout-width); }
-.band-outer + .band-outer { margin-top: calc(-1 * var(--band-spacing)); }
+.band-wide { --section-measure: var(--layout-width); }
+.band-outer + .band-outer { margin-top: calc(-1 * var(--section-spacing)); }
 .band-outer:last-child { margin-bottom: 0; }
 .band-inner > :last-child { margin-bottom: 0; }
 
@@ -35,4 +35,4 @@
 .band-banner p:last-child { margin-bottom: 0; }
 
 /* A default for images in bands, kept at plain-img specificity so photo cards and square crops override it. */
-:where(.band-outer) img { max-height: var(--band-image-max-height); object-fit: contain; }
+:where(.band-outer) img { max-height: var(--section-image-max-height); object-fit: contain; }

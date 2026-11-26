@@ -1,0 +1,43 @@
+/* Cards: photo cards side by side, stacked on phones. Each item's picture fills the card behind its text.
+   Variables:
+     --cards-height  how tall a card is at least (default scales with the screen)
+     --cards-scrim   the dark layer over each photo, so the text stays readable (default --photo-scrim-light) */
+:scope {
+  /* How tall a card is at least. */
+  --cards-height: clamp(19rem, 39vw, 29rem);
+  /* The dark layer over each photo. */
+  --cards-scrim: var(--photo-scrim-light);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-sm);
+  text-align: left;
+}
+.layout-item {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: var(--cards-height);
+  padding: var(--space-sm);
+  color: var(--paper);
+}
+.layout-item::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--cards-scrim); }
+/* The picture fills the whole card, behind the scrim and the text. */
+.layout-figure { position: absolute; inset: 0; z-index: -2; }
+.layout-figure img { position: absolute; inset: 0; height: 100%; max-height: none; object-fit: cover; }
+.layout-body { display: flex; flex-direction: column; }
+.layout-body > :last-child { margin-bottom: 0; }
+.layout-body > .actions:last-child { margin-top: auto; }
+
+@container style(--section-size: wide) {
+  :scope {
+    grid-template-columns: repeat(var(--item-count), minmax(0, 1fr));
+    /* The first row is shared and empty, so the heading and text of every card sit level at the bottom. */
+    grid-auto-rows: 1fr auto auto;
+    min-height: var(--cards-height);
+  }
+  .layout-item { display: grid; grid-template-rows: subgrid; grid-row: span 3; }
+  h3 { grid-row: 2; }
+  .layout-body { grid-row: 3; }
+}

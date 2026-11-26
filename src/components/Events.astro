@@ -160,7 +160,7 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
   .description { overflow-wrap: anywhere; }
 
   /* Wide bands add the mini calendar. Narrow ones (phones) skip it and the list gets most of the screen. */
-  @container style(--band-size: wide) {
+  @container style(--section-size: wide) {
     .events { grid-template-columns: var(--calendar-width) minmax(0, 1fr); }
     .event-calendar { display: block; }
     .event-list { contain: size; max-height: none; }

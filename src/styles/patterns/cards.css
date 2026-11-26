@@ -25,7 +25,7 @@
 .cards p:has(> img:only-child) { margin: 0; }
 .cards > .col { display: flex; grid-row: auto; }
 
-@container style(--band-size: wide) {
+@container style(--section-size: wide) {
   .cards { grid-template-columns: repeat(var(--column-count), minmax(0, 1fr)); }
   /* The shared first row leaves room above the copy on the photo cards. */
   .cards:has(> .col) {

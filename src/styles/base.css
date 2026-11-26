@@ -35,6 +35,9 @@ blockquote { margin: 0 }
 summary { cursor: pointer; }
 /* role="list" keeps a list announced as a list once its bullets are gone. */
 ul[role="list"] { list-style: none; padding: 0; }
+/* Layout blocks (theme/layouts) are lists with their bullets, indents and margins already gone, so a layout never resets them. */
+.layout { list-style: none; padding: 0; margin: 0; }
+.layout-figure { margin: 0; }
 
 @view-transition {
   navigation: auto;

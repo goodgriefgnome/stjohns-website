@@ -9,7 +9,7 @@
 .media-image img { aspect-ratio: 1; object-fit: cover; }
 .media-body > :last-child { margin-bottom: 0; }
 
-@container style(--band-size: wide) {
+@container style(--section-size: wide) {
   .media { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
   .media[data-image='right'] { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
   .media[data-image='right'] .media-image { order: 1; }

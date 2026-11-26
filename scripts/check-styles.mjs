@@ -72,7 +72,7 @@ for (const file of [...allFiles('theme'), ...allFiles('src')]) {
       if (loose.length) problems.push(`${where(m.index)}: raw length ${loose.join(', ')} in "${prop}: ${value.trim()}" (use ${suggest(prop, loose[0])}, or a role or knob)`);
     }
     for (const m of css.matchAll(/@(?:media|container)[^{]*\b(?:width|inline-size)\b[^{]*/g)) {
-      if (name !== 'screen.css' && name !== 'band.css') problems.push(`${where(m.index)}: width query "${m[0].trim()}" (only screen.css and band.css may have one; ask --screen instead)`);
+      if (name !== 'screen.css' && name !== 'band.css' && name !== 'section.css') problems.push(`${where(m.index)}: width query "${m[0].trim()}" (only screen.css and band.css may have one; ask --screen instead)`);
     }
   }
 }
