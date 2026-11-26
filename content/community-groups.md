@@ -23,23 +23,23 @@ While every group is unique, they all include:
 :::columns
 ---
 
-### :icon[bread-slice] Food
+### :icon[bread-slice]{accent} Food
 
 Groups build relationships with one another and embody Christian unity by sharing dinner, nibbles, drinks, or dessert.
 
 ---
 
-### :icon[user] Reflection
+### :icon[user]{accent} Reflection
 
 ---
 
-### :icon[hands-praying] Prayer
+### :icon[hands-praying]{accent} Prayer
 
 Each group spends time coming before God in worship, thanksgiving, and petition.
 
 ---
 
-### :icon[heart] Support
+### :icon[heart]{accent} Support
 
 Groups act as nuclear families of the church, caring for one another and helping one another in ways both spiritual and practical.
 

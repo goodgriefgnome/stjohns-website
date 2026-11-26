@@ -7,3 +7,5 @@
   vertical-align: var(--icon-drop);
 }
 .icon-heading { display: block; margin-bottom: var(--space-md); font-size: var(--font-h3); line-height: 1; }
+/* {accent}: the icon uses its section's accent colour instead of the text colour. */
+.icon-accent { color: var(--accent); }

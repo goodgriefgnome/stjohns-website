@@ -210,7 +210,7 @@ Example: `**[Get in Touch](mailto:{{music.email}})**`.
 
 ## Icons
 
-`:icon[bell]` shows a small Font Awesome icon. Put one at the start of a heading (`### :icon[desktop] Direct Deposit`) and it sits above the heading. Use `:icon[bell]{style="regular"}` for the outline version. Use `{style="brands"}` for logos such as `:icon[instagram]{style="brands"}`. An icon on its own inside a link has no name for screen readers, so add `label`: `[:icon[instagram]{style="brands" label="Instagram"}](https://www.instagram.com/…)`. The names are at [fontawesome.com/search?ic=free](https://fontawesome.com/search?ic=free).
+`:icon[bell]` shows a small Font Awesome icon. Put one at the start of a heading (`### :icon[desktop] Direct Deposit`) and it sits above the heading. Use `:icon[bell]{style="regular"}` for the outline version. Use `{style="brands"}` for logos such as `:icon[instagram]{style="brands"}`. An icon on its own inside a link has no name for screen readers, so add `label`: `[:icon[instagram]{style="brands" label="Instagram"}](https://www.instagram.com/…)`. Add `{accent}` (`:icon[heart]{accent}`) to use the section's accent colour: sky on light sections, white on blue and navy. Without it an icon keeps the text colour. The names are at [fontawesome.com/search?ic=free](https://fontawesome.com/search?ic=free).
 
 ## Links and buttons
 

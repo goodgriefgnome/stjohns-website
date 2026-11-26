@@ -101,10 +101,12 @@
 
 /* Palettes: a section's background, text and button colours.
    Each palette here must also be listed in theme/palettes.mjs (the build checks).
-   Filled buttons are white text on sky, or white on navy on a sky section. */
+   Filled buttons are white text on sky, or white on navy on a sky section.
+   --accent is an accent colour, for things that stand out from the text, such as icons with {accent}. */
 [data-palette] {
   --action-bg: var(--sky);
   --action-text: var(--paper);
+  --accent: var(--sky);
   background-color: var(--section-bg);
   color: var(--section-text);
 }
@@ -113,8 +115,8 @@
 /* mist: a pale grey section for contrast */
 [data-palette="mist"] { --section-bg: var(--mist); --section-text: var(--slate); }
 /* blue: the sky-blue section, with white text and navy buttons */
-[data-palette="blue"] { --section-bg: var(--sky); --section-text: var(--paper); --action-bg: var(--navy); --action-text: var(--paper); }
+[data-palette="blue"] { --section-bg: var(--sky); --section-text: var(--paper); --action-bg: var(--navy); --action-text: var(--paper); --accent: var(--paper); }
 /* cream: a warm off-white section */
 [data-palette="cream"] { --section-bg: var(--cream); --section-text: var(--navy); }
 /* navy: the default for ::banner, a dark section with white text */
-[data-palette="navy"] { --section-bg: var(--navy); --section-text: var(--paper); }
+[data-palette="navy"] { --section-bg: var(--navy); --section-text: var(--paper); --accent: var(--paper); }

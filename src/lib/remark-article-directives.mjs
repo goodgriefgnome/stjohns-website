@@ -70,7 +70,7 @@ export default function articleDirectives() {
         type: 'element',
         tagName: 'span',
         properties: {
-          className: ['icon', ...(leadsHeading ? ['icon-heading'] : [])],
+          className: ['icon', ...(leadsHeading ? ['icon-heading'] : []), ...(node.attributes && 'accent' in node.attributes ? ['icon-accent'] : [])],
           ariaHidden: 'true',
         },
         children: [svg],

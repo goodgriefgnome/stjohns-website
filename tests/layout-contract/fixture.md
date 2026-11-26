@@ -140,4 +140,4 @@ Second outer item.
 
 ---
 
-[:icon[instagram]{style="brands" label="Instagram"}](https://example.org) and :icon[bell]
+[:icon[instagram]{style="brands" label="Instagram"}](https://example.org) and :icon[bell] and :icon[heart]{accent}
