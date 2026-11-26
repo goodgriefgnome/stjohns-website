@@ -6,8 +6,8 @@ Static Astro site built from authored pages in `content/`, a look defined in `th
 
 | Folder | What lives there | Who edits it |
 |---|---|---|
-| `content/` | Written pages (`about.md`, …) and the home page `index.mdx`. One file = one page. | Editors |
-| `theme/` | The look: `tokens.css` (raw colours and sizes), `roles.css` (what they are for, plus the section palettes), `palettes.mjs` (palette names). | Whoever restyles the site |
+| `content/` | Written pages (`about.md`, …) and the home page `index.mdx`. One file = one page. Start with `content/README.md`, the authors' guide. | Editors |
+| `theme/` | The look: `tokens.css` (raw colours and sizes), `roles.css` (what they are for, plus the section palettes), `palettes.mjs` (palette names), `layouts/` (one CSS file per layout block: drop a file in and `:::name` exists; see `layouts/README.md`) and `behaviours/` (shared switches such as `cycle`). | Whoever restyles the site |
 | `imported/` | Data the site reads: `church.json`, sermons, events, concerts. Hand-edited snapshots today, written by importers later. | Importers (later) |
 | `src/` | Code only: components, layouts, routes, plugins (`lib/`) and the structural CSS (`styles/`: base, patterns, components, the `--screen` flag). | Developers |
 | `public/` | Files served as-is: fonts and `media/` images. | |
@@ -21,7 +21,7 @@ Use Node.js 22.12 or newer.
 
 ```sh
 npm ci
-npm run build
+npm run build      # runs check-styles and the layout tests (npm test), then builds
 npm run preview
 ```
 
@@ -31,6 +31,7 @@ Astro writes the static site to `dist/`. The build reads local files and require
 
 See the [page-by-page representation review](docs/page-representation.md).
 
+- Pages are written in Markdown with `---` between sections, `::section{…}`/`::banner` for a section's look, and `:::columns`, `:::cards`, `:::media`, `:::gallery` blocks for layouts (a `---` inside a block starts the next item). The full guide is `content/README.md`; layout authors read `theme/layouts/README.md`.
 - Edit written pages in `content/` and add component-driven routes in `src/pages/`. Edit the shared homepage composition in `content/index.mdx`. It renders at `/`. The shared navigation lives in `src/layouts/Site.astro`.
 - `imported/church.json` holds shared contact details, Sunday services (`services`: each name has a dated history of start times, so changing a time keeps old sermons on their old time), staff inboxes (`inboxes`) and which inbox handles what (`roles`).
 - `imported/concerts/` contains one dated entry per concert.
