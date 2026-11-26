@@ -1,10 +1,13 @@
 ---
 title: "Community Groups"
-hero: /media/articles/community-groups.webp
-heroFocus: [39.12, 19.38]
 width: standard
 palette: white
 ---
+
+---
+::hero
+
+![](/media/articles/community-groups.webp) :focus{at="39.12% 19.38%"}
 
 ---
 ::banner

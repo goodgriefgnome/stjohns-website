@@ -33,7 +33,7 @@ The architecture spec calls for ordinary Astro components, typed reusable layout
 
 Page routes compose shared layouts, content sections and links. Components and the stylesheet own presentation details. The source snapshots remain local files at build time.
 
-Written pages live in `content/`. A filename like `about.md` renders at `/about`. Every entry uses `Page.astro`. The optional `hero` field names the public image URL, independently of the content width. Use `heroFocus: [39, 80]` to set the horizontal and vertical crop position in percentages from 0 to 100. Omit it for a centred crop. The authors' guide is `content/README.md`; this page records the design.
+Written pages live in `content/`. A filename like `about.md` renders at `/about`. Every entry uses `Page.astro`. The hero is written in the page as a first section starting with `::hero` (picture, optional `:focus{at="x% y%"}`, optional `#` heading, subtitle, buttons); without it the page gets the default hero. See `content/README.md`. The authors' guide is `content/README.md`; this page records the design.
 
 A page is a stack of **sections**: a line containing only `---` starts a new one. An optional `::section{palette="navy" align="center" text="wide"}` line directly under the `---` sets its look, and `::banner` is a centred navy section (it also accepts a palette). Section palettes use `white`, `mist`, `blue`, `cream`, or `navy`. In Astro, use `<ContentSection palette="navy">`. Links inherit the section text colour.
 

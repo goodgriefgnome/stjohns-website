@@ -4,32 +4,16 @@ import { withBase } from '../lib/base-path.mjs';
 
 interface Props {
   title: string;
-  hero?: string;
-  heroFocus?: [number, number];
-  heroSubtitle?: string;
 }
-// A page without its own photo uses the church's default hero.
-const { title, hero = church.defaultHero, heroFocus, heroSubtitle } = Astro.props;
-const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
+// Pages written in Astro get the site's default hero. The markup is the same as a Markdown page's `::hero` (see
+// src/lib/remark-layouts.mjs), and styles/patterns/hero.css styles both.
+const { title } = Astro.props;
 ---
 <header class="hero photo-backdrop" data-palette="navy">
-  <img src={withBase(hero)} alt="" fetchpriority="high" style={focalPoint && { objectPosition: focalPoint }} />
+  <figure class="layout-figure" style="--image-count: 1">
+    <img src={withBase(church.defaultHero)} alt="" fetchpriority="high" style="--i: 0" />
+  </figure>
   <div>
     <h1>{title}</h1>
-    {heroSubtitle && <p>{heroSubtitle}</p>}
   </div>
 </header>
-
-<style>
-  .hero {
-    display: grid;
-    place-items: center;
-    min-height: var(--hero-height);
-    padding: var(--hero-clearance) var(--gutter) var(--section-spacing);
-    text-align: center;
-  }
-  .hero > div > :last-child { margin-bottom: 0; }
-  @container style(--screen: wide) {
-    .hero { padding-top: var(--home-header-height); }
-  }
-</style>

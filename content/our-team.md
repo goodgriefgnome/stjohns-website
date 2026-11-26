@@ -1,10 +1,13 @@
 ---
 title: Our Team
-hero: /media/team/hero.webp
-heroFocus: [50, 15]
 width: standard
 palette: white
 ---
+
+---
+::hero
+
+![](/media/team/hero.webp) :focus{at="50% 15%"}
 
 ---
 ::section{palette="white"}

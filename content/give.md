@@ -1,11 +1,17 @@
 ---
-title: "\"For all things come from You, and of your own we have given you.\" "
-hero: /media/articles/give.webp
-heroFocus: [53.3, 53.3]
-heroSubtitle: "1 Chronicles 29:14"
+title: Give
 width: standard
 palette: white
 ---
+
+---
+::hero
+
+![](/media/articles/give.webp) :focus{at="53.3% 53.3%"}
+
+# "For all things come from You, and of your own we have given you."
+
+1 Chronicles 29:14
 
 ---
 ::banner

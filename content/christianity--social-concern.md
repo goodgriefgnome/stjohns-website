@@ -1,7 +1,11 @@
 ---
 title: "Christianity + Social Concern"
-hero: /media/articles/christianity--social-concern.webp
 ---
+
+---
+::hero
+
+![](/media/articles/christianity--social-concern.webp)
 
 ---
 ::banner

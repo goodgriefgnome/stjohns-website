@@ -1,8 +1,12 @@
 ---
 title: "Creatives Collective"
-hero: /media/articles/creatives-collective.webp
 palette: white
 ---
+
+---
+::hero
+
+![](/media/articles/creatives-collective.webp)
 
 ---
 ::banner

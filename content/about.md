@@ -1,9 +1,13 @@
 ---
 title: "About Us"
-hero: /media/articles/about.webp
 width: standard
 palette: white
 ---
+
+---
+::hero
+
+![](/media/articles/about.webp)
 
 ---
 ::section{palette="white"}
@@ -44,12 +48,11 @@ palette: white
 St John’s is a church community… Our roots in Darlinghurst go back to 1849. But our true origins run much deeper than that. After his death and resurrection, Jesus Christ established the church to embody his presence to the world. As a community whose life revolves around God’s word and the sacraments, we are, for all our faults, a concrete manifestation of the presence of Christ.
 
 ---
+::section{width="full-bleed" aspect="7/5" images="cycle"}
 
-:::gallery
 - ![](/media/articles/about-1.webp)
 - ![](/media/articles/about-2.webp)
 - ![](/media/articles/about-3.webp)
-:::
 
 ---
 ::section{palette="cream" align="left"}

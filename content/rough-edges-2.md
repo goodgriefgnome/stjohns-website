@@ -1,9 +1,14 @@
 ---
 title: "Rough Edges"
-hero: /media/articles/rough-edges-2.webp
-heroFocus: [51.65, 23.59]
 width: standard
 palette: mist
+---
+
+---
+::hero
+
+![](/media/articles/rough-edges-2.webp) :focus{at="51.65% 23.59%"}
+
 ---
 
 Rough Edges runs a drop-in centre open for dinner 7.30-9pm Monday to Thursday, providing hearty meals and a place to connect with others for people in need.

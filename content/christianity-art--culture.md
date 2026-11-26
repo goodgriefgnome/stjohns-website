@@ -1,10 +1,13 @@
 ---
 title: "Christianity, Art + Culture"
 width: standard
-hero: /media/articles/christianity-art--culture.webp
-heroFocus: [49.7, 46.79]
 palette: white
 ---
+
+---
+::hero
+
+![](/media/articles/christianity-art--culture.webp) :focus{at="49.7% 46.79%"}
 
 ---
 ::section{palette="white" align="left" text="wide"}

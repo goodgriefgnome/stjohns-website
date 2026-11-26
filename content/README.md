@@ -11,9 +11,6 @@ Every page starts with a few settings between two lines of `---`:
 ```
 ---
 title: Music Ministry & Choir
-hero: /media/3595ec07d9070fb1a02d.webp
-heroFocus: [50, 40]
-heroSubtitle: A line under the title
 width: standard
 palette: white
 ---
@@ -21,12 +18,45 @@ palette: white
 
 | Setting | What it does |
 |---|---|
-| `title` | The page title, shown over the big photo at the top. Required. |
-| `hero` | The big photo at the top. Leave it out to use the site's default photo. |
-| `heroFocus` | Which part of the photo to keep when it is cropped: `[across, down]`, each 0 to 100. `[50, 50]` is the middle. |
-| `heroSubtitle` | A small line under the title. |
+| `title` | The page title: the browser tab, the menu, and the big heading over the photo (unless you write your own heading in the hero). Required. |
 | `width` | `reading` (the default) keeps everything in a narrow column. `standard` lets sections and layouts use the full width of the page. Use `standard` for pages with columns, cards, pictures beside text, or galleries. |
 | `palette` | The colour of the page behind everything: `white`, `mist`, `blue`, `cream` or `navy`. |
+
+## The hero: the big photo at the top
+
+Every page has one. If you write nothing, the page gets the site's default photo with its `title` over it. To choose your own, make the first section start with `::hero`:
+
+```
+---
+::hero
+
+![](/media/articles/give.webp) :focus{at="53% 53%"}
+
+# "For all things come from You, and of your own we have given you."
+
+1 Chronicles 29:14
+
+**[Give now](/give)**
+```
+
+- The picture is the background. `:focus{at="across% down%"}` right after it says which part to keep when it is cropped (`50% 50%` is the middle, and what you get without it). A space before `:focus` is fine. It belongs to that use of the picture, so the same file can have a different focus on another page.
+- A `#` heading is the page's big heading. This is the only place `#` is allowed. Leave it out and the page `title` is used.
+- Anything else is ordinary Markdown: a paragraph is a subtitle, `**[Text](/link)**` is a button.
+- For a slideshow, write the pictures as a list and add `images="cycle"`:
+
+```
+---
+::hero{images="cycle"}
+
+- ![](/media/hero-door.webp)
+- ![](/media/hero-community.webp) :focus{at="53% 39%"}
+
+# Truth, Beauty, and Goodness for the heart of the city.
+```
+
+  Two to nine pictures cycle. With reduced motion on, only the first shows. A list of several pictures without `images="cycle"` is an error.
+- `aspect="3/2"` gives the hero that shape (it is never shorter than usual).
+- `::hero` only works as the first section. A hero with no picture uses the default one.
 
 ## A page is a stack of sections
 
@@ -61,8 +91,24 @@ Put a `::section{…}` line right under the `---` (it must be the first line of 
 | `palette` | `white`, `mist`, `blue`, `cream`, `navy` | The colour of the stripe. Without it the section takes the page's colour. |
 | `align` | `left`, `center` | Where the text sits. Headings are centred unless you say `left`. |
 | `text` | `reading`, `wide` | How wide ordinary text runs. `reading` (the default) is a comfortable narrow column. `wide` uses the full page width. Layouts such as columns are always full width. |
+| `images` | `cycle` | Several pictures in the section fade into each other in turn. |
+| `aspect` | two numbers, such as `7/5` | The shape (width/height) of pictures written in the section. Every picture fills that shape, cropped around its `:focus`. Without it, the first picture's own shape is used. |
+| `width` | `full-bleed` | No padding: pictures run edge to edge and are not capped in height. Text keeps its usual column. |
 
 Example: `::section{palette="cream" align="center" text="wide"}`
+
+A picture on its own line, or a list holding only pictures, is shown as a figure where you wrote it. This is how to write a slideshow in any section, like the one on About:
+
+```
+---
+::section{width="full-bleed" aspect="7/5" images="cycle"}
+
+- ![](/media/articles/about-1.webp)
+- ![](/media/articles/about-2.webp)
+- ![](/media/articles/about-3.webp)
+```
+
+(Directly inside a layout block, a list still means "one item each". Inside an item, a list of pictures is one figure.)
 
 ### Banners
 
@@ -70,7 +116,7 @@ Example: `::section{palette="cream" align="center" text="wide"}`
 
 ### Headings
 
-Use `##` for headings in a section, and `###` for smaller ones. Never use a single `#`: the page title already is the one top-level heading.
+Use `##` for headings in a section, and `###` for smaller ones. A single `#` is only for the hero (see above).
 
 ## Layouts
 
@@ -227,7 +273,10 @@ Put buttons and bar links on a line of their own. Several in a row sit side by s
 | Message | What it means and what to do |
 |---|---|
 | Put a blank line before `---`, or use `##` for a heading. | You wrote a line of text and then `---` straight underneath. Add an empty line above the `---`. |
-| The page title is the only level-one heading. Use `##`. | You started a line with a single `#`. Use `##`. |
+| A `#` heading is only for the hero… | You started a line with a single `#` outside the hero. Use `##`, or move it under `::hero` in the first section. |
+| Several pictures in a hero need `images="cycle"` | A hero holds a list of pictures. Write `::hero{images="cycle"}`. |
+| `:focus{…}` goes right after a picture / `:focus` needs `at`… | Write `![](/media/x.webp) :focus{at="50% 20%"}`: two percentages, 0% to 100%. |
+| `::hero` is only for the first section | Move it under the page's first `---`. |
 | `---` only splits sections and layout items. | You used `---` inside a list, an accordion or a quote. Use it only between sections, or between items inside a layout block. |
 | `::section` must be the first line of a section, right under the `---`. | Move the `::section{…}` line to directly under the `---`. |
 | … has no setting "…" / Unknown palette / Unknown … | A setting is spelled wrong, or isn't one of the choices. The message lists the choices. |

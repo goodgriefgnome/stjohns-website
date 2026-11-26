@@ -31,7 +31,7 @@ export default defineConfig({
   trailingSlash: 'ignore',
   markdown: {
     processor: unified({
-      remarkPlugins: [remarkLayouts, articleDirectives, [churchTokens, { church }]],
+      remarkPlugins: [[remarkLayouts, { defaultHero: church.defaultHero }], articleDirectives, [churchTokens, { church }]],
       rehypePlugins: [rehypeActions, [rehypeBaseLinks, { base }]],
     }),
   },

@@ -5,7 +5,7 @@
    --section-measure (--reading-width, or --layout-width with text="wide"), and layout blocks fill the section.
    CSS variables:
    --section-measure  width of ordinary text (default --reading-width; --layout-width when data-text="wide")
-   --section-image-max-height  tallest an image in a section gets (default 30rem)
+   --section-image-max-height  tallest an image in a section gets (default 30rem; none in a full-bleed section)
    --section-size  set on .section-inner: "wide" once the section's content box is 42rem or more, else unset.
                    Layouts inside ask it with @container style(--section-size: wide). 42rem equals
                    --reading-width: change them together. */
@@ -42,3 +42,20 @@
 
 /* A default for images in sections, kept at plain-img specificity so layouts and square crops override it. */
 :where(.section-outer) img { max-height: var(--section-image-max-height); object-fit: contain; }
+
+/* A picture (or a list of pictures) written in a section is a figure, in the place it was written. */
+.section-inner > .layout-figure { margin-bottom: var(--space-sm); }
+/* aspect="7/5": the figure has that shape and every picture fills it, cropped around its focus. */
+.layout-figure[data-aspect] img { height: 100%; max-height: none; object-fit: cover; }
+
+/* width="full-bleed": the section has no padding, so a figure runs edge to edge between its neighbours and is not capped in height.
+   Text and layout blocks keep their usual column, with the gutter either side. */
+.section-outer[data-width='full-bleed'] { --section-image-max-height: none; padding: 0; }
+.section-outer[data-width='full-bleed'] > .section-inner > :not(.layout-figure) {
+  width: min(100% - 2 * var(--gutter), var(--section-measure));
+}
+.section-outer[data-width='full-bleed'] > .section-inner > .layout {
+  width: min(100% - 2 * var(--gutter), var(--page-measure));
+  margin-inline: auto;
+}
+.section-outer[data-width='full-bleed'] > .section-inner > .layout-figure { max-width: none; }

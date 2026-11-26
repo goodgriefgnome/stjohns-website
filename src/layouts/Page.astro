@@ -1,29 +1,23 @@
 ---
-import Hero from '../components/Hero.astro';
 import { palettes } from '../../theme/palettes.mjs';
 import Site from './Site.astro';
 
 interface Props {
   title: string;
   width?: 'standard' | 'reading';
-  hero?: string;
-  heroFocus?: [number, number];
-  heroSubtitle?: string;
   palette?: typeof palettes[number];
 }
-const { title, width = 'standard', hero, heroFocus, heroSubtitle, palette } = Astro.props;
+const { title, width = 'standard', palette } = Astro.props;
 if (palette && !palettes.includes(palette)) throw new Error(`Unknown page palette: ${palette}`);
 const isReading = width === 'reading';
 const Frame = isReading ? 'article' : 'div';
-// A page can supply its own hero markup instead of the standard hero.
-const customHero = Astro.slots.has('hero');
 ---
 <Site title={title} photoHeader>
   <Frame data-palette={palette ?? (isReading ? 'cream' : undefined)}>
-    {customHero ? <slot name="hero" /> : <Hero title={title} hero={hero} heroFocus={heroFocus} heroSubtitle={heroSubtitle} />}
+    <!-- A Markdown page writes its hero in the content (::hero). A page written in Astro puts <Hero> in this slot. -->
+    <slot name="hero" />
     <div class:list={['page-content', { 'page-reading': isReading }]}>
       <slot />
     </div>
   </Frame>
 </Site>
-

@@ -33,12 +33,6 @@
   --hero-clearance: 8rem;
   /* How tall a hero is at least. */
   --hero-height: clamp(17rem, 35vw, 25rem);
-  /* The home hero's minimum height. */
-  --hero-home-height: 25rem;
-  /* The tallest the home hero photo gets on a narrow screen. */
-  --hero-photo-max-height: 24rem;
-  /* The home hero photo's arched top and slightly rounded bottom. */
-  --hero-arch: 45% 45% var(--radius-sm) var(--radius-sm) / 28% 28% var(--radius-sm) var(--radius-sm);
 
   /* Size of a finger-friendly button, measured on the screen. */
   --tap-target: 44px;

@@ -1,7 +1,13 @@
 ---
 title: Serve
-hero: /media/children.webp
 palette: white
+---
+
+---
+::hero
+
+![](/media/children.webp)
+
 ---
 
 ## How you can serve your church community

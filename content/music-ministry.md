@@ -1,9 +1,13 @@
 ---
 title: Music Ministry & Choir
-hero: /media/3595ec07d9070fb1a02d.webp
 width: standard
 palette: white
 ---
+
+---
+::hero
+
+![](/media/3595ec07d9070fb1a02d.webp)
 
 ---
 ::banner

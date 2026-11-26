@@ -1,9 +1,13 @@
 ---
 title: Welcome
-hero: /media/groups.webp
 width: standard
 palette: white
 ---
+
+---
+::hero
+
+![](/media/groups.webp)
 
 ---
 ::banner

@@ -2,9 +2,10 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Page from '../layouts/Page.astro';
 
+// content/index.* is the home page, at "/"; every other page is at /<file name>.
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
-  return pages.map(entry => ({ params: { slug: entry.id }, props: { entry } }));
+  return pages.map(entry => ({ params: { slug: entry.id === 'index' ? undefined : entry.id }, props: { entry } }));
 }
 
 interface Props {

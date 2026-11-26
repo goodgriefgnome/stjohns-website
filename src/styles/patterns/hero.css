@@ -1,5 +1,19 @@
-/* The photo at the top of every page: a gentle fade at the top and soft shadows keep white text and the logo readable.
-   CSS variables (roles.css): --hero-fade, --photo-shadow-tight, --photo-shadow-wide */
-.hero { --scrim: var(--hero-fade); }
+/* The photo at the top of every page, under the page's title: one look everywhere. A Markdown page writes it with ::hero;
+   Hero.astro makes the same markup for pages written in Astro. The photo (or the pictures of a cycling hero) is the figure
+   inside it and fills the hero behind the text. A gentle fade at the top and soft shadows keep white text and the logo readable.
+   CSS variables (roles.css): --hero-height, --hero-clearance, --home-header-height, --hero-fade, --photo-shadow-tight, --photo-shadow-wide */
+.hero {
+  --scrim: var(--hero-fade);
+  display: grid;
+  place-items: center;
+  min-height: var(--hero-height);
+  padding: var(--hero-clearance) var(--gutter) var(--section-spacing);
+  text-align: center;
+}
+.hero > .layout-figure { position: absolute; inset: 0; }
 .hero > div { text-shadow: var(--photo-shadow-tight), var(--photo-shadow-wide); }
+.hero > div > :last-child { margin-bottom: 0; }
 .hero > div a { text-shadow: none; }
+@container style(--screen: wide) {
+  .hero { padding-top: var(--home-header-height); }
+}

@@ -1,10 +1,13 @@
 ---
 title: "Faith, Work and Economics"
-hero: /media/articles/faith-work-and-economics.webp
-heroFocus: [39, 80]
 width: standard
 palette: cream
 ---
+
+---
+::hero
+
+![](/media/articles/faith-work-and-economics.webp) :focus{at="39% 80%"}
 
 ---
 ::banner

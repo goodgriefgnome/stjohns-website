@@ -1,4 +1,4 @@
-/* Cycle: the pictures in a picture slot stack up and fade into one another in turn (set --images: cycle on a block, or on a figure in a layout). With reduced motion, or more than six pictures, only the first shows.
+/* Cycle: the pictures in a picture slot stack up and fade into one another in turn (set --images: cycle on a block, or on a figure in a layout). With reduced motion, or more than nine pictures, only the first shows.
    Variables:
      --cycle-time   how long each picture stays before the next fades in (default set in the roles) */
 /* Stack the pictures on top of the first, and show only the first until they animate. */
@@ -8,12 +8,15 @@
   img:not(:first-child) { position: absolute; inset: 0; height: 100%; max-height: none; object-fit: cover; }
 }
 
-/* Counts 2 to 6 have their own keyframes: CSS can't work out keyframe percentages, so they are written out. Each picture fades in, stays for its share of the loop, and fades out as the next fades in. */
+/* Counts 2 to 9 have their own keyframes: CSS can't work out keyframe percentages, so they are written out. Each picture fades in, stays for its share of the loop, and fades out as the next fades in. */
 @keyframes cycle-2 { 0% { opacity: 0; } 4% { opacity: 1; } 50.0% { opacity: 1; } 54.0% { opacity: 0; } 100% { opacity: 0; } }
 @keyframes cycle-3 { 0% { opacity: 0; } 4% { opacity: 1; } 33.33% { opacity: 1; } 37.33% { opacity: 0; } 100% { opacity: 0; } }
 @keyframes cycle-4 { 0% { opacity: 0; } 4% { opacity: 1; } 25.0% { opacity: 1; } 29.0% { opacity: 0; } 100% { opacity: 0; } }
 @keyframes cycle-5 { 0% { opacity: 0; } 4% { opacity: 1; } 20.0% { opacity: 1; } 24.0% { opacity: 0; } 100% { opacity: 0; } }
 @keyframes cycle-6 { 0% { opacity: 0; } 4% { opacity: 1; } 16.67% { opacity: 1; } 20.67% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes cycle-7 { 0% { opacity: 0; } 4% { opacity: 1; } 14.29% { opacity: 1; } 18.29% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes cycle-8 { 0% { opacity: 0; } 4% { opacity: 1; } 12.5% { opacity: 1; } 16.5% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes cycle-9 { 0% { opacity: 0; } 4% { opacity: 1; } 11.11% { opacity: 1; } 15.11% { opacity: 0; } 100% { opacity: 0; } }
 
 @media (prefers-reduced-motion: no-preference) {
   @container style(--images: cycle) {
@@ -30,4 +33,7 @@
   @container style(--images: cycle) and style(--image-count: 4) { img { animation-name: cycle-4; } }
   @container style(--images: cycle) and style(--image-count: 5) { img { animation-name: cycle-5; } }
   @container style(--images: cycle) and style(--image-count: 6) { img { animation-name: cycle-6; } }
+  @container style(--images: cycle) and style(--image-count: 7) { img { animation-name: cycle-7; } }
+  @container style(--images: cycle) and style(--image-count: 8) { img { animation-name: cycle-8; } }
+  @container style(--images: cycle) and style(--image-count: 9) { img { animation-name: cycle-9; } }
 }

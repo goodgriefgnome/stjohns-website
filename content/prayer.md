@@ -1,8 +1,12 @@
 ---
 title: Prayer & Pastoral Care
-hero: /media/pastoral.webp
 palette: white
 ---
+
+---
+::hero
+
+![](/media/pastoral.webp)
 
 ---
 ::banner

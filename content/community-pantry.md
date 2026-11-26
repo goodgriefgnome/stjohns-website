@@ -1,8 +1,15 @@
 ---
 title: Community Pantry
-hero: /media/hero-community.webp
-heroSubtitle: "Come to St John's for tea, coffee, groceries and friendship."
 palette: cream
+---
+
+---
+::hero
+
+![](/media/hero-community.webp)
+
+Come to St John's for tea, coffee, groceries and friendship.
+
 ---
 
 :::center

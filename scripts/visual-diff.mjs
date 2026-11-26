@@ -143,13 +143,13 @@ async function shootSite(browser, baseUrl, pages, shotDir) {
       }
     }
     await context.close();
-    // The home hero cycles between two photos; reduced motion shows only the first, so
+    // The home hero cycles between two photos (4s each); reduced motion shows only the first, so
     // shoot the second with motion on, paused part-way through the animation.
     if (pages.includes('/')) {
       const motionContext = await browser.newContext({ viewport: { width, height: VIEWPORT_HEIGHT }, reducedMotion: 'no-preference' });
       const motionPage = await motionContext.newPage();
       await open(motionPage, baseUrl + '/', { motion: true });
-      await motionPage.evaluate(() => document.getAnimations().forEach(a => { a.pause(); a.currentTime = 11200; }));
+      await motionPage.evaluate(() => document.getAnimations().forEach(a => { a.pause(); a.currentTime = 6000; }));
       await motionPage.waitForTimeout(100);
       await shoot(motionPage, `home.${width}.hero-photo-2`);
       await motionContext.close();

@@ -29,7 +29,7 @@ components/       small pieces: action (buttons), icon, accordion, date
 - **No loose numbers.** Every length is a token, a role, or a formula built from them. Spacing uses `--space-3xs … --space-xl`, line thickness `--line-thin/medium/thick/bar`, corners `--radius-sm/md/round/pill`. Derived values are written as the formula (`calc(50% - var(--dot-size) / 2)`), never as a constant.
 - A measurement that must stay exact (a button's padding, a drawn size such as the menu button or logo) is a **role** in `roles.css`. A value used by one component only is a **local CSS variable**: a custom property at the top of that component's style block with a one-line comment (`--burger-gap: 9px` in `SiteNavigation.astro`). Custom properties are the only place a raw number may appear outside `tokens.css` and `roles.css` (and layout files may not use raw numbers even there: they use tokens and roles).
 - **Headings are sized by level**, wherever they sit: h1 `--font-title` (the biggest), every `##` `--font-heading`, every `###` `--font-h3`. Don't resize a heading because of where it is; footer headings are the one exception (labels, `--font-subheading`).
-- **Every page has a hero** (`Hero.astro`, class `.hero`): `hero:` front matter, or `defaultHero` in `imported/church.json`. Don't call it "header", which means the site header (logo and menu).
+- **Every page has a hero** (class `.hero`, one look, styled by `patterns/hero.css`): Markdown pages write it as `::hero` (or get `defaultHero` from `imported/church.json` plus the title); pages in Astro use `Hero.astro`, which emits the same markup. Don't call it "header", which means the site header (logo and menu).
 
 ## Content: sections, layouts and widths
 

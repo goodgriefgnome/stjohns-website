@@ -17,6 +17,7 @@ export default function articleDirectives() {
   const { flow, text } = directive();
   const colon = ':'.charCodeAt(0);
   const openBracket = '['.charCodeAt(0);
+  const closeParen = ')'.charCodeAt(0);
   const inline = text[colon];
   (data.micromarkExtensions ??= []).push({
     flow,
@@ -25,8 +26,8 @@ export default function articleDirectives() {
         ...inline,
         previous(code) {
           // A colon inside a reference like John 3:16 starts no directive.
-          // An icon can start a link's text: [:icon[bell]](/x).
-          const atBoundary = code === null || markdownLineEndingOrSpace(code) || code === openBracket;
+          // An icon can start a link's text: [:icon[bell]](/x). A picture's :focus may follow its closing bracket.
+          const atBoundary = code === null || markdownLineEndingOrSpace(code) || code === openBracket || code === closeParen;
           return atBoundary && inline.previous.call(this, code);
         },
       },

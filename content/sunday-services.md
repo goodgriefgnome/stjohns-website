@@ -1,6 +1,5 @@
 ---
 title: Sunday Services
-hero: /media/hero-door.webp
 palette: white
 ---
 

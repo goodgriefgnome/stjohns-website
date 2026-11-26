@@ -1,8 +1,12 @@
 ---
 title: Are you new?
-hero: /media/c079731d7867fc71ae6f.jpg
 palette: white
 ---
+
+---
+::hero
+
+![](/media/c079731d7867fc71ae6f.jpg)
 
 ---
 ::section{palette="navy"}

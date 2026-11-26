@@ -1,7 +1,13 @@
 ---
 title: "Stay in touch"
-hero: /media/articles/list.webp
 palette: white
+---
+
+---
+::hero
+
+![](/media/articles/list.webp)
+
 ---
 
 Sign up for news from St John’s Darlinghurst.
