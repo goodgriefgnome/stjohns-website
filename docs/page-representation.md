@@ -41,7 +41,7 @@ Collection entries default to a narrow reading column. Add `width: standard` for
 
 Use `:::section{palette="blue" layout="columns"}` for a row of related items. Each level-three heading starts a column. Use the normal section directive for a full-width colour band with a reading-width body.
 
-Write `:icon[credit_card]` for a decorative [Material Symbol](https://fonts.google.com/icons). Put it at the start of a heading, as in `### :icon[restaurant] Food`, to show it above the heading. In running text it stays inline, as in `Pay by card :icon[credit_card]`. Start the directive after whitespace or at the beginning of the line. The site serves the full filled Material Symbols Rounded font locally from `public/fonts/`.
+Write `:icon[credit-card]` for a decorative [Font Awesome Free](https://fontawesome.com/search?ic=free) icon. Put it at the start of a heading, as in `### :icon[utensils] Food`, to show it above the heading. In running text it stays inline, as in `Pay by card :icon[credit-card]`. Start the directive after whitespace or at the beginning of the line. The default style is Solid. Use `:icon[bell]{style="regular"}` for an icon from the Regular set. The build embeds the SVG in the page, where it inherits the text colour. [Font Awesome Free attribution and license](licenses/Font-Awesome-Free.txt)
 
 Columns stay in one row while the section has at least the site's reading width, then stack in reading order. In rows of heading-led columns and cards, headings, body text, and closing action links line up across the row.
 

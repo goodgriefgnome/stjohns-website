@@ -1,8 +1,15 @@
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { directiveFromMarkdown } from 'mdast-util-directive';
 import { directive } from 'micromark-extension-directive';
 import { markdownLineEndingOrSpace } from 'micromark-util-character';
 import { SKIP, visit } from 'unist-util-visit';
 import { palettes } from './palettes.mjs';
+
+const iconStyles = new Map([
+  ['solid', new Map(Object.values(fas).map(({ iconName, icon }) => [iconName, icon]))],
+  ['regular', new Map(Object.values(far).map(({ iconName, icon }) => [iconName, icon]))],
+]);
 
 export default function articleDirectives() {
   const data = this.data();
@@ -36,19 +43,32 @@ export default function articleDirectives() {
       }
 
       const [label] = node.children;
-      if (node.children.length !== 1 || label?.type !== 'text' || !/^[a-z0-9_]+$/.test(label.value)) {
-        file.fail('Use a Material Symbol name, such as :icon[credit_card].', node);
+      if (node.children.length !== 1 || label?.type !== 'text') {
+        file.fail('Use a Font Awesome icon name, such as :icon[credit-card].', node);
       }
 
+      const style = node.attributes?.style ?? 'solid';
+      const icons = iconStyles.get(style);
+      if (!icons) file.fail(`Unknown icon style "${style}". Choose solid or regular.`, node);
+      const icon = icons.get(label.value);
+      if (!icon) file.fail(`Unknown Font Awesome ${style} icon "${label.value}".`, node);
+
+      const [width, height, , , paths] = icon;
       const leadsHeading = parent.type === 'heading' && index === 0;
       node.data = {
         hName: 'span',
         hProperties: {
-          className: ['material-symbol', ...(leadsHeading ? ['heading-icon'] : [])],
-          dataIcon: label.value,
+          className: ['content-icon', ...(leadsHeading ? ['heading-icon'] : [])],
           ariaHidden: 'true',
         },
-        hChildren: [],
+        hChildren: [{
+          type: 'element',
+          tagName: 'svg',
+          properties: { viewBox: `0 0 ${width} ${height}`, focusable: 'false' },
+          children: [paths].flat().map(d => ({
+            type: 'element', tagName: 'path', properties: { d }, children: [],
+          })),
+        }],
       };
     });
 
