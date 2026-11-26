@@ -118,7 +118,7 @@ export default function articleDirectives() {
               return {
                 type: 'containerDirective',
                 name: 'column',
-                data: { hName: 'div', hProperties: hasHeading ? { className: ['section-column'] } : {} },
+                data: { hName: 'div', hProperties: { className: [...(hasHeading ? ['section-column'] : []), ...(isCards ? ['photo-backdrop'] : [])] } },
                 children: hasHeading ? [heading, {
                   type: 'containerDirective',
                   name: 'column-body',

@@ -1,10 +1,10 @@
 /* Text over a photo: the photo fills the box behind the text, under a dark scrim.
-   Cards are built by the cards directive.
+   Cards get this class from the cards directive.
    Knobs:
    --scrim  the layer over the photo (default --photo-scrim); set it to lighten or darken */
-:is(.photo-backdrop, .section-cards > div) {
+.photo-backdrop {
   position: relative;
   isolation: isolate;
-  &::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--scrim, var(--photo-scrim)); }
-  & img { position: absolute; inset: 0; z-index: -2; height: 100%; max-height: none; object-fit: cover; }
 }
+.photo-backdrop::after { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--scrim, var(--photo-scrim)); }
+.photo-backdrop img { position: absolute; inset: 0; z-index: -2; height: 100%; max-height: none; object-fit: cover; }

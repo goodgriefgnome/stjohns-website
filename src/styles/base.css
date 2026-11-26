@@ -29,6 +29,7 @@ h1, h2, h3 {
 h1, h2 { font-size: clamp(1.75rem, 3vw, 2.15rem); }
 h3 { font-size: 1.45rem; }
 p { margin: 0 0 1rem; font-size: 1.125rem; }
+blockquote { margin: 0 }
 summary { cursor: pointer; }
 /* role="list" keeps a list announced as a list once its bullets are gone. */
 ul[role="list"] { list-style: none; padding: 0; }

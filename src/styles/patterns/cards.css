@@ -1,41 +1,42 @@
-/* Photo cards: columns whose cards have a photo behind the text.
+/* Photo cards: columns whose cards have a photo behind the text (each card also gets .photo-backdrop).
    Knobs:
    --column-count  number of cards across (set by the directive)
    --card-height   minimum card height
    --scrim         darkness of the layer over each photo (see photo-backdrop.css) */
-.page-content {
-  & .article-cards { text-align: center; }
-  & .section-cards {
-    --card-height: clamp(19rem, 39vw, 29rem);
-    grid-template-columns: repeat(var(--column-count), minmax(0, 1fr));
-    gap: 1rem;
-    text-align: left;
-  }
-  & .section-cards > div {
-    --scrim: var(--photo-scrim-light);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+.article-cards { text-align: center; }
+.article-cards > :not(.section-cards) { max-width: var(--reading-width); margin-inline: auto; }
+.article-cards[data-align] > .section-cards { text-align: inherit; }
+.section-cards {
+  --card-height: clamp(19rem, 39vw, 29rem);
+  grid-template-columns: repeat(var(--column-count), minmax(0, 1fr));
+  gap: 1rem;
+  text-align: left;
+}
+.section-cards > div {
+  --scrim: var(--photo-scrim-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: var(--card-height);
+  padding: 1.1rem;
+  color: var(--paper);
+}
+.section-cards > div > :last-child { margin-bottom: 0; }
+.section-cards p:has(> img:only-child) { margin: 0; }
+.section-cards h3 { font-size: 1.5rem; }
+
+@media (width > 42rem) {
+  /* The shared first row leaves room above the copy on the photo cards. */
+  .section-cards:has(> .section-column) {
     min-height: var(--card-height);
-    padding: 1.1rem;
-    color: var(--paper);
+    grid-auto-rows: 1fr auto auto;
   }
-  & .section-cards p:has(> img:only-child) { margin: 0; }
-  & .section-cards h3 { font-size: 1.5rem; }
+  .section-cards > .section-column { grid-row: span 3; }
+  .section-cards > .section-column > h3 { grid-row: 2; }
+  .section-cards .column-body { grid-row: 3; }
+}
 
-  @media (width > 42rem) {
-    /* The shared first row leaves room above the copy on the photo cards. */
-    & .section-cards:has(> .section-column) {
-      min-height: var(--card-height);
-      grid-auto-rows: 1fr auto auto;
-    }
-    & .section-cards > .section-column { grid-row: span 3; }
-    & .section-cards > .section-column > h3 { grid-row: 2; }
-    & .section-cards .column-body { grid-row: 3; }
-  }
-
-  @media (max-width: 42rem) {
-    & .section-cards { grid-template-columns: 1fr; }
-    & .section-cards > .section-column { display: flex; grid-row: auto; }
-  }
+@media (max-width: 42rem) {
+  .section-cards { grid-template-columns: 1fr; }
+  .section-cards > .section-column { display: flex; grid-row: auto; }
 }

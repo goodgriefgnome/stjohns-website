@@ -1,32 +1,30 @@
 /* Columns: side-by-side text columns inside a band.
    Knobs:
    --column-count  number of columns once the band is wide enough (set by the directive) */
-.page-content {
-  & .section-columns {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--gutter);
-    margin-top: 2rem;
-  }
-  & .article-band:has(> .section-columns:not(.section-cards)) {
-    container: column-section / inline-size;
-  }
-  /* Match --reading-width. Size queries measure the band's content box. */
-  @container column-section (width >= 42rem) {
-    & .section-columns:not(.section-cards) {
-      grid-template-columns: repeat(var(--column-count), minmax(0, 1fr));
-    }
-  }
-  & .section-columns > .section-column {
-    display: grid;
-    grid-template-rows: subgrid;
-    grid-row: span 2;
-    row-gap: 0;
-  }
-  & .column-body {
-    display: flex;
-    flex-direction: column;
-  }
-  & .column-body > :last-child { margin-bottom: 0; }
-  & .column-body > .actions:last-child { margin-top: auto; }
+.section-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gutter);
+  margin-top: 2rem;
 }
+.article-band:has(> .section-columns:not(.section-cards)) {
+  container: column-section / inline-size;
+}
+/* Match --reading-width. Size queries measure the band's content box. */
+@container column-section (width >= 42rem) {
+  .section-columns:not(.section-cards) {
+    grid-template-columns: repeat(var(--column-count), minmax(0, 1fr));
+  }
+}
+.section-columns > .section-column {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 2;
+  row-gap: 0;
+}
+.column-body {
+  display: flex;
+  flex-direction: column;
+}
+.column-body > :last-child { margin-bottom: 0; }
+.column-body > .actions:last-child { margin-top: auto; }

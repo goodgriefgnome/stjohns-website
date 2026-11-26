@@ -1,28 +1,25 @@
-/* Bands: full-width stripes of the page, each with its own palette.
+/* Bands: full-width stripes of the page, each with its own palette. Bands span every column of the page grid.
    Knobs:
    --band-measure  width of the band's content (default --page-measure; --layout-width on wide bands) */
-.page-content {
-  /* Bands run edge to edge, with their content held to the page measure (or the layout width when wide). */
-  & > .article-band {
-    --band-measure: var(--page-measure);
-    margin: 0 0 var(--band-spacing);
-    padding: var(--band-spacing) max(var(--gutter), calc((100% - var(--band-measure)) / 2));
-  }
-  & > .article-band:last-child { margin-bottom: 0; }
-  & > .article-band-wide { --band-measure: var(--layout-width); }
-  & .article-band + .article-band { margin-top: calc(-1 * var(--band-spacing)); }
-  & :is(.article-band, .media-body, .section-cards > div) > :last-child { margin-bottom: 0; }
-
-  & > h2,
-  & .article-band > h2,
-  & :is(.article-lead, .article-center, .article-band[data-align='center']) { text-align: center; }
-  & .article-band[data-align='left'],
-  & .article-band[data-align='left'] > h2 { text-align: left; }
-  & .article-band[data-align] > .section-cards { text-align: inherit; }
-  & .article-lead > *, & .article-cards > :not(.section-cards) { max-width: var(--reading-width); margin-inline: auto; }
-  & .article-lead p:last-child { margin-bottom: 0; }
-  & blockquote { margin: 0; }
+/* Bands run edge to edge, with their content held to the page measure (or the layout width when wide). */
+.article-band {
+  --band-measure: var(--page-measure);
+  grid-column: 1 / -1;
+  margin: 0 0 var(--band-spacing);
+  padding: var(--band-spacing) max(var(--gutter), calc((100% - var(--band-measure)) / 2));
 }
+.article-band-wide { --band-measure: var(--layout-width); }
+.article-band + .article-band { margin-top: calc(-1 * var(--band-spacing)); }
+.article-band:last-child { margin-bottom: 0; }
+.article-band > :last-child { margin-bottom: 0; }
+
+.article-band > h2,
+:is(.article-lead, .article-center, .article-band[data-align='center']) { text-align: center; }
+.article-band[data-align='left'],
+.article-band[data-align='left'] > h2 { text-align: left; }
+/* :not(:empty) only raises specificity, so these margins beat a child's own (e.g. an actions row). */
+.article-lead > :not(:empty) { max-width: var(--reading-width); margin-inline: auto; }
+.article-lead p:last-child { margin-bottom: 0; }
 
 /* A default for images in bands, kept at plain-img specificity so photo cards and square crops override it. */
-:where(.page-content .article-band) img { max-height: 30rem; object-fit: contain; }
+:where(.article-band) img { max-height: 30rem; object-fit: contain; }
