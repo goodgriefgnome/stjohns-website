@@ -8,6 +8,6 @@
 }
 [data-palette="white"] { --section-bg: var(--paper); --section-text: var(--navy); }
 [data-palette="mist"] { --section-bg: var(--mist); --section-text: var(--slate); }
-[data-palette="blue"] { --section-bg: var(--sky); --section-text: var(--navy); --action-bg: var(--navy); --action-text: var(--paper); }
+[data-palette="blue"] { --section-bg: var(--sky); --section-text: var(--paper); --action-bg: var(--navy); --action-text: var(--paper); }
 [data-palette="cream"] { --section-bg: var(--cream); --section-text: var(--navy); }
 [data-palette="navy"] { --section-bg: var(--navy); --section-text: var(--paper); }
