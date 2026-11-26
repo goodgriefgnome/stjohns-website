@@ -179,7 +179,7 @@ export default function articleDirectives() {
       }
 
       if (node.name === 'center') {
-        node.data = { hName: 'div', hProperties: { className: ['band-center'] } };
+        node.data = { hName: 'div', hProperties: { 'data-align': 'center' } };
       }
 
       if (node.name === 'gallery') {
