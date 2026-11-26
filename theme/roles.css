@@ -50,6 +50,9 @@
   /* The small dot under a calendar day that has events. */
   --dot-size: .25rem;
 
+  /* How long each picture stays on screen when a block's pictures cycle (see theme/behaviours/cycle.css). */
+  --cycle-time: 4s;
+
   /* Tight letter spacing for headings. */
   --letter-spacing-heading: -.02em;
   /* Wide letter spacing for small capital labels. */
