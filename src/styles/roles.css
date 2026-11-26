@@ -15,6 +15,49 @@
   /* A lighter version of the photo scrim, for photo cards. */
   --photo-scrim-light: var(--black-33);
 
+  /* Space between the two halves of a side-by-side layout (image beside text, events). */
+  --gap-halves: clamp(var(--space-lg), 5vw, 4rem);
+  /* Room inside a filled button. These two match live exactly, so they aren't on the spacing scale. */
+  --button-padding-block: .57rem;
+  --button-padding-inline: 1.75rem;
+  /* Gap beside each button or bar link in a row. */
+  --action-gap: var(--space-3xs);
+  /* How far down the floating site header reaches over a hero. */
+  --home-header-height: 11rem;
+  /* Space a hero leaves above its title on narrow and medium screens, to clear the floating header (wide screens use --home-header-height). */
+  --hero-clearance: 8rem;
+  /* How tall a hero is at least. */
+  --hero-height: clamp(17rem, 35vw, 25rem);
+  /* The home hero's minimum height. */
+  --hero-home-height: 25rem;
+  /* The tallest the home hero photo gets on a narrow screen. */
+  --hero-photo-max-height: 24rem;
+  /* The home hero photo's arched top and slightly rounded bottom. */
+  --hero-arch: 45% 45% var(--radius-sm) var(--radius-sm) / 28% 28% var(--radius-sm) var(--radius-sm);
+
+  /* Size of a finger-friendly button, measured on the screen. */
+  --tap-target: 44px;
+  /* The menu button's drawing (the three lines). */
+  --menu-button-size: 34px;
+  /* An icon a bit bigger than the text beside it. */
+  --icon-size-emphasis: 1.25em;
+  /* The site logo in the header: full size, small screens, and on a plain (non-photo) header. */
+  --logo-width: 165px;
+  --logo-width-small: 110px;
+  --logo-width-plain: 3.5rem;
+  /* Width of a navigation dropdown. */
+  --dropdown-width: 200px;
+  /* The small dot under a calendar day that has events. */
+  --dot-size: .25rem;
+
+  /* Tight letter spacing for headings. */
+  --letter-spacing-heading: -.02em;
+  /* Wide letter spacing for small capital labels. */
+  --letter-spacing-label: .045em;
+  /* Gap between link text and its underline, and how thick the underline gets on hover. */
+  --underline-offset: .2em;
+  --underline-thickness: .13em;
+
   /* Paragraphs and event titles. */
   --font-body: var(--size-lg);
   /* Everyday text outside paragraphs, and quieter text such as an event's time and place. */

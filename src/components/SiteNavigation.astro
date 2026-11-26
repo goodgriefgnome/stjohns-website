@@ -110,6 +110,17 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
 </script>
 
 <style>
+  /* Local knobs, copied from live. */
+  .site-header {
+    /* Space between the top-level menu links, which grows with the window. */
+    --nav-gap: clamp(.85rem, 3vw, 2.7rem);
+    /* Space between the menu button's three lines. */
+    --burger-gap: 9px;
+    /* Space above the first link in the open menu, clearing the close button. */
+    --overlay-top: 80px;
+    /* How tall the header is at least when it has no photo behind it. */
+    --header-min-height: 5.65rem;
+  }
   .site-header { background: var(--paper); color: var(--text-default); position: relative; z-index: 2; }
   .home-header { position: absolute; inset: 0 0 auto; width: 100%; background: transparent; color: var(--paper); }
   .header-inner {
@@ -117,22 +128,22 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: .75rem 2rem;
-    width: calc(100% - 2.25rem);
-    min-height: 5.65rem;
-    padding-block: 1.125rem;
+    gap: var(--space-sm) var(--space-xl);
+    width: calc(100% - 2 * var(--space-md));
+    min-height: var(--header-min-height);
+    padding-block: var(--space-md);
     margin-inline: auto;
   }
   .home-header .header-inner { min-height: 0; }
   .brand { flex: none; }
-  .brand img { width: 3.5rem; }
-  .home-header .brand img { width: 110px; }
+  .brand img { width: var(--logo-width-plain); }
+  .home-header .brand img { width: var(--logo-width-small); }
 
   .desktop-nav {
     display: flex;
     flex-wrap: wrap;
     flex: none;
-    gap: .6rem clamp(.85rem, 3vw, 2.7rem);
+    gap: var(--space-2xs) var(--nav-gap);
     align-items: center;
     max-width: 100%;
     font-size: var(--font-nav);
@@ -155,9 +166,9 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   .desktop-nav :global(> a::after), .desktop-nav :global(summary::after) {
     content: '';
     position: absolute;
-    inset: auto 0 -.5em;
-    height: 2px;
-    border-radius: 100px;
+    inset: auto 0 calc(-1 * var(--space-2xs));
+    height: var(--line-medium);
+    border-radius: var(--radius-pill);
     background: currentcolor;
     transform: scaleX(0);
     transition: transform .5s var(--ease-live);
@@ -166,15 +177,15 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   .desktop-nav :global(details:hover > summary::after), .desktop-nav :global(details[open] > summary::after),
   .desktop-nav :global(summary:focus-visible::after) { transform: scaleX(1); }
 
-  /* The dropdown: a 1.5em transparent bridge keeps the pointer inside, then a white card. */
+  /* The dropdown: a transparent bridge keeps the pointer inside, then a white card. */
   .desktop-nav :global(ul) {
     position: absolute;
     inset-inline-start: 0;
     z-index: 1;
     isolation: isolate;
     margin: 0;
-    padding: 1.5em 0 0;
-    width: 200px;
+    padding: var(--space-lg) 0 0;
+    width: var(--dropdown-width);
     list-style: none;
     font-size: var(--font-body);
     font-weight: var(--weight-button);
@@ -183,18 +194,18 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   .desktop-nav :global(ul::before) {
     content: '';
     position: absolute;
-    inset: 1.5em 0 0;
+    inset: var(--space-lg) 0 0;
     z-index: -1;
-    border-radius: var(--menu-radius);
+    border-radius: var(--radius-md);
     background: var(--paper);
   }
   .desktop-nav :global([data-align="end"] ul) { inset-inline: auto 0; }
-  .desktop-nav :global(li) { padding: 0 .5em .5em; }
-  .desktop-nav :global(li:first-child) { padding-top: .5em; }
+  .desktop-nav :global(li) { padding: 0 var(--space-2xs) var(--space-2xs); }
+  .desktop-nav :global(li:first-child) { padding-top: var(--space-2xs); }
   .desktop-nav :global(li a) {
     display: block;
-    padding: 1em 1.25em;
-    border-radius: var(--menu-radius);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
     font-size: var(--font-small);
     line-height: 1.4;
     overflow-wrap: break-word;
@@ -208,8 +219,8 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   .menu-toggle, .menu-close {
     position: relative;
     display: block;
-    width: 34px;
-    height: 34px;
+    width: var(--menu-button-size);
+    height: var(--menu-button-size);
     padding: 0;
     border: 0;
     background: transparent;
@@ -218,18 +229,18 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   }
   .menu-toggle { display: none; }
   .navigation-compact .menu-toggle { display: block; }
-  /* Extend the touch target beyond the 34px drawing. */
-  .menu-toggle::before, .menu-close::before { content: ''; position: absolute; inset: -.55rem; }
+  /* Extend the touch target beyond the drawing. */
+  .menu-toggle::before, .menu-close::before { content: ''; position: absolute; inset: calc((var(--menu-button-size) - var(--tap-target)) / 2); }
   .bar, .bar::before, .bar::after {
     position: absolute;
     inset-inline: 0;
-    height: 2px;
+    height: var(--line-medium);
     background: currentcolor;
   }
-  .bar { top: calc(50% - 1px); }
+  .bar { top: calc(50% - var(--line-medium) / 2); }
   .bar::before, .bar::after { content: ''; }
-  .bar::before { top: -9px; }
-  .bar::after { top: 9px; }
+  .bar::before { top: calc(-1 * var(--burger-gap)); }
+  .bar::after { top: var(--burger-gap); }
   /* The close button starts as the three menu bars and turns into an X as the overlay opens (and back),
      timed as on live: the middle bar shrinks away first, then the outer bars swing round into the X. */
   .menu-close .bar {
@@ -250,8 +261,8 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   .navigation-overlay[open] .menu-close .bar::after { top: 0; transform: rotate(-135deg); }
   @starting-style {
     .navigation-overlay[open] .menu-close .bar { color: var(--toggle-color, inherit); background-size: 100% 100%; }
-    .navigation-overlay[open] .menu-close .bar::before { top: -9px; transform: none; color: var(--toggle-color, inherit); }
-    .navigation-overlay[open] .menu-close .bar::after { top: 9px; transform: none; color: var(--toggle-color, inherit); }
+    .navigation-overlay[open] .menu-close .bar::before { top: calc(-1 * var(--burger-gap)); transform: none; color: var(--toggle-color, inherit); }
+    .navigation-overlay[open] .menu-close .bar::after { top: var(--burger-gap); transform: none; color: var(--toggle-color, inherit); }
   }
 
   .navigation-overlay {
@@ -262,7 +273,7 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     height: 100%;
     max-height: none;
     margin: 0;
-    padding: 80px 20px 0;
+    padding: var(--overlay-top) var(--space-md) 0;
     border: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -275,31 +286,29 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   @starting-style { .navigation-overlay[open] { opacity: 0; } }
   :global(html:has(.navigation-overlay[open])) { overflow: hidden; }
   /* The close button sits exactly where the menu button was (see the script). */
-  .menu-close { position: absolute; top: var(--toggle-top, 1.125rem); inset-inline-end: var(--toggle-end, 1.125rem); }
+  .menu-close { position: absolute; top: var(--toggle-top, var(--space-md)); inset-inline-end: var(--toggle-end, var(--space-md)); }
   .overlay-nav { max-width: var(--reading-width); margin-inline: auto; font-size: var(--font-small); }
   .overlay-nav :global(> a), .overlay-nav :global(summary) {
     display: block;
-    padding: .5em 0;
-    margin-bottom: .5em;
+    padding: var(--space-2xs) 0;
+    margin-bottom: var(--space-2xs);
     line-height: 1;
     text-decoration: none;
   }
-  .overlay-nav :global(summary) { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .overlay-nav :global(summary) { display: flex; justify-content: space-between; align-items: center; gap: var(--space-sm); }
   /* A chevron that flips when the group is open. */
   .overlay-nav :global(summary::after) {
     content: '';
     flex: none;
-    width: 24px;
-    height: 24px;
-    margin-block: -4px;
-    position: relative;
-    top: 3px;
+    width: var(--icon-size-emphasis);
+    height: var(--icon-size-emphasis);
+    margin-block: calc((1lh - var(--icon-size-emphasis)) / 2);
     background: currentcolor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
   }
   .overlay-nav :global(details[open] > summary::after) { transform: scaleY(-1); }
-  .overlay-nav :global(ul) { margin: 0 0 .5em; padding: 0 0 0 37px; list-style: none; }
-  .overlay-nav :global(li a) { display: block; padding-block: .5em; margin-bottom: .5em; font-size: var(--font-small); line-height: 1; text-decoration: none; }
+  .overlay-nav :global(ul) { margin: 0 0 var(--space-2xs); padding: 0 0 0 var(--space-xl); list-style: none; }
+  .overlay-nav :global(li a) { display: block; padding-block: var(--space-2xs); margin-bottom: var(--space-2xs); font-size: var(--font-small); line-height: 1; text-decoration: none; }
 
   /* Closing fades the dropdown out where the browser supports animating <details> content. */
   .desktop-nav :global(details)::details-content {
@@ -330,6 +339,6 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   }
   @container style(--screen: wide) {
     .home-header .header-inner { min-height: var(--home-header-height); }
-    .home-header .brand img { width: 165px; }
+    .home-header .brand img { width: var(--logo-width); }
   }
 </style>

@@ -20,12 +20,12 @@ import { withBase } from '../lib/base-path.mjs';
   /* The only home-page-specific design: two photos that fade between each other behind the tagline. */
   .hero-home {
     --scrim: var(--photo-scrim-light);
-    min-height: 25.1rem;
-    padding: 13rem 0 var(--band-spacing);
+    min-height: var(--hero-home-height);
+    padding: calc(var(--home-header-height) + var(--space-xl)) 0 var(--band-spacing);
     text-align: center;
   }
-  .hero-home img { border-radius: 45% 45% .3rem .3rem / 28% 28% .3rem .3rem; max-height: 24rem; }
-  .hero-home h1 { font-size: var(--font-hero); margin-bottom: 1.25rem; }
+  .hero-home img { border-radius: var(--hero-arch); max-height: var(--hero-photo-max-height); }
+  .hero-home h1 { font-size: var(--font-hero); margin-bottom: var(--space-md); }
   .hero-cycle { animation: hero-cycle 16s infinite; opacity: 0; }
   @keyframes hero-cycle {
     0%, 41%, 100% { opacity: 0; }
@@ -33,6 +33,6 @@ import { withBase } from '../lib/base-path.mjs';
   }
   @media (prefers-reduced-motion: reduce) { .hero-cycle { display: none; } }
   @container style(--screen: medium) or style(--screen: wide) { .hero-home img { max-height: none; } }
-  @container style(--screen: medium) { .hero-home { padding-top: 11.5rem; } }
-  @container style(--screen: wide) { .hero-home { padding-top: calc(var(--home-header-height) + 1.3rem); } }
+  @container style(--screen: medium) { .hero-home { padding-top: calc(var(--home-header-height) + var(--space-2xs)); } }
+  @container style(--screen: wide) { .hero-home { padding-top: calc(var(--home-header-height) + var(--space-md)); } }
 </style>

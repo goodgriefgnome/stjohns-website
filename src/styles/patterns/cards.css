@@ -9,7 +9,7 @@
 .cards {
   --card-height: clamp(19rem, 39vw, 29rem);
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: var(--space-sm);
   text-align: left;
 }
 .cards > div {
@@ -18,7 +18,7 @@
   flex-direction: column;
   justify-content: flex-end;
   min-height: var(--card-height);
-  padding: 1.1rem;
+  padding: var(--space-sm);
   color: var(--paper);
 }
 .cards > div > :last-child { margin-bottom: 0; }

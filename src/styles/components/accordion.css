@@ -1,13 +1,16 @@
-/* Accordion: each <details> sits between rules, with a chevron that flips open. */
-.accordion details { border-top: .19rem solid currentColor; }
-.accordion details:not(:has(+ details)) { border-bottom: .19rem solid currentColor; }
-.accordion details > :last-child { margin-bottom: 1.25rem; }
+/* Accordion: each <details> sits between rules, with a chevron that flips open.
+   Knobs:
+   --chevron-size  size of the open/close chevron */
+.accordion { --chevron-size: .6rem; }
+.accordion details { border-top: var(--line-thick) solid currentColor; }
+.accordion details:not(:has(+ details)) { border-bottom: var(--line-thick) solid currentColor; }
+.accordion details > :last-child { margin-bottom: var(--space-md); }
 .accordion summary {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  padding-block: 1.1rem;
+  gap: var(--space-sm);
+  padding-block: var(--space-sm);
   font-weight: var(--weight-strong);
   list-style: none;
 }
@@ -15,11 +18,11 @@
 .accordion summary::after {
   content: '';
   flex: none;
-  width: .6rem;
-  height: .6rem;
-  margin-right: .3rem;
+  width: var(--chevron-size);
+  height: var(--chevron-size);
+  margin-right: var(--space-3xs);
   border: solid currentColor;
-  border-width: 0 .17rem .17rem 0;
+  border-width: 0 var(--line-thick) var(--line-thick) 0;
   transform: translateY(-25%) rotate(45deg);
   transition: transform .2s;
 }

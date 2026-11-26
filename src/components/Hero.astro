@@ -24,8 +24,8 @@ const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
   .hero {
     display: grid;
     place-items: center;
-    min-height: clamp(17rem, 35vw, 25rem);
-    padding: 8rem var(--gutter) var(--band-spacing);
+    min-height: var(--hero-height);
+    padding: var(--hero-clearance) var(--gutter) var(--band-spacing);
     text-align: center;
   }
   .hero > div > :last-child { margin-bottom: 0; }

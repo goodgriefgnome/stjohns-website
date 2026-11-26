@@ -1,10 +1,10 @@
 /* Links alone in a paragraph, marked in Markdown as **filled** or *bar* (see rehype-actions).
    Knobs (from the band's palette):
    --action-bg, --action-text  the filled button's colours */
-.actions { margin-inline: -.3rem; }  /* links are inline, so they follow the band's text alignment */
+.actions { margin-inline: calc(-1 * var(--action-gap)); }  /* links are inline, so they follow the band's text alignment */
 .action {
   display: inline-block;
-  margin: 0 .3rem;
+  margin: 0 var(--action-gap);
   font-style: normal;
   font-size: var(--font-button);
   font-weight: var(--weight-button);
@@ -12,13 +12,13 @@
   text-decoration: none;
 }
 .action-filled {
-  padding: .57rem 1.75rem;
+  padding: var(--button-padding-block) var(--button-padding-inline);
   background: var(--action-bg, var(--sky));
   color: var(--action-text, var(--paper));
 }
 .action-bar {
   position: relative;
-  padding: .57rem 0 calc(.57rem + 4px);
+  padding: var(--button-padding-block) 0 calc(var(--button-padding-block) + var(--line-bar));
   color: inherit;
 }
 /* The bar retracts to the right on hover and grows back from the left, as on live. */
@@ -26,7 +26,7 @@
   content: '';
   position: absolute;
   inset: auto 0 0;
-  height: 4px;
+  height: var(--line-bar);
   background: currentColor;
   transform-origin: left;
   transition: transform .5s var(--ease-live);

@@ -36,6 +36,14 @@ for (const file of markup('src')) {
   const text = readFileSync(file, 'utf8');
   if (text.includes('band-outer') && !text.includes('band-inner')) problems.push(`${file}: makes a band-outer but never a band-inner`);
 }
+const LENGTH = /(?<![\w.-])-?(?:\d+\.?\d*|\.\d+)(?:rem|px|em|vw|vh|vmin|vmax|ch|lh|svh|dvh)\b/g;
+const STEPS = { '--space-3xs': .25, '--space-2xs': .5, '--space-sm': 1, '--space-md': 1.25, '--space-lg': 1.5, '--space-xl': 2 };
+function suggest(prop, length) {
+  const rem = parseFloat(length) / (length.endsWith('px') ? 16 : 1);
+  if (/radius/.test(prop)) return '--radius-sm, --radius-md, --radius-round or --radius-pill';
+  if (/border|outline|box-shadow/.test(prop) && rem <= .25) return '--line-thin, --line-medium, --line-thick or --line-bar';
+  return Object.entries(STEPS).sort((a, b) => Math.abs(a[1] - rem) - Math.abs(b[1] - rem))[0][0];
+}
 const COLOUR = /#[0-9a-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch)\(|\b(?:white|black|red|green|blue|gray|grey|yellow|orange|purple|pink|brown|navy|teal|silver)\b/i;
 for (const file of allFiles('src')) {
   const name = file.split('/').pop();
@@ -55,6 +63,13 @@ for (const file of allFiles('src')) {
       if (/^font-(size|weight)$/.test(prop) && name !== 'tokens.css' && name !== 'roles.css' && !/^(inherit|1em|var\(--(font|weight)-[\w-]+\))$/.test(rawValue)) {
         problems.push(`${where(m.index)}: "${prop}: ${rawValue}" should use a --font-* or --weight-* role`);
       }
+    }
+    // Lengths: every length is a token, a role or a formula of them. Custom properties (knobs) may hold raw values.
+    for (const m of css.matchAll(/([\w-]+)\s*:\s*([^;{}]+)/g)) {
+      const [, prop, value] = m;
+      if (prop.startsWith('--') || name === 'tokens.css' || name === 'roles.css') continue;
+      const loose = (value.replace(/var\([^)]*\)/g, '').match(LENGTH) ?? []).filter((x) => !/^(1em|1lh)$/.test(x));
+      if (loose.length) problems.push(`${where(m.index)}: raw length ${loose.join(', ')} in "${prop}: ${value.trim()}" (use ${suggest(prop, loose[0])}, or a role or knob)`);
     }
     for (const m of css.matchAll(/@(?:media|container)[^{]*\b(?:width|inline-size)\b[^{]*/g)) {
       if (name !== 'tokens.css' && name !== 'band.css') problems.push(`${where(m.index)}: width query "${m[0].trim()}" (only tokens.css and band.css may have one; ask --screen instead)`);

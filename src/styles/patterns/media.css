@@ -4,7 +4,7 @@
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
-  gap: clamp(1.5rem, 5vw, 4rem);
+  gap: var(--gap-halves);
 }
 .media-image img { aspect-ratio: 1; object-fit: cover; }
 .media-body > :last-child { margin-bottom: 0; }

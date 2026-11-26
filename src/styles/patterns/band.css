@@ -3,12 +3,14 @@
    .band-inner inside it (holds the content, and carries --band-size). Always emit both together.
    Knobs:
    --band-measure  width of the band's content (default --page-measure; --layout-width on wide bands)
+   --band-image-max-height  tallest an image in a band gets (default 30rem)
    --band-size     set on .band-inner: "wide" once the band's content box is 42rem or more, else unset.
                    Patterns inside ask it with @container style(--band-size: wide). 42rem equals
                    --reading-width: change them together. */
 /* Bands run edge to edge, with their content held to the page measure (or the layout width when wide). */
 .band-outer {
   --band-measure: var(--page-measure);
+  --band-image-max-height: 30rem;
   container: band / inline-size;
   grid-column: 1 / -1;
   margin: 0 0 var(--band-spacing);
@@ -33,4 +35,4 @@
 .band-banner p:last-child { margin-bottom: 0; }
 
 /* A default for images in bands, kept at plain-img specificity so photo cards and square crops override it. */
-:where(.band-outer) img { max-height: 30rem; object-fit: contain; }
+:where(.band-outer) img { max-height: var(--band-image-max-height); object-fit: contain; }

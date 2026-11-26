@@ -36,8 +36,26 @@
   --layout-width: 74rem;
   --reading-width: 42rem;
   --wrap-width: min(100% - 2 * var(--gutter), var(--layout-width));
-  --radius: .25rem;
-  --menu-radius: 6px;
+
+  /* Spacing scale, named by step: gaps, margins, padding. */
+  --space-3xs: .25rem;
+  --space-2xs: .5rem;
+  --space-sm: 1rem;
+  --space-md: 1.25rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  /* Line thickness: borders, outlines, bars. */
+  --line-thin: 1px;
+  --line-medium: 2px;
+  --line-thick: 3px;
+  --line-bar: 4px;
+
+  /* Corner radius. */
+  --radius-sm: .25rem;
+  --radius-md: 6px;
+  --radius-round: 50%;
+  --radius-pill: 999px;
   /* The easing live uses for hover, menu and bar animations. */
   --ease-live: cubic-bezier(.33, 0, .19, 1);
 
@@ -53,6 +71,6 @@
    narrow: up to 42rem. medium: over 42rem up to 56rem. wide: over 56rem.
    42rem equals --reading-width: change them together. A style query reads the parent's value, so a
    rule can't use --screen to style :root itself, which is why --gutter is set here too. */
-:root { --screen: narrow; --gutter: 1rem; }
-@media (width > 42rem) { :root { --screen: medium; --gutter: 1.5rem; } }
+:root { --screen: narrow; --gutter: var(--space-sm); }
+@media (width > 42rem) { :root { --screen: medium; --gutter: var(--space-lg); } }
 @media (width > 56rem) { :root { --screen: wide; } }

@@ -17,20 +17,20 @@
 * { box-sizing: border-box; }
 body { margin: 0; }
 img { display: block; width: 100%; height: auto; }
-a { color: inherit; text-underline-offset: .2em; }
-a:hover { text-decoration-thickness: .13em; }
-:focus-visible { outline: .18rem solid var(--focus-ring); outline-offset: .22rem; }
+a { color: inherit; text-underline-offset: var(--underline-offset); }
+a:hover { text-decoration-thickness: var(--underline-thickness); }
+:focus-visible { outline: var(--line-thick) solid var(--focus-ring); outline-offset: var(--space-3xs); }
 h1, h2, h3 {
-  margin: 0 0 1rem;
+  margin: 0 0 var(--space-sm);
   font-family: inherit;
   line-height: 1.1;
-  letter-spacing: -.02em;
+  letter-spacing: var(--letter-spacing-heading);
   text-wrap: balance;
 }
 h1 { font-size: var(--font-title); font-weight: var(--weight-title); }
 h2 { font-size: var(--font-heading); font-weight: var(--weight-heading); }
 h3 { font-size: var(--font-h3); font-weight: var(--weight-heading); }
-p { margin: 0 0 1rem; font-size: var(--font-body); }
+p { margin: 0 0 var(--space-sm); font-size: var(--font-body); }
 blockquote { margin: 0 }
 summary { cursor: pointer; }
 /* role="list" keeps a list announced as a list once its bullets are gone. */

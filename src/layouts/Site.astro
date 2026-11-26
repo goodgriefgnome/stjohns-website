@@ -48,11 +48,10 @@ const { title, home = false, photoHeader = false } = Astro.props;
 </html>
 
 <style>
-  .skip { position: absolute; top: .75rem; left: .75rem; transform: translateY(-200%); z-index: 10; background: var(--paper); padding: .5rem; }
+  .skip { position: absolute; top: var(--space-sm); left: var(--space-sm); transform: translateY(-200%); z-index: 10; background: var(--paper); padding: var(--space-2xs); }
   .skip:focus { transform: none; }
-  .is-home, .has-photo-header { --home-header-height: 11rem; }
-  .footer-social { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.4rem; padding: 0 1rem var(--band-spacing-small); }
-  .footer-content { display: grid; grid-template-columns: 1fr; gap: 1rem; text-align: center; padding-block: var(--band-spacing-small); }
+  .footer-social { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-lg); padding: 0 var(--space-sm) var(--band-spacing-small); }
+  .footer-content { display: grid; grid-template-columns: 1fr; gap: var(--space-sm); text-align: center; padding-block: var(--band-spacing-small); }
   .footer-content h2 { font-size: var(--font-subheading); }
   @container style(--screen: medium) or style(--screen: wide) {
     .footer-content { grid-template-columns: repeat(3, 1fr); }

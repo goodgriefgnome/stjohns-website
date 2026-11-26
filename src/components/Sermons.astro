@@ -13,8 +13,9 @@ import { displayDate, sermons } from '../lib/content';
 </ul>
 
 <style>
-  .sermon-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem; }
-  .sermon-list li { border: 1px solid var(--border-subtle); padding: 1.2rem; }
-  .sermon-list h3 { margin: .35rem 0; }
+  /* Narrowest a sermon card gets before the row wraps. */
+  .sermon-list { --card-width: 16rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-width)), 1fr)); gap: var(--space-sm); }
+  .sermon-list li { border: var(--line-thin) solid var(--border-subtle); padding: var(--space-md); }
+  .sermon-list h3 { margin: var(--space-3xs) 0; }
   .sermon-list p { margin: 0; }
 </style>

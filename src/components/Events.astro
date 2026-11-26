@@ -99,9 +99,13 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
 <style>
   .events {
     --line: color-mix(in srgb, currentColor 25%, transparent);
+    /* Width of the mini calendar beside the list. */
+    --calendar-width: 17rem;
+    /* How tall the event list gets before it scrolls, when there is no calendar beside it. */
+    --list-max-height: 70vh;
     display: grid;
     grid-template-columns: 1fr;
-    gap: clamp(1.5rem, 4vw, 3rem);
+    gap: var(--gap-halves);
     text-align: left;
   }
 
@@ -109,9 +113,9 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
   .event-calendar {
     display: none;
     align-self: start;
-    padding: 1rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
+    padding: var(--space-sm);
+    border: var(--line-thin) solid var(--line);
+    border-radius: var(--radius-sm);
     background: color-mix(in srgb, currentColor 6%, transparent);
   }
   .calendar-months {
@@ -123,41 +127,41 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
     scrollbar-width: none;
   }
   .calendar-month { flex: 0 0 100%; scroll-snap-align: start; }
-  .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem; }
+  .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2xs); }
   .calendar-header p { margin: 0; font-weight: var(--weight-strong); }
-  .calendar-header :is(a, span) { display: grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; font-size: var(--font-h3); line-height: 1; text-decoration: none; }
+  .calendar-header :is(a, span) { display: grid; place-items: center; min-width: var(--tap-target); min-height: var(--tap-target); font-size: var(--font-h3); line-height: 1; text-decoration: none; }
   .calendar-header span { opacity: .35; }
   .weekdays, .days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; font-size: var(--font-label); }
-  .weekdays { font-weight: var(--weight-label); padding-bottom: .25rem; }
+  .weekdays { font-weight: var(--weight-label); padding-bottom: var(--space-3xs); }
   .days { margin: 0; padding: 0; list-style: none; }
-  .days :is(a, span) { position: relative; display: block; padding: .45rem 0 .65rem; border-radius: var(--radius); text-decoration: none; }
+  .days :is(a, span) { position: relative; display: block; padding: var(--space-2xs) 0; border-radius: var(--radius-sm); text-decoration: none; }
   .days a { font-weight: var(--weight-strong); }
-  .days a::after { content: ''; position: absolute; bottom: .3rem; left: calc(50% - .125rem); width: .25rem; height: .25rem; border-radius: 50%; background: currentColor; }
+  .days a::after { content: ''; position: absolute; bottom: var(--space-3xs); left: calc(50% - var(--dot-size) / 2); width: var(--dot-size); height: var(--dot-size); border-radius: var(--radius-round); background: currentColor; }
   .days a:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
   .days .past { opacity: .4; }
-  .days .today :is(a, span) { font-weight: var(--weight-title); box-shadow: inset 0 0 0 1px currentColor; }
+  .days .today :is(a, span) { font-weight: var(--weight-title); box-shadow: inset 0 0 0 var(--line-thin) currentColor; }
 
   /* The list scrolls inside a box as tall as the calendar beside it. */
   .event-list {
     position: relative;
-    max-height: 70vh;
+    max-height: var(--list-max-height);
     overflow-y: auto;
-    padding-right: .5rem;
+    padding-right: var(--space-2xs);
   }
   /* Gaps rather than margins, so groups the script hides leave no space behind. */
-  .event-list, .event-month { display: grid; align-content: start; gap: 1.25rem; }
-  .event-list { gap: 2rem; }
+  .event-list, .event-month { display: grid; align-content: start; gap: var(--space-md); }
+  .event-list { gap: var(--space-xl); }
   .event-month h3 { margin: 0; }
   [hidden] { display: none; }
-  .event-day h4 { margin: 0; font-size: var(--font-label); font-weight: var(--weight-label); text-transform: uppercase; letter-spacing: .045em; }
-  .event { padding: .6rem 0; border-bottom: 1px solid var(--line); }
+  .event-day h4 { margin: 0; font-size: var(--font-label); font-weight: var(--weight-label); text-transform: uppercase; letter-spacing: var(--letter-spacing-label); }
+  .event { padding: var(--space-2xs) 0; border-bottom: var(--line-thin) solid var(--line); }
   .event h5 { margin: 0; font-size: var(--font-body); font-weight: var(--weight-label); line-height: 1.45; }
-  .event p { margin: .15rem 0 0; font-size: var(--font-small); }
+  .event p { margin: var(--space-3xs) 0 0; font-size: var(--font-small); }
   .description { overflow-wrap: anywhere; }
 
   /* Wide bands add the mini calendar. Narrow ones (phones) skip it and the list gets most of the screen. */
   @container style(--band-size: wide) {
-    .events { grid-template-columns: 17rem minmax(0, 1fr); }
+    .events { grid-template-columns: var(--calendar-width) minmax(0, 1fr); }
     .event-calendar { display: block; }
     .event-list { contain: size; max-height: none; }
   }
