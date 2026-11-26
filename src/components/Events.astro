@@ -1,9 +1,11 @@
 ---
 import { withBase } from '../lib/base-path.mjs';
 import { safeHref } from '../lib/content';
-import { byDay, byMonth, describes, displayDay, displayRecurrence, displayTimes, eventDays, months, series, today, upcoming } from '../lib/events';
+import { byMonth, describes, displayDay, displayRecurrence, displayTimes, eventDays, months, series, today, upcoming } from '../lib/events';
 const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+const rowDate = (date: string) => new Intl.DateTimeFormat('en-AU', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(date + 'T00:00:00Z')).replace(',', '');
 const monthLabel = (key: string) => months.find(month => month.key === key)?.label ?? key;
+const seen = new Set<string>();
 ---
 <div class="events">
   <nav class="event-calendar" aria-label="Event dates">
@@ -35,24 +37,23 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
   <div class="event-list" tabindex="0" aria-label="Upcoming events">
     <p class="events-empty" hidden={upcoming.length > 0}>No upcoming events are listed.</p>
     {[...byMonth].map(([month, occurrences]) => (
-      <section class="event-month">
+      <section class="month">
         <h3>{monthLabel(month)}</h3>
-        {[...byDay(occurrences)].map(([date, dayEvents]) => (
-          <section class="event-day" id={`d-${date}`}>
-            <h4><time datetime={date}>{displayDay(date)}</time></h4>
-            {dayEvents.map(event => {
-              const register = event.registrationUrl && safeHref(event.registrationUrl);
-              const when = [displayTimes(event), displayRecurrence(event)].filter(Boolean).join(' · ');
-              return <article class="event" data-series={series(event)} data-end={event.end}>
-                <h5>{event.title}</h5>
-                {when && <p>{when}</p>}
-                {event.location && <p>{event.location}</p>}
-                {describes(event) && <p class="description">{event.description}</p>}
-                {register && <p><a href={withBase(register)}>Register</a></p>}
-              </article>;
-            })}
-          </section>
-        ))}
+        <ul class="rows" role="list">
+          {occurrences.map(event => {
+            const register = event.registrationUrl && safeHref(event.registrationUrl);
+            const meta = [displayTimes(event), displayRecurrence(event), event.location].filter(Boolean).join(' · ');
+            const id = seen.has(event.startDate) ? undefined : (seen.add(event.startDate), `d-${event.startDate}`);
+            return <li class="event-row" id={id} data-date={event.startDate} data-series={series(event)} data-end={event.end}>
+              <div class="main">
+                <span class="title">{event.title}</span>
+                {(meta || register) && <span class="meta">{meta}{meta && register ? ' · ' : ''}{register && <a href={withBase(register)}>Register</a>}</span>}
+                {describes(event) && <span class="blurb">{event.description}</span>}
+              </div>
+              <time class="when" datetime={event.startDate}>{rowDate(event.startDate)}</time>
+            </li>;
+          })}
+        </ul>
       </section>
     ))}
   </div>
@@ -67,17 +68,17 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
     const list = root.querySelector<HTMLElement>('.event-list')!;
     const strip = root.querySelector<HTMLElement>('.calendar-months')!;
 
-    for (const event of root.querySelectorAll<HTMLElement>('.event')) event.hidden = Date.parse(event.dataset.end!) <= now;
-    for (const group of root.querySelectorAll<HTMLElement>('.event-day, .event-month')) group.hidden = !group.querySelector('.event:not([hidden])');
-    root.querySelector<HTMLElement>('.events-empty')!.hidden = !!root.querySelector('.event:not([hidden])');
+    for (const row of root.querySelectorAll<HTMLElement>('.event-row')) row.hidden = Date.parse(row.dataset.end!) <= now;
+    root.querySelector<HTMLElement>('.events-empty')!.hidden = !!root.querySelector('.event-row:not([hidden])');
 
     // A repeating series shows its description once, on its next occurrence.
-    for (const description of root.querySelectorAll('.event .description')) {
-      const { series } = description.closest<HTMLElement>('.event')!.dataset;
-      root.querySelector(`.event[data-series="${series}"]:not([hidden])`)?.append(description);
+    for (const blurb of root.querySelectorAll('.event-row .blurb')) {
+      const { series } = blurb.closest<HTMLElement>('.event-row')!.dataset;
+      root.querySelector(`.event-row[data-series="${series}"]:not([hidden]) .main`)?.append(blurb);
     }
 
-    for (const day of root.querySelectorAll<HTMLElement>('[data-date]')) {
+    for (const day of root.querySelectorAll<HTMLElement>('li[data-date]')) {
+      if (!day.closest('.calendar-month')) continue;
       day.classList.toggle('past', day.dataset.date! < today);
       day.classList.toggle('today', day.dataset.date === today);
     }
@@ -90,79 +91,67 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
       if (!target) return;
       click.preventDefault();
       const smooth = matchMedia('(prefers-reduced-motion: no-preference)').matches ? 'smooth' : 'auto';
-      if (strip.contains(target)) strip.scrollTo({ left: target.offsetLeft, behavior: smooth });
-      else list.scrollTo({ top: target.offsetTop, behavior: smooth });
+      if (strip.contains(target)) return strip.scrollTo({ left: target.offsetLeft, behavior: smooth });
+      const header = target.closest('.month')!.querySelector<HTMLElement>('h3')!;
+      // Stop a little short of the pinned month name, so the end of the previous row peeks out.
+      const peek = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+      list.scrollTo({ top: target.offsetTop - header.offsetHeight - peek, behavior: smooth });
     });
   }
 </script>
-
 <style>
   .events {
     --line: color-mix(in srgb, currentColor 25%, transparent);
-    /* Width of the mini calendar beside the list. */
+    /* Quieter text (dates, counts, descriptions): the section's own text colour, faded, so it works on every palette. */
+    --quiet: color-mix(in srgb, currentColor 70%, transparent);
     --calendar-width: 17rem;
-    /* How tall the event list gets before it scrolls, when there is no calendar beside it. */
+    /* One date in the calendar, and the gap between weeks. */
+    --cell: var(--space-xl);
+    --cell-gap: var(--space-3xs);
+    /* The calendar's height, worked out from its parts: header + weekday letters + six weeks. */
+    --calendar-height: calc(var(--cell) + var(--space-2xs) + var(--space-lg) + 6 * var(--cell) + 5 * var(--cell-gap));
+    /* The list box is half as tall again as the calendar (1.5 times). */
+    --list-height-ratio: 1.5;
+    --list-height: calc(var(--calendar-height) * var(--list-height-ratio));
+    /* Without a calendar beside it, the list stops growing at this height and scrolls. */
     --list-max-height: 70vh;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--gap-halves);
-    text-align: left;
+    /* How much of the previous row stays visible above a date the calendar scrolls to. */
+    --peek: var(--space-md);
+    display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); margin-top: var(--space-xl); text-align: left;
   }
-
-  /* Mini calendar: one month at a time, in a strip that snaps between months. */
-  .event-calendar {
-    display: none;
-    align-self: start;
-    padding: var(--space-sm);
-    border: var(--line-thin) solid var(--line);
-    border-radius: var(--radius-sm);
-    background: color-mix(in srgb, currentColor 6%, transparent);
-  }
-  .calendar-months {
-    position: relative;
-    display: flex;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
+  .event-calendar { display: none; }
+  .calendar-months { position: relative; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .calendar-month { flex: 0 0 100%; scroll-snap-align: start; }
-  .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2xs); }
+  .calendar-header { display: flex; justify-content: space-between; align-items: center; height: var(--cell); margin-bottom: var(--space-2xs); }
   .calendar-header p { margin: 0; font-weight: var(--weight-strong); }
-  .calendar-header :is(a, span) { display: grid; place-items: center; min-width: var(--tap-target); min-height: var(--tap-target); font-size: var(--font-h3); line-height: 1; text-decoration: none; }
+  .calendar-header :is(a, span) { display: grid; place-items: center; min-width: var(--tap-target); height: var(--cell); font-size: var(--font-h3); line-height: 1; text-decoration: none; }
   .calendar-header span { opacity: .35; }
   .weekdays, .days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; font-size: var(--font-label); }
-  .weekdays { font-weight: var(--weight-label); padding-bottom: var(--space-3xs); }
-  .days { margin: 0; padding: 0; list-style: none; }
-  .days :is(a, span) { position: relative; display: block; padding: var(--space-2xs) 0; border-radius: var(--radius-sm); text-decoration: none; }
+  .weekdays { height: var(--space-lg); font-weight: var(--weight-label); }
+  .days { grid-auto-rows: var(--cell); row-gap: var(--cell-gap); margin: 0; padding: 0; list-style: none; }
+  .days :is(a, span) { position: relative; display: grid; place-items: center; width: var(--cell); height: var(--cell); margin-inline: auto; border-radius: var(--radius-round); text-decoration: none; }
+  /* A day with events: bold, with a small dot under the number. */
   .days a { font-weight: var(--weight-strong); }
   .days a::after { content: ''; position: absolute; bottom: var(--space-3xs); left: calc(50% - var(--dot-size) / 2); width: var(--dot-size); height: var(--dot-size); border-radius: var(--radius-round); background: currentColor; }
   .days a:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
   .days .past { opacity: .4; }
-  .days .today :is(a, span) { font-weight: var(--weight-title); box-shadow: inset 0 0 0 var(--line-thin) currentColor; }
+  .days .today :is(a, span) { box-shadow: inset 0 0 0 var(--line-thin) currentColor; }
 
-  /* The list scrolls inside a box as tall as the calendar beside it. */
-  .event-list {
-    position: relative;
-    max-height: var(--list-max-height);
-    overflow-y: auto;
-    padding-right: var(--space-2xs);
-  }
-  /* Gaps rather than margins, so groups the script hides leave no space behind. */
-  .event-list, .event-month { display: grid; align-content: start; gap: var(--space-md); }
-  .event-list { gap: var(--space-xl); }
-  .event-month h3 { margin: 0; }
-  [hidden] { display: none; }
-  .event-day h4 { margin: 0; font-size: var(--font-label); font-weight: var(--weight-label); text-transform: uppercase; letter-spacing: var(--letter-spacing-label); }
-  .event { padding: var(--space-2xs) 0; border-bottom: var(--line-thin) solid var(--line); }
-  .event h5 { margin: 0; font-size: var(--font-body); font-weight: var(--weight-label); line-height: 1.45; }
-  .event p { margin: var(--space-3xs) 0 0; font-size: var(--font-small); }
-  .description { overflow-wrap: anywhere; }
-
-  /* Wide sections add the mini calendar. Narrow ones (phones) skip it and the list gets most of the screen. */
+  .event-list { position: relative; display: grid; gap: var(--space-xl); align-content: start; min-width: 0; max-height: var(--list-max-height); overflow-y: auto; overscroll-behavior: contain; padding-right: var(--space-sm); }
+  /* Month name stays pinned at the top of the box while its rows scroll under it. */
+  .month h3 { position: sticky; top: 0; z-index: 1; margin: 0; padding-bottom: var(--space-sm); background: var(--section-bg); text-align: left; }
+  .month:not(:has(.event-row:not([hidden]))), .event-row[hidden], [hidden] { display: none; }
+  .rows { list-style: none; padding: 0; margin: 0; border-top: var(--line-thin) solid var(--line); }
+  .event-row { scroll-margin-top: var(--peek); display: grid; grid-template-columns: 1fr auto; gap: var(--space-sm); padding: var(--space-sm) 0; border-bottom: var(--line-thin) solid var(--line); }
+  .main { display: grid; gap: var(--space-3xs); min-width: 0; }
+  .title { font-weight: var(--weight-label); font-size: var(--font-body); }
+  .meta { font-size: var(--font-small); }
+  .events-empty { margin: 0; }
+  .blurb { font-size: var(--font-small); color: var(--quiet); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+  .when { font-size: var(--font-small); color: var(--quiet); white-space: nowrap; }
   @container style(--section-size: wide) {
-    .events { grid-template-columns: var(--calendar-width) minmax(0, 1fr); }
+    .events { grid-template-columns: var(--calendar-width) minmax(0, var(--reading-width)); justify-content: center; align-items: start; column-gap: calc(var(--space-xl) * 2); }
     .event-calendar { display: block; }
-    .event-list { contain: size; max-height: none; }
+    .event-list { height: var(--list-height); max-height: none; }
   }
 </style>
