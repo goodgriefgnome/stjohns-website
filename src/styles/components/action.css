@@ -14,7 +14,7 @@
 .action-filled {
   padding: .57rem 1.75rem;
   background: var(--action-bg, var(--sky));
-  color: var(--action-text, var(--navy));
+  color: var(--action-text, var(--paper));
 }
 .action-bar {
   position: relative;
