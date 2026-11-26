@@ -1,3 +1,4 @@
+/* Each palette here must also be listed in src/lib/palettes.mjs (the build checks). */
 /* A band's palette sets its background and text, and the colours its action buttons use.
    Actions are sky buttons, or navy on a sky band. */
 [data-palette] {
