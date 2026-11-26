@@ -123,10 +123,10 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     padding-block: 1.125rem;
     margin-inline: auto;
   }
-  .home-header .header-inner { min-height: var(--home-header-height); }
+  .home-header .header-inner { min-height: 0; }
   .brand { flex: none; }
   .brand img { width: 3.5rem; }
-  .home-header .brand img { width: 165px; }
+  .home-header .brand img { width: 110px; }
 
   .desktop-nav {
     display: flex;
@@ -328,8 +328,8 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   @keyframes reveal-item {
     from { opacity: 0; }
   }
-  @media (max-width: 56rem) {
-    .home-header .header-inner { min-height: 0; }
-    .home-header .brand img { width: 110px; }
+  @container style(--screen: wide) {
+    .home-header .header-inner { min-height: var(--home-header-height); }
+    .home-header .brand img { width: 165px; }
   }
 </style>

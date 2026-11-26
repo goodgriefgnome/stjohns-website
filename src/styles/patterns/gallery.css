@@ -3,7 +3,6 @@
 .article-gallery {
   grid-column: 1 / -1;
   display: grid;
-  grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
   gap: 1rem;
   width: var(--wrap-width);
@@ -11,6 +10,6 @@
 }
 .article-gallery img { aspect-ratio: 1; object-fit: cover; }
 
-@media (max-width: 42rem) {
-  .article-gallery { grid-auto-flow: row; }
+@container style(--screen: medium) or style(--screen: wide) {
+  .article-gallery { grid-auto-flow: column; }
 }

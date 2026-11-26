@@ -20,10 +20,10 @@ import { withBase } from '../lib/base-path.mjs';
   .hero {
     --scrim: var(--photo-scrim-light);
     min-height: 25.1rem;
-    padding: calc(var(--home-header-height) + 1.3rem) 0 var(--band-spacing);
+    padding: 13rem 0 var(--band-spacing);
     text-align: center;
   }
-  .hero img { border-radius: 45% 45% .3rem .3rem / 28% 28% .3rem .3rem; }
+  .hero img { border-radius: 45% 45% .3rem .3rem / 28% 28% .3rem .3rem; max-height: 24rem; }
   .hero h1 { font-size: clamp(1.8rem, 3.15vw, 2.45rem); margin-bottom: 1.25rem; }
   .hero a { display: inline-block; padding: .3rem 1.7rem; text-decoration: none; font-weight: 650; text-transform: uppercase; }
   .hero-cycle { animation: hero-cycle 16s infinite; opacity: 0; }
@@ -32,9 +32,7 @@ import { withBase } from '../lib/base-path.mjs';
     50%, 91% { opacity: 1; }
   }
   @media (prefers-reduced-motion: reduce) { .hero-cycle { display: none; } }
-  @media (max-width: 56rem) { .hero { padding-top: 11.5rem; } }
-  @media (max-width: 42rem) {
-    .hero { padding-top: 13rem; }
-    .hero img { max-height: 24rem; }
-  }
+  @container style(--screen: medium) or style(--screen: wide) { .hero img { max-height: none; } }
+  @container style(--screen: medium) { .hero { padding-top: 11.5rem; } }
+  @container style(--screen: wide) { .hero { padding-top: calc(var(--home-header-height) + 1.3rem); } }
 </style>

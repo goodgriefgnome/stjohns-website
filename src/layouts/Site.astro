@@ -52,9 +52,9 @@ const { title, home = false, photoHeader = false } = Astro.props;
   .skip:focus { transform: none; }
   .is-home, .has-photo-header { --home-header-height: 11rem; }
   .footer-social { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.4rem; padding: 0 1rem var(--band-spacing-small); }
-  .footer-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; padding-block: var(--band-spacing-small); }
+  .footer-content { display: grid; grid-template-columns: 1fr; gap: 1rem; text-align: center; padding-block: var(--band-spacing-small); }
   .footer-content h2 { font-size: 1.2rem; }
-  @media (max-width: 42rem) {
-    .footer-content { grid-template-columns: 1fr; }
+  @container style(--screen: medium) or style(--screen: wide) {
+    .footer-content { grid-template-columns: repeat(3, 1fr); }
   }
 </style>
