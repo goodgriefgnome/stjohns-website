@@ -1,9 +1,11 @@
 // Style checks, run by `npm run check-styles` (and at the start of `npm run build`).
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { palettes } from '../theme/palettes.mjs';
+import { parseHeader } from '../src/lib/layout-registry.mjs';
 
 const problems = [];
+const blank = (text) => text.replace(/[^\n]/g, ' ');
 
 // Palettes: the list in palettes.mjs and the [data-palette="name"] rules in theme/ and src/styles must match.
 function cssFiles(dir) {
@@ -21,8 +23,68 @@ for (const name of inCss) {
   if (!palettes.includes(name)) problems.push(`Palette "${name}" has a [data-palette="${name}"] rule in theme/ or src/styles but is not listed in theme/palettes.mjs`);
 }
 
+// Layout and behaviour files (theme/layouts, theme/behaviours): a header comment that declares the inputs, and a few things they may not do.
+// These come on top of the style rules below, which cover every file in theme/ too.
+const definedIn = (file) => [...readFileSync(file, 'utf8').matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]);
+const known = new Set([...definedIn('theme/tokens.css'), ...definedIn('theme/roles.css'), ...definedIn('src/styles/screen.css'),
+  '--i', '--item-count', '--image-count', '--section-size', '--images']);
+function ranges(code, opener) {
+  // [start, end] of each `{ … }` block that follows a match of `opener`.
+  const found = [];
+  for (const m of code.matchAll(opener)) {
+    let depth = 0;
+    for (let i = m.index + m[0].length - 1; i < code.length; i++) {
+      if (code[i] === '{') depth++;
+      if (code[i] === '}' && --depth === 0) { found.push([m.index, i]); break; }
+    }
+  }
+  return found;
+}
+function checkThemeFile(kind, dir, file) {
+  const name = file.slice(dir.length + 1, -4);
+  const source = readFileSync(file, 'utf8');
+  const code = source.replace(/\/\*[\s\S]*?\*\//g, blank);
+  const lineOf = (index) => source.slice(0, index).split('\n').length;
+  const fail = (index, message) => problems.push(`${file}:${lineOf(index)}: ${message}`);
+  const header = parseHeader(source);
+  const comment = source.match(/^\s*\/\*([\s\S]*?)\*\//);
+  if (!comment) problems.push(`${file}:1: start the file with a header comment: one plain-English line about what this ${kind} is for, then its "Variables:" and "Options:" lists`);
+  else if (!header.summary) problems.push(`${file}:1: the header comment needs a first line saying what this ${kind} is for`);
+  // Variables: the only custom properties other CSS may set. Names start with the file's name.
+  const declared = new Set(header.variables.map((v) => v.name));
+  for (const v of declared) {
+    if (!v.startsWith(`--${name}-`)) problems.push(`${file}:1: declared variable ${v} must start with --${name}- so two ${kind}s can't clash`);
+    if (!code.includes(`var(${v}`)) problems.push(`${file}:1: ${v} is declared in the header but never used`);
+  }
+  for (const m of code.matchAll(/var\(\s*(--[\w-]+)/g)) {
+    if (!declared.has(m[1]) && !known.has(m[1])) fail(m.index, `var(${m[1]}) is not a token, a role, a contract variable, or declared under "Variables:" in the header`);
+  }
+  for (const m of code.matchAll(/(?:^|[{;])\s*(--[\w-]+)\s*:/g)) {
+    if (!declared.has(m[1]) && m[1] !== '--images') fail(m.index, `${m[1]} is set here but not declared under "Variables:" in the header (a ${kind}'s own variables start with --${name}-)`);
+  }
+  const noMotion = kind === 'behaviour';
+  const bans = [[/!important/g, '!important'], [/@import/g, '@import'], [/url\(/g, 'url()'], [/position\s*:\s*fixed/g, 'position: fixed'],
+    [/(?<![\w.#-])(?:html|body|:root)(?![\w-])(?=[^{};]*\{)/g, 'a selector for html, body or :root']];
+  if (!noMotion) bans.push([/@keyframes/g, '@keyframes (motion lives in behaviours)'], [/@media/g, '@media (ask a style query instead; motion lives in behaviours)']);
+  for (const [pattern, what] of bans) for (const m of code.matchAll(pattern)) fail(m.index, `${what} is not allowed in a ${kind}`);
+  if (noMotion) {
+    for (const m of code.matchAll(/@media[^{]*/g)) {
+      if (!/\(\s*prefers-reduced-motion\s*:\s*(?:reduce|no-preference)\s*\)/.test(m[0])) fail(m.index, `the only @media a behaviour may use is prefers-reduced-motion (${m[0].trim()})`);
+    }
+    for (const m of code.matchAll(/@keyframes\s+([\w-]+)/g)) {
+      if (!m[1].startsWith(`${name}-`)) fail(m.index, `keyframes "${m[1]}" must start with "${name}-"`);
+    }
+    const calm = ranges(code, /@media\s*\(\s*prefers-reduced-motion\s*:\s*no-preference\s*\)[^{]*\{/g);
+    for (const m of code.matchAll(/(?<![\w-])animation(?:-[\w-]+)?\s*:/g)) {
+      if (!calm.some(([from, to]) => m.index > from && m.index < to)) fail(m.index, 'every animation must sit inside @media (prefers-reduced-motion: no-preference)');
+    }
+  }
+}
+const themeFiles = (dir) => (existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.css')).map((f) => join(dir, f)) : []);
+for (const file of themeFiles('theme/layouts')) checkThemeFile('layout', 'theme/layouts', file);
+for (const file of themeFiles('theme/behaviours')) checkThemeFile('behaviour', 'theme/behaviours', file);
+
 // Style rules: scan theme/**/*.css, src/**/*.css and the <style> blocks of src/**/*.astro.
-const blank = (text) => text.replace(/[^\n]/g, ' ');
 const allFiles = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
   const path = join(dir, e.name);
   return e.isDirectory() ? allFiles(path) : /\.(css|astro)$/.test(e.name) ? [path] : [];
