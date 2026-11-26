@@ -8,6 +8,7 @@
   "postcode": "2010",
   "postalAddress": "PO Box 465, Kings Cross NSW 1340",
   "directionsUrl": "https://maps.app.goo.gl/LaHHmXnDT7HQyh3GA",
+  "defaultHero": "/media/hero-door.webp",
   "services": {
     "morning": [{ "from": "1990-01-01", "time": "10:00" }],
     "evening": [{ "from": "1990-01-01", "time": "17:00" }]

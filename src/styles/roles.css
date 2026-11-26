@@ -4,8 +4,6 @@
   --text-default: var(--navy);
   /* Quieter text, e.g. dates. */
   --text-muted: var(--grey);
-  /* Pale panel background, e.g. the title band. */
-  --surface-subtle: var(--mist);
   /* Thin lines between things. */
   --border-subtle: var(--rule);
   /* Outline shown around whatever has keyboard focus. */

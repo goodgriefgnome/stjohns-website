@@ -9,7 +9,6 @@ const { sermon } = Astro.props;
 const audio = safeHref(sermon.audioUrl);
 ---
   <article class="wrap episode">
-    <h1>{sermon.title}</h1>
     <p class="episode-date"><time class="date" datetime={sermon.date}>{displayDate(sermon.date)}</time></p>
     {sermon.artwork && <img class="episode-art" src={withBase(sermon.artwork.src)} alt={sermon.artwork.alt} fetchpriority="high" />}
     {audio && <audio controls preload="none" src={audio}><a href={audio}>Listen to the recording</a></audio>}

@@ -1,0 +1,35 @@
+---
+import church from '../../inputs/church.json';
+import { withBase } from '../lib/base-path.mjs';
+
+interface Props {
+  title: string;
+  hero?: string;
+  heroFocus?: [number, number];
+  heroSubtitle?: string;
+}
+// A page without its own photo uses the church's default hero.
+const { title, hero = church.defaultHero, heroFocus, heroSubtitle } = Astro.props;
+const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
+---
+<header class="hero photo-backdrop" data-palette="navy">
+  <img src={withBase(hero)} alt="" fetchpriority="high" style={focalPoint && { objectPosition: focalPoint }} />
+  <div>
+    <h1>{title}</h1>
+    {heroSubtitle && <p>{heroSubtitle}</p>}
+  </div>
+</header>
+
+<style>
+  .hero {
+    display: grid;
+    place-items: center;
+    min-height: clamp(17rem, 35vw, 25rem);
+    padding: 8rem var(--gutter) var(--band-spacing);
+    text-align: center;
+  }
+  .hero > div > :last-child { margin-bottom: 0; }
+  @container style(--screen: wide) {
+    .hero { padding-top: var(--home-header-height); }
+  }
+</style>

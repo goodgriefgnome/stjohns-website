@@ -1,5 +1,5 @@
 ---
-import { withBase } from '../lib/base-path.mjs';
+import Hero from '../components/Hero.astro';
 import { palettes } from '../lib/palettes.mjs';
 import Site from './Site.astro';
 
@@ -15,41 +15,15 @@ const { title, width = 'standard', hero, heroFocus, heroSubtitle, palette } = As
 if (palette && !palettes.includes(palette)) throw new Error(`Unknown page palette: ${palette}`);
 const isReading = width === 'reading';
 const Frame = isReading ? 'article' : 'div';
-// A page can supply its own hero markup instead of the standard photo header.
+// A page can supply its own hero markup instead of the standard hero.
 const customHero = Astro.slots.has('hero');
-const focalPoint = heroFocus?.map(coordinate => `${coordinate}%`).join(' ');
 ---
-<Site title={title} photoHeader={Boolean(hero) || customHero}>
+<Site title={title} photoHeader>
   <Frame data-palette={palette ?? (isReading ? 'cream' : undefined)}>
-    {customHero ? <slot name="hero" /> : hero ? (
-      <header class="article-hero photo-backdrop" data-palette="navy">
-        <img src={withBase(hero)} alt="" fetchpriority="high" style={focalPoint && { objectPosition: focalPoint }} />
-        <div>
-          <h1>{title}</h1>
-          {heroSubtitle && <p>{heroSubtitle}</p>}
-        </div>
-      </header>
-    ) : (
-      <div class="title-band"><div class="wrap"><h1>{title}</h1></div></div>
-    )}
+    {customHero ? <slot name="hero" /> : <Hero title={title} hero={hero} heroFocus={heroFocus} heroSubtitle={heroSubtitle} />}
     <div class:list={['page-content', { 'page-wide': !isReading }]}>
       <slot />
     </div>
   </Frame>
 </Site>
 
-<style>
-  .title-band { background: var(--surface-subtle); text-align: center; padding-block: var(--band-spacing); }
-  .title-band h1 { margin-bottom: 0; }
-  .article-hero {
-    display: grid;
-    place-items: center;
-    min-height: clamp(17rem, 35vw, 25rem);
-    padding: 8rem var(--gutter) var(--band-spacing);
-    text-align: center;
-  }
-  .article-hero > div > :last-child { margin-bottom: 0; }
-  @container style(--screen: wide) {
-    .article-hero { padding-top: var(--home-header-height); }
-  }
-</style>
