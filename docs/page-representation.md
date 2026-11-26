@@ -41,6 +41,8 @@ Collection entries default to a narrow reading column. Add `width: standard` for
 
 Use `:::section{palette="blue" layout="columns"}` for a row of related items. Each level-three heading starts a column. To put a small icon above a heading, start the heading with an emoji, as in `### 🍞 Food`. It is drawn in monochrome Noto Emoji, in the section's action colour. Use the normal section directive for a full-width colour band with a reading-width body.
 
+Columns stay in one row while they all fit, then stack in reading order. In rows of heading-led columns and cards, headings, body text, and closing action links line up across the row.
+
 Use `##` for a major heading at the page or section level. These headings are centred by default, and subheadings follow the alignment of their text. Set `align="center"` on a section to centre all its content, or `align="left"` to left-align the whole section, including its heading. To centre just a paragraph or caption, wrap it in `:::center` and `:::`. When nesting it inside a section, use a longer fence for the outer section, such as `::::section` and `::::`.
 
 In Markdown and MDX, write `*[Plan a visit](/new)*` for a link with the action style. Ordinary links use the standard underline.

@@ -40,13 +40,32 @@ export default function articleDirectives() {
           node.children = [...intro, {
             type: 'containerDirective',
             name: 'column-grid',
-            data: { hName: 'div', hProperties: { className: ['section-columns', ...(hasExplicitColumns ? ['section-columns-explicit'] : []), ...(isCards ? ['section-cards'] : [])] } },
-            children: columns.map(children => ({
-              type: 'containerDirective',
-              name: 'column',
-              data: { hName: 'div' },
-              children,
-            })),
+            data: {
+              hName: 'div',
+              hProperties: {
+                className: [
+                  'section-columns',
+                  ...(hasExplicitColumns ? ['section-columns-explicit'] : []),
+                  ...(isCards ? ['section-cards'] : []),
+                ],
+                style: `--column-count: ${columns.length}`,
+              },
+            },
+            children: columns.map(children => {
+              const [heading, ...body] = children;
+              const hasHeading = !hasExplicitColumns && heading?.type === 'heading';
+              return {
+                type: 'containerDirective',
+                name: 'column',
+                data: { hName: 'div', hProperties: hasHeading ? { className: ['section-column'] } : {} },
+                children: hasHeading ? [heading, {
+                  type: 'containerDirective',
+                  name: 'column-body',
+                  data: { hName: 'div', hProperties: { className: ['column-body'] } },
+                  children: body,
+                }] : children,
+              };
+            }),
           }];
         }
         let imageSide;

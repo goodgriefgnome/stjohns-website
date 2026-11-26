@@ -37,25 +37,57 @@
   & blockquote { margin: 0; }
 
   & .section-columns {
+    --column-min: 14rem;
+    --row-min: calc(var(--column-count) * var(--column-min) + (var(--column-count) - 1) * var(--gutter));
+    /* Any shortfall rounds up to the available width, so every column takes its own row. */
+    --track-min: min(100%, max(var(--column-min), round(up, max(0px, calc(var(--row-min) - 100%)), 100%)));
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(var(--track-min), 1fr));
     gap: var(--gutter);
     margin-top: 2rem;
   }
+  & .section-columns > .section-column {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 2;
+    row-gap: 0;
+  }
+  & .column-body {
+    display: flex;
+    flex-direction: column;
+  }
+  & .column-body > :last-child { margin-bottom: 0; }
+  & .column-body > .actions:last-child { margin-top: auto; }
 
   & .article-cards { text-align: center; }
-  & .section-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; text-align: left; }
+  & .section-cards {
+    --card-height: clamp(19rem, 39vw, 29rem);
+    grid-template-columns: repeat(var(--column-count), minmax(0, 1fr));
+    gap: 1rem;
+    text-align: left;
+  }
   & .section-cards > div {
     --scrim: var(--photo-scrim-light);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    min-height: clamp(19rem, 39vw, 29rem);
+    min-height: var(--card-height);
     padding: 1.1rem;
     color: var(--paper);
   }
   & .section-cards p:has(> img:only-child) { margin: 0; }
   & .section-cards h3 { font-size: 1.5rem; }
+
+  @media (width > 42rem) {
+    /* The shared first row leaves room above the copy on the photo cards. */
+    & .section-cards:has(> .section-column) {
+      min-height: var(--card-height);
+      grid-auto-rows: 1fr auto auto;
+    }
+    & .section-cards > .section-column { grid-row: span 3; }
+    & .section-cards > .section-column > h3 { grid-row: 2; }
+    & .section-cards .column-body { grid-row: 3; }
+  }
 
   & .article-media {
     display: grid;
@@ -106,6 +138,7 @@
   @media (max-width: 42rem) {
     & > .article-gallery { grid-auto-flow: row; }
     & :is(.section-columns-explicit, .section-cards) { grid-template-columns: 1fr; }
+    & .section-cards > .section-column { display: flex; grid-row: auto; }
     & .article-media,
     & .article-media[data-image='right'] { grid-template-columns: 1fr; }
     & .article-media[data-image='right'] .media-image { order: 0; }
