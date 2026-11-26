@@ -4,7 +4,7 @@ hero: /media/groups.webp
 palette: white
 ---
 
-:::lead
+:::banner
 We meet every Sunday at {{serviceTimes}} at {{streetAddress}}, {{locality}}. Come and join us.
 
 **[Plan your visit](/contact)**

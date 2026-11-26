@@ -5,7 +5,7 @@ width: standard
 palette: white
 ---
 
-:::lead
+:::banner
 *A verse may finde him, who a sermon flies, And turn delight into a sacrifice.*\
 George Herbert
 :::

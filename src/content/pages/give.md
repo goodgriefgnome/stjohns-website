@@ -6,7 +6,7 @@ heroSubtitle: "1 Chronicles 29:14"
 palette: white
 ---
 
-:::lead
+:::banner
 ## Support the Ministry of St John's Darlinghurst
 :::
 

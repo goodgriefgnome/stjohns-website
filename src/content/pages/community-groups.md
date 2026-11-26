@@ -5,7 +5,7 @@ heroFocus: [39.12, 19.38]
 palette: white
 ---
 
-:::lead
+:::banner
 At the conclusion of every Sunday service we send everyone out on mission, saying: “Go in peace to love and serve the Lord!”. Then, during the week, St John’s people gather across the city to learn how to live out this mission in their daily lives.
 :::
 

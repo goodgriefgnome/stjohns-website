@@ -63,5 +63,5 @@
 [data-palette="blue"] { --section-bg: var(--sky); --section-text: var(--paper); --action-bg: var(--navy); --action-text: var(--paper); }
 /* cream: the default for :::section */
 [data-palette="cream"] { --section-bg: var(--cream); --section-text: var(--navy); }
-/* navy: the default for :::lead, a dark band with white text */
+/* navy: the default for :::banner, a dark band with white text */
 [data-palette="navy"] { --section-bg: var(--navy); --section-text: var(--paper); }

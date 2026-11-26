@@ -23,12 +23,12 @@
 .band-inner > :last-child { margin-bottom: 0; }
 
 .band-inner > h2,
-:is(.band-lead, .band-center, .band-outer[data-align='center']) { text-align: center; }
+:is(.band-banner, .band-center, .band-outer[data-align='center']) { text-align: center; }
 .band-outer[data-align='left'],
 .band-outer[data-align='left'] > .band-inner > h2 { text-align: left; }
 /* :not(:empty) only raises specificity, so these margins beat a child's own (e.g. an actions row). */
-.band-lead > .band-inner > :not(:empty) { max-width: var(--reading-width); margin-inline: auto; }
-.band-lead p:last-child { margin-bottom: 0; }
+.band-banner > .band-inner > :not(:empty) { max-width: var(--reading-width); margin-inline: auto; }
+.band-banner p:last-child { margin-bottom: 0; }
 
 /* A default for images in bands, kept at plain-img specificity so photo cards and square crops override it. */
 :where(.band-outer) img { max-height: 30rem; object-fit: contain; }

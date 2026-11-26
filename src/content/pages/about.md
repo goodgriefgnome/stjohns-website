@@ -49,7 +49,7 @@ Please get in touch if you are interested in being part of our growing community
 </details>
 :::
 
-:::lead
+:::banner
 St John’s is a church community… Our roots in Darlinghurst go back to 1849. But our true origins run much deeper than that. After his death and resurrection, Jesus Christ established the church to embody his presence to the world. As a community whose life revolves around God’s word and the sacraments, we are, for all our faults, a concrete manifestation of the presence of Christ.
 :::
 

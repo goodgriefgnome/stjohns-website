@@ -4,7 +4,7 @@ hero: /media/articles/creatives-collective.webp
 palette: white
 ---
 
-:::lead
+:::banner
 Our Creatives Collective is a regular gathering that brings together a wide variety of Christian practising artists for the purposes of nurture and networking.
 :::
 

@@ -4,7 +4,7 @@ hero: /media/articles/faith-work-and-economics.webp
 heroFocus: [39, 80]
 ---
 
-:::lead
+:::banner
 At the end of our church services every week, one of the ministers dismisses the congregation, saying: “Go in peace to love and serve the Lord.”
 :::
 

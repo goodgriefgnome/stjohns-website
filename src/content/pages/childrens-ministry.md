@@ -4,7 +4,7 @@ width: standard
 palette: white
 ---
 
-:::lead{palette="navy"}
+:::banner{palette="navy"}
 > “Let the children come to me,” Jesus said. “Do not hinder them, for to such belongs the kingdom of God.”
 >
 > Mark 10:14

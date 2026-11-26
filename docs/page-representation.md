@@ -33,9 +33,9 @@ The architecture spec calls for ordinary Astro components, typed reusable layout
 
 Page routes compose shared layouts, content sections and links. Components and the stylesheet own presentation details. The source snapshots remain local files at build time.
 
-Written pages live in `src/content/pages/`. A filename like `about.md` renders at `/about`. Every entry uses `Page.astro`. The optional `hero` field names the public image URL, independently of the content width. Use `heroFocus: [39, 80]` to set the horizontal and vertical crop position in percentages from 0 to 100. Omit it for a centred crop. To feature an opening paragraph or quotation, put it between `:::lead` and a line containing only `:::`. To group photos, put ordinary Markdown images between `:::gallery` and `:::`, one per line. The live examples show both patterns.
+Written pages live in `src/content/pages/`. A filename like `about.md` renders at `/about`. Every entry uses `Page.astro`. The optional `hero` field names the public image URL, independently of the content width. Use `heroFocus: [39, 80]` to set the horizontal and vertical crop position in percentages from 0 to 100. Omit it for a centred crop. To feature an opening paragraph or quotation, put it between `:::banner` and a line containing only `:::`. To group photos, put ordinary Markdown images between `:::gallery` and `:::`, one per line. The live examples show both patterns.
 
-Section palettes use `white`, `mist`, `blue`, `cream`, or `navy`. In Astro, use `<ContentSection palette="navy">`. In Markdown, use `:::section{palette="navy"}` and close the block with `:::`. A lead defaults to navy and also accepts a palette override. Links inherit the section text colour.
+Section palettes use `white`, `mist`, `blue`, `cream`, or `navy`. In Astro, use `<ContentSection palette="navy">`. In Markdown, use `:::section{palette="navy"}` and close the block with `:::`. A banner (a centred band held to the reading width) defaults to navy and also accepts a palette override. Links inherit the section text colour.
 
 Collection entries default to a narrow reading column. Add `width: standard` for the regular page width. Omit `hero` for a simple title band. Astro routes that use `Page.astro` directly default to the standard width.
 

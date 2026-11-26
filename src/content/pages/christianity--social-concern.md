@@ -3,7 +3,7 @@ title: "Christianity + Social Concern"
 hero: /media/articles/christianity--social-concern.webp
 ---
 
-:::lead
+:::banner
 > **“Living justly means living in constant recognition of the claims of community on us; it means disadvantaging ourselves in order to advantage others.”**
 :::
 

@@ -4,7 +4,7 @@ hero: /media/hero-door.webp
 palette: white
 ---
 
-:::lead
+:::banner
 **Even if you have never attended a church service before, you are very welcome at St John’s.**
 :::
 

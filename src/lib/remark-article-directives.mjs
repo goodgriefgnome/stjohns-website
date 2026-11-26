@@ -74,9 +74,10 @@ export default function articleDirectives() {
 
     let mediaCount = 0;
     visit(tree, 'containerDirective', node => {
-      if (node.name === 'lead' || node.name === 'section') {
-        const isLead = node.name === 'lead';
-        const palette = node.attributes?.palette ?? (isLead ? 'navy' : 'cream');
+      if (node.name === 'lead') file.fail('`:::lead` is now `:::banner`.', node);
+      if (node.name === 'banner' || node.name === 'section') {
+        const isBanner = node.name === 'banner';
+        const palette = node.attributes?.palette ?? (isBanner ? 'navy' : 'cream');
         if (!palettes.includes(palette)) {
           file.fail(`Unknown palette "${palette}". Choose ${palettes.join(', ')}.`, node);
         }
@@ -163,11 +164,11 @@ export default function articleDirectives() {
           children: node.children,
         }];
         node.data = {
-          hName: isLead ? 'div' : 'section',
+          hName: isBanner ? 'div' : 'section',
           hProperties: {
             className: [
               'band-outer',
-              ...(isLead ? ['band-lead'] : []),
+              ...(isBanner ? ['band-banner'] : []),
               ...(['columns', 'cards', 'media'].includes(node.attributes?.layout) ? ['band-wide'] : []),
               ...(isCards ? ['band-cards'] : []),
             ],
