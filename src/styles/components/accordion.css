@@ -8,7 +8,7 @@
   align-items: center;
   gap: 1rem;
   padding-block: 1.1rem;
-  font-weight: 700;
+  font-weight: var(--weight-strong);
   list-style: none;
 }
 .page-content summary::-webkit-details-marker { display: none; }

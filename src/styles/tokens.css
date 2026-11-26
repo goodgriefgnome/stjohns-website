@@ -17,6 +17,20 @@
   --black-33: #0005;
   --black-40: #0006;
 
+  /* Type scale: sizes and weights named by step. What each is FOR (--font-*, --weight-*) lives in roles.css. */
+  --size-xs: .875rem;
+  --size-sm: 1rem;
+  --size-md: 1.1rem;
+  --size-lg: 1.125rem;
+  --size-xl: 1.25rem;
+  --size-2xl: 1.5rem;
+  --size-heading: clamp(1.75rem, 3vw, 2.15rem);
+  --size-hero: clamp(1.8rem, 3.15vw, 2.45rem);
+  --weight-regular: 400;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-heavy: 800;
+
   /* Layout. */
   --layout-width: 74rem;
   --reading-width: 42rem;

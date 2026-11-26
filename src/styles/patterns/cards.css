@@ -23,7 +23,6 @@
 }
 .section-cards > div > :last-child { margin-bottom: 0; }
 .section-cards p:has(> img:only-child) { margin: 0; }
-.section-cards h3 { font-size: 1.5rem; }
 
 @media (width > 42rem) {
   /* The shared first row leaves room above the copy on the photo cards. */

@@ -5,4 +5,4 @@
   fill: currentColor;
   vertical-align: -.125em;
 }
-.heading-icon { display: block; margin-bottom: .6rem; font-size: 1.5rem; line-height: 1; }
+.heading-icon { display: block; margin-bottom: .6rem; font-size: var(--font-h3); line-height: 1; }

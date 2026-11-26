@@ -123,18 +123,18 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
   }
   .calendar-month { flex: 0 0 100%; scroll-snap-align: start; }
   .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem; }
-  .calendar-header p { margin: 0; font-weight: 700; }
-  .calendar-header :is(a, span) { display: grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; font-size: 1.5rem; line-height: 1; text-decoration: none; }
+  .calendar-header p { margin: 0; font-weight: var(--weight-strong); }
+  .calendar-header :is(a, span) { display: grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; font-size: var(--font-h3); line-height: 1; text-decoration: none; }
   .calendar-header span { opacity: .35; }
-  .weekdays, .days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; font-size: .875rem; }
-  .weekdays { font-weight: 600; padding-bottom: .25rem; }
+  .weekdays, .days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; font-size: var(--font-label); }
+  .weekdays { font-weight: var(--weight-label); padding-bottom: .25rem; }
   .days { margin: 0; padding: 0; list-style: none; }
   .days :is(a, span) { position: relative; display: block; padding: .45rem 0 .65rem; border-radius: var(--radius); text-decoration: none; }
-  .days a { font-weight: 700; }
+  .days a { font-weight: var(--weight-strong); }
   .days a::after { content: ''; position: absolute; bottom: .3rem; left: calc(50% - .125rem); width: .25rem; height: .25rem; border-radius: 50%; background: currentColor; }
   .days a:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
   .days .past { opacity: .4; }
-  .days .today :is(a, span) { font-weight: 800; box-shadow: inset 0 0 0 1px currentColor; }
+  .days .today :is(a, span) { font-weight: var(--weight-heading); box-shadow: inset 0 0 0 1px currentColor; }
 
   /* The list scrolls inside a box as tall as the calendar beside it. */
   .event-list {
@@ -146,12 +146,12 @@ const monthLabel = (key: string) => months.find(month => month.key === key)?.lab
   /* Gaps rather than margins, so groups the script hides leave no space behind. */
   .event-list, .event-month { display: grid; align-content: start; gap: 1.25rem; }
   .event-list { gap: 2rem; }
-  .event-month h3 { margin: 0; font-size: 1.375rem; }
+  .event-month h3 { margin: 0; font-size: var(--font-subheading); }
   [hidden] { display: none; }
-  .event-day h4 { margin: 0; font-size: .875rem; font-weight: 650; text-transform: uppercase; letter-spacing: .045em; }
+  .event-day h4 { margin: 0; font-size: var(--font-label); font-weight: var(--weight-label); text-transform: uppercase; letter-spacing: .045em; }
   .event { padding: .6rem 0; border-bottom: 1px solid var(--line); }
-  .event h5 { margin: 0; font-size: 1.125rem; font-weight: 650; line-height: 1.45; }
-  .event p { margin: .15rem 0 0; font-size: .9375rem; }
+  .event h5 { margin: 0; font-size: var(--font-body); font-weight: var(--weight-label); line-height: 1.45; }
+  .event p { margin: .15rem 0 0; font-size: var(--font-small); }
   .description { overflow-wrap: anywhere; }
 
   /* Phones: no mini calendar, and the list gets most of the screen. */

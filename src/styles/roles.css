@@ -16,6 +16,34 @@
   --photo-scrim: var(--black-40);
   /* A lighter version of the photo scrim, for photo cards. */
   --photo-scrim-light: var(--black-33);
+
+  /* Paragraphs and event titles. */
+  --font-body: var(--size-lg);
+  /* Everyday text outside paragraphs, and quieter text such as an event's time and place. */
+  --font-small: var(--size-sm);
+  /* Tiny labels, e.g. an event's day, sermon field names, calendar weekdays. */
+  --font-label: var(--size-xs);
+  /* Button text. */
+  --font-button: var(--size-md);
+  /* Headings one step down from a card title, e.g. a month in the events list, footer headings. */
+  --font-subheading: var(--size-xl);
+  /* Small headings, e.g. card titles, and big symbols such as the calendar arrows. */
+  --font-h3: var(--size-2xl);
+  /* Main headings (h1 and h2). */
+  --font-heading: var(--size-heading);
+  /* Menu links along the top. */
+  --font-nav: clamp(var(--size-sm), 1vw, var(--size-xl));
+  /* The big tagline on the home page. */
+  --font-hero: var(--size-hero);
+
+  /* Headings, and anything that should stand out most, e.g. today in the calendar. */
+  --weight-heading: var(--weight-heavy);
+  /* Bold text, e.g. accordion titles and calendar days with events. */
+  --weight-strong: var(--weight-bold);
+  /* Small labels and event titles. */
+  --weight-label: var(--weight-semibold);
+  /* Button and menu link text. */
+  --weight-button: var(--weight-semibold);
 }
 
 /* Palettes: a band's background, text and button colours.

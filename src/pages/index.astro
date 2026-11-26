@@ -24,8 +24,8 @@ import { withBase } from '../lib/base-path.mjs';
     text-align: center;
   }
   .hero img { border-radius: 45% 45% .3rem .3rem / 28% 28% .3rem .3rem; max-height: 24rem; }
-  .hero h1 { font-size: clamp(1.8rem, 3.15vw, 2.45rem); margin-bottom: 1.25rem; }
-  .hero a { display: inline-block; padding: .3rem 1.7rem; text-decoration: none; font-weight: 650; text-transform: uppercase; }
+  .hero h1 { font-size: var(--font-hero); margin-bottom: 1.25rem; }
+  .hero a { display: inline-block; padding: .3rem 1.7rem; text-decoration: none; font-weight: var(--weight-button); text-transform: uppercase; }
   .hero-cycle { animation: hero-cycle 16s infinite; opacity: 0; }
   @keyframes hero-cycle {
     0%, 41%, 100% { opacity: 0; }

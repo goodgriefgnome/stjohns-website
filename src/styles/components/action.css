@@ -6,8 +6,8 @@
   display: inline-block;
   margin: 0 .3rem;
   font-style: normal;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: var(--font-button);
+  font-weight: var(--weight-button);
   line-height: 1.6;
   text-decoration: none;
 }
