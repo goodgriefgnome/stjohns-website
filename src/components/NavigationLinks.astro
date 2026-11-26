@@ -1,5 +1,6 @@
 ---
 import { withBase } from '../lib/base-path.mjs';
+import { mainPodcastUrl } from '../lib/church.mjs';
 interface Props {
   overlay?: boolean;
 }
@@ -21,7 +22,7 @@ const groups = [
   { label: 'Truth', links: [
     { route: '/what-is-christianity', label: 'What Is Christianity?' },
     { route: '/sermons', label: 'Sermons' },
-    { route: 'https://pod.link/1605851775', label: 'Sermons podcast' },
+    { route: mainPodcastUrl, label: 'Sermons podcast' },
   ] },
   { label: 'Beauty', links: [
     { route: '/christianity-art--culture', label: 'Christianity, Art + Culture' },

@@ -16,8 +16,8 @@ export interface Sermon {
   /** Size of the audio file in bytes, required by the podcast feed's <enclosure>. */
   audioBytes: number;
   durationSeconds: number;
-  /** `podcastSrc` is a square JPEG (1400–3000px) for podcast apps, which don't accept WebP. */
-  artwork?: { src: string; alt: string; podcastSrc?: string };
+  /** `src` is the wide image; `podcastSrc` is a square JPEG (1400–3000px), used for podcast apps (which don't accept WebP) and for the square artwork on wide screens. */
+  artwork?: { src: string; alt: string; podcastSrc: string };
 }
 export interface Event {
   id: string;
@@ -37,7 +37,13 @@ export interface Event {
   registrationUrl: string | null;
 }
 
-export const sermons = Object.values(import.meta.glob<Sermon>('../../imported/sermons/*.json', { eager: true, import: 'default' }))
+export const sermons = Object.entries(import.meta.glob<Sermon>('../../imported/sermons/*.json', { eager: true, import: 'default' }))
+  .map(([file, sermon]) => {
+    if (sermon.artwork && !sermon.artwork.podcastSrc) {
+      throw new Error(`${file}: the sermon has artwork but no square version. Add artwork.podcastSrc (a square JPEG, 1400px or more).`);
+    }
+    return sermon;
+  })
   .sort((a, b) => b.date.localeCompare(a.date));
 export const events = Object.values(import.meta.glob<Event>('../../imported/events/*.json', { eager: true, import: 'default' }))
   .sort((a, b) => Date.parse(a.start) - Date.parse(b.start));

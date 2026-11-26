@@ -1,0 +1,160 @@
+---
+import { withBase } from '../lib/base-path.mjs';
+import { podcastLinks } from '../lib/church.mjs';
+import { sermons } from '../lib/content';
+import { bookOf, dateSpan, groupBySeries, seriesShortName, sortBooks } from '../lib/sermon-format.mjs';
+import SermonRows from './SermonRows.astro';
+
+// "All sermons": a search box and filters, then the sermons grouped by series, newest series first.
+// Every sermon is in the HTML. Without JavaScript the filters stay hidden and nothing is hidden, so everything shows.
+// With it, the script below filters, and shows only the newest few series until "Show older series" is pressed.
+const groups = groupBySeries(sermons);
+const preachers = [...new Set(sermons.map(sermon => sermon.preacher))].sort((a, b) => a.localeCompare(b));
+const books = sortBooks([...new Set(sermons.map(sermon => bookOf(sermon.scripture)))]);
+const newestSeries = 3;
+---
+<section class="section-outer" data-palette="mist">
+  <div class="section-inner">
+    <h2>All sermons</h2>
+    <p class="subscribe">Subscribe: {podcastLinks.map(link => <><a href={link.url}>{link.label}</a>{' · '}</>)}<a href={withBase('/sermons-rss.xml')}>RSS</a></p>
+    <div class="archive" data-archive data-newest={newestSeries}>
+      <form class="filters" role="search" hidden>
+        <label class="search"><span class="visually-hidden">Search sermons</span>
+          <input type="search" name="q" placeholder="Search by title, passage or preacher" autocomplete="off" />
+        </label>
+        <label><span>Series</span>
+          <select name="series">
+            <option value="">All series</option>
+            {groups.map(group => <option value={group.slug}>{seriesShortName(group.name)}</option>)}
+          </select>
+        </label>
+        <label><span>Preacher</span>
+          <select name="preacher">
+            <option value="">Anyone</option>
+            {preachers.map(name => <option value={name}>{name}</option>)}
+          </select>
+        </label>
+        <label><span>Book</span>
+          <select name="book">
+            <option value="">Any book</option>
+            {books.map(book => <option value={book}>{book}</option>)}
+          </select>
+        </label>
+      </form>
+      <p class="count" aria-live="polite" hidden></p>
+      <p class="empty" hidden>No sermons match.</p>
+      {groups.map(group => (
+        <article class="series" data-series-group={group.slug}>
+          <header>
+            {group.artwork && <img src={withBase(group.artwork.src)} alt="" loading="lazy" />}
+            <div>
+              <h3>{group.name}</h3>
+              <p>{group.sermons.length} {group.sermons.length === 1 ? 'sermon' : 'sermons'} · {dateSpan(group.first, group.last)}</p>
+            </div>
+          </header>
+          <SermonRows sermons={group.sermons} underSeries />
+        </article>
+      ))}
+      {groups.length > newestSeries && <p class="more" hidden><button type="button" class="action action-bar">Show older series</button></p>}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Filtering happens in the page. The address holds the filters (?q=, ?series=, ?preacher=, ?book=), so links such as
+  // a sermon page's "Preacher" arrive already filtered.
+  const archive = document.querySelector<HTMLElement>('[data-archive]');
+  if (archive) {
+    const form = archive.querySelector<HTMLFormElement>('.filters')!;
+    const count = archive.querySelector<HTMLElement>('.count')!;
+    const empty = archive.querySelector<HTMLElement>('.empty')!;
+    const more = archive.querySelector<HTMLElement>('.more');
+    const groups = [...archive.querySelectorAll<HTMLElement>('.series')];
+    const search = form.elements.namedItem('q') as HTMLInputElement;
+    const fields = ['series', 'preacher', 'book'] as const;
+    const select = (name: string) => form.elements.namedItem(name) as HTMLSelectElement;
+    const newest = Number(archive.dataset.newest);
+    let olderShown = false;
+
+    const params = new URLSearchParams(location.search);
+    search.value = params.get('q') ?? '';
+    // A value with no matching option (an old link) leaves the select on its first option, "all".
+    for (const name of fields) select(name).value = params.get(name) ?? '';
+
+    function apply() {
+      const words = search.value.toLowerCase().split(/\s+/).filter(Boolean);
+      const chosen = Object.fromEntries(fields.map(name => [name, select(name).value]));
+      const filtering = words.length > 0 || fields.some(name => chosen[name]);
+      let shown = 0;
+      groups.forEach((group, index) => {
+        let matches = 0;
+        for (const row of group.querySelectorAll<HTMLElement>('li')) {
+          const { search: text = '', series, preacher, book } = row.dataset;
+          const match = words.every(word => text.includes(word))
+            && (!chosen.series || chosen.series === series)
+            && (!chosen.preacher || chosen.preacher === preacher)
+            && (!chosen.book || chosen.book === book);
+          row.hidden = !match;
+          if (match) matches++;
+        }
+        shown += matches;
+        // Filtering shows every series with a match; otherwise only the newest few, until "Show older series" is pressed.
+        group.hidden = matches === 0 || (!filtering && !olderShown && index >= newest);
+      });
+      if (more) more.hidden = filtering || olderShown;
+      count.hidden = false;
+      count.textContent = `${shown} ${shown === 1 ? 'sermon' : 'sermons'}`;
+      empty.hidden = shown > 0;
+
+      const next = new URLSearchParams();
+      if (search.value.trim()) next.set('q', search.value.trim());
+      for (const name of fields) if (chosen[name]) next.set(name, chosen[name]);
+      const query = next.toString();
+      history.replaceState(null, '', `${location.pathname}${query ? `?${query}` : ''}${location.hash}`);
+    }
+
+    form.hidden = false;
+    form.addEventListener('submit', event => event.preventDefault());
+    form.addEventListener('input', apply);
+    more?.querySelector('button')!.addEventListener('click', () => { olderShown = true; apply(); });
+    apply();
+  }
+</script>
+
+<style>
+  .subscribe { margin-top: calc(-1 * var(--space-sm)); font-size: var(--font-small); text-align: center; }
+  /* A row of filters that wraps on narrow screens. The search box has a line to itself. */
+  .filters { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-sm); margin-bottom: var(--space-xl); }
+  .filters[hidden] { display: none; }
+  .filters label { display: grid; gap: var(--space-3xs); font-size: var(--font-label); font-weight: var(--weight-label); }
+  .search { flex: 1 1 100%; }
+  /* Narrowest a dropdown gets before the row wraps. */
+  .filters label:not(.search) { --dropdown-min: 9rem; flex: 1 1 var(--dropdown-min); }
+  input, select {
+    width: 100%;
+    min-height: var(--tap-target);
+    padding: var(--space-2xs) var(--space-sm);
+    border: var(--line-thin) solid var(--border-subtle);
+    border-radius: 0;
+    background: var(--paper);
+    color: var(--text-default);
+    font: inherit;
+    font-size: var(--font-small);
+    font-weight: var(--weight-regular);
+  }
+  .count, .empty { margin: 0 0 var(--space-sm); font-size: var(--font-small); color: var(--text-muted); }
+  .count[hidden], .empty[hidden], .more[hidden] { display: none; }
+  /* Each series: its artwork once, with the series name and dates beside it, then its sermons. */
+  .series { margin-top: var(--space-xl); }
+  .series[hidden] { display: none; }
+  /* Width of the series' thumbnail: small on narrow sections, bigger on wide ones. */
+  .series header { --thumb-width: 7rem; display: grid; grid-template-columns: var(--thumb-width) 1fr; align-items: center; gap: var(--space-sm) var(--space-lg); margin-bottom: var(--space-sm); }
+  .series img { width: 100%; max-height: none; aspect-ratio: 16 / 9; object-fit: cover; }
+  .series h3 { margin: 0 0 var(--space-3xs); text-align: left; }
+  .series header p { margin: 0; font-size: var(--font-small); color: var(--text-muted); }
+  .more { margin: var(--space-xl) 0 0; }
+  .more .action { margin: 0; border: 0; background: none; font-family: inherit; cursor: pointer; }
+  @container style(--section-size: wide) {
+    .series header { --thumb-width: 14rem; }
+  }
+</style>

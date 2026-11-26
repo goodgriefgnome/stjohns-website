@@ -2,6 +2,18 @@ import church from '../../imported/church.json' with { type: 'json' };
 
 export { church };
 
+// Where to subscribe to the sermons podcast. The first link is the main one (used by the menu and the sermon page).
+// TODO (Bundle G): these come from the Settings tab of the church workbook; add separate Apple Podcasts and Spotify links when LJ has them.
+export const podcastLinks = church.podcast.links;
+export const mainPodcastUrl = podcastLinks[0].url;
+
+// "Morning service" for the service id "morning".
+export function serviceName(service, data = church) {
+  const name = data.serviceNames?.[service];
+  if (!name) throw new Error(`Service "${service}" has no display name. Add it under serviceNames in imported/church.json.`);
+  return name;
+}
+
 // Each service keeps a dated history of start times, so old sermons keep the time they were preached.
 // The entry that applies on a date is the latest one whose "from" is on or before it.
 export function serviceTimeOn(service, date, data = church) {

@@ -13,6 +13,15 @@
     "morning": [{ "from": "1990-01-01", "time": "10:00" }],
     "evening": [{ "from": "1990-01-01", "time": "17:00" }]
   },
+  "serviceNames": {
+    "morning": "Morning service",
+    "evening": "Evening service"
+  },
+  "podcast": {
+    "links": [
+      { "label": "Apple, Spotify and other podcast apps", "url": "https://pod.link/1605851775" }
+    ]
+  },
   "inboxes": {
     "hello": "Louise Lee",
     "richardg": "Richard Glover",

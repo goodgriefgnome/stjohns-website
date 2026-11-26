@@ -1,0 +1,33 @@
+---
+import { withBase } from '../lib/base-path.mjs';
+import type { Sermon } from '../lib/content';
+
+// Artwork with the sermon's details beside it (wide sections) or below it (narrow ones). Used by the latest sermon and the sermon page.
+// Narrow sections show the wide artwork; wide sections show the square one. Both images are in the HTML and CSS picks one,
+// because a <picture> can only ask about the browser window, not about the width of the section it sits in.
+interface Props {
+  artwork?: Sermon['artwork'];
+}
+const { artwork } = Astro.props;
+---
+<div class="feature">
+  {artwork && <>
+    <img class="art-wide" src={withBase(artwork.src)} alt={artwork.alt} loading="lazy" />
+    <img class="art-square" src={withBase(artwork.podcastSrc)} alt={artwork.alt} loading="lazy" />
+  </>}
+  <div class="details"><slot /></div>
+</div>
+
+<style>
+  /* Width of the square artwork's column on wide sections. */
+  .feature { --art-width: 15rem; display: grid; gap: var(--gap-halves); align-items: start; }
+  .feature img { width: 100%; max-height: none; object-fit: cover; }
+  .art-wide { aspect-ratio: 16 / 9; }
+  .art-square { display: none; aspect-ratio: 1; }
+  .details { min-width: 0; }
+  @container style(--section-size: wide) {
+    .feature:has(img) { grid-template-columns: var(--art-width) 1fr; }
+    .art-wide { display: none; }
+    .art-square { display: block; }
+  }
+</style>
