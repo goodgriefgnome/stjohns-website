@@ -1,42 +1,32 @@
-/* Media: a picture beside text, one row per item. The picture is on the right in the first row and swaps sides each row; stacked on phones.
+/* Media: a picture beside text. One block is one row of two items, a picture and a text, in the order you want on phones; on wide screens the picture is the narrower column and swaps sides each block, starting on the right.
    Variables:
      --media-gap     space between the picture and the text (default --gap-halves)
    Options:
-     image = left | right   (put the picture on that side in every row, instead of swapping) */
+     image = left | right   (put the picture on that side in every block, instead of swapping) */
 :scope {
   /* Space between the picture and the text. */
   --media-gap: var(--gap-halves);
   display: grid;
-  /* Rows are far enough apart that each reads as its own section. */
-  gap: calc(2 * var(--section-spacing));
-}
-.layout-item {
-  display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: "figure" "heading" "body";
-  column-gap: var(--media-gap);
+  gap: var(--media-gap);
   align-items: center;
 }
-.layout-item > :is(h2, h3, h4, h5, h6) { grid-area: heading; }
-.layout-figure { grid-area: figure; margin-bottom: var(--media-gap); }
+/* Blocks one after another are far enough apart that each reads as its own row. */
+[data-layout='media'] + :scope { margin-top: calc(2 * var(--section-spacing)); }
+.layout-item > :last-child, .layout-body > :last-child { margin-bottom: 0; }
+.layout-figure { margin-bottom: var(--space-sm); }
 .layout-figure img { aspect-ratio: 1; object-fit: cover; max-height: none; }
-.layout-body { grid-area: body; }
-.layout-body > :last-child { margin-bottom: 0; }
 
 @container style(--section-size: wide) {
-  /* Picture on the left (the default for the rows that swap to it). */
-  .layout-item {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-    /* The empty first and last rows share out any spare height, which keeps the text level with the middle of the picture. */
-    grid-template-rows: 1fr auto auto 1fr;
-    grid-template-areas: "figure ." "figure heading" "figure body" "figure .";
-  }
-  .layout-figure { margin-bottom: 0; }
-  /* Picture on the right: first row of the first block, and every second row after it. */
-  :scope[data-image='right'] .layout-item,
-  :scope:not([data-image])[data-nth='odd'] .layout-item:nth-child(odd),
-  :scope:not([data-image])[data-nth='even'] .layout-item:nth-child(even) {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    grid-template-areas: ". figure" "heading figure" "body figure" ". figure";
-  }
+  /* Picture on the left: the narrow column first. */
+  :scope { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+  .layout-item:has(> figure:first-child) { order: 1; }
+  .layout-item:not(:has(> figure:first-child)) { order: 2; }
+  /* Picture on the right: the first block of the first media on the page, and every second one after it. */
+  :scope[data-image='right'],
+  :scope:not([data-image])[data-nth='odd'] { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  :scope[data-image='right'] .layout-item:has(> figure:first-child),
+  :scope:not([data-image])[data-nth='odd'] .layout-item:has(> figure:first-child) { order: 2; }
+  :scope[data-image='right'] .layout-item:not(:has(> figure:first-child)),
+  :scope:not([data-image])[data-nth='odd'] .layout-item:not(:has(> figure:first-child)) { order: 1; }
 }

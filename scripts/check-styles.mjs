@@ -67,6 +67,12 @@ function checkThemeFile(kind, dir, file) {
     [/(?<![\w.#-])(?:html|body|:root)(?![\w-])(?=[^{};]*\{)/g, 'a selector for html, body or :root']];
   if (!noMotion) bans.push([/@keyframes/g, '@keyframes (motion lives in behaviours)'], [/@media/g, '@media (ask a style query instead; motion lives in behaviours)']);
   for (const [pattern, what] of bans) for (const m of code.matchAll(pattern)) fail(m.index, `${what} is not allowed in a ${kind}`);
+  // The order in the Markdown is the order on a narrow screen: anything that reorders may only appear in a wide-only block.
+  const wide = ranges(code, /@container\s+style\(\s*--section-size\s*:\s*wide\s*\)\s*\{/g);
+  const reorders = /(?<![\w-])(?:order|grid-row(?:-start|-end)?|grid-column(?:-start|-end)?|grid-area|grid-template-areas)\s*:|flex-direction\s*:\s*(?:row|column)-reverse|flex-wrap\s*:\s*wrap-reverse|grid-auto-flow\s*:[^;}]*\bdense/g;
+  for (const m of code.matchAll(reorders)) {
+    if (!wide.some(([from, to]) => m.index > from && m.index < to)) fail(m.index, "On narrow screens, items show in the order they're written. Move this inside a wide-only block (@container style(--section-size: wide)).");
+  }
   if (noMotion) {
     for (const m of code.matchAll(/@media[^{]*/g)) {
       if (!/\(\s*prefers-reduced-motion\s*:\s*(?:reduce|no-preference)\s*\)/.test(m[0])) fail(m.index, `the only @media a behaviour may use is prefers-reduced-motion (${m[0].trim()})`);

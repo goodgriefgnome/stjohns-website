@@ -53,6 +53,10 @@ const failures = [
   ['an unknown option value', '---\nx\n\n:::quotes{size="huge"}\n- a\n:::', 'Unknown size "huge"'],
   ['an unknown behaviour', '---\nx\n\n:::quotes{images="spin"}\n- a\n:::', 'Unknown images "spin"'],
   ['a list followed by a paragraph', '---\nx\n\n:::quotes\n- a\n- b\n\nfell out\n:::', 'If a paragraph fell out of the list'],
+  ['an empty image', '---\nx\n\n![]()', 'Use `::no-background`.'],
+  ['an empty image in a layout', '---\nx\n\n:::quotes\n- ![]()\n:::', 'Use `::no-background`.'],
+  ['::no-background not first in an item', '---\nx\n\n:::quotes\n---\nText\n\n::no-background\n:::', '`::no-background` only goes first'],
+  ['::no-background outside a layout', '---\nx\n\n::no-background\n', '`::no-background` only goes first'],
   ['an empty layout block', '---\nx\n\n:::quotes\n:::', 'is empty'],
 ];
 for (const [name, markdown, message] of failures) {

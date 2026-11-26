@@ -1,10 +1,11 @@
 /* Cycle: the pictures in a picture slot stack up and fade into one another in turn (set --images: cycle on a block, or on a figure in a layout). With reduced motion, or more than six pictures, only the first shows.
    Variables:
      --cycle-time   how long each picture stays before the next fades in (default set in the roles) */
-/* Stack the pictures in one cell, and show only the first until they animate. */
+/* Stack the pictures on top of the first, and show only the first until they animate. */
 @container style(--images: cycle) {
-  img { grid-area: 1 / 1; opacity: 0; }
+  img { opacity: 0; }
   img:first-child { opacity: 1; }
+  img:not(:first-child) { position: absolute; inset: 0; height: 100%; max-height: none; object-fit: cover; }
 }
 
 /* Counts 2 to 6 have their own keyframes: CSS can't work out keyframe percentages, so they are written out. Each picture fades in, stays for its share of the loop, and fades out as the next fades in. */

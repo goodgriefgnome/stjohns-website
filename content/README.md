@@ -112,20 +112,50 @@ If each item is short, you can write the layout as a list instead, with no `---`
 
 (Indent the lines that belong to a bullet by two spaces. Use `1.` instead of `-` for a numbered list.) If you want one item that itself contains a bullet list, start the block with `---`.
 
-An item can have:
+Everything in an item shows in the order you write it, so on a phone you read it top to bottom exactly as typed. The one exception is a background picture (see cards).
 
-- a **heading** (a `###` or `##` line, as the first thing in the item),
-- a **picture** (a line holding only pictures, such as `![A short description](/media/worship.webp)`; several pictures on consecutive lines belong together),
-- and **text** (everything else).
+A line holding only pictures, such as `![A short description](/media/worship.webp)`, is a picture; several pictures on consecutive lines belong together. Leave a blank line between a picture and ordinary text.
 
 Which layouts exist:
 
 | Layout | What it looks like | Settings |
 |---|---|---|
-| `:::columns` | Items side by side, stacked on phones. Headings line up across the row. | `picture="above"` or `"below"`: where each item's picture goes (above is the default) |
-| `:::cards` | Photo cards: each item's picture fills the card behind its text. | none |
-| `:::media` | A picture beside text, one row per item. The picture swaps sides each row. | `image="left"` or `"right"`: keep the picture on one side |
+| `:::columns` | Items side by side, stacked on phones. Headings line up across the row. | none |
+| `:::cards` | Cards. A picture at the very start of an item is the card's background, behind its text. | none |
+| `:::media` | A picture beside text. One block is one row of two items, the picture and the text, in the order you want on a phone. The picture swaps sides block by block. | `image="left"` or `"right"`: keep the picture on one side |
 | `:::gallery` | A row of square photos. Write it as a list, one photo per item: `- ![…](/media/…)`. | none |
+
+### Pictures in cards, and `::no-background`
+
+In `:::cards`, a picture that starts an item is its background. To start an item with something else but still keep the card plain, or to put an ordinary picture first in any layout that uses backgrounds, write `::no-background` on the first line of the item. It shows nothing and holds the place:
+
+```
+---
+::no-background
+![A short description](/media/worship.webp)
+```
+
+It only works as the first line of an item. Anywhere else the build says no.
+
+### Media: two items per row
+
+```
+:::media
+---
+
+![A short description](/media/worship.webp)
+
+---
+
+## Are you new?
+
+Considering St John's…
+
+*[Learn More](/new)*
+:::
+```
+
+For another row, start another `:::media` block. Rows alternate sides down the page.
 
 Every layout also accepts `images="cycle"`, which makes the pictures in each item fade into each other one after another (use it when an item has several pictures).
 
@@ -198,6 +228,8 @@ Put buttons and bar links on a line of their own. Several in a row sit side by s
 | … has no setting "…" / Unknown palette / Unknown … | A setting is spelled wrong, or isn't one of the choices. The message lists the choices. |
 | Unknown block `:::name`. The layouts are: … | There is no layout with that name. Check the spelling. |
 | `:::section`, `:::banner`, `:::column`, `:::lead` or `layout="…"` messages | These are the old way of writing pages. Use `---`, `::section{…}`, `::banner` and `:::columns` instead (see above). |
+| Use `::no-background`. | You wrote a picture with nothing in the brackets and no file. For a placeholder that shows nothing, write `::no-background`. |
+| `::no-background` only goes first in an item of a layout block. | Move it to the first line of an item. |
 | If a paragraph fell out of the list, indent it under its item … | In a layout or accordion written as a list, the lines that belong to a bullet must be indented by two spaces. Or start the block with `---`. |
 | `:::name` is empty | The layout has nothing inside. |
 | An :::accordion holds one list and nothing else. | Put only the question list inside `:::accordion`. |

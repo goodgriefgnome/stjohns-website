@@ -37,7 +37,7 @@ summary { cursor: pointer; }
 ul[role="list"] { list-style: none; padding: 0; }
 /* Layout blocks (theme/layouts) are lists with their bullets, indents and margins already gone, so a layout never resets them. */
 .layout { list-style: none; padding: 0; margin: 0; }
-.layout-figure { margin: 0; display: grid; }
+.layout-figure { margin: 0; display: grid; position: relative; }
 
 @view-transition {
   navigation: auto;

@@ -27,6 +27,7 @@ export default function remarkLayouts({ registry } = {}) {
     known ??= loadRegistry();
     const text = String(file.value ?? '');
     checkHeadings(tree, file, text);
+    checkImages(tree, file);
     checkBreaks(tree, file, known);
     checkOldSyntax(tree, file, known);
     splitSections(tree, file);
@@ -43,6 +44,12 @@ function checkHeadings(tree, file, text) {
       file.fail('Put a blank line before `---`, or use `##` for a heading.', node);
     }
     if (node.depth === 1) file.fail('The page title is the only level-one heading. Use `##`.', node);
+  });
+}
+
+function checkImages(tree, file) {
+  visit(tree, 'image', node => {
+    if (!node.url) file.fail('Use `::no-background`.', node);
   });
 }
 
@@ -66,7 +73,9 @@ function checkOldSyntax(tree, file, known) {
     }
   });
   visit(tree, 'leafDirective', node => {
-    if (!isSectionSetting(node)) file.fail(`Unknown \`::${node.name}\`. Only \`::section{…}\` and \`::banner\` exist.`, node);
+    if (!isSectionSetting(node) && node.name !== 'no-background') {
+      file.fail(`Unknown \`::${node.name}\`. Only \`::section{…}\`, \`::banner\` and \`::no-background\` exist.`, node);
+    }
   });
 }
 
@@ -150,30 +159,35 @@ function splitItems(node, file) {
   return { items: items.filter(item => item.length), ordered: false };
 }
 
-function buildItem(blocks, index) {
-  const content = [...blocks];
-  const slots = [];
-  if (content[0]?.type === 'heading') slots.push(content.shift());
-  const figureAt = content.findIndex(imageOnly);
-  if (figureAt !== -1) {
-    const [paragraph] = content.splice(figureAt, 1);
-    const images = paragraph.children.filter(child => child.type === 'image');
-    images.forEach((image, i) => {
-      image.data = { ...image.data, hProperties: { ...image.data?.hProperties, style: `--i: ${i}` } };
-    });
-    slots.push({
-      type: 'layoutFigure',
-      data: { hName: 'figure', hProperties: { className: ['layout-figure'], style: `--image-count: ${images.length}` } },
-      children: images,
-    });
-  }
-  if (content.length) {
-    slots.push({ type: 'layoutBody', data: { hName: 'div', hProperties: { className: ['layout-body'] } }, children: content });
-  }
+// An item keeps its blocks in the order they were written. A paragraph holding only pictures becomes a
+// <figure>, a ::no-background line becomes an empty one, and the first block stays outside .layout-body so a
+// layout can line it up across items (or use a leading figure as a background).
+function makeFigure(paragraph, file) {
+  const images = paragraph.children.filter(child => child.type === 'image');
+  images.forEach((image, i) => {
+    if (!image.url) file.fail('Use `::no-background`.', image);
+    image.data = { ...image.data, hProperties: { ...image.data?.hProperties, style: `--i: ${i}` } };
+  });
+  return {
+    type: 'layoutFigure',
+    data: { hName: 'figure', hProperties: { className: ['layout-figure'], style: `--image-count: ${images.length}` } },
+    children: images,
+  };
+}
+
+function buildItem(blocks, index, file) {
+  const content = blocks.map((block, at) => {
+    if (block.type === 'leafDirective' && block.name === 'no-background') {
+      if (at !== 0) file.fail('`::no-background` only goes first in an item of a layout block.', block);
+      return { type: 'layoutFigure', data: { hName: 'figure', hProperties: { className: ['layout-figure'] } }, children: [] };
+    }
+    return imageOnly(block) ? makeFigure(block, file) : block;
+  });
+  const [first, ...rest] = content;
   return {
     type: 'layoutItem',
     data: { hName: 'li', hProperties: { className: ['layout-item'], style: `--i: ${index}` } },
-    children: slots,
+    children: [first, ...(rest.length ? [{ type: 'layoutBody', data: { hName: 'div', hProperties: { className: ['layout-body'] } }, children: rest }] : [])],
   };
 }
 
@@ -189,7 +203,7 @@ function buildLayouts(tree, file, known) {
     counts.set(node.name, nth);
     const { items, ordered } = splitItems(node, file);
     const { images, ...options } = node.attributes ?? {};
-    node.children = items.map((blocks, index) => buildItem(blocks, index));
+    node.children = items.map((blocks, index) => buildItem(blocks, index, file));
     node.data = {
       hName: ordered ? 'ol' : 'ul',
       hProperties: {
@@ -201,5 +215,8 @@ function buildLayouts(tree, file, known) {
         style: [`--item-count: ${items.length}`, ...(images ? [`--images: ${images}`] : [])].join('; '),
       },
     };
+  });
+  visit(tree, 'leafDirective', node => {
+    if (node.name === 'no-background') file.fail('`::no-background` only goes first in an item of a layout block.', node);
   });
 }

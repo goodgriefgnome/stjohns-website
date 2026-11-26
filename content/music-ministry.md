@@ -16,7 +16,7 @@ George Herbert
 
 ## Music Ministry
 
-:::columns{picture="below"}
+:::columns
 ---
 
 Musical worship is one of the most important things that happens in the church. The songs we sing together are not mere window dressing, but rather have a decisive role to play in shaping our beliefs and forming our souls. It is often the music that takes the teaching of the gospel beyond being merely information in our heads, and plants it as life-changing truth deep in our hearts. Therefore, we place a high value on musical worship when we gather each week.

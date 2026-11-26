@@ -36,6 +36,8 @@ Our church is far more than just a building or a social club; it is a family of 
 
 ![Stand-in for the map of St John’s location](/media/hero-door.webp)
 
+---
+
 :::accordion
 - Where can I park?
 

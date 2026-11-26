@@ -12,9 +12,11 @@ palette: white
 :::media
 ---
 
-## Richard Glover
-
 ![Richard Glover](/media/team/richard.webp)
+
+---
+
+## Richard Glover
 
 *Senior Minister*
 
@@ -24,11 +26,16 @@ Richard grew up on the South Coast of NSW and then spent the last twenty years l
 
 **[Email Richard](mailto:{{richardg.email}})**
 
+:::
+
+:::media
+---
+
+![Nerida Peart](/media/team/nerida.webp)
+
 ---
 
 ## Nerida Peart
-
-![Nerida Peart](/media/team/nerida.webp)
 
 *Assistant Minister*
 
@@ -38,11 +45,16 @@ She studied theology at Regent College, Vancouver with a minor in snowboarding a
 
 **[Email Nerida](mailto:{{neridap.email}})**
 
+:::
+
+:::media
+---
+
+![Martin Robinson](/media/team/martin.webp)
+
 ---
 
 ## Martin Robinson
-
-![Martin Robinson](/media/team/martin.webp)
 
 *Senior Associate Minister*
 

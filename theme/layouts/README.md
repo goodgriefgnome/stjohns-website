@@ -21,26 +21,27 @@ The build turns each layout block into this HTML. You never write it, but you st
 ```html
 <ul class="layout" role="list" data-layout="quotes" data-nth="odd" style="--item-count: 2">
   <li class="layout-item" style="--i: 0">
-    <h3>…</h3>                                   <!-- if the item's first block is a heading -->
-    <figure class="layout-figure" style="--image-count: 2">
-      <img style="--i: 0" …><img style="--i: 1" …>
-    </figure>                                     <!-- if the item has a lone-image paragraph -->
-    <div class="layout-body">…</div>              <!-- everything else, if any (other headings included) -->
+    <h3>…</h3>                                   <!-- the item's first block, whatever it is: heading, figure, paragraph… -->
+    <div class="layout-body">…</div>              <!-- every later block, in order; left out if the item has only one block -->
   </li>
   …
 </ul>
 ```
 
 - **Items are a list** (`ul`/`li`, or `ol` if the author wrote a numbered list), so screen readers announce "list, N items". The base styles already remove the bullets, indents and margins; you never reset them.
-- **Slots** always come in this order, and a missing slot is left out:
-  - **heading**: the item's first block, if it is a heading (any level). Any other heading stays in the body.
-  - **figure** (`.layout-figure`): the item's first paragraph that holds only images, lifted out wherever it sat. It holds all that paragraph's images, each numbered `--i`, with `--image-count` on the figure. Later image paragraphs stay in the body.
-  - **body** (`.layout-body`): everything else.
+- **Nothing is lifted or moved.** An item's contents stay in the order the author wrote them, and **the order in the Markdown is always the order shown on a narrow screen.** The one exception is a background.
+  - The item's **first block** stays outside `.layout-body`, so a layout can line it up across items (columns do this with headings) or use a leading picture as a background (cards do).
+  - A paragraph that holds only pictures becomes `<figure class="layout-figure" style="--image-count: N">` where it sits, each `img` numbered `--i`. An item can have several figures. Pictures inside a text paragraph stay inline.
+  - **Backgrounds:** style `.layout-item > figure:first-child` (for example `position: absolute; inset: 0`). Nothing is declared; an item that doesn't start with a picture just has no background. The author's `::no-background` line makes an empty `<figure class="layout-figure"></figure>` that holds that first place and shows nothing.
 - On the block: `--item-count` is the number of items. On each item: `--i` numbers them from 0.
 - `data-nth` is `odd` or `even`. It counts blocks **of the same layout** down the page, starting at odd. (`media` uses it to swap sides.)
 - Headings keep the level the author gave them, and CSS sizes them by level. You don't resize them.
 - Items never nest. To group items, an author puts a layout block inside an item.
 - There is no "intro" or "after" box. Intro text and buttons belong to the section, outside the block.
+
+## The ordering rule
+
+On narrow screens items show in the order they're written. So `check-styles` fails a layout or behaviour file that uses `order`, `grid-row`, `grid-column`, `grid-area`, `grid-template-areas`, `flex-direction: row-reverse | column-reverse`, `flex-wrap: wrap-reverse` or `grid-auto-flow: dense` outside a `@container style(--section-size: wide) { … }` block. A background (`position: absolute` on the first figure) doesn't reorder anything, so it is allowed.
 
 ## Writing the file
 
@@ -83,7 +84,7 @@ A behaviour file in `theme/behaviours/<name>.css` listens for a flag:
 @container style(--images: cycle) { img { … } }
 ```
 
-A layout can turn one on with one line (`figure { --images: cycle; }`), and an author can set `images="cycle"` on a block. The one that exists today is `cycle`: the pictures in each item's figure fade into each other in turn, timed by `--cycle-time` (a role, in `roles.css`). With reduced motion on, only the first picture shows.
+A layout can turn one on with one line (`figure { --images: cycle; }`), and an author can set `images="cycle"` on a block. The one that exists today is `cycle`: the pictures in a figure fade into each other in turn, timed by `--cycle-time` (a role, in `roles.css`). With reduced motion on, only the first picture shows.
 
 ## What the build checks
 
@@ -144,9 +145,9 @@ Their header comments, so everyone can see every input in one place:
 
 | Layout | Header |
 |---|---|
-| `columns` | Items side by side, one column each, stacked on phones. Items with a heading share rows. Variables: `--columns-gap`. Options: `picture = above \| below`. |
-| `cards` | Photo cards side by side, stacked on phones. Each item's picture fills the card behind its text. Variables: `--cards-height`, `--cards-scrim`. |
-| `media` | A picture beside text, one row per item, swapping sides each row; stacked on phones. Variables: `--media-gap`. Options: `image = left \| right`. |
+| `columns` | Items side by side, one column each, stacked on phones. Each column shows its contents in order; columns that start with a heading share a first row on wide screens. Variables: `--columns-gap`. |
+| `cards` | Photo cards side by side, stacked on phones. A picture that starts an item fills the card behind its text; without one the card is plain. Variables: `--cards-height`, `--cards-scrim`. |
+| `media` | One block is one row of two items, a picture and text; on wide screens it swaps sides block by block. Variables: `--media-gap`. Options: `image = left \| right`. |
 | `gallery` | A row of square photos, stacked on phones. Variables: `--gallery-gap`. |
 
 ## When the HTML changes

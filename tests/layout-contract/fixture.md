@@ -27,7 +27,7 @@ Join us this Sunday at 10am.
 ---
 ## Columns with headings
 
-Items start with a rule. A heading that opens an item fills the heading slot.
+Items start with a rule. The first block of an item stays outside the body.
 
 :::quotes
 ### First
@@ -46,32 +46,58 @@ More text.
 ---
 No heading in this item.
 
-![One image, lifted out of the middle](/media/a.webp)
+![One image, left in the middle](/media/a.webp)
 
 Text after the image.
 :::
 
 ---
 ::section{palette="mist"}
-## Media and nesting
+## Media and pictures
 
 :::media{image="left" images="cycle"}
-## Are you new?
-
+---
 ![First](/media/a.webp)
 ![Second](/media/b.webp)
 ![Third](/media/c.webp)
 
+---
+## Are you new?
+
 Text beside the images.
 
-![A later image paragraph stays in the body](/media/d.webp)
+![A picture in the middle stays in the middle](/media/d.webp)
+
+More text, then a last picture:
+
+![A picture at the end stays at the end](/media/e.webp)
+:::
+
+:::media
+---
+![](/media/f.webp)
 
 ---
 ## Are you okay?
 
-![](/media/e.webp)
-
 Text.
+:::
+
+:::quotes
+---
+::no-background
+### Starts with no background
+
+An inline picture follows ![inline](/media/g.webp) inside a paragraph.
+
+---
+![Two pictures](/media/a.webp)
+![in one figure](/media/b.webp)
+
+![And a second figure](/media/c.webp)
+
+---
+A single block.
 :::
 
 ::::quotes
