@@ -1,4 +1,4 @@
-/* Media: a picture beside text. One block is one row of two items, a picture and a text, in the order you want on phones; on wide screens the picture is the narrower column and swaps sides each block, starting on the right.
+/* Media: a picture beside text. One block is one row of two items, a picture and a text, in the order you want on phones; on wide screens the picture and text share the row equally and swap sides each block, starting on the right.
    Variables:
      --media-gap     space between the picture and the text (default --gap-halves)
    Options:
@@ -18,13 +18,11 @@
 .layout-figure img { aspect-ratio: 1; object-fit: cover; max-height: none; }
 
 @container style(--section-size: wide) {
-  /* Picture on the left: the narrow column first. */
-  :scope { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+  /* Equal halves, as on live. Picture on the left: the picture's item first. */
+  :scope { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .layout-item:has(> figure:first-child) { order: 1; }
   .layout-item:not(:has(> figure:first-child)) { order: 2; }
   /* Picture on the right: the first block of the first media on the page, and every second one after it. */
-  :scope[data-image='right'],
-  :scope:not([data-image])[data-nth='odd'] { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
   :scope[data-image='right'] .layout-item:has(> figure:first-child),
   :scope:not([data-image])[data-nth='odd'] .layout-item:has(> figure:first-child) { order: 2; }
   :scope[data-image='right'] .layout-item:not(:has(> figure:first-child)),
