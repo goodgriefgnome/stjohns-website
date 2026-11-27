@@ -1,7 +1,6 @@
 ---
 import church from '../../imported/church.json';
 import { withBase } from '../lib/base-path.mjs';
-import { placeholderFor } from '../lib/hero-placeholder.mjs';
 
 interface Props {
   title: string;
@@ -9,11 +8,10 @@ interface Props {
 // Pages written in Astro get the site's default hero. The markup is the same as a Markdown page's `::hero` (see
 // src/lib/remark-layouts.mjs), and styles/patterns/hero.css styles both. Anything inside <Hero> goes under the title (a button, say).
 const { title } = Astro.props;
-const placeholder = await placeholderFor(church.defaultHero);
 ---
 <header class="hero photo-backdrop" data-palette="navy">
   <figure class="layout-figure" style="--image-count: 1">
-    <img src={withBase(church.defaultHero)} alt="" fetchpriority="high" style={`--i: 0; --placeholder: ${placeholder}`} />
+    <img src={withBase(church.defaultHero)} alt="" fetchpriority="high" style="--i: 0" />
   </figure>
   <div>
     <h1>{title}</h1>
