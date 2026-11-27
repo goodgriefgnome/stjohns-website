@@ -1,5 +1,6 @@
 ---
 import { withBase } from '../lib/base-path.mjs';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { clock } from '../lib/sermon-format.mjs';
 
 // A compact player for a sermon's audio. Without JavaScript the browser's own player shows;
@@ -13,8 +14,11 @@ interface Props {
   album: string;
   /** Square artwork for the lock screen, a path starting with "/". */
   artwork?: string;
+  /** The MP3 to download: shows a small download icon at the end of the row. */
+  downloadHref?: string;
 }
-const { src, durationSeconds, title, artist, album, artwork } = Astro.props;
+const { src, durationSeconds, title, artist, album, artwork, downloadHref } = Astro.props;
+const [iconWidth, iconHeight, , , iconPath] = faDownload.icon;
 ---
 <div class="player" data-player data-title={title} data-artist={artist} data-album={album} data-artwork={artwork && withBase(artwork)}>
   <audio controls preload="none" src={src}></audio>
@@ -27,6 +31,12 @@ const { src, durationSeconds, title, artist, album, artwork } = Astro.props;
     <input class="slider" type="range" min="0" max={durationSeconds} step="1" value="0" aria-label="Position" />
     <span class="time total">{clock(durationSeconds)}</span>
   </div>
+  {downloadHref && (
+    <a class="download" href={downloadHref} download title="Download MP3">
+      <svg viewBox={`0 0 ${iconWidth} ${iconHeight}`} aria-hidden="true" focusable="false"><path d={iconPath as string} /></svg>
+      <span class="visually-hidden">Download MP3</span>
+    </a>
+  )}
 </div>
 
 <script>
@@ -37,8 +47,10 @@ const { src, durationSeconds, title, artist, album, artwork } = Astro.props;
 <style>
   /* Size of the round play button, and of the slider's round handle. */
   .player { --button-size: 3rem; --thumb-size: .875rem; }
-  .player audio { width: 100%; }
-  .controls { display: flex; align-items: center; gap: var(--space-sm); }
+  /* One row: the player (the browser's own, or ours) and then the download icon. */
+  .player { display: flex; align-items: center; gap: var(--space-sm); }
+  .player audio { flex: 1; min-width: 0; }
+  .controls { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--space-sm); }
   .controls[hidden] { display: none; }
   .play {
     flex: none;
@@ -60,6 +72,8 @@ const { src, durationSeconds, title, artist, album, artwork } = Astro.props;
   [data-playing] .icon-play { display: none; }
   [data-playing] .icon-pause { display: block; }
   .time { font-size: var(--font-label); font-variant-numeric: tabular-nums; }
+  .download { flex: none; display: grid; place-items: center; min-width: var(--tap-target); min-height: var(--tap-target); font-size: var(--font-small); color: inherit; }
+  .download svg { inline-size: 1em; block-size: 1em; fill: currentColor; }
 
   /* The position slider: a thin bar with a round handle. The played part is filled using --played (0 to 1), which the script sets. */
   .slider {

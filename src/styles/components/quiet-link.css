@@ -1,0 +1,8 @@
+/* A link that reads as plain text: same colour, with a thin underline at low strength that turns solid on hover and focus.
+   CSS variable: --quiet-underline-strength  how strong the underline is until hover. */
+.quiet-link {
+  --quiet-underline-strength: 30%;
+  text-decoration-color: color-mix(in srgb, currentColor var(--quiet-underline-strength), transparent);
+}
+.quiet-link:hover,
+.quiet-link:focus-visible { text-decoration-color: currentColor; }

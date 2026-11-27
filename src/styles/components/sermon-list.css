@@ -3,6 +3,7 @@
    Astro's component styles only reach pages that render the component.
    Local CSS variables (set inside the rules below):
    --thumb-width  width of a series' thumbnail: small on narrow sections, bigger on wide ones
+   --archive-height  how tall the scrolling box is
    --dropdown-min  narrowest a filter dropdown gets before the row wraps */
 
 /* A row of filters that wraps on narrow screens. The search box has a line to itself. */
@@ -27,28 +28,51 @@
 .archive-count,
 .archive-empty { margin: 0 0 var(--space-sm); font-size: var(--font-small); color: var(--text-muted); }
 .archive-count[hidden],
-.archive-empty[hidden],
-.archive-more[hidden] { display: none; }
+.archive-empty[hidden] { display: none; }
 
-/* Each series: its artwork once, with the series name and dates beside it, then its sermons. */
-.archive-series { margin-top: var(--space-xl); }
-.archive-series[hidden] { display: none; }
-.archive-series header { --thumb-width: 7rem; display: grid; grid-template-columns: var(--thumb-width) 1fr; align-items: center; gap: var(--space-sm) var(--space-lg); margin-bottom: var(--space-sm); }
-.archive-series img { width: 100%; max-height: none; aspect-ratio: 16 / 9; object-fit: cover; }
-.archive-series h3 { margin: 0 0 var(--space-3xs); text-align: left; }
-.archive-series header p { margin: 0; font-size: var(--font-small); color: var(--text-muted); }
-.archive-more { margin: var(--space-xl) 0 0; }
-.archive-more .action { margin: 0; border: 0; background: none; font-family: inherit; cursor: pointer; }
+/* The list scrolls in its own box, with a thin rule above and below. The page carries on scrolling at the end of the box
+   (overscroll-behavior is left at its default, auto). --archive-height is how tall the box is: svh, so a phone's address bar doesn't change it. */
+.archive-box {
+  --archive-height: 60svh;
+  max-height: var(--archive-height);
+  overflow-y: auto;
+  overscroll-behavior: auto;
+  border-block: var(--line-thin) solid var(--border-subtle);
+}
 @container style(--section-size: wide) {
-  .archive-series header { --thumb-width: 14rem; }
+  .archive-box { --archive-height: 70svh; }
+}
+
+/* Each series: its artwork (scrolls away), then a slim strip with the name and dates that stays at the top of the box
+   while its sermons pass underneath, then the sermons. Only the strip, one line, ever sticks. */
+.archive-series[hidden] { display: none; }
+.archive-series > img { width: var(--thumb-width, 7rem); max-height: none; margin-top: var(--space-md); aspect-ratio: 16 / 9; object-fit: cover; }
+.archive-strip {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0;
+  padding: var(--space-2xs) 0;
+  overflow: hidden;
+  background: var(--section-bg);
+  font-size: var(--font-body);
+  font-weight: var(--weight-label);
+  letter-spacing: normal;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.archive-strip small { font-size: var(--font-small); font-weight: var(--weight-regular); color: var(--text-muted); }
+@container style(--section-size: wide) {
+  .archive-series > img { --thumb-width: 14rem; }
 }
 
 /* Sermon rows. No cards or borders: a thin rule above the first row and below every row. */
 .sermon-rows { margin: 0 0 var(--space-md); padding: 0; border-top: var(--line-thin) solid var(--border-subtle); }
 .sermon-rows li { display: grid; grid-template-columns: 1fr auto; gap: var(--space-sm); padding: var(--space-sm) 0; border-bottom: var(--line-thin) solid var(--border-subtle); }
 .sermon-rows li[hidden] { display: none; }
-/* The sermon being shown above: a bar in the accent colour beside the row, and a bolder title. */
-.sermon-rows li:has([aria-current]) { box-shadow: calc(-1 * var(--space-2xs)) 0 0 var(--accent); }
+/* The sermon being shown above: a bar in the accent colour down the row's left edge (the text moves in to make room), and a bolder title. */
+.sermon-rows li:has([aria-current]) { padding-inline-start: var(--space-sm); box-shadow: inset var(--space-3xs) 0 0 var(--accent); }
 .sermon-rows [aria-current] { font-weight: var(--weight-strong); }
 .sermon-main { display: grid; justify-items: start; gap: var(--space-3xs); min-width: 0; }
 .sermon-title { font-size: var(--font-body); font-weight: var(--weight-label); color: inherit; }

@@ -36,7 +36,7 @@ const { selected, latest = false, listInline = false, title } = Astro.props;
 
 <script>
   import { startSermonFilters } from '../lib/sermon-filters';
-  import { startSermonSwap } from '../lib/sermon-swap';
+  import { markCurrent, revealCurrent, startSermonSwap } from '../lib/sermon-swap';
 
   const start = (list: HTMLElement) => startSermonFilters(list);
   const inline = document.querySelector<HTMLElement>('[data-archive]');
@@ -55,9 +55,9 @@ const { selected, latest = false, listInline = false, title } = Astro.props;
         placeholder.replaceWith(loaded);
         const list = loaded.querySelector<HTMLElement>('[data-archive]')!;
         start(list);
-        // Mark the sermon being shown.
-        const slug = document.querySelector<HTMLElement>('[data-sermon-feature]')?.dataset.slug;
-        list.querySelector(`li[data-slug="${slug}"] .sermon-title`)?.setAttribute('aria-current', 'true');
+        // Mark the sermon being shown, and scroll the list's box to it.
+        markCurrent();
+        revealCurrent();
       })
       .catch(() => {});
   }

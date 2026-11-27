@@ -6,18 +6,17 @@ import '../styles/components/sermon-list.css';
 import SermonRows from './SermonRows.astro';
 
 // "All sermons": a search box and filters, then the sermons grouped by series, newest series first.
-// Every sermon is in the HTML. Without JavaScript the filters stay hidden and nothing is hidden, so everything shows.
-// With it, startSermonFilters (src/lib/sermon-filters.ts) filters, and shows only the newest few series until "Show older series" is pressed.
+// Every sermon is in the HTML, in a box that scrolls on its own. Without JavaScript the filters stay hidden and every sermon shows.
+// With it, startSermonFilters (src/lib/sermon-filters.ts) filters them.
 // Styles: styles/components/sermon-list.css (this list is also loaded on its own, see pages/sermons/list.astro).
 const groups = groupBySeries(sermons);
 const preachers = [...new Set(sermons.map(sermon => sermon.preacher))].sort((a, b) => a.localeCompare(b));
 const books = sortBooks([...new Set(sermons.map(sermon => bookOf(sermon.scripture)))]);
-const newestSeries = 3;
 ---
 <section class="section-outer" data-palette="mist" data-sermon-archive>
   <div class="section-inner">
     <h2>All sermons</h2>
-    <div class="archive" data-archive data-newest={newestSeries}>
+    <div class="archive" data-archive>
       <form class="archive-filters" role="search" hidden>
         <label class="archive-search"><span class="visually-hidden">Search sermons</span>
           <input type="search" name="q" placeholder="Search by title, passage or preacher" autocomplete="off" />
@@ -43,19 +42,15 @@ const newestSeries = 3;
       </form>
       <p class="archive-count" aria-live="polite" hidden></p>
       <p class="archive-empty" hidden>No sermons match.</p>
-      {groups.map(group => (
-        <article class="archive-series" data-series-group={group.slug}>
-          <header>
+      <div class="archive-box" data-archive-box tabindex="0" role="region" aria-label="Sermon list">
+        {groups.map(group => (
+          <article class="archive-series" data-series-group={group.slug}>
             {group.artwork && <img src={withBase(group.artwork.src)} alt="" loading="lazy" />}
-            <div>
-              <h3>{group.name}</h3>
-              <p>{group.sermons.length} {group.sermons.length === 1 ? 'sermon' : 'sermons'} · {dateSpan(group.first, group.last)}</p>
-            </div>
-          </header>
-          <SermonRows sermons={group.sermons} underSeries />
-        </article>
-      ))}
-      {groups.length > newestSeries && <p class="archive-more" hidden><button type="button" class="action action-bar">Show older series</button></p>}
+            <h3 class="archive-strip"><span>{group.name}</span> <small>{dateSpan(group.first, group.last)} · {group.sermons.length} {group.sermons.length === 1 ? 'sermon' : 'sermons'}</small></h3>
+            <SermonRows sermons={group.sermons} underSeries />
+          </article>
+        ))}
+      </div>
     </div>
   </div>
 </section>

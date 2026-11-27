@@ -18,8 +18,23 @@ function slugOf(pathname: string) {
 const current = () => document.querySelector<HTMLElement>('[data-sermon-feature]')!;
 const smooth = () => !matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Scroll the list's own box (never the page) so the row for the sermon being shown sits just under its series' sticky strip.
+export function revealCurrent() {
+  const box = document.querySelector<HTMLElement>('[data-archive-box]');
+  const row = box?.querySelector<HTMLElement>(`li[data-slug="${current().dataset.slug}"]`);
+  if (!box || !row || row.offsetParent === null) return;
+  const strip = row.closest('.archive-series')?.querySelector<HTMLElement>('.archive-strip');
+  // One --space-sm, measured, for the gap under the strip.
+  const probe = document.createElement('div');
+  probe.style.height = 'var(--space-sm)';
+  box.append(probe);
+  const gap = probe.offsetHeight;
+  probe.remove();
+  box.scrollTop += row.getBoundingClientRect().top - box.getBoundingClientRect().top - (strip?.offsetHeight ?? 0) - gap;
+}
+
 // Mark the list's row for the sermon being shown.
-function markCurrent() {
+export function markCurrent() {
   const { slug } = current().dataset;
   for (const link of document.querySelectorAll('[data-archive] [aria-current]')) link.removeAttribute('aria-current');
   document.querySelector(`[data-archive] li[data-slug="${slug}"] .sermon-title`)?.setAttribute('aria-current', 'true');
@@ -52,8 +67,15 @@ async function show(url: string, { push }: { push: boolean }) {
   markCurrent();
   if (wasPlaying) next.querySelector('audio')?.play().catch(() => {});
   if (push) {
-    next.scrollIntoView({ behavior: smooth() ? 'smooth' : 'auto', block: 'start' });
+    // The list keeps its place. The page only moves if the navy section isn't on screen.
+    const top = next.getBoundingClientRect().top;
+    if (top < 0 || top > innerHeight) next.scrollIntoView({ behavior: smooth() ? 'smooth' : 'auto', block: 'start' });
     next.querySelector<HTMLElement>('h2')?.focus({ preventScroll: true });
+  } else if (slugOf(url) === '') {
+    // Back to /sermons (the latest sermon): the list starts at the top.
+    document.querySelector<HTMLElement>('[data-archive-box]')?.scrollTo({ top: 0 });
+  } else {
+    revealCurrent();
   }
 }
 

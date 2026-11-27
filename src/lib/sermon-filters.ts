@@ -4,25 +4,22 @@ export function startSermonFilters(archive: HTMLElement) {
   const form = archive.querySelector<HTMLFormElement>('.archive-filters')!;
   const count = archive.querySelector<HTMLElement>('.archive-count')!;
   const empty = archive.querySelector<HTMLElement>('.archive-empty')!;
-  const more = archive.querySelector<HTMLElement>('.archive-more');
+  const box = archive.querySelector<HTMLElement>('[data-archive-box]')!;
   const groups = [...archive.querySelectorAll<HTMLElement>('.archive-series')];
   const search = form.elements.namedItem('q') as HTMLInputElement;
   const fields = ['series', 'preacher', 'book'] as const;
   const select = (name: string) => form.elements.namedItem(name) as HTMLSelectElement;
-  const newest = Number(archive.dataset.newest);
-  let olderShown = false;
 
   const params = new URLSearchParams(location.search);
   search.value = params.get('q') ?? '';
   // A value with no matching option (an old link) leaves the select on its first option, "all".
   for (const name of fields) select(name).value = params.get(name) ?? '';
 
-  function apply() {
+  function apply(resetScroll = false) {
     const words = search.value.toLowerCase().split(/\s+/).filter(Boolean);
     const chosen = Object.fromEntries(fields.map(name => [name, select(name).value]));
-    const filtering = words.length > 0 || fields.some(name => chosen[name]);
     let shown = 0;
-    groups.forEach((group, index) => {
+    for (const group of groups) {
       let matches = 0;
       for (const row of group.querySelectorAll<HTMLElement>('li')) {
         const { search: text = '', series, preacher, book } = row.dataset;
@@ -34,10 +31,9 @@ export function startSermonFilters(archive: HTMLElement) {
         if (match) matches++;
       }
       shown += matches;
-      // Filtering shows every series with a match; otherwise only the newest few, until "Show older series" is pressed.
-      group.hidden = matches === 0 || (!filtering && !olderShown && index >= newest);
-    });
-    if (more) more.hidden = filtering || olderShown;
+      group.hidden = matches === 0;
+    }
+    if (resetScroll) box.scrollTop = 0;
     count.hidden = false;
     count.textContent = `${shown} ${shown === 1 ? 'sermon' : 'sermons'}`;
     empty.hidden = shown > 0;
@@ -52,7 +48,6 @@ export function startSermonFilters(archive: HTMLElement) {
 
   form.hidden = false;
   form.addEventListener('submit', event => event.preventDefault());
-  form.addEventListener('input', apply);
-  more?.querySelector('button')!.addEventListener('click', () => { olderShown = true; apply(); });
+  form.addEventListener('input', () => apply(true));
   apply();
 }
