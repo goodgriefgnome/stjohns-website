@@ -13,6 +13,8 @@
 }
 /* The photo is positioned, so it would paint over the (unpositioned) text and block clicks on it; the text is positioned too, and comes later, so it sits on top. */
 .hero > .layout-figure { position: absolute; inset: 0; }
+/* While the photo downloads, its tiny blurred copy (written into the page) shows in its place. */
+.hero > .layout-figure > img:first-child { background: var(--placeholder) var(--placeholder-at, center) / cover no-repeat; }
 .hero > div { position: relative; text-shadow: var(--photo-shadow-tight), var(--photo-shadow-wide); }
 .hero > div > :last-child { margin-bottom: 0; }
 .hero > div a { text-shadow: none; }
