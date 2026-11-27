@@ -4,6 +4,7 @@
    CSS variables (roles.css): --hero-height, --hero-clearance, --home-header-height, --hero-fade, --photo-shadow-tight, --photo-shadow-wide */
 .hero {
   --scrim: var(--hero-fade);
+  --focus-ring: var(--paper);  /* plain white: a blend into a photo isn't possible */
   display: grid;
   place-items: center;
   min-height: var(--hero-height);

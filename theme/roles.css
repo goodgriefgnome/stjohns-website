@@ -18,8 +18,10 @@
   --pressed-time: 100ms;
   /* Thin lines between things. */
   --border-subtle: var(--rule);
-  /* Outline shown around whatever has keyboard focus. */
-  --focus-ring: var(--rust);
+  /* How much of the text colour the focus ring takes (the rest is the background). 60% is the softest that keeps 3:1 contrast on every palette. */
+  --focus-strength: 60%;
+  /* Outline shown around whatever has keyboard focus. Outside a palette section: navy blended into white. Each palette section works out its own (below). */
+  --focus-ring: color-mix(in srgb, var(--focus-base, var(--text-default)) var(--focus-strength), var(--paper));
   /* Faint darkening when you hover over a menu item. */
   --hover-tint: var(--black-5);
   /* Dark see-through layer over photos, so white text stays readable. */
@@ -113,6 +115,7 @@
   --action-bg: var(--sky);
   --action-text: var(--paper);
   --accent: var(--sky);
+  --focus-ring: color-mix(in srgb, var(--focus-base, var(--section-text)) var(--focus-strength), var(--section-bg));
   --text-quiet: color-mix(in srgb, var(--section-text) var(--text-quiet-strength), transparent);
   background-color: var(--section-bg);
   color: var(--section-text);
@@ -122,7 +125,7 @@
 /* mist: a pale grey section for contrast */
 [data-palette="mist"] { --section-bg: var(--mist); --section-text: var(--slate); }
 /* blue: the sky-blue section, with white text and navy buttons */
-[data-palette="blue"] { --section-bg: var(--sky); --section-text: var(--paper); --action-bg: var(--navy); --action-text: var(--paper); --accent: var(--paper); }
+[data-palette="blue"] { --section-bg: var(--sky); --section-text: var(--paper); --action-bg: var(--navy); --action-text: var(--paper); --accent: var(--paper); --focus-base: var(--navy); /* white on sky blue is only 2.5:1 even at full strength, so the focus ring is navy-based here */ }
 /* cream: a warm off-white section */
 [data-palette="cream"] { --section-bg: var(--cream); --section-text: var(--navy); }
 /* navy: the default for ::banner, a dark section with white text */

@@ -122,7 +122,8 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     --header-min-height: 5.65rem;
   }
   .site-header { background: var(--paper); color: var(--text-default); position: relative; z-index: 2; }
-  .home-header { position: absolute; inset: 0 0 auto; width: 100%; background: transparent; color: var(--paper); }
+  /* Over the hero photo the focus ring is plain white. */
+  .home-header { --focus-ring: var(--paper); position: absolute; inset: 0 0 auto; width: 100%; background: transparent; color: var(--paper); }
   .header-inner {
     position: relative;
     display: flex;

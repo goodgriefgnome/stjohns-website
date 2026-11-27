@@ -107,6 +107,10 @@ const [iconWidth, iconHeight, , , iconPath] = faDownload.icon;
     border-radius: var(--radius-round);
     background: currentColor;
   }
+  /* Keyboard focus rings the handle, not the whole 44px-tall slider. */
+  .slider:focus-visible { outline: none; }
+  .slider:focus-visible::-webkit-slider-thumb { outline: var(--line-medium) solid var(--focus-ring); outline-offset: var(--line-medium); }
+  .slider:focus-visible::-moz-range-thumb { outline: var(--line-medium) solid var(--focus-ring); outline-offset: var(--line-medium); }
   .slider::-moz-range-track { height: var(--line-bar); border-radius: var(--radius-pill); background: var(--bar-track); }
   .slider::-moz-range-progress { height: var(--line-bar); border-radius: var(--radius-pill); background: currentColor; }
   .slider::-moz-range-thumb { width: var(--thumb-size); height: var(--thumb-size); border: 0; border-radius: var(--radius-round); background: currentColor; }
