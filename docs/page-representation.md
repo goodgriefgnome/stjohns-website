@@ -17,7 +17,6 @@ The architecture spec calls for ordinary Astro components, typed reusable layout
 | `/our-team` | Markdown page with one alternating image-and-text section per person. Email buttons use inbox tokens such as `{{richardg.email}}`. |
 | `/what-is-christianity` | Markdown article with blockquotes. |
 | `/sermons` | Authored podcast link and a listing composed from sermon records. |
-| `/episode/:slug` | The same episode component renders each of the three captured sermon records, with one title, date, set of metadata and player. |
 | `/christianity-art--culture` | Markdown essay and artwork attribution. |
 | `/music-ministry` | Authored ministry and choir information with the existing signup action. |
 | `/concert-series` | Authored series introduction and mailing list action. The annual programme renders from dated records, including past concerts. The homepage calendar has its own captured window. |
