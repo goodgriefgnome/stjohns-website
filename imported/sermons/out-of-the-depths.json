@@ -1,0 +1,25 @@
+{
+  "id": "44548523-da25-4ab1-b724-221331d3526d",
+  "slug": "out-of-the-depths",
+  "title": "Out of the Depths",
+  "date": "2026-09-06",
+  "service": "evening",
+  "scripture": "Psalm 130",
+  "series": "Songs for the Journey: Psalms of Ascent",
+  "preacher": "Richard Glover",
+  "description": [
+    "Who is this, and what does it cost to follow him?",
+    "This week we open Psalm 130 and ask what the passage is really saying, before we ask what it means for us.",
+    "We notice how the passage fits into the larger story of Songs for the Journey, and what has come just before it.",
+    "Along the way we meet some familiar excuses, and some better reasons to hope.",
+    "We finish with a few simple questions to take home and talk over with a friend this week."
+  ],
+  "audioUrl": "https://www.stjohnsanglican.org.au/tcctrack/audio/1269210/listens.mp3",
+  "audioBytes": 44414850,
+  "durationSeconds": 1596,
+  "artwork": {
+    "src": "/media/hero-door.webp",
+    "alt": "Songs for the Journey series artwork showing the church doorway",
+    "podcastSrc": "/media/podcast/songs-for-the-journey.jpg"
+  }
+}

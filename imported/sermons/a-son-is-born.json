@@ -1,0 +1,24 @@
+{
+  "id": "291dc31f-c541-4f8c-aff4-f56b679bd7cb",
+  "slug": "a-son-is-born",
+  "title": "A Son Is Born",
+  "date": "2026-03-15",
+  "service": "morning",
+  "scripture": "Ruth 4",
+  "series": "Ruth: Faithful Love",
+  "preacher": "Martin Robinson",
+  "description": [
+    "Why does an old story still speak so clearly to us today?",
+    "This week we open Ruth 4 and ask what the passage is really saying, before we ask what it means for us.",
+    "We notice how the passage fits into the larger story of Ruth, and what has come just before it.",
+    "Along the way we meet some familiar excuses, and some better reasons to hope."
+  ],
+  "audioUrl": "https://www.stjohnsanglican.org.au/tcctrack/audio/1269210/listens.mp3",
+  "audioBytes": 44414850,
+  "durationSeconds": 1447,
+  "artwork": {
+    "src": "/media/groups.webp",
+    "alt": "Ruth series artwork showing a group of people",
+    "podcastSrc": "/media/podcast/ruth-faithful-love.jpg"
+  }
+}

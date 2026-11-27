@@ -1,0 +1,24 @@
+{
+  "id": "a8647235-1e94-461b-ab18-30a1ec9aab91",
+  "slug": "marys-yes",
+  "title": "Mary’s Yes",
+  "date": "2025-12-21",
+  "service": "evening",
+  "scripture": "Luke 1:26–38",
+  "series": "Light in the Darkness: Advent and Epiphany",
+  "preacher": "Richard Glover",
+  "description": [
+    "Where do we look when we are tired and far from home?",
+    "This week we open Luke 1:26–38 and ask what the passage is really saying, before we ask what it means for us.",
+    "We notice how the passage fits into the larger story of Light in the Darkness, and what has come just before it.",
+    "Along the way we meet some familiar excuses, and some better reasons to hope."
+  ],
+  "audioUrl": "https://www.stjohnsanglican.org.au/tcctrack/audio/1269210/listens.mp3",
+  "audioBytes": 44414850,
+  "durationSeconds": 2313,
+  "artwork": {
+    "src": "/media/hero-community.webp",
+    "alt": "Light in the Darkness series artwork showing the church community",
+    "podcastSrc": "/media/podcast/light-in-the-darkness.jpg"
+  }
+}

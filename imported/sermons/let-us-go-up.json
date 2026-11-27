@@ -1,0 +1,25 @@
+{
+  "id": "e81c03fd-246b-4708-a728-e9c22cf3202e",
+  "slug": "let-us-go-up",
+  "title": "Let Us Go Up",
+  "date": "2026-08-23",
+  "service": "morning",
+  "scripture": "Psalm 122",
+  "series": "Songs for the Journey: Psalms of Ascent",
+  "preacher": "Martin Robinson",
+  "description": [
+    "What do we do when the ground shifts under us?",
+    "This week we open Psalm 122 and ask what the passage is really saying, before we ask what it means for us.",
+    "We notice how the passage fits into the larger story of Songs for the Journey, and what has come just before it.",
+    "Along the way we meet some familiar excuses, and some better reasons to hope.",
+    "We finish with a few simple questions to take home and talk over with a friend this week."
+  ],
+  "audioUrl": "https://www.stjohnsanglican.org.au/tcctrack/audio/1269210/listens.mp3",
+  "audioBytes": 44414850,
+  "durationSeconds": 1750,
+  "artwork": {
+    "src": "/media/hero-door.webp",
+    "alt": "Songs for the Journey series artwork showing the church doorway",
+    "podcastSrc": "/media/podcast/songs-for-the-journey.jpg"
+  }
+}
