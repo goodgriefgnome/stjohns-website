@@ -73,18 +73,37 @@ function serve(dir) {
   return new Promise(done => server.listen(0, '127.0.0.1', () => done({ server, url: `http://127.0.0.1:${server.address().port}` })));
 }
 
-// Every .html file in a build is a page.
+// Every .html file in a build is a page, except static meta-refresh redirect stubs.
 function pagesIn(dist) {
   const found = [];
   const walk = dir => {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       const full = join(dir, entry.name);
       if (entry.isDirectory()) walk(full);
-      else if (entry.name.endsWith('.html')) found.push(relative(dist, full));
+      else if (entry.name.endsWith('.html')) {
+        if (readFileSync(full, 'utf8').includes('http-equiv="refresh"')) continue;
+        found.push(relative(dist, full));
+      }
     }
   };
   walk(dist);
-  return found.map(file => '/' + file.replace(/(^|\/)index\.html$/, '').replace(/\.html$/, '')).sort();
+  const hash = s => {
+    let h = 2166136261;
+    for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
+    return h >>> 0;
+  };
+  // Cap dynamic slug collections to a deterministic sample (add future prefixes here).
+  const sampleCaps = { '/sermons/': 3 };
+  const alwaysInclude = new Set(['/sermons/list']);
+  return found
+    .map(file => '/' + file.replace(/(^|\/)index\.html$/, '').replace(/\.html$/, ''))
+    .sort((a, b) => hash(a) - hash(b))
+    .filter(path => {
+      if (alwaysInclude.has(path)) return true;
+      const prefix = Object.keys(sampleCaps).find(p => path.startsWith(p));
+      return !prefix || sampleCaps[prefix]-- > 0;
+    })
+    .sort();
 }
 const slugOf = path => (path === '/' ? 'home' : path.slice(1).replace(/\//g, '--'));
 
@@ -103,13 +122,22 @@ async function settle(page) {
     for (let y = 0; y < document.body.scrollHeight; y += innerHeight) { scrollTo(0, y); await new Promise(r => setTimeout(r, 30)); }
     scrollTo(0, 0);
     await document.fonts.ready;
-    await Promise.all([...document.images].map(img => img.complete ? null : new Promise(r => { img.onload = img.onerror = r; })));
+    const visibleImages = [...document.images].filter(img => img.getClientRects().length > 0);
+    for (const img of visibleImages) {
+      if (img.loading === 'lazy') img.loading = 'eager';
+    }
+    const waitImg = img => img.complete
+      ? Promise.resolve()
+      : new Promise(r => {
+          const timer = setTimeout(r, 3000);
+          img.onload = img.onerror = () => { clearTimeout(timer); r(); };
+        });
+    await Promise.all(visibleImages.map(waitImg));
   });
   await page.waitForTimeout(150);
 }
 
 async function open(page, url, { motion = false } = {}) {
-  await page.clock.setFixedTime(new Date(NOW));
   await page.goto(url, { waitUntil: 'load' });
   if (!motion) await page.addStyleTag({ content: FREEZE });
   await settle(page);
@@ -118,13 +146,21 @@ async function open(page, url, { motion = false } = {}) {
 async function shootSite(browser, baseUrl, pages, shotDir) {
   mkdirSync(shotDir, { recursive: true });
   const shoot = (page, name, options = {}) => page.screenshot({ path: join(shotDir, name + '.png'), animations: 'disabled', ...options });
+  const CONCURRENCY = 4;
   for (const width of WIDTHS) {
     const context = await browser.newContext({ viewport: { width, height: VIEWPORT_HEIGHT }, reducedMotion: 'reduce' });
-    const page = await context.newPage();
-    for (const path of pages) {
-      await open(page, baseUrl + path);
-      await shoot(page, `${slugOf(path)}.${width}`, { fullPage: true });
-    }
+    await context.clock.setFixedTime(new Date(NOW));
+    let next = 0;
+    const workers = Array.from({ length: Math.min(CONCURRENCY, pages.length) }, async () => {
+      const page = await context.newPage();
+      while (next < pages.length) {
+        const path = pages[next++];
+        await open(page, baseUrl + path);
+        await shoot(page, `${slugOf(path)}.${width}`, { fullPage: true });
+      }
+      return page;
+    });
+    const [page] = await Promise.all(workers);
     // Extra states: the mobile menu, or the first desktop dropdown.
     if (pages.includes('/')) {
       await open(page, baseUrl + '/');
@@ -147,6 +183,7 @@ async function shootSite(browser, baseUrl, pages, shotDir) {
     // shoot the second with motion on, paused part-way through the animation.
     if (pages.includes('/')) {
       const motionContext = await browser.newContext({ viewport: { width, height: VIEWPORT_HEIGHT }, reducedMotion: 'no-preference' });
+      await motionContext.clock.setFixedTime(new Date(NOW));
       const motionPage = await motionContext.newPage();
       await open(motionPage, baseUrl + '/', { motion: true });
       await motionPage.evaluate(() => document.getAnimations().forEach(a => { a.pause(); a.currentTime = 6000; }));
@@ -158,8 +195,6 @@ async function shootSite(browser, baseUrl, pages, shotDir) {
 }
 
 // ---- Comparison ------------------------------------------------------------
-const read = file => PNG.sync.read(readFileSync(file));
-
 function pad(png, width, height) {
   if (png.width === width && png.height === height) return png;
   const out = new PNG({ width, height });
@@ -169,7 +204,9 @@ function pad(png, width, height) {
 }
 
 function compare(beforeFile, afterFile, name) {
-  const a = read(beforeFile), b = read(afterFile);
+  const rawA = readFileSync(beforeFile), rawB = readFileSync(afterFile);
+  if (rawA.equals(rawB)) return { name, count: 0, percent: 0, sizeChanged: false };
+  const a = PNG.sync.read(rawA), b = PNG.sync.read(rawB);
   const width = Math.max(a.width, b.width), height = Math.max(a.height, b.height);
   const before = pad(a, width, height), after = pad(b, width, height);
   const diff = new PNG({ width, height });
@@ -191,12 +228,21 @@ function compare(beforeFile, afterFile, name) {
 
 // ---- Main ------------------------------------------------------------------
 let exitCode = 0;
+const fmtSec = ms => `${(ms / 1000).toFixed(1)}s`;
+const timed = async (label, fn) => {
+  const t0 = performance.now();
+  const res = await fn();
+  timings.push(`${label} ${fmtSec(performance.now() - t0)}`);
+  return res;
+};
+const timings = [];
+const totalStart = performance.now();
 try {
   run('git', ['worktree', 'add', '--detach', baselineTree, ref], { cwd: root });
   symlinkSync(join(root, 'node_modules'), join(baselineTree, 'node_modules'), 'dir');
   const sha = run('git', ['rev-parse', '--short', ref], { cwd: root }).trim();
-  build(baselineTree, baselineDist, `baseline (${ref} = ${sha})`);
-  build(root, currentDist, 'working copy');
+  await timed('build baseline:', () => build(baselineTree, baselineDist, `baseline (${ref} = ${sha})`));
+  await timed('build current:', () => build(root, currentDist, 'working copy'));
 
   const basePages = pagesIn(baselineDist), currentPages = pagesIn(currentDist);
   const common = currentPages.filter(path => basePages.includes(path));
@@ -209,13 +255,15 @@ try {
   const browser = await chromium.launch();
   const [baseServer, currentServer] = await Promise.all([serve(baselineDist), serve(currentDist)]);
   console.log(`Screenshotting ${common.length} pages at ${WIDTHS.join('px and ')}px (plus extra states)…`);
-  await shootSite(browser, baseServer.url, common, join(work, 'shots-before'));
-  await shootSite(browser, currentServer.url, common, join(work, 'shots-after'));
+  await timed('shoot baseline:', () => shootSite(browser, baseServer.url, common, join(work, 'shots-before')));
+  await timed('shoot current:', () => shootSite(browser, currentServer.url, common, join(work, 'shots-after')));
   await browser.close();
   baseServer.server.close(); currentServer.server.close();
 
   const names = readdirSync(join(work, 'shots-after')).map(file => file.replace(/\.png$/, '')).sort();
-  const results = names.map(name => compare(join(work, 'shots-before', name + '.png'), join(work, 'shots-after', name + '.png'), name));
+  const results = await timed('compare:', () =>
+    names.map(name => compare(join(work, 'shots-before', name + '.png'), join(work, 'shots-after', name + '.png'), name))
+  );
   const changed = results.filter(result => result.count > 0 || result.sizeChanged);
   const unchanged = results.filter(result => !changed.includes(result));
 
@@ -228,6 +276,7 @@ try {
   if (added.length) lines.push('', `Pages only in working copy: ${added.join(', ')}`);
   if (removed.length) lines.push('', `Pages only in baseline: ${removed.join(', ')}`);
   if (changed.length) lines.push('', `Images: ${join(outDir, 'changed')}  (*.compare.png = before | after | diff, *.diff.png = red highlights)`);
+  lines.push('', `Timings: ${timings.join(' · ')} · total ${fmtSec(performance.now() - totalStart)}`);
   const report = lines.join('\n');
   writeFileSync(join(outDir, 'report.txt'), report + '\n');
   console.log('\n' + report);
