@@ -10,7 +10,7 @@ base.css          bare element defaults: @font-face, :root, body, img, a, headin
 patterns/         layout of the page: page-grid, section, photo-backdrop, wrap
 theme/layouts/    one file per layout block (columns, cards, media, gallery), wrapped in @scope by the build
 theme/behaviours/ shared switches a layout or author turns on (cycle), site-wide CSS
-components/       small pieces: action (buttons), icon, accordion, date, label
+components/       small pieces: action (buttons), icon, accordion, date, label, sermon-list
 ```
 
 `theme/` is the editor-facing look (tokens and roles); everything else here is code. Imported in that order by `Site.astro`. Astro components that live in one file (navigation, Events, Sermons, SermonEpisode, ConcertProgram, Page, Site, index.astro) keep their own scoped `<style>` block, but use tokens and roles, never raw values.

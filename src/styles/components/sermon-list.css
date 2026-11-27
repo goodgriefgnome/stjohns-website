@@ -1,0 +1,58 @@
+/* The sermons list: filters, series headings and sermon rows (SermonArchive.astro, SermonRows.astro).
+   It lives here, not in the components, because the sermon pages load the list as a separate file and
+   Astro's component styles only reach pages that render the component.
+   Local CSS variables (set inside the rules below):
+   --thumb-width  width of a series' thumbnail: small on narrow sections, bigger on wide ones
+   --dropdown-min  narrowest a filter dropdown gets before the row wraps */
+
+/* A row of filters that wraps on narrow screens. The search box has a line to itself. */
+.archive-filters { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-sm); margin-bottom: var(--space-xl); }
+.archive-filters[hidden] { display: none; }
+.archive-filters label { display: grid; gap: var(--space-3xs); font-size: var(--font-label); font-weight: var(--weight-label); }
+.archive-filters .archive-search { flex: 1 1 100%; }
+.archive-filters label:not(.archive-search) { --dropdown-min: 9rem; flex: 1 1 var(--dropdown-min); }
+.archive-filters input,
+.archive-filters select {
+  width: 100%;
+  min-height: var(--tap-target);
+  padding: var(--space-2xs) var(--space-sm);
+  border: var(--line-thin) solid var(--border-subtle);
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--text-default);
+  font: inherit;
+  font-size: var(--font-small);
+  font-weight: var(--weight-regular);
+}
+.archive-count,
+.archive-empty { margin: 0 0 var(--space-sm); font-size: var(--font-small); color: var(--text-muted); }
+.archive-count[hidden],
+.archive-empty[hidden],
+.archive-more[hidden] { display: none; }
+
+/* Each series: its artwork once, with the series name and dates beside it, then its sermons. */
+.archive-series { margin-top: var(--space-xl); }
+.archive-series[hidden] { display: none; }
+.archive-series header { --thumb-width: 7rem; display: grid; grid-template-columns: var(--thumb-width) 1fr; align-items: center; gap: var(--space-sm) var(--space-lg); margin-bottom: var(--space-sm); }
+.archive-series img { width: 100%; max-height: none; aspect-ratio: 16 / 9; object-fit: cover; }
+.archive-series h3 { margin: 0 0 var(--space-3xs); text-align: left; }
+.archive-series header p { margin: 0; font-size: var(--font-small); color: var(--text-muted); }
+.archive-more { margin: var(--space-xl) 0 0; }
+.archive-more .action { margin: 0; border: 0; background: none; font-family: inherit; cursor: pointer; }
+@container style(--section-size: wide) {
+  .archive-series header { --thumb-width: 14rem; }
+}
+
+/* Sermon rows. No cards or borders: a thin rule above the first row and below every row. */
+.sermon-rows { margin: 0 0 var(--space-md); padding: 0; border-top: var(--line-thin) solid var(--border-subtle); }
+.sermon-rows li { display: grid; grid-template-columns: 1fr auto; gap: var(--space-sm); padding: var(--space-sm) 0; border-bottom: var(--line-thin) solid var(--border-subtle); }
+.sermon-rows li[hidden] { display: none; }
+/* The sermon being shown above: a bar in the accent colour beside the row, and a bolder title. */
+.sermon-rows li:has([aria-current]) { box-shadow: calc(-1 * var(--space-2xs)) 0 0 var(--accent); }
+.sermon-rows [aria-current] { font-weight: var(--weight-strong); }
+.sermon-main { display: grid; justify-items: start; gap: var(--space-3xs); min-width: 0; }
+.sermon-title { font-size: var(--font-body); font-weight: var(--weight-label); color: inherit; }
+.sermon-meta { font-size: var(--font-small); }
+/* One line only, with an ellipsis. */
+.sermon-blurb { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 1; font-size: var(--font-small); color: var(--text-muted); }
+.sermon-when { display: grid; justify-items: end; align-content: start; gap: var(--space-3xs); font-size: var(--font-small); color: var(--text-muted); white-space: nowrap; }

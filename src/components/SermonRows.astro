@@ -1,10 +1,11 @@
 ---
+import '../styles/components/sermon-list.css';
 import { withBase } from '../lib/base-path.mjs';
 import type { Sermon } from '../lib/content';
 import { blurb, bookOf, minutes, seriesSlug, shortDay, titleWithoutSeries } from '../lib/sermon-format.mjs';
 
 // A list of sermons, one row each: title, passage and preacher, a one-line blurb, then the date and length on the right.
-// Used by the sermons page (under each series) and the home page. The data-* attributes are what the sermons page's filters read.
+// Used by the sermons page (under each series) and the home page. The data-* attributes are what the filters read (src/lib/sermon-filters.ts). Styles: styles/components/sermon-list.css.
 interface Props {
   sermons: Sermon[];
   /** Drop "Series name: " from titles, for rows shown under their series' heading. */
@@ -15,30 +16,18 @@ const { sermons, underSeries = false } = Astro.props;
 <ol class="sermon-rows" role="list">
   {sermons.map(sermon => (
     <li
+      data-slug={sermon.slug}
       data-series={seriesSlug(sermon.series)}
       data-preacher={sermon.preacher}
       data-book={bookOf(sermon.scripture)}
       data-search={[sermon.title, sermon.scripture, sermon.preacher, sermon.series].join(' ').toLowerCase()}
     >
-      <div class="main">
-        <a class="title" href={withBase(`/episode/${sermon.slug}`)}>{underSeries ? titleWithoutSeries(sermon.title, sermon.series) : sermon.title}</a>
-        <span class="meta">{sermon.scripture} · {sermon.preacher}</span>
-        <span class="blurb">{blurb(sermon.description)}</span>
+      <div class="sermon-main">
+        <a class="sermon-title" href={withBase(`/sermons/${sermon.slug}`)}>{underSeries ? titleWithoutSeries(sermon.title, sermon.series) : sermon.title}</a>
+        <span class="sermon-meta">{sermon.scripture} · {sermon.preacher}</span>
+        <span class="sermon-blurb">{blurb(sermon.description)}</span>
       </div>
-      <span class="when"><time datetime={sermon.date}>{shortDay(sermon.date)}</time><span>{minutes(sermon.durationSeconds)} min</span></span>
+      <span class="sermon-when"><time datetime={sermon.date}>{shortDay(sermon.date)}</time><span>{minutes(sermon.durationSeconds)} min</span></span>
     </li>
   ))}
 </ol>
-
-<style>
-  /* No cards or borders: a thin rule above the first row and below every row. */
-  .sermon-rows { margin: 0 0 var(--space-md); padding: 0; border-top: var(--line-thin) solid var(--border-subtle); }
-  li { display: grid; grid-template-columns: 1fr auto; gap: var(--space-sm); padding: var(--space-sm) 0; border-bottom: var(--line-thin) solid var(--border-subtle); }
-  li[hidden] { display: none; }
-  .main { display: grid; justify-items: start; gap: var(--space-3xs); min-width: 0; }
-  .title { font-size: var(--font-body); font-weight: var(--weight-label); color: inherit; }
-  .meta { font-size: var(--font-small); }
-  /* One line only, with an ellipsis. */
-  .blurb { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 1; font-size: var(--font-small); color: var(--text-muted); }
-  .when { display: grid; justify-items: end; align-content: start; gap: var(--space-3xs); font-size: var(--font-small); color: var(--text-muted); white-space: nowrap; }
-</style>

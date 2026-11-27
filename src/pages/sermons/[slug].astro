@@ -1,0 +1,10 @@
+---
+import SermonsPage from '../../components/SermonsPage.astro';
+import { sermons, type Sermon } from '../../lib/content';
+
+export function getStaticPaths() {
+  return sermons.map(sermon => ({ params: { slug: sermon.slug }, props: { sermon } }));
+}
+const { sermon } = Astro.props as { sermon: Sermon };
+---
+<SermonsPage title={sermon.title} selected={sermon} />

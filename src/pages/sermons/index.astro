@@ -1,0 +1,8 @@
+---
+import SermonsPage from '../../components/SermonsPage.astro';
+import { sermons } from '../../lib/content';
+
+const latest = sermons[0];
+if (!latest) throw new Error('There are no sermons in imported/sermons.');
+---
+<SermonsPage title="Our Sermons" selected={latest} latest listInline />

@@ -1,0 +1,64 @@
+---
+import { withBase } from '../lib/base-path.mjs';
+import { mainPodcastUrl } from '../lib/church.mjs';
+import type { Sermon } from '../lib/content';
+import Page from '../layouts/Page.astro';
+import '../styles/components/sermon-list.css';
+import Hero from './Hero.astro';
+import SermonArchive from './SermonArchive.astro';
+import SermonNavy from './SermonNavy.astro';
+
+// Both /sermons (the latest sermon) and /sermons/<slug> are this page. The sermon being shown is in the navy section;
+// the list of all sermons is below it. /sermons has the list built in. A sermon's own page loads the list as a separate
+// file (/sermons/list/), so every one of those pages stays small.
+interface Props {
+  selected: Sermon;
+  latest?: boolean;
+  listInline?: boolean;
+  title: string;
+}
+const { selected, latest = false, listInline = false, title } = Astro.props;
+---
+<Page title={title}>
+  <Hero title="Our Sermons" slot="hero">
+    <p class="actions"><a class="action action-filled" href={mainPodcastUrl}>Subscribe</a></p>
+  </Hero>
+  <SermonNavy sermon={selected} latest={latest} notesOpen={!latest} />
+  {listInline
+    ? <SermonArchive />
+    : <section class="section-outer" data-palette="mist" data-sermon-list data-src={withBase('/sermons/list/')}>
+        <div class="section-inner">
+          <h2>All sermons</h2>
+          <p><a class="action action-bar" href={withBase('/sermons')}>Browse all sermons</a></p>
+        </div>
+      </section>}
+</Page>
+
+<script>
+  import { startSermonFilters } from '../lib/sermon-filters';
+  import { startSermonSwap } from '../lib/sermon-swap';
+
+  const start = (list: HTMLElement) => startSermonFilters(list);
+  const inline = document.querySelector<HTMLElement>('[data-archive]');
+  const placeholder = document.querySelector<HTMLElement>('[data-sermon-list]');
+  if (inline) start(inline);
+  startSermonSwap();
+
+  // A sermon's own page loads the list as its own file, then starts the filters. If that fails the "Browse all sermons" link stays.
+  if (placeholder) {
+    fetch(placeholder.dataset.src!)
+      .then(response => { if (!response.ok) throw new Error(String(response.status)); return response.text(); })
+      .then(html => {
+        const archive = new DOMParser().parseFromString(html, 'text/html').querySelector<HTMLElement>('[data-sermon-archive]');
+        if (!archive) throw new Error('no list in the file');
+        const loaded = document.importNode(archive, true);
+        placeholder.replaceWith(loaded);
+        const list = loaded.querySelector<HTMLElement>('[data-archive]')!;
+        start(list);
+        // Mark the sermon being shown.
+        const slug = document.querySelector<HTMLElement>('[data-sermon-feature]')?.dataset.slug;
+        list.querySelector(`li[data-slug="${slug}"] .sermon-title`)?.setAttribute('aria-current', 'true');
+      })
+      .catch(() => {});
+  }
+</script>

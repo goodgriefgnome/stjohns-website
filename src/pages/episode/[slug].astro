@@ -1,15 +1,27 @@
 ---
-import Hero from '../../components/Hero.astro';
-import SermonEpisode from '../../components/SermonEpisode.astro';
-import Page from '../../layouts/Page.astro';
-import { sermons, type Sermon } from '../../lib/content';
+import { withBase } from '../../lib/base-path.mjs';
+import { sermons } from '../../lib/content';
 
+// Sermons used to have pages at /episode/<slug>. Now they are at /sermons/<slug>, and this page sends old links there.
+// TODO (Bundle A): on Cloudflare, a real 301 redirect in _redirects replaces this page.
 export function getStaticPaths() {
-  return sermons.map(sermon => ({ params: { slug: sermon.slug }, props: { sermon } }));
+  return sermons.map(sermon => ({ params: { slug: sermon.slug }, props: { slug: sermon.slug } }));
 }
-const { sermon } = Astro.props as { sermon: Sermon };
+const { slug } = Astro.props as { slug: string };
+const path = withBase(`/sermons/${slug}`);
+const canonical = Astro.site ? new URL(path, Astro.site).href : path;
 ---
-<Page title={sermon.title}>
-  <Hero title={sermon.title} slot="hero" />
-  <SermonEpisode sermon={sermon} />
-</Page>
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content={`0; url=${path}`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex" />
+    <title>This sermon has moved</title>
+  </head>
+  <body>
+    <p>This sermon has moved. <a href={path}>Go to the sermon</a>.</p>
+  </body>
+</html>

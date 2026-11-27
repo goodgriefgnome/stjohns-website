@@ -43,7 +43,7 @@ export function GET({ site }: APIContext) {
     <item>
       <title>${escape(sermon.title)}</title>
       <description>${cdata(showNotes(sermon))}</description>
-      <link>${absolute(`/episode/${sermon.slug}`)}</link>
+      <link>${absolute(`/sermons/${sermon.slug}`)}</link>
       <guid isPermaLink="false">${escape(sermon.id)}</guid>
       <pubDate>${sermonStart(sermon).toUTCString()}</pubDate>
       <enclosure url="${escape(sermon.audioUrl)}" length="${sermon.audioBytes}" type="audio/mpeg"/>
