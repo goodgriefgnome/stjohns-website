@@ -6,7 +6,7 @@ import '../styles/components/sermon-list.css';
 import SermonRows from './SermonRows.astro';
 
 // "All sermons": a search box and filters, then the sermons grouped by series, newest series first.
-// Every sermon is in the HTML, in a box that scrolls on its own. Without JavaScript the filters stay hidden and every sermon shows.
+// Every sermon is in the HTML, and the list scrolls with the page. Without JavaScript the filters stay hidden and every sermon shows.
 // With it, startSermonFilters (src/lib/sermon-filters.ts) filters them.
 // Styles: styles/components/sermon-list.css (this list is also loaded on its own, see pages/sermons/list.astro).
 const groups = groupBySeries(sermons);
@@ -42,7 +42,7 @@ const books = sortBooks([...new Set(sermons.map(sermon => bookOf(sermon.scriptur
       </form>
       <p class="archive-count" aria-live="polite" hidden></p>
       <p class="archive-empty" hidden>No sermons match.</p>
-      <div class="archive-box" data-archive-box tabindex="0" role="region" aria-label="Sermon list">
+      <div class="archive-list">
         {groups.map(group => (
           <article class="archive-series" data-series-group={group.slug}>
             {group.artwork && <img src={withBase(group.artwork.src)} alt="" loading="lazy" />}

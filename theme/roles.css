@@ -48,6 +48,10 @@
   /* How tall a hero is at least. */
   --hero-height: clamp(17rem, 35vw, 25rem);
 
+  /* The mini player pinned to the top of the sermons pages: how tall its bar is (the list's series strips stick just below it), its round button, and the shadow under it. */
+  --mini-player-height: 3.5rem;
+  --mini-button-size: 2.25rem;
+  --mini-player-shadow: 0 2px 8px var(--black-30);
   /* Size of a finger-friendly button, measured on the screen. */
   --tap-target: 44px;
   /* The menu button's drawing (the three lines). */

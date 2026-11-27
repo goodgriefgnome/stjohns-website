@@ -6,6 +6,7 @@ import Page from '../layouts/Page.astro';
 import '../styles/components/sermon-list.css';
 import Hero from './Hero.astro';
 import SermonArchive from './SermonArchive.astro';
+import MiniPlayer from './MiniPlayer.astro';
 import SermonNavy from './SermonNavy.astro';
 
 // Both /sermons (the latest sermon) and /sermons/<slug> are this page. The sermon being shown is in the navy section;
@@ -23,6 +24,7 @@ const { selected, latest = false, listInline = false, title } = Astro.props;
   <Hero title="Our Sermons" slot="hero">
     <p class="actions"><a class="action action-filled" href={mainPodcastUrl}>Subscribe</a></p>
   </Hero>
+  <MiniPlayer />
   <SermonNavy sermon={selected} latest={latest} notesOpen={!latest} />
   {listInline
     ? <SermonArchive />
@@ -36,13 +38,15 @@ const { selected, latest = false, listInline = false, title } = Astro.props;
 
 <script>
   import { startSermonFilters } from '../lib/sermon-filters';
-  import { markCurrent, revealCurrent, startSermonSwap } from '../lib/sermon-swap';
+  import { startMiniPlayer } from '../lib/mini-player';
+  import { markCurrent, startSermonSwap } from '../lib/sermon-swap';
 
   const start = (list: HTMLElement) => startSermonFilters(list);
   const inline = document.querySelector<HTMLElement>('[data-archive]');
   const placeholder = document.querySelector<HTMLElement>('[data-sermon-list]');
   if (inline) start(inline);
   startSermonSwap();
+  startMiniPlayer();
 
   // A sermon's own page loads the list as its own file, then starts the filters. If that fails the "Browse all sermons" link stays.
   if (placeholder) {
@@ -55,9 +59,8 @@ const { selected, latest = false, listInline = false, title } = Astro.props;
         placeholder.replaceWith(loaded);
         const list = loaded.querySelector<HTMLElement>('[data-archive]')!;
         start(list);
-        // Mark the sermon being shown, and scroll the list's box to it.
+        // Mark the sermon being shown.
         markCurrent();
-        revealCurrent();
       })
       .catch(() => {});
   }

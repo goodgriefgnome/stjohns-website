@@ -2,6 +2,7 @@
 // the address and title follow, and the player carries on (if it was playing, the new sermon starts straight away).
 // Without JavaScript every link is an ordinary link to a full page. Anything that goes wrong falls back to that.
 import { startPlayers } from './audio-player';
+import { bindMiniPlayer } from './mini-player';
 
 const sermonsPath = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}sermons/`;
 const sections = new Map<string, { section: HTMLElement; title: string }>();
@@ -16,22 +17,6 @@ function slugOf(pathname: string) {
 }
 
 const current = () => document.querySelector<HTMLElement>('[data-sermon-feature]')!;
-const smooth = () => !matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// Scroll the list's own box (never the page) so the row for the sermon being shown sits just under its series' sticky strip.
-export function revealCurrent() {
-  const box = document.querySelector<HTMLElement>('[data-archive-box]');
-  const row = box?.querySelector<HTMLElement>(`li[data-slug="${current().dataset.slug}"]`);
-  if (!box || !row || row.offsetParent === null) return;
-  const strip = row.closest('.archive-series')?.querySelector<HTMLElement>('.archive-strip');
-  // One --space-sm, measured, for the gap under the strip.
-  const probe = document.createElement('div');
-  probe.style.height = 'var(--space-sm)';
-  box.append(probe);
-  const gap = probe.offsetHeight;
-  probe.remove();
-  box.scrollTop += row.getBoundingClientRect().top - box.getBoundingClientRect().top - (strip?.offsetHeight ?? 0) - gap;
-}
 
 // Mark the list's row for the sermon being shown.
 export function markCurrent() {
@@ -57,26 +42,21 @@ async function show(url: string, { push }: { push: boolean }) {
   const old = current();
   const oldAudio = old.querySelector('audio');
   const wasPlaying = !!oldAudio && !oldAudio.paused;
+  // Is the navy section out of view altogether? Then the mini player is showing, and the page stays where it is.
+  const { top, bottom } = old.getBoundingClientRect();
+  const offScreen = bottom <= 0 || top >= innerHeight;
   const { section, title } = await load(url);
   const next = document.importNode(section, true);
   oldAudio?.pause();
   old.replaceWith(next);
   startPlayers(next);
+  bindMiniPlayer();
   document.title = title;
   if (push) history.pushState({ slug: next.dataset.slug }, '', url);
   markCurrent();
   if (wasPlaying) next.querySelector('audio')?.play().catch(() => {});
-  if (push) {
-    // The list keeps its place. The page only moves if the navy section isn't on screen.
-    const top = next.getBoundingClientRect().top;
-    if (top < 0 || top > innerHeight) next.scrollIntoView({ behavior: smooth() ? 'smooth' : 'auto', block: 'start' });
-    next.querySelector<HTMLElement>('h2')?.focus({ preventScroll: true });
-  } else if (slugOf(url) === '') {
-    // Back to /sermons (the latest sermon): the list starts at the top.
-    document.querySelector<HTMLElement>('[data-archive-box]')?.scrollTo({ top: 0 });
-  } else {
-    revealCurrent();
-  }
+  // Focus goes somewhere sensible without moving the page: the mini player's button if that is what is on screen, else the title.
+  if (push) (offScreen ? document.querySelector<HTMLElement>('[data-mini-player] .mini-play') : next.querySelector<HTMLElement>('h2'))?.focus({ preventScroll: true });
 }
 
 export function startSermonSwap() {

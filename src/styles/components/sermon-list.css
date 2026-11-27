@@ -3,7 +3,6 @@
    Astro's component styles only reach pages that render the component.
    Local CSS variables (set inside the rules below):
    --thumb-width  width of a series' thumbnail: small on narrow sections, bigger on wide ones
-   --archive-height  how tall the scrolling box is
    --dropdown-min  narrowest a filter dropdown gets before the row wraps */
 
 /* A row of filters that wraps on narrow screens. The search box has a line to itself. */
@@ -30,21 +29,8 @@
 .archive-count[hidden],
 .archive-empty[hidden] { display: none; }
 
-/* The list scrolls in its own box, with a thin rule above and below. The page carries on scrolling at the end of the box
-   (overscroll-behavior is left at its default, auto). --archive-height is how tall the box is: svh, so a phone's address bar doesn't change it. */
-.archive-box {
-  --archive-height: 60svh;
-  max-height: var(--archive-height);
-  overflow-y: auto;
-  overscroll-behavior: auto;
-  border-block: var(--line-thin) solid var(--border-subtle);
-}
-@container style(--section-size: wide) {
-  .archive-box { --archive-height: 70svh; }
-}
-
-/* Each series: its artwork (scrolls away), then a slim strip with the name and dates that stays at the top of the box
-   while its sermons pass underneath, then the sermons. Only the strip, one line, ever sticks. */
+/* Each series: its artwork (scrolls away), then a slim strip with the name and dates that sticks to the top of the window
+   while its sermons pass underneath (just under the mini player when that is showing), then the sermons. Only the strip, one line, ever sticks. */
 .archive-series[hidden] { display: none; }
 .archive-series > img { width: var(--thumb-width, 7rem); max-height: none; margin-top: var(--space-md); aspect-ratio: 16 / 9; object-fit: cover; }
 .archive-strip {
@@ -62,6 +48,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* The mini player is pinned to the top while it shows, so the strips stick below it. */
+body:has([data-mini-player]:not([hidden])) .archive-strip { top: var(--mini-player-height); }
 .archive-strip small { font-size: var(--font-small); font-weight: var(--weight-regular); color: var(--text-muted); }
 @container style(--section-size: wide) {
   .archive-series > img { --thumb-width: 14rem; }

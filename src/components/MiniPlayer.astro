@@ -1,0 +1,57 @@
+---
+// A slim player pinned to the top of the window, shown only while the navy sermon section is scrolled out of view.
+// It controls the same audio as that section's player (src/lib/mini-player.ts), so the two always agree.
+// It is hidden in the HTML: without JavaScript it doesn't exist.
+---
+<div class="mini" data-mini-player data-palette="navy" hidden inert>
+  <div class="mini-inner">
+    <button type="button" class="mini-play" aria-label="Play">
+      <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9.5-5.5z" fill="currentColor" /></svg>
+      <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 2.5h3.5v11H3.5zM9 2.5h3.5v11H9z" fill="currentColor" /></svg>
+    </button>
+    <span class="mini-title"></span>
+    <span class="mini-time">0:00</span>
+    <span class="mini-bar" aria-hidden="true"><span></span></span>
+    <button type="button" class="action action-bar mini-details">↑ Details</button>
+  </div>
+</div>
+
+<style>
+  /* Width of the little progress bar. */
+  .mini { --mini-bar-width: 3rem; position: fixed; inset: 0 0 auto; z-index: 3; box-shadow: var(--mini-player-shadow); transform: translateY(-100%); visibility: hidden; }
+  .mini[hidden] { display: none; }
+  .mini[data-shown] { transform: none; visibility: visible; }
+  @media (prefers-reduced-motion: no-preference) {
+    .mini { transition: transform 200ms var(--ease-live), visibility 200ms; }
+  }
+  .mini-inner { display: flex; align-items: center; gap: var(--space-sm); height: var(--mini-player-height); max-width: var(--reading-width); margin-inline: auto; padding-inline: var(--gutter); }
+  .mini-play {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: var(--mini-button-size);
+    height: var(--mini-button-size);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-round);
+    background: var(--action-bg);
+    color: var(--action-text);
+    cursor: pointer;
+    transition: transform var(--pressed-time);
+  }
+  .mini-play:active { transform: scale(var(--pressed-scale)); }
+  @media (prefers-reduced-motion: reduce) { .mini-play { transition: none; } .mini-play:active { transform: none; opacity: var(--pressed-opacity); } }
+  .mini-play svg { width: 40%; }
+  /* The play triangle looks centred a little to the right of true centre. */
+  .icon-play { margin-left: 8%; }
+  .icon-pause { display: none; }
+  [data-playing] .icon-play { display: none; }
+  [data-playing] .icon-pause { display: block; }
+  .mini-title { flex: 1; min-width: 0; overflow: hidden; font-weight: var(--weight-label); text-overflow: ellipsis; white-space: nowrap; }
+  .mini-time { flex: none; font-size: var(--font-label); font-variant-numeric: tabular-nums; }
+  /* On a narrow screen there is no room for the bar: the title matters more. */
+  .mini-bar { display: none; flex: none; width: var(--mini-bar-width); height: var(--line-bar); border-radius: var(--radius-pill); background: var(--bar-track); }
+  .mini-bar span { display: block; width: calc(var(--played, 0) * 100%); height: 100%; border-radius: inherit; background: currentColor; }
+  @container style(--screen: medium) or style(--screen: wide) { .mini-bar { display: block; } }
+  .mini-details { flex: none; margin: 0; border: 0; background: none; color: inherit; font-family: inherit; cursor: pointer; }
+</style>

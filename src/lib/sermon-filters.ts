@@ -4,7 +4,6 @@ export function startSermonFilters(archive: HTMLElement) {
   const form = archive.querySelector<HTMLFormElement>('.archive-filters')!;
   const count = archive.querySelector<HTMLElement>('.archive-count')!;
   const empty = archive.querySelector<HTMLElement>('.archive-empty')!;
-  const box = archive.querySelector<HTMLElement>('[data-archive-box]')!;
   const groups = [...archive.querySelectorAll<HTMLElement>('.archive-series')];
   const search = form.elements.namedItem('q') as HTMLInputElement;
   const fields = ['series', 'preacher', 'book'] as const;
@@ -15,7 +14,7 @@ export function startSermonFilters(archive: HTMLElement) {
   // A value with no matching option (an old link) leaves the select on its first option, "all".
   for (const name of fields) select(name).value = params.get(name) ?? '';
 
-  function apply(resetScroll = false) {
+  function apply() {
     const words = search.value.toLowerCase().split(/\s+/).filter(Boolean);
     const chosen = Object.fromEntries(fields.map(name => [name, select(name).value]));
     let shown = 0;
@@ -33,7 +32,6 @@ export function startSermonFilters(archive: HTMLElement) {
       shown += matches;
       group.hidden = matches === 0;
     }
-    if (resetScroll) box.scrollTop = 0;
     count.hidden = false;
     count.textContent = `${shown} ${shown === 1 ? 'sermon' : 'sermons'}`;
     empty.hidden = shown > 0;
@@ -48,6 +46,6 @@ export function startSermonFilters(archive: HTMLElement) {
 
   form.hidden = false;
   form.addEventListener('submit', event => event.preventDefault());
-  form.addEventListener('input', () => apply(true));
+  form.addEventListener('input', apply);
   apply();
 }
