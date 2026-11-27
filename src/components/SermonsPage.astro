@@ -21,7 +21,7 @@ interface Props {
 const { selected, latest = false, listInline = false, title } = Astro.props;
 ---
 <Page title={title}>
-  <Hero title="Our Sermons" slot="hero">
+  <Hero title="Our Sermons">
     <p class="actions"><a class="action action-filled" href={mainPodcastUrl}>Subscribe</a></p>
   </Hero>
   <MiniPlayer />

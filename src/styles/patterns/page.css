@@ -1,0 +1,5 @@
+/* The page frame in Page.astro: sets the content measure inherited by sections inside it.
+   CSS variables:
+   --page-measure  width of a section's full content column (default --layout-width; --reading-width on pages with width: reading) */
+.page { --page-measure: var(--layout-width); }
+.page.page-reading { --page-measure: var(--reading-width); }

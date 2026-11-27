@@ -7,20 +7,20 @@ screen.css        the --screen flag (narrow/medium/wide), the one breakpoint def
 theme/tokens.css  raw values: colours, the size, weight, spacing, line and radius scales, widths, section spacing
 theme/roles.css   what values are FOR (--text-*, --photo-scrim, --font-*, --weight-*, hero and menu sizes) and the five section palettes
 base.css          bare element defaults: @font-face, :root, body, img, a, headings, p
-patterns/         layout of the page: page-grid, section, photo-backdrop, wrap
+patterns/         layout of the page: page, section, hero, photo-backdrop, wrap, visually-hidden, site-footer
 theme/layouts/    one file per layout block (columns, cards, media, gallery), wrapped in @scope by the build
 theme/behaviours/ shared switches a layout or author turns on (cycle), site-wide CSS
 components/       small pieces: action (buttons), icon, accordion, date, label, quiet-link, sermon-list
 ```
 
-`theme/` is the editor-facing look (tokens and roles); everything else here is code. Imported in that order by `Site.astro`. Astro components that live in one file (navigation, Events, Sermons, SermonEpisode, ConcertProgram, Page, Site, index.astro) keep their own scoped `<style>` block, but use tokens and roles, never raw values.
+`theme/` is the editor-facing look (tokens and roles); everything else here is code. Imported in that order by `Site.astro`. Astro components that live in one file (SiteNavigation, Events, SermonNavy, MiniPlayer, ConcertProgram, Site) keep their own scoped `<style>` block, but use tokens and roles, never raw values.
 
 ## Rules
 
-1. **Dependencies point down only.** components → patterns → base → roles → tokens. A file never names a class owned by another pattern or component. (Known exception: `page-grid.css` places `.section-outer`, which is its direct child.)
+1. **Dependencies point down only.** components → patterns → base → roles → tokens. A file never names a class owned by another pattern or component.
 2. **Each fact lives in one place.** Raw colours only in `tokens.css`. Palette names are listed in `theme/palettes.mjs` (for editor autocomplete) and checked against `roles.css`. Each width breakpoint is written once.
 3. **Patterns expose CSS variables**, local custom properties documented in a comment at the top of the pattern's file. Nobody restyles a pattern's insides from outside. A layout declares its variables and options in its header comment, and `check-styles` verifies them (see `theme/layouts/README.md`).
-4. **Flat, low-specificity selectors.** Single classes, no nesting under `.page-content` (only `page-grid.css` and `accordion.css` mention it). Use `:where()` when a default must be easy to override.
+4. **Flat, low-specificity selectors.** Single classes, no unnecessary nesting. Use `:where()` when a default must be easy to override.
 5. **Class prefix tells you the layer.** `section-*`, `page-*` are patterns; `layout`, `layout-item`, `layout-figure`, `layout-body` are the contract every layout block shares (made by the Markdown plugin, styled by the layout files); `action*`, `icon*`, `accordion`, `date` are components.
 6. **No cascade layers** (decided in 82c5eae; revisit if specificity fights appear).
 
@@ -33,8 +33,9 @@ components/       small pieces: action (buttons), icon, accordion, date, label, 
 
 ## Content: sections, layouts and widths
 
+- **A page is a stack of full-width bands** inside `.page` (`Page.astro`, styled by `patterns/page.css`): a `.hero` followed by `.section-outer` stripes. `.page` sets `--page-measure` (`--layout-width`, or `--reading-width` when `width: reading` adds `.page-reading`), which sections inherit to compute their horizontal padding.
 - `---` in a page starts a **section** (`.section-outer` around `.section-inner`, made by `src/lib/remark-layouts.mjs`). `::section{palette, align, text}` sets its look; `::banner` is a centred navy section. Section splitting is its own pass in the plugin, so a per-page switch that turns `---` back into a plain rule can be added later.
-- **A section is always wide and each child picks its own width.** Ordinary text sits in a centred column of `--section-measure` (`--reading-width`, or `--layout-width` with `text="wide"`). Layout blocks fill the section. A page with `width: reading` caps everything at the reading width through `--page-measure`.
+- **A section is always wide and each child picks its own width.** Ordinary text sits in a centred column of `--section-measure` (`--reading-width`, or `--layout-width` with `text="wide"`). Layout blocks fill the section (bounded by `--page-measure`).
 - `:::name` is a **layout block** from `theme/layouts/name.css`: columns, cards, media, gallery. Inside it `---` starts an item; items are `ul`/`li` holding the blocks in the order written (the first block, then a `.layout-body`). The build wraps each layout file in `@scope ([data-layout="name"])` (`src/lib/vite-theme-css.mjs`). Layouts are written against the contract in `theme/layouts/README.md`; authors read `content/README.md`.
 - `theme/behaviours/` holds shared switches such as `cycle` (`--images: cycle`).
 - Still directives of their own: `:::accordion` (one list: first paragraph of each item is the title, the rest is the body) and `:::center` (and `align="center"`: both set `data-align`, one CSS rule).
@@ -61,7 +62,7 @@ Nothing writes a width except `screen.css` and `section.css`. Ask a named questi
 
 | Pattern | CSS variables |
 |---|---|
-| page-grid | `--page-measure` |
+| page | `--page-measure` |
 | section | `--section-measure`, `--section-image-max-height`, `--section-size` (set for you) |
 | photo-backdrop | `--scrim` |
 | hero | `--hero-fade`, `--photo-shadow-tight`, `--photo-shadow-wide` (roles in `roles.css`) |
@@ -82,6 +83,6 @@ Nothing writes a width except `screen.css` and `section.css`. Ask a named questi
 - **section**: a full-width stripe of the page with its own palette (`.section-outer` around `.section-inner`).
 - **layout**: a block that arranges items, from one file in `theme/layouts/` (columns, cards, media, gallery).
 - **behaviour**: a shared switch (`cycle`) a layout or an author turns on, from `theme/behaviours/`.
-- **pattern**: reusable page structure in `src/styles/patterns/` (page grid, section).
+- **pattern**: reusable page structure in `src/styles/patterns/` (page, section).
 - **component**: a small reusable piece (button, icon, accordion).
 - **CSS variable**: a custom property a pattern or layout reads so you can adjust it from outside without touching its insides.

@@ -13,7 +13,6 @@
   --section-measure: var(--reading-width);
   --section-image-max-height: 30rem;
   container: section / inline-size;
-  grid-column: 1 / -1;
   padding: var(--section-padding) max(var(--gutter), calc((100% - var(--page-measure)) / 2));
 }
 .section-outer[data-text='wide'] { --section-measure: var(--layout-width); }

@@ -13,11 +13,7 @@ const isReading = width === 'reading';
 const Frame = isReading ? 'article' : 'div';
 ---
 <Site title={title} photoHeader>
-  <Frame data-palette={palette ?? (isReading ? 'cream' : undefined)}>
-    <!-- A Markdown page writes its hero in the content (::hero). A page written in Astro puts <Hero> in this slot. -->
-    <slot name="hero" />
-    <div class:list={['page-content', { 'page-reading': isReading }]}>
-      <slot />
-    </div>
+  <Frame class:list={['page', { 'page-reading': isReading }]} data-palette={palette ?? (isReading ? 'cream' : undefined)}>
+    <slot />
   </Frame>
 </Site>
