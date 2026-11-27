@@ -35,6 +35,8 @@ export interface Event {
   description: string;
   detailsUrl: string | null;
   registrationUrl: string | null;
+  /** Church Center tags. "Featured" puts an event under Save the date on the home page. */
+  tags?: string[];
 }
 
 export const sermons = Object.entries(import.meta.glob<Sermon>('../../imported/sermons/*.json', { eager: true, import: 'default' }))

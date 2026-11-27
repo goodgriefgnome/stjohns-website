@@ -34,7 +34,7 @@ const seen = new Set<string>();
     </div>
   </nav>
 
-  <div class="event-list" tabindex="0" aria-label="Upcoming events">
+  <div class="event-list">
     <p class="events-empty" hidden={upcoming.length > 0}>No upcoming events are listed.</p>
     {[...byMonth].map(([month, occurrences]) => (
       <section class="month">
@@ -61,11 +61,10 @@ const seen = new Set<string>();
 
 <script>
   // The build only knows the day it ran. In the browser, hide what has finished since,
-  // mark today on the mini calendar, and scroll within the boxes instead of jumping the page.
+  // and mark today on the mini calendar.
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney' }).format(new Date());
   const now = Date.now();
   for (const root of document.querySelectorAll<HTMLElement>('.events')) {
-    const list = root.querySelector<HTMLElement>('.event-list')!;
     const strip = root.querySelector<HTMLElement>('.calendar-months')!;
 
     for (const row of root.querySelectorAll<HTMLElement>('.event-row')) row.hidden = Date.parse(row.dataset.end!) <= now;
@@ -85,17 +84,13 @@ const seen = new Set<string>();
     const thisMonth = root.querySelector<HTMLElement>(`#cal-${today.slice(0, 7)}`);
     if (thisMonth) strip.scrollLeft = thisMonth.offsetLeft;
 
+    // Month arrows slide the calendar strip. Date links are plain anchors, so the browser scrolls the page to the day.
     root.addEventListener('click', click => {
-      const link = (click.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
-      const target = link && root.querySelector<HTMLElement>(link.hash);
-      if (!target) return;
+      const link = (click.target as Element).closest<HTMLAnchorElement>('a[href^="#cal-"]');
+      if (!link) return;
       click.preventDefault();
       const smooth = matchMedia('(prefers-reduced-motion: no-preference)').matches ? 'smooth' : 'auto';
-      if (strip.contains(target)) return strip.scrollTo({ left: target.offsetLeft, behavior: smooth });
-      const header = target.closest('.month')!.querySelector<HTMLElement>('h3')!;
-      // Stop a little short of the pinned month name, so the end of the previous row peeks out.
-      const peek = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
-      list.scrollTo({ top: target.offsetTop - header.offsetHeight - peek, behavior: smooth });
+      strip.scrollTo({ left: root.querySelector<HTMLElement>(link.hash)!.offsetLeft, behavior: smooth });
     });
   }
 </script>
@@ -108,15 +103,10 @@ const seen = new Set<string>();
     /* One date in the calendar, and the gap between weeks. */
     --cell: var(--space-xl);
     --cell-gap: var(--space-3xs);
-    /* The calendar's height, worked out from its parts: header + weekday letters + six weeks. */
-    --calendar-height: calc(var(--cell) + var(--space-2xs) + var(--space-lg) + 6 * var(--cell) + 5 * var(--cell-gap));
-    /* The list box is half as tall again as the calendar (1.5 times). */
-    --list-height-ratio: 1.5;
-    --list-height: calc(var(--calendar-height) * var(--list-height-ratio));
-    /* Without a calendar beside it, the list stops growing at this height and scrolls. */
-    --list-max-height: 70vh;
-    /* How much of the previous row stays visible above a date the calendar scrolls to. */
-    --peek: var(--space-md);
+    /* How much of the previous row stays visible above a date the calendar jumps to. */
+    --peek: var(--space-xl);
+    /* The pinned month name's height: its text line plus the padding above and below it. */
+    --month-heading-height: calc(var(--font-h3) * var(--leading-heading) + 2 * var(--space-sm));
     display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); margin-top: var(--space-xl); text-align: left;
   }
   .event-calendar { display: none; }
@@ -137,21 +127,25 @@ const seen = new Set<string>();
   .days .past { opacity: .4; }
   .days .today :is(a, span) { box-shadow: inset 0 0 0 var(--line-thin) currentColor; }
 
-  .event-list { position: relative; display: grid; gap: var(--space-xl); align-content: start; min-width: 0; max-height: var(--list-max-height); overflow-y: auto; overscroll-behavior: contain; padding-right: var(--space-sm); }
-  /* Month name stays pinned at the top of the box while its rows scroll under it. */
-  .month h3 { position: sticky; top: 0; z-index: 1; margin: 0; padding-bottom: var(--space-sm); background: var(--section-bg); text-align: left; }
+  /* The whole list scrolls with the page. */
+  .event-list { display: grid; gap: var(--space-xl); align-content: start; min-width: 0; }
+  /* The month name stays pinned at the top of the window while its rows scroll under it. */
+  .month h3 { position: sticky; top: 0; z-index: 1; margin: 0; padding: var(--space-sm) 0; background: var(--section-bg); text-align: left; }
   .month:not(:has(.event-row:not([hidden]))), .event-row[hidden], [hidden] { display: none; }
   .rows { list-style: none; padding: 0; margin: 0; border-top: var(--line-thin) solid var(--line); }
-  .event-row { scroll-margin-top: var(--peek); display: grid; grid-template-columns: 1fr auto; gap: var(--space-sm); padding: var(--space-sm) 0; border-bottom: var(--line-thin) solid var(--line); }
+  .event-row { /* A date link stops under the pinned month name, with a peek of the previous row. */ scroll-margin-top: calc(var(--month-heading-height) + var(--peek)); display: grid; grid-template-columns: 1fr auto; gap: var(--space-sm); padding: var(--space-sm) 0; border-bottom: var(--line-thin) solid var(--line); }
   .main { display: grid; gap: var(--space-3xs); min-width: 0; }
   .title { font-weight: var(--weight-label); font-size: var(--font-body); }
   .meta { font-size: var(--font-small); }
   .events-empty { margin: 0; }
   .blurb { font-size: var(--font-small); color: var(--quiet); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
   .when { font-size: var(--font-small); color: var(--quiet); white-space: nowrap; }
+  /* Date links glide to their row, unless the visitor asks for less motion. */
+  @media (prefers-reduced-motion: no-preference) { :global(html) { scroll-behavior: smooth; } }
   @container style(--section-size: wide) {
     .events { grid-template-columns: var(--calendar-width) minmax(0, var(--reading-width)); justify-content: center; align-items: start; column-gap: calc(var(--space-xl) * 2); }
     .event-calendar { display: block; }
-    .event-list { height: var(--list-height); max-height: none; }
+    /* The calendar stays in view while the page scrolls past it. */
+    .event-calendar { position: sticky; top: var(--space-xl); }
   }
 </style>

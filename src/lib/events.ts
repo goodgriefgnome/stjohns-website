@@ -1,4 +1,4 @@
-// The home page's event calendar: which events to show, grouped the way the list and mini calendar need them.
+// Events for the home summary and the /events page: which events to show, grouped the way the list and mini calendar need them.
 import snapshot from '../../imported/snapshot.json';
 import { events, type Event } from './content';
 
@@ -9,15 +9,15 @@ const pad = (n: number) => String(n).padStart(2, '0');
 /** The build day in the church's time zone, so a UTC build server doesn't start the window a day early. */
 export const today = isoDate.format(new Date());
 
-/** The window runs from the build day to the end of the month that holds the day two months later. */
+/** The window runs from the build day to the end of the month five months later (six months in all). */
 const [year, month] = today.split('-').map(Number);
-const windowEnd = new Date(Date.UTC(year, month + 2, 0)).toISOString().slice(0, 10);
+const windowEnd = new Date(Date.UTC(year, month + 5, 0)).toISOString().slice(0, 10);
 
 export interface Day { date: string; day: number; weekday: number }
 export interface Month { key: string; label: string; days: Day[] }
 
 const monthLabel = new Intl.DateTimeFormat('en-AU', { month: 'long', year: 'numeric', timeZone: 'UTC' });
-export const months: Month[] = [0, 1, 2].map(offset => {
+export const months: Month[] = [0, 1, 2, 3, 4, 5].map(offset => {
   const first = new Date(Date.UTC(year, month - 1 + offset, 1));
   const count = new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 0)).getUTCDate();
   const key = first.toISOString().slice(0, 7);
@@ -33,6 +33,8 @@ export const upcoming = events.filter(event => event.endDate >= today && event.s
 /** Occurrences grouped by month, then by the day they start. */
 export const byMonth = Map.groupBy(upcoming, event => event.startDate.slice(0, 7));
 export const byDay = (occurrences: Event[]) => Map.groupBy(occurrences, event => event.startDate);
+/** An event is featured (shown under Save the date on the home page) when staff tag it "Featured" in Church Center. */
+export const isFeatured = (event: Event) => !!event.tags?.includes('Featured');
 export const eventDays = new Set(upcoming.map(event => event.startDate));
 
 /** The first occurrence in the window of each repeating series carries its description; the page script moves it on as occurrences pass. */

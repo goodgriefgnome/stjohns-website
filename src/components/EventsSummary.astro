@@ -1,0 +1,67 @@
+---
+import EventsDayTile from './EventsDayTile.astro';
+import { withBase } from '../lib/base-path.mjs';
+import { addDays, comingSunday } from '../lib/event-week.mjs';
+import { isFeatured, today, upcoming } from '../lib/events';
+
+// The home page's events: "This week" (today to the coming Sunday) and "Save the date" (up to three featured events after that).
+// The site only rebuilds on a push, so the page carries the first three weeks of events and the browser script picks the real week.
+// Before the script runs, only the build day's selection shows, so the page is right without it.
+const saveCount = 3;
+const weekEnd = comingSunday(today);
+const candidates = upcoming.filter(event => event.startDate <= addDays(today, 21));
+const featured = upcoming.filter(isFeatured);
+const inWeek = (event: { endDate: string; startDate: string }) => event.endDate >= today && event.startDate <= weekEnd;
+const hideFromWeek = new Set(candidates.filter(event => !inWeek(event)).map(event => event.id));
+const shownSaves = new Set(featured.filter(event => event.startDate > weekEnd).slice(0, saveCount).map(event => event.id));
+const hideFromSaves = new Set(featured.filter(event => !shownSaves.has(event.id)).map(event => event.id));
+const byDate = (list: typeof upcoming) => [...Map.groupBy(list, event => event.startDate)];
+const weekIsEmpty = candidates.every(event => hideFromWeek.has(event.id));
+---
+<div class="summary" data-save-count={saveCount}>
+  <section class="this-week">
+    <h3>This week</h3>
+    <ol class="agenda" role="list">{byDate(candidates).map(([date, dayEvents]) => <EventsDayTile date={date} dayEvents={dayEvents} hide={hideFromWeek} />)}</ol>
+    <p class="empty" hidden={!weekIsEmpty}>Nothing else on this week.</p>
+  </section>
+  <section class="save-the-date" hidden={shownSaves.size === 0}>
+    <h3>Save the date</h3>
+    <ol class="agenda" role="list">{byDate(featured).map(([date, dayEvents]) => <EventsDayTile date={date} dayEvents={dayEvents} hide={hideFromSaves} />)}</ol>
+  </section>
+</div>
+<p class="all"><a class="action action-bar" href={withBase('/events')}>All events</a></p>
+
+<script>
+  // Work out today in the church's time zone, then show only this week's events and the next few featured ones.
+  import { comingSunday } from '../lib/event-week.mjs';
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney' }).format(new Date());
+  const weekEnd = comingSunday(today);
+  const now = Date.now();
+  for (const root of document.querySelectorAll<HTMLElement>('.summary')) {
+    const live = (event: HTMLElement) => Date.parse(event.dataset.end!) > now;
+    const week = root.querySelector<HTMLElement>('.this-week')!;
+    const saves = root.querySelector<HTMLElement>('.save-the-date')!;
+    const limit = Number(root.dataset.saveCount);
+
+    for (const event of week.querySelectorAll<HTMLElement>('.event')) event.hidden = !(live(event) && event.dataset.date! <= weekEnd);
+    let shown = 0;
+    for (const event of saves.querySelectorAll<HTMLElement>('.event')) event.hidden = !(live(event) && event.dataset.date! > weekEnd && shown++ < limit);
+
+    for (const day of root.querySelectorAll<HTMLElement>('.day')) day.hidden = !day.querySelector('.event:not([hidden])');
+    week.querySelector<HTMLElement>('.empty')!.hidden = !!week.querySelector('.event:not([hidden])');
+    saves.hidden = !saves.querySelector('.event:not([hidden])');
+  }
+</script>
+<style>
+  .summary { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); margin-top: var(--space-xl); text-align: left; }
+  h3 { margin: 0 0 var(--space-md); text-align: left; }
+  .agenda { display: grid; gap: var(--space-lg); margin: 0; padding: 0; list-style: none; }
+  .empty { margin: 0; }
+  .all { margin-top: var(--space-xl); text-align: center; }
+  [hidden] { display: none; }
+  @container style(--section-size: wide) {
+    .summary { --summary-gap: calc(var(--space-xl) * 2); grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--summary-gap); }
+    /* With no Save the date, This week keeps its half width and sits in the middle. */
+    .summary:not(:has(> .save-the-date:not([hidden]))) { grid-template-columns: minmax(0, calc((100% - var(--summary-gap)) / 2)); justify-content: center; }
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+import { withBase } from '../lib/base-path.mjs';
+import { safeHref, type Event } from '../lib/content';
+import { displayRecurrence, displayTimes } from '../lib/events';
+
+// One day on the home page: a white date tile with that day's events stacked beside it. Events on the same day share the tile.
+// Each event carries data-end (when it finishes) so the page script can hide it once it has passed; `hide` lists the ones to start hidden.
+interface Props { date: string; dayEvents: Event[]; hide?: Set<string> }
+const { date, dayEvents, hide = new Set() } = Astro.props;
+const part = (options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat('en-AU', { ...options, timeZone: 'UTC' }).format(new Date(date + 'T00:00:00Z'));
+---
+<li class="day" data-date={date} hidden={dayEvents.every(event => hide.has(event.id))}>
+  <time class="tile" datetime={date}>
+    <span class="small">{part({ weekday: 'short' })}</span>
+    <span class="big">{part({ day: 'numeric' })}</span>
+    <span class="small">{part({ month: 'short' })}</span>
+  </time>
+  <ul role="list">
+    {dayEvents.map(event => {
+      const register = event.registrationUrl && safeHref(event.registrationUrl);
+      const meta = [displayTimes(event), displayRecurrence(event), event.location].filter(Boolean).join(' · ');
+      return <li class="event" data-date={date} data-end={event.end} hidden={hide.has(event.id)}>
+        <span class="title">{event.title}</span>
+        {(meta || register) && <span class="meta">{meta}{meta && register ? ' · ' : ''}{register && <a href={withBase(register)}>Register</a>}</span>}
+      </li>;
+    })}
+  </ul>
+</li>
+<style>
+  .day { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-sm); align-items: start; }
+  /* A small white date tile: weekday, day number, month. */
+  .tile { display: grid; justify-items: center; width: calc(var(--space-xl) * 2); padding: var(--space-2xs) 0; background: var(--paper); border: var(--line-thin) solid var(--border-subtle); color: var(--navy); line-height: var(--leading-heading); }
+  .small { font-size: var(--font-label); font-weight: var(--weight-label); text-transform: uppercase; letter-spacing: var(--letter-spacing-label); }
+  .big { font-size: var(--font-h3); font-weight: var(--weight-title); }
+  ul { display: grid; gap: var(--space-sm); margin: 0; padding: 0; list-style: none; }
+  .event { display: grid; gap: var(--space-3xs); }
+  .title { font-weight: var(--weight-label); font-size: var(--font-body); }
+  .meta { font-size: var(--font-small); }
+  [hidden] { display: none; }
+</style>
