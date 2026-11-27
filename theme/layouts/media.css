@@ -11,8 +11,6 @@
   gap: var(--media-gap);
   align-items: center;
 }
-/* Blocks one after another are far enough apart that each reads as its own row. */
-[data-layout='media'] + :scope { margin-top: calc(2 * var(--section-spacing)); }
 .layout-item > :last-child, .layout-body > :last-child { margin-bottom: 0; }
 .layout-figure { margin-bottom: var(--space-sm); }
 .layout-figure img { aspect-ratio: 1; object-fit: cover; max-height: none; }

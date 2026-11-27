@@ -14,15 +14,12 @@
   --section-image-max-height: 30rem;
   container: section / inline-size;
   grid-column: 1 / -1;
-  margin: 0 0 var(--section-spacing);
-  padding: var(--section-spacing) max(var(--gutter), calc((100% - var(--page-measure)) / 2));
+  padding: var(--section-padding) max(var(--gutter), calc((100% - var(--page-measure)) / 2));
 }
 .section-outer[data-text='wide'] { --section-measure: var(--layout-width); }
 @container section (width >= 42rem) {
   .section-outer > .section-inner { --section-size: wide; }
 }
-.section-outer + .section-outer { margin-top: calc(-1 * var(--section-spacing)); }
-.section-outer:last-child { margin-bottom: 0; }
 .section-inner > :last-child { margin-bottom: 0; }
 /* A quote at the end of a section (a banner's verse, say) doesn't add space of its own either. */
 .section-inner > blockquote:last-child > :last-child { margin-bottom: 0; }
@@ -31,8 +28,8 @@
 .section-inner > :not(.layout) { max-width: var(--section-measure); margin-inline: auto; }
 /* A row of buttons or links is wider than the column by its own gap, so the first link lines up with the text (see action.css). */
 .section-inner > .actions { max-width: calc(var(--section-measure) + 2 * var(--action-gap)); }
-/* A layout block that follows other content gets room above it. */
-.section-inner > :not(.layout) + .layout { margin-top: var(--space-xl); }
+/* Any layout block that follows another sibling gets room above it. */
+.section-inner > * + .layout { margin-top: var(--space-xl); }
 
 /* One centring rule: :::center and align="center" both set data-align; a banner is always centred. */
 .section-inner > h2,

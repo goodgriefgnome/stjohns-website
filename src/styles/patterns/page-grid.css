@@ -12,6 +12,6 @@
 .page-content > .hero { grid-column: 1 / -1; }
 /* Pages written in Astro (not Markdown) put their content straight in the grid, so it gets the section spacing too.
    Markdown pages are all sections, which carry their own spacing. */
-.page-content { padding-block: var(--section-spacing); }
+.page-content { padding-block: var(--section-padding); }
 .page-content:has(> :is(.hero, .section-outer):first-child) { padding-top: 0; }
 .page-content:has(> .section-outer:last-child) { padding-bottom: 0; }

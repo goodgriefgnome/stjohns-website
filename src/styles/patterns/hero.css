@@ -8,7 +8,7 @@
   display: grid;
   place-items: center;
   min-height: var(--hero-height);
-  padding: var(--hero-clearance) var(--gutter) var(--section-spacing);
+  padding: var(--hero-clearance) var(--gutter) var(--section-padding);
   text-align: center;
 }
 /* The photo is positioned, so it would paint over the (unpositioned) text and block clicks on it; the text is positioned too, and comes later, so it sits on top. */
