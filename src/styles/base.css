@@ -14,11 +14,17 @@
   background: var(--paper);
 }
 
+/* No browser tap highlight (the blue box on phones): we draw our own pressed look (see --pressed-* in roles.css). */
+html { -webkit-tap-highlight-color: transparent; }
 * { box-sizing: border-box; }
 body { margin: 0; }
 img { display: block; width: 100%; height: auto; }
 a { color: inherit; text-underline-offset: var(--underline-offset); }
 a:hover { text-decoration-thickness: var(--underline-thickness); }
+/* A link or summary dims while pressed. */
+a, summary { transition: opacity var(--pressed-time); }
+a:active, summary:active { opacity: var(--pressed-opacity); }
+@media (prefers-reduced-motion: reduce) { a, summary { transition: none; } }
 :focus-visible { outline: var(--line-thick) solid var(--focus-ring); outline-offset: var(--space-3xs); }
 h1, h2, h3 {
   margin: 0 0 var(--space-sm);

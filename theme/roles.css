@@ -8,6 +8,14 @@
   --text-quiet-strength: 80%;
   /* The empty part of a progress bar (the audio player's slider): the text colour at low strength. */
   --bar-track: color-mix(in srgb, currentColor 25%, transparent);
+  /* Pressed feedback, the look while a finger or mouse button is down (:active). A filled button gets this much black mixed in. */
+  --pressed-shade: 15%;
+  /* A pressed round button (play, download) shrinks to this fraction of its size. */
+  --pressed-scale: .94;
+  /* A pressed link, menu button or calendar day fades to this strength. */
+  --pressed-opacity: .7;
+  /* How quickly the pressed look comes and goes. */
+  --pressed-time: 100ms;
   /* Thin lines between things. */
   --border-subtle: var(--rule);
   /* Outline shown around whatever has keyboard focus. */

@@ -15,6 +15,12 @@
   padding: var(--button-padding-block) var(--button-padding-inline);
   background: var(--action-bg, var(--sky));
   color: var(--action-text, var(--paper));
+  transition: background-color var(--pressed-time);
+}
+/* Pressed: a little darker, whatever the palette's button colour is. */
+.action-filled:active {
+  background: color-mix(in srgb, var(--action-bg, var(--sky)), var(--black) var(--pressed-shade));
+  opacity: 1;
 }
 .action-bar {
   position: relative;
@@ -31,5 +37,6 @@
   transform-origin: left;
   transition: transform .5s var(--ease-live);
 }
-.action-bar:hover::after { transform: scaleX(0); transform-origin: right; }
+.action-bar:hover::after,
+.action-bar:active::after { transform: scaleX(0); transform-origin: right; }  /* :active too, because touch screens have no hover */
 @media (prefers-reduced-motion: reduce) { .action-bar::after { transition: none; } }

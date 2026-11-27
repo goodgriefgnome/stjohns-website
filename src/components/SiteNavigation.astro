@@ -233,6 +233,7 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
   .menu-toggle { display: none; }
   .navigation-compact .menu-toggle { display: block; }
   /* Extend the touch target beyond the drawing. */
+  .menu-toggle:active, .menu-close:active { opacity: var(--pressed-opacity); }
   .menu-toggle::before, .menu-close::before { content: ''; position: absolute; inset: calc((var(--menu-button-size) - var(--tap-target)) / 2); }
   .bar, .bar::before, .bar::after {
     position: absolute;

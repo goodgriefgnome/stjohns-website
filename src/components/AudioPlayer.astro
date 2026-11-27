@@ -65,6 +65,12 @@ const [iconWidth, iconHeight, , , iconPath] = faDownload.icon;
     color: var(--action-text, var(--paper));
     cursor: pointer;
   }
+  .play, .download { transition: transform var(--pressed-time), opacity var(--pressed-time); }
+  .play:active, .download:active { transform: scale(var(--pressed-scale)); opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .play, .download { transition: opacity var(--pressed-time); }
+    .play:active, .download:active { transform: none; opacity: var(--pressed-opacity); }
+  }
   .play svg { width: 40%; }
   /* The play triangle looks centred a little to the right of true centre. */
   .icon-play { margin-left: 8%; }
