@@ -1,38 +1,76 @@
-/* The sermons list: filters, series headings and sermon rows (SermonArchive.astro, SermonRows.astro).
+/* The sermons list: search bar, chips, suggestion strip, series headings and sermon rows (SermonArchive.astro, SermonRows.astro).
    It lives here, not in the components, because the sermon pages load the list as a separate file and
    Astro's component styles only reach pages that render the component.
    Local CSS variables (set inside the rules below):
-   --thumb-width  width of a series' thumbnail: small on narrow sections, bigger on wide ones
-   --dropdown-min  narrowest a filter dropdown gets before the row wraps */
+   --thumb-width   width of a series' thumbnail: small on narrow sections, bigger on wide ones
+   --pill-leading  line height of chips and suggestion pills; also sets the reserved suggestion strip height
+   --input-basis   the search field's preferred width beside chips
+   --input-min     narrowest the search field gets before it wraps under the chips
+   --clear-size    the clear (×) button's square, fitting inside the search box padding
+   --strip-height  reserved one-row height of the suggestion strip, derived from pill font, leading, padding and borders
+   --icon-drop     how far a Font Awesome SVG sits below the text baseline (matches .icon in icon.css) */
 
-/* A row of filters that wraps on narrow screens. The search box has a line to itself. */
-.archive-filters { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-sm); margin-bottom: var(--space-xl); }
-.archive-filters[hidden] { display: none; }
-.archive-filters label { display: grid; gap: var(--space-3xs); font-size: var(--font-label); font-weight: var(--weight-label); }
-.archive-filters .archive-search { flex: 1 1 100%; }
-.archive-filters label:not(.archive-search) { --dropdown-min: 9rem; flex: 1 1 var(--dropdown-min); }
-.archive-filters input,
-.archive-filters select {
-  width: 100%;
-  min-height: var(--tap-target);
-  padding: var(--space-2xs) var(--space-sm);
-  border: var(--line-thin) solid var(--border-subtle);
-  border-radius: 0;
-  background: var(--paper);
-  color: var(--text-default);
-  font: inherit;
-  font-size: var(--font-small);
-  font-weight: var(--weight-regular);
+/* Search bar, inline facet chips, clear button, and single-row suggestion strip. */
+.archive-search-shell { --pill-leading: 1.4; position: relative; }
+.archive-search-box {
+  display: flex; align-items: center; gap: var(--space-2xs); min-height: var(--tap-target);
+  padding: var(--space-3xs) var(--space-2xs) var(--space-3xs) var(--space-sm);
+  border: var(--line-thin) solid var(--border-subtle); border-radius: 0; background: var(--paper); cursor: text;
 }
-.archive-count,
-.archive-empty { margin: 0 0 var(--space-sm); font-size: var(--font-small); color: var(--text-muted); }
-.archive-count[hidden],
-.archive-empty[hidden] { display: none; }
+/* Focus: the border takes the ring colour and gets a line thicker inside, matching base.css text fields. */
+.archive-search-box:focus-within { border-color: var(--focus-ring); box-shadow: inset 0 0 0 var(--line-thin) var(--focus-ring); }
+.archive-search-icon, .archive-chip-icon, .archive-ac-icon, .archive-ac-subtitle, .archive-ac-sep { color: var(--text-muted); }
+.archive-search-icon { font-size: var(--font-label); }
+.archive-ac-icon { flex: none; display: inline-flex; }
+.archive-fa-svg { --icon-drop: -.125em; flex: none; display: inline-block; block-size: 1em; inline-size: auto; fill: currentColor; vertical-align: var(--icon-drop); }
+
+.archive-tokens { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3xs); flex: 1; min-width: 0; }
+.archive-search-input {
+  --input-basis: 8rem; --input-min: 5rem;
+  flex: 1 1 var(--input-basis); min-width: var(--input-min); padding: var(--space-3xs) 0;
+  border: 0; background: transparent; color: var(--text-default);
+  font: inherit; font-size: var(--font-small); font-weight: var(--weight-regular); outline: none;
+}
+/* Suppress base.css's focus ring/border on the borderless inner input since .archive-search-box draws it. */
+input.archive-search-input:focus, input.archive-search-input:focus-visible { outline: none; border-color: transparent; box-shadow: none; }
+.archive-search-input::placeholder { color: var(--text-muted); }
+
+/* Square hairline pills shared by active chips (mist) and suggestion options (paper). */
+.archive-chip, .archive-ac-option {
+  display: inline-flex; align-items: center; gap: var(--space-2xs); padding: var(--space-3xs) var(--space-2xs);
+  border: var(--line-thin) solid var(--border-subtle); border-radius: 0; color: var(--text-default);
+  font: inherit; font-size: var(--font-label); line-height: var(--pill-leading);
+}
+.archive-chip { max-width: 100%; background: var(--mist); }
+.archive-chip-val { font-weight: var(--weight-regular); }
+.archive-chip-remove, .archive-clear-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; background: transparent; color: var(--text-muted); cursor: pointer; line-height: 1;
+}
+.archive-chip-remove:hover, .archive-clear-btn:hover { color: var(--text-default); }
+.archive-chip-remove { padding: var(--space-3xs); font-size: inherit; }
+.archive-clear-btn { --clear-size: 1.75rem; flex: none; inline-size: var(--clear-size); block-size: var(--clear-size); font-size: var(--font-label); }
+
+/* Suggestion strip: one permanently reserved row under the box, so nothing moves when suggestions come and go.
+   Gap above (--space-2xs) matches gap below (the first series' padding / artwork spacing). */
+.archive-suggestions {
+  --strip-height: calc(var(--font-label) * var(--pill-leading) + 2 * var(--space-3xs) + 2 * var(--line-thin));
+  display: flex; flex-wrap: nowrap; gap: var(--space-2xs); overflow: hidden;
+  block-size: var(--strip-height); margin-top: var(--space-2xs);
+}
+.archive-ac-option { flex: none; background: var(--paper); white-space: nowrap; cursor: pointer; }
+.archive-ac-option:hover, .archive-ac-option[aria-selected="true"] { background: var(--mist); }
+.archive-ac-option mark { background: transparent; color: inherit; font-weight: var(--weight-label); }
+.archive-ac-sep { margin-inline: var(--space-3xs); }
+.archive-ac-sep::before { content: "·"; }
+.archive-empty { margin: var(--space-2xs) 0 0; font-size: var(--font-label); color: var(--text-muted); }
+.archive-search-shell[hidden], .archive-clear-btn[hidden], .archive-empty[hidden] { display: none; }
 
 /* Each series: its artwork (scrolls away), then a slim strip with the name and dates that sticks to the top of the window
    while its sermons pass underneath (just under the mini player when that is showing), then the sermons. Only the strip, one line, ever sticks. */
 .archive-series[hidden] { display: none; }
-.archive-series > img { width: var(--thumb-width, 7rem); max-height: none; margin-top: var(--space-md); aspect-ratio: 16 / 9; object-fit: cover; }
+.archive-series > img { width: var(--thumb-width, 7rem); max-height: none; margin-top: var(--space-2xs); aspect-ratio: 16 / 9; object-fit: cover; }
+.archive-series:not([hidden]) ~ .archive-series > img { margin-top: var(--space-md); }
 .archive-strip {
   position: sticky;
   top: 0;

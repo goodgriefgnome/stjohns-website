@@ -5,7 +5,7 @@ import type { Sermon } from '../lib/content';
 import { blurb, bookOf, minutes, seriesSlug, shortDay, titleWithoutSeries } from '../lib/sermon-format.mjs';
 
 // A list of sermons, one row each: title, passage and preacher, a one-line blurb, then the date and length on the right.
-// Used by the sermons page (under each series) and the home page. The data-* attributes are what the filters read (src/lib/sermon-filters.ts). Styles: styles/components/sermon-list.css.
+// Used by the sermons page (under each series) and the home page. The data-* attributes are what the archive search reads (src/lib/sermon-filters.ts). Styles: styles/components/sermon-list.css.
 interface Props {
   sermons: Sermon[];
   /** Drop "Series name: " from titles, for rows shown under their series' heading. */
@@ -20,7 +20,8 @@ const { sermons, underSeries = false } = Astro.props;
       data-series={seriesSlug(sermon.series)}
       data-preacher={sermon.preacher}
       data-book={bookOf(sermon.scripture)}
-      data-search={[sermon.title, sermon.scripture, sermon.preacher, sermon.series].join(' ').toLowerCase()}
+      data-year={sermon.date.slice(0, 4)}
+      data-search={[sermon.title, ...sermon.description].join(' ')}
     >
       <div class="sermon-main">
         <a class="sermon-title" href={withBase(`/sermons/${sermon.slug}`)}>{underSeries ? titleWithoutSeries(sermon.title, sermon.series) : sermon.title}</a>

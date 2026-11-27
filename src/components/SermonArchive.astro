@@ -1,47 +1,34 @@
 ---
+import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { withBase } from '../lib/base-path.mjs';
 import { sermons } from '../lib/content';
-import { bookOf, dateSpan, groupBySeries, seriesShortName, sortBooks } from '../lib/sermon-format.mjs';
+import { dateSpan, groupBySeries } from '../lib/sermon-format.mjs';
 import '../styles/components/sermon-list.css';
 import SermonRows from './SermonRows.astro';
 
-// "All sermons": a search box and filters, then the sermons grouped by series, newest series first.
-// Every sermon is in the HTML, and the list scrolls with the page. Without JavaScript the filters stay hidden and every sermon shows.
-// With it, startSermonFilters (src/lib/sermon-filters.ts) filters them.
+// "All sermons": search bar with inline facet chips and a single-row suggestion strip, then sermons grouped by series, newest first.
+// Without JavaScript the search bar stays hidden and every sermon shows; with it, startSermonFilters (src/lib/sermon-filters.ts) drives filtering.
 // Styles: styles/components/sermon-list.css (this list is also loaded on its own, see pages/sermons/list.astro).
 const groups = groupBySeries(sermons);
-const preachers = [...new Set(sermons.map(sermon => sermon.preacher))].sort((a, b) => a.localeCompare(b));
-const books = sortBooks([...new Set(sermons.map(sermon => bookOf(sermon.scripture)))]);
+const fa = ({ icon: [w, h, , , d] }: typeof faXmark) => ({ viewBox: `0 0 ${w} ${h}`, d: Array.isArray(d) ? d[0] : d });
+const [searchIcon, clearIcon] = [fa(faMagnifyingGlass), fa(faXmark)];
 ---
 <section class="section-outer" data-palette="mist" data-sermon-archive>
   <div class="section-inner">
     <h2>All sermons</h2>
     <div class="archive" data-archive>
-      <form class="archive-filters" role="search" hidden>
-        <label class="archive-search"><span class="visually-hidden">Search sermons</span>
-          <input type="search" name="q" placeholder="Search by title, passage or preacher" autocomplete="off" />
-        </label>
-        <label><span>Series</span>
-          <select name="series">
-            <option value="">All series</option>
-            {groups.map(group => <option value={group.slug}>{seriesShortName(group.name)}</option>)}
-          </select>
-        </label>
-        <label><span>Preacher</span>
-          <select name="preacher">
-            <option value="">Anyone</option>
-            {preachers.map(name => <option value={name}>{name}</option>)}
-          </select>
-        </label>
-        <label><span>Book</span>
-          <select name="book">
-            <option value="">Any book</option>
-            {books.map(book => <option value={book}>{book}</option>)}
-          </select>
-        </label>
-      </form>
-      <p class="archive-count" aria-live="polite" hidden></p>
-      <p class="archive-empty" hidden>No sermons match.</p>
+      <div class="archive-search-shell" hidden>
+        <div class="archive-search-box" data-search-box>
+          <span class="archive-search-icon" aria-hidden="true"><svg class="archive-fa-svg" viewBox={searchIcon.viewBox} focusable="false"><path d={searchIcon.d} /></svg></span>
+          <div class="archive-tokens" data-tokens>
+            <label class="visually-hidden" for="archive-search-input">Search sermons</label>
+            <input id="archive-search-input" class="archive-search-input" type="text" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="archive-suggestions" placeholder="Search sermons, preachers, books, series…" data-search-input />
+          </div>
+          <button class="archive-clear-btn" type="button" aria-label="Clear search and filters" data-clear-btn hidden><svg class="archive-fa-svg" viewBox={clearIcon.viewBox} aria-hidden="true" focusable="false"><path d={clearIcon.d} /></svg></button>
+        </div>
+        <div id="archive-suggestions" class="archive-suggestions" role="listbox" aria-label="Search suggestions" data-suggestions></div>
+        <p class="archive-empty" role="status" aria-live="polite" hidden>No sermons match.</p>
+      </div>
       <div class="archive-list">
         {groups.map(group => (
           <article class="archive-series" data-series-group={group.slug}>

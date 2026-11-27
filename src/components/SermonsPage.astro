@@ -48,7 +48,7 @@ const { selected, latest = false, listInline = false, title } = Astro.props;
   startSermonSwap();
   startMiniPlayer();
 
-  // A sermon's own page loads the list as its own file, then starts the filters. If that fails the "Browse all sermons" link stays.
+  // A sermon's own page loads the list as its own file, then starts the search. If that fails the "Browse all sermons" link stays.
   if (placeholder) {
     fetch(placeholder.dataset.src!)
       .then(response => { if (!response.ok) throw new Error(String(response.status)); return response.text(); })
