@@ -256,6 +256,8 @@ const logo = withBase(home ? '/media/logo-white.webp' : '/media/logo-dark.webp')
     color: var(--toggle-color, inherit);
     transition: transform .5s var(--ease-live), top .5s var(--ease-live), color .5s var(--ease-live);
   }
+  /* The dialog's own dimming layer would appear instantly before the menu fades in, so it is switched off. */
+  .navigation-overlay::backdrop { background: transparent; }
   .navigation-overlay[open] .menu-close .bar { color: var(--text-default); background-size: 0 100%; }
   .navigation-overlay[open] .menu-close .bar::before, .navigation-overlay[open] .menu-close .bar::after {
     color: var(--text-default);
