@@ -2,7 +2,7 @@
 // MOCK ONLY (design options for LJ, not for main): static pictures of alternative designs, pretending today is Thu 3 Dec and the bookmark is Tue 1 Dec.
 import { longDate, passageUrl, shortDate, addDays } from '../lib/reading-plan.mjs';
 import { plan } from '../lib/reading-plans';
-interface Props { variant: 'banner' | 'week' | 'home-banner' | 'home-tile' }
+interface Props { variant: 'banner' | 'week' | 'home-banner' | 'home-tile' | 'calendar' | 'progress' }
 const { variant } = Astro.props;
 const version = plan.versions[0];
 const bookmark = '2026-12-01';

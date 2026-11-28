@@ -6,6 +6,7 @@ width: standard
 
 import ReadingPlan from '../src/components/ReadingPlan.astro';
 import ReadingPlanMock from '../src/components/ReadingPlanMock.astro';
+import ReadingPlanMock2 from '../src/components/ReadingPlanMock2.astro';
 
 ---
 ::hero
@@ -52,5 +53,23 @@ import ReadingPlanMock from '../src/components/ReadingPlanMock.astro';
 <div id="home-2">
 
 <ReadingPlanMock variant="home-tile" />
+
+</div>
+
+---
+::section{palette="mist" text="wide"}
+
+<div id="option-4">
+
+<ReadingPlanMock2 variant="calendar" />
+
+</div>
+
+---
+::section{palette="mist" text="wide"}
+
+<div id="option-5">
+
+<ReadingPlanMock2 variant="progress" />
 
 </div>

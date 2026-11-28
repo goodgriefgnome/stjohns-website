@@ -1,0 +1,165 @@
+---
+// MOCK ONLY (round 2 design options for LJ, not for main): pretend today is Thu 18 Mar 2027 and the bookmark is Tue 16 Mar (2 days behind).
+import { longDate, passageUrl, addDays, daysBetween } from '../lib/reading-plan.mjs';
+import { plan } from '../lib/reading-plans';
+interface Props { variant: 'calendar' | 'progress' }
+const { variant } = Astro.props;
+const version = plan.versions[0];
+const today = '2027-03-18';
+const bookmark = '2027-03-16';
+const days = version.days;
+const start = days[0].date;
+const day = days.find(d => d.date === bookmark)!;
+const dayNumber = daysBetween(start, bookmark) + 1;
+const part = (date: string, options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat('en-AU', { ...options, timeZone: 'UTC' }).format(new Date(date + 'T00:00:00Z'));
+const bookOf = (r: string) => r.replace(/ [\d.–]+$/, '');
+const short = (r: string) => r.replace(/^(\d )?(\w{3})\w*( of Songs)?/, (_, n, b) => `${n ?? ''}${b}`);
+
+// Calendar: March 2027, weeks starting Monday.
+const monthStart = '2027-03-01';
+const lead = (new Date(monthStart + 'T00:00:00Z').getUTCDay() + 6) % 7;
+const cells = Array.from({ length: 35 }, (_, i) => addDays(monthStart, i - lead));
+const byDate = new Map(days.map(d => [d.date, d]));
+
+// Progress: each reading split into runs of the same book, sized by the days spent on it.
+const counts = new Map<string, number>();
+const streams = version.streams.map((name, k) => {
+  const runs: { book: string; round: number; days: number; from: string }[] = [];
+  const seen = new Map<string, number>();
+  for (const d of days) {
+    const r = d.readings[k];
+    if (r) {
+      const book = bookOf(r);
+      if (runs.at(-1)?.book !== book) {
+        const round = (seen.get(book) ?? 0) + 1; seen.set(book, round);
+        runs.push({ book, round, days: 0, from: d.date });
+      }
+    }
+    if (runs.length) runs.at(-1)!.days++;
+  }
+  const done = days.filter(d => d.date < bookmark).length;
+  const current = runs.findLast(r => r.from <= bookmark)!;
+  const next = runs[runs.indexOf(current) + 1];
+  return { name, runs, done, current, next, reading: day.readings[k] };
+});
+const times = ['', '', 'Psalms twice and Proverbs', 'each Gospel four times', 'twice'];
+const note = ['the whole Old Testament once', 'the Psalms twice, then Proverbs', 'each Gospel four times', 'the rest of the New Testament twice'];
+---
+{variant === 'calendar' && (
+  <div class="cal">
+    <div class="top">
+      <div class="switch"><span class="on">Version A</span><span>Version B</span></div>
+      <p class="status"><span class="label">Your bookmark</span> Tuesday 16 March · <b>2 days behind</b></p>
+    </div>
+    <div class="cal-grid-wrap">
+      <div class="month"><span aria-hidden="true">‹</span><h3>March 2027</h3><span aria-hidden="true">›</span></div>
+      <ol class="grid" role="list">
+        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(w => <li class="dow label">{w}</li>)}
+        {cells.map(c => {
+          const d = byDate.get(c);
+          return <li class:list={['cell', { out: !c.startsWith('2027-03'), read: c < bookmark, mark: c === bookmark, today: c === today }]}>
+            <span class="num">{part(c, { day: 'numeric' })}</span>
+            {c === bookmark && <span class="ribbon" aria-label="your bookmark"></span>}
+            {d && <span class="peek">{d.readings.filter(Boolean).map(r => <span>{short(r!)}</span>)}</span>}
+          </li>;
+        })}
+      </ol>
+      <p class="key"><span class="sw read"></span> read <span class="sw mark"></span> your bookmark <span class="sw today"></span> today</p>
+    </div>
+    <div class="chosen">
+      <p class="label">Tuesday 16 March · your bookmark</p>
+      <ul class="links" role="list">{version.streams.map((s, i) => <li><span class="label">{s}</span><a href={passageUrl(day.readings[i]!)}>{day.readings[i]}</a></li>)}</ul>
+      <p><a class="action action-filled" href="#">I’ve read this</a> <a class="action action-bar" href="#">Skip to today</a></p>
+    </div>
+  </div>
+)}
+{variant === 'progress' && (
+  <div class="prog">
+    <div class="top">
+      <div class="switch"><span class="on">Version A</span><span>Version B</span></div>
+    </div>
+    <div class="overall">
+      <p class="big">Day {dayNumber} <span>of {days.length}</span></p>
+      <p class="status">Your bookmark is <b>Tuesday 16 March</b>, 2 days behind today.</p>
+      <div class="bar"><span style={`--p: ${(dayNumber - 1) / days.length * 100}%`}></span></div>
+    </div>
+    <ol class="streams" role="list">
+      {streams.map((s, k) => (
+        <li class="stream">
+          <div class="head">
+            <h3>{s.name}</h3>
+            <span class="sub">{note[k]}</span>
+          </div>
+          <div class="track" role="img" aria-label={`${s.name}: up to ${s.current.book}`}>
+            {s.runs.map(r => (
+              <span class:list={['seg', { done: r.from < s.current.from, now: r === s.current }]} style={`--w: ${r.days}; --f: ${r === s.current ? Math.round(daysBetween(r.from, bookmark) / r.days * 100) : 0}%`} title={`${r.book}${r.round > 1 ? ` (round ${r.round})` : ''}`}>
+                {r.days >= r.book.length * 1.6 && <span class="seg-name">{r.book}</span>}
+              </span>
+            ))}
+          </div>
+          <p class="where">
+            {s.reading ? <>Next: <a href={passageUrl(s.reading)}>{s.reading}</a></> : <>Day off: catch up if you need to</>}
+            {s.next && <span class="then"> · then {s.next.book}</span>}
+          </p>
+        </li>
+      ))}
+    </ol>
+    <p><a class="action action-filled" href="#">I’ve read Tuesday’s readings</a> <a class="action action-bar" href="#">Skip to today</a></p>
+  </div>
+)}
+
+<style>
+  .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-sm); margin-bottom: var(--space-lg); }
+  .switch { display: inline-flex; border: var(--line-medium) solid var(--navy); border-radius: var(--radius-pill); overflow: hidden; }
+  .switch span { padding: var(--space-3xs) var(--space-md); font-weight: var(--weight-label); }
+  .switch .on { background: var(--navy); color: var(--paper); }
+  .status { margin: 0; }
+  .status .label { margin-right: var(--space-2xs); }
+  /* Calendar */
+  .cal { display: grid; gap: var(--space-xl); }
+  .month { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-sm); font-size: var(--font-h3); }
+  .month h3 { margin: 0; }
+  .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--line-medium); margin: 0; padding: 0; list-style: none; }
+  .dow { padding-bottom: var(--space-3xs); text-align: center; }
+  .cell { position: relative; min-height: calc(var(--space-xl) * 1.5); padding: var(--space-3xs); background: var(--paper); border: var(--line-thin) solid var(--border-subtle); }
+  .cell.out { opacity: .35; }
+  .cell.read { background: color-mix(in srgb, var(--sky) 30%, var(--paper)); }
+  .cell.today { outline: var(--line-thick) solid var(--navy); outline-offset: calc(-1 * var(--line-thick)); }
+  .num { font-weight: var(--weight-strong); }
+  .ribbon { position: absolute; top: 0; right: var(--space-2xs); width: var(--space-sm); height: var(--space-lg); background: var(--navy); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%); }
+  .peek { display: none; }
+  .key { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2xs); font-size: var(--font-small); color: var(--text-muted); }
+  .sw { display: inline-block; width: var(--space-sm); height: var(--space-sm); border: var(--line-thin) solid var(--border-subtle); }
+  .sw.read { background: color-mix(in srgb, var(--sky) 30%, var(--paper)); }
+  .sw.mark { background: var(--navy); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%); }
+  .sw.today { border: var(--line-thick) solid var(--navy); }
+  .chosen { padding: var(--space-lg); background: var(--paper); border: var(--line-thin) solid var(--border-subtle); }
+  .links { display: grid; gap: var(--space-sm); margin: var(--space-sm) 0; padding: 0; list-style: none; }
+  .links li { display: grid; }
+  .links a { font-size: var(--font-subheading); font-weight: var(--weight-strong); }
+  @container style(--section-size: wide) {
+    .cal { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: start; }
+    .cal .top { grid-column: 1 / -1; margin: 0; }
+    .cell { min-height: calc(var(--space-xl) * 3); }
+    .peek { display: grid; margin-top: var(--space-3xs); font-size: var(--font-label); line-height: var(--leading-heading); color: var(--text-muted); }
+  }
+  /* Progress */
+  .overall { margin-bottom: var(--space-xl); }
+  .big { margin: 0; font-size: var(--font-title); font-weight: var(--weight-title); line-height: var(--leading-heading); }
+  .big span { font-size: var(--font-h3); color: var(--text-muted); }
+  .bar { height: var(--space-2xs); margin-top: var(--space-sm); background: var(--paper); border: var(--line-thin) solid var(--border-subtle); border-radius: var(--radius-pill); overflow: hidden; }
+  .bar span { display: block; width: var(--p); height: 100%; background: var(--navy); }
+  .streams { display: grid; gap: var(--space-xl); margin: 0 0 var(--space-xl); padding: 0; list-style: none; }
+  .head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-sm); margin-bottom: var(--space-2xs); }
+  .head h3 { margin: 0; }
+  .sub { color: var(--text-muted); font-size: var(--font-small); }
+  .track { display: flex; gap: var(--line-thin); height: var(--space-lg); }
+  .seg { position: relative; flex: var(--w) 0 0; min-width: 0; overflow: hidden; background: var(--paper); border: var(--line-thin) solid var(--border-subtle); }
+  .seg.done { background: var(--sky); border-color: var(--sky); }
+  .seg.now { background: linear-gradient(to right, var(--sky) var(--f), var(--paper) var(--f)); border: var(--line-medium) solid var(--navy); }
+  .seg-name { position: absolute; inset: 0 var(--space-3xs); font-size: var(--font-label); line-height: var(--space-lg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--slate); }
+  .seg.done .seg-name { color: var(--paper); }
+  .where { margin: var(--space-2xs) 0 0; }
+  .where a { font-weight: var(--weight-strong); font-size: var(--font-subheading); }
+  .then { color: var(--text-muted); }
+</style>
