@@ -1,0 +1,172 @@
+---
+import ReadingDay from './ReadingDay.astro';
+import { placeFor, shortDate } from '../lib/reading-plan.mjs';
+import { buildDay, plan, timeZone } from '../lib/reading-plans';
+
+// The /reading-plan page: pick a version, see the day you're up to with links to the NIV, keep a bookmark, and browse the whole plan by month.
+// The build shows the build day; the browser script then works out the real today and the reader's bookmark (kept in this browser only).
+const [first] = plan.versions;
+const place = placeFor(first.days, buildDay, null);
+const day = first.days.find(d => d.date === place.day)!;
+const monthName = (month: string) => new Date(`${month}-01T00:00:00Z`).toLocaleDateString('en-AU', { timeZone: 'UTC', month: 'long', year: 'numeric' });
+const months = (days: typeof first.days) => [...Map.groupBy(days, d => d.date.slice(0, 7))];
+const data = { plan: plan.id, timeZone, versions: plan.versions.map(({ id, name, streams, days }) => ({ id, name, streams, days })) };
+---
+<div class="reading-plan">
+  <div class="plan-versions" role="group" aria-label="Choose a version">
+    {plan.versions.map((version, i) => (
+      <button type="button" class="plan-version" data-version={version.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+        {version.name}<span class="plan-version-count">{version.streams.length} readings a day</span>
+      </button>
+    ))}
+  </div>
+  {plan.versions.map((version, i) => <p class="plan-summary" data-version={version.id} hidden={i !== 0}>{version.summary}</p>)}
+
+  <div class="plan-card">
+    <ReadingDay version={first} day={day} status={place.status} />
+    <div class="plan-actions">
+      <button type="button" class="action action-filled" data-act="read">I’ve read this</button>
+      <button type="button" class="action action-bar" data-act="today" hidden>Skip to today</button>
+    </div>
+    <p class="plan-note">“I’ve read this” moves your bookmark to the next day. It’s kept on this device only. <button type="button" class="plan-clear" data-act="clear" hidden>Remove bookmark</button></p>
+  </div>
+
+  <p class="plan-pdf"><a class="action action-bar" href={plan.pdf}>Download the plan (PDF)</a></p>
+
+  <h2>The whole plan</h2>
+  <p>Choose a day to move your bookmark there.</p>
+  {plan.versions.map((version, i) => (
+    <div class="plan-months accordion" data-version={version.id} hidden={i !== 0}>
+      {months(version.days).map(([month, days]) => (
+        <details data-month={month} open={month === buildDay.slice(0, 7)}>
+          <summary>{monthName(month)}</summary>
+          <ol class="plan-rows" role="list">
+            {days.map(d => (
+              <li data-date={d.date}>
+                <button type="button" class="plan-pick" aria-label={`Move bookmark to ${shortDate(d.date)}`}>{shortDate(d.date)}</button>
+                {d.readings.map(r => <span class={r ? undefined : 'plan-rest'}>{r ?? '—'}</span>)}
+              </li>
+            ))}
+          </ol>
+        </details>
+      ))}
+    </div>
+  ))}
+  <script type="application/json" class="plan-data" set:html={JSON.stringify(data)} />
+</div>
+
+<script>
+  import { addDays, placeFor } from '../lib/reading-plan.mjs';
+  import { drawDay, saveBookmark, savedBookmark, saveVersion, savedVersion, today, type Version } from '../lib/reading-plan-browser';
+
+  for (const root of document.querySelectorAll<HTMLElement>('.reading-plan')) {
+    const data: { plan: string; timeZone: string; versions: Version[] } = JSON.parse(root.querySelector('.plan-data')!.textContent!);
+    const now = today(data.timeZone);
+    let version = data.versions.find(v => v.id === savedVersion()) ?? data.versions[0];
+
+    const draw = () => {
+      const bookmark = savedBookmark(data.plan, version.id);
+      const place = placeFor(version.days, now, bookmark);
+      const day = version.days.find(d => d.date === place.day)!;
+      drawDay(root.querySelector('.reading-day')!, version, day, place.status);
+      for (const button of root.querySelectorAll<HTMLElement>('.plan-version')) button.setAttribute('aria-pressed', String(button.dataset.version === version.id));
+      for (const el of root.querySelectorAll<HTMLElement>('.plan-summary, .plan-months')) el.hidden = el.dataset.version !== version.id;
+      root.querySelector<HTMLElement>('[data-act="today"]')!.hidden = !place.behind;
+      root.querySelector<HTMLElement>('[data-act="clear"]')!.hidden = !bookmark;
+      root.querySelector<HTMLElement>('[data-act="read"]')!.hidden = !!bookmark && bookmark > version.days.at(-1)!.date;
+      // In the whole plan: mark today and the bookmark, and open the month you're up to.
+      const months = root.querySelector<HTMLElement>(`.plan-months[data-version="${version.id}"]`)!;
+      for (const row of months.querySelectorAll<HTMLElement>('li')) {
+        row.classList.toggle('is-today', row.dataset.date === now);
+        row.classList.toggle('is-bookmark', row.dataset.date === bookmark);
+      }
+      const month = months.querySelector<HTMLDetailsElement>(`details[data-month="${place.day.slice(0, 7)}"]`);
+      if (month) month.open = true;
+    };
+
+    root.addEventListener('click', event => {
+      const target = event.target as HTMLElement;
+      const button = target.closest<HTMLElement>('button');
+      if (!button) return;
+      const bookmark = savedBookmark(data.plan, version.id);
+      if (button.classList.contains('plan-version')) {
+        version = data.versions.find(v => v.id === button.dataset.version)!;
+        saveVersion(version.id);
+      } else if (button.dataset.act === 'read') {
+        saveBookmark(data.plan, version.id, addDays(placeFor(version.days, now, bookmark).day, 1));
+      } else if (button.dataset.act === 'today') {
+        saveBookmark(data.plan, version.id, now);
+      } else if (button.dataset.act === 'clear') {
+        saveBookmark(data.plan, version.id, null);
+      } else if (button.classList.contains('plan-pick')) {
+        saveBookmark(data.plan, version.id, button.closest<HTMLElement>('li')!.dataset.date!);
+        root.querySelector('.plan-card')!.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      draw();
+    });
+    draw();
+  }
+</script>
+
+<style>
+  .reading-plan {
+    /* Width of the date column in the whole plan, on wide sections. */
+    --plan-date-width: 7rem;
+  }
+  button { font: inherit; color: inherit; }
+  .plan-versions { display: flex; flex-wrap: wrap; gap: var(--space-2xs); margin-bottom: var(--space-sm); }
+  .plan-version {
+    display: grid;
+    padding: var(--space-2xs) var(--space-md);
+    border: var(--line-medium) solid currentColor;
+    border-radius: var(--radius-md);
+    background: none;
+    font-weight: var(--weight-strong);
+    text-align: left;
+    cursor: pointer;
+  }
+  .plan-version[aria-pressed="true"] { background: var(--action-bg); border-color: var(--action-bg); color: var(--action-text); }
+  .plan-version-count { font-size: var(--font-small); font-weight: var(--weight-regular); }
+  .plan-summary { margin-top: 0; }
+  .plan-card {
+    margin-block: var(--space-xl);
+    padding: var(--space-lg);
+    border: var(--line-thin) solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+  }
+  .plan-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); margin-top: var(--space-lg); }
+  .plan-actions .action { border: 0; background-color: var(--action-bg); cursor: pointer; }
+  .plan-actions .action-bar { background: none; }
+  .plan-note { margin-bottom: 0; font-size: var(--font-small); color: var(--text-muted); }
+  .plan-clear { padding: 0; border: 0; background: none; text-decoration: underline; cursor: pointer; }
+  .plan-pdf { margin-bottom: var(--space-xl); }
+  .plan-rows { margin: 0 0 var(--space-md); padding: 0; list-style: none; font-size: var(--font-small); }
+  .plan-rows li {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--space-sm);
+    padding: var(--space-2xs) var(--space-3xs);
+    border-top: var(--line-thin) solid var(--border-subtle);
+  }
+  .plan-rows li.is-today { background: var(--hover-tint); }
+  .plan-rows li.is-bookmark { box-shadow: inset var(--line-bar) 0 var(--action-bg); }
+  .plan-pick {
+    flex-basis: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-weight: var(--weight-strong);
+    text-align: left;
+    cursor: pointer;
+  }
+  .plan-rows li.is-today .plan-pick::after { content: ' · today'; font-weight: var(--weight-regular); }
+  .plan-rows li.is-bookmark .plan-pick::after { content: ' · your bookmark'; font-weight: var(--weight-regular); }
+  .plan-rest { color: var(--text-muted); }
+  @container style(--section-size: wide) {
+    .plan-rows li { display: grid; grid-template-columns: var(--plan-date-width); grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+    .plan-pick { flex-basis: auto; }
+    .plan-rows li.is-today .plan-pick::after, .plan-rows li.is-bookmark .plan-pick::after { content: none; }
+  }
+  [hidden] { display: none; }
+</style>

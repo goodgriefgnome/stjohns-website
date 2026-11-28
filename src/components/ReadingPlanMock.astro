@@ -1,0 +1,94 @@
+---
+// MOCK ONLY (design options for LJ, not for main): static pictures of alternative designs, pretending today is Thu 3 Dec and the bookmark is Tue 1 Dec.
+import { longDate, passageUrl, shortDate, addDays } from '../lib/reading-plan.mjs';
+import { plan } from '../lib/reading-plans';
+interface Props { variant: 'banner' | 'week' | 'home-banner' | 'home-tile' }
+const { variant } = Astro.props;
+const version = plan.versions[0];
+const bookmark = '2026-12-01';
+const today = '2026-12-03';
+const day = version.days.find(d => d.date === bookmark)!;
+const todayDay = version.days.find(d => d.date === today)!;
+const weekStart = '2026-11-29';
+const week = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+const part = (date: string, options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat('en-AU', { ...options, timeZone: 'UTC' }).format(new Date(date + 'T00:00:00Z'));
+---
+{variant === 'banner' && (
+  <div class="banner">
+    <div class="switch"><span class="on">Version A</span><span>Version B</span></div>
+    <p class="label">Your bookmark · 2 days behind</p>
+    <h2>{longDate(day.date)}</h2>
+    <p class="passages">{day.readings.map((r, i) => <>{i > 0 && <span class="dot"> · </span>}<a href={passageUrl(r!)}>{r}</a></>)}</p>
+    <p><a class="action action-filled" href="#">I’ve read this</a> <a class="action action-bar" href="#">Skip to today</a></p>
+  </div>
+)}
+{variant === 'week' && (
+  <div class="week-wrap">
+    <div class="switch"><span class="on">Version A</span><span>Version B</span></div>
+    <ol class="week" role="list">
+      {week.map(d => (
+        <li class:list={['tile', { today: d === today, read: d < bookmark, mark: d === bookmark }]}>
+          <span class="small">{part(d, { weekday: 'short' })}</span>
+          <span class="big">{part(d, { day: 'numeric' })}</span>
+          <span class="small">{d < bookmark ? '✓' : part(d, { month: 'short' })}</span>
+        </li>
+      ))}
+    </ol>
+    <p class="hint">✓ read · <b>blue outline</b> your bookmark · <b>dark</b> today</p>
+    <h3>{longDate(day.date)} <span class="behind">2 days behind</span></h3>
+    <ul class="checks" role="list">
+      {version.streams.map((s, i) => (
+        <li><span class="box" aria-hidden="true"></span><span class="label">{s}</span><a href={passageUrl(day.readings[i]!)}>{day.readings[i]}</a></li>
+      ))}
+    </ul>
+    <p class="hint">Tick all four and your bookmark moves on to Wednesday.</p>
+  </div>
+)}
+{variant === 'home-banner' && (
+  <div class="banner">
+    <p class="label">Today’s Bible reading · {longDate(today)}</p>
+    <p class="passages">{todayDay.readings.map((r, i) => <>{i > 0 && <span class="dot"> · </span>}<a href={passageUrl(r!)}>{r}</a></>)}</p>
+    <p><a class="action action-bar" href="#">Reading plan</a></p>
+  </div>
+)}
+{variant === 'home-tile' && (
+  <div class="home-tile">
+    <div class="tile today"><span class="small">Thu</span><span class="big">3</span><span class="small">Dec</span></div>
+    <div>
+      <h3>Today’s Bible reading</h3>
+      <ul class="plain" role="list">{version.streams.map((s, i) => <li><span class="label">{s}</span> <a href={passageUrl(todayDay.readings[i]!)}>{todayDay.readings[i]}</a></li>)}</ul>
+      <p><a class="action action-bar" href="#">Reading plan</a></p>
+    </div>
+  </div>
+)}
+
+<style>
+  .banner { text-align: center; }
+  .banner h2 { margin-top: var(--space-2xs); }
+  .passages { font-size: var(--font-h3); font-weight: var(--weight-strong); }
+  .dot { opacity: .5; }
+  .switch { display: inline-flex; margin-bottom: var(--space-lg); border: var(--line-medium) solid currentColor; border-radius: var(--radius-pill); overflow: hidden; }
+  .switch span { padding: var(--space-3xs) var(--space-md); font-weight: var(--weight-label); }
+  .switch .on { background: currentColor; }
+  .banner .switch .on { background: var(--paper); color: var(--navy); }
+  .week-wrap .switch .on { background: var(--navy); color: var(--paper); }
+  .week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--space-2xs); margin: 0 0 var(--space-lg); padding: 0; list-style: none; }
+  .tile { display: grid; justify-items: center; padding: var(--space-2xs) 0; background: var(--paper); border: var(--line-thin) solid var(--border-subtle); color: var(--navy); line-height: var(--leading-heading); }
+  .tile.read { opacity: .55; }
+  .tile.mark { border: var(--line-thick) solid var(--sky); }
+  .tile.today { background: var(--navy); color: var(--paper); }
+  .small { font-size: var(--font-label); font-weight: var(--weight-label); text-transform: uppercase; letter-spacing: var(--letter-spacing-label); }
+  .big { font-size: var(--font-h3); font-weight: var(--weight-title); }
+  .behind { font-size: var(--font-small); font-weight: var(--weight-label); color: var(--text-muted); }
+  .checks { display: grid; gap: var(--space-sm); margin: 0; padding: 0; list-style: none; }
+  .checks li { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-sm); align-items: center; }
+  .checks .label { grid-column: 2; }
+  .checks a { grid-column: 2; font-size: var(--font-subheading); font-weight: var(--weight-strong); }
+  .box { grid-row: span 2; width: var(--space-lg); height: var(--space-lg); border: var(--line-medium) solid currentColor; border-radius: var(--radius-sm); background: var(--paper); }
+  .checks li:first-child .box { background: var(--navy); }
+  .hint { color: var(--text-muted); font-size: var(--font-small); }
+  .home-tile { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-md); max-width: var(--reading-width); margin-inline: auto; text-align: left; }
+  .home-tile .tile { width: calc(var(--space-xl) * 2); align-self: start; }
+  .plain { display: grid; gap: var(--space-3xs); margin: 0; padding: 0; list-style: none; font-size: var(--font-body); }
+  .plain .label { display: inline-block; min-width: 12.5em; }
+</style>

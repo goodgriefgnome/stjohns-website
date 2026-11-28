@@ -1,0 +1,36 @@
+---
+import { longDate, passageUrl } from '../lib/reading-plan.mjs';
+import type { ReadingDay, ReadingVersion } from '../lib/reading-plans';
+
+// One day of the Bible reading plan: what it is ("Today", "2 days behind"), the date, and each reading linked to the NIV.
+// The browser script (reading-plan-browser.ts) redraws the same markup when the reader moves around the plan.
+interface Props { version: ReadingVersion; day: ReadingDay; status: string }
+const { version, day, status } = Astro.props;
+---
+<div class="reading-day" data-version={version.id}>
+  <p class="label reading-status">{status}</p>
+  <h3 class="reading-date">{longDate(day.date)}</h3>
+  <ul class="reading-list" role="list">
+    {version.streams.map((stream, i) => (
+      <li>
+        <span class="label">{stream}</span>
+        {day.readings[i]
+          ? <a class="reading-passage" href={passageUrl(day.readings[i])} target="_blank" rel="noopener">{day.readings[i]}</a>
+          : <span class="reading-rest">No reading today</span>}
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .reading-status { margin: 0; }
+  .reading-date { margin: var(--space-3xs) 0 var(--space-md); }
+  .reading-list { display: grid; gap: var(--space-sm); margin: 0; padding: 0; list-style: none; }
+  /* The list is redrawn by the browser script, so its insides can't carry this component's scoping. */
+  .reading-list :global(li) { display: grid; gap: var(--space-3xs); }
+  .reading-list :global(.reading-passage) { font-size: var(--font-subheading); font-weight: var(--weight-strong); }
+  .reading-list :global(.reading-rest) { font-size: var(--font-subheading); color: var(--text-quiet, var(--text-muted)); }
+  @container style(--section-size: wide) {
+    .reading-list { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: var(--space-lg); }
+  }
+</style>

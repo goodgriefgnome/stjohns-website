@@ -1,0 +1,56 @@
+---
+title: Bible Reading Plan
+palette: white
+width: standard
+---
+
+import ReadingPlan from '../src/components/ReadingPlan.astro';
+import ReadingPlanMock from '../src/components/ReadingPlanMock.astro';
+
+---
+::hero
+
+---
+::section{palette="mist" text="wide"}
+
+<div id="option-1">
+
+<ReadingPlan />
+
+</div>
+
+---
+::banner
+
+<div id="option-2">
+
+<ReadingPlanMock variant="banner" />
+
+</div>
+
+---
+::section{palette="mist" text="wide"}
+
+<div id="option-3">
+
+<ReadingPlanMock variant="week" />
+
+</div>
+
+---
+::banner
+
+<div id="home-1">
+
+<ReadingPlanMock variant="home-banner" />
+
+</div>
+
+---
+::section{palette="cream"}
+
+<div id="home-2">
+
+<ReadingPlanMock variant="home-tile" />
+
+</div>
