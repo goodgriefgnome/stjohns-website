@@ -11,8 +11,10 @@ export async function GET() {
     const { remarkPluginFrontmatter } = await render(page);
     if (remarkPluginFrontmatter.heroPicture) pictures.add(remarkPluginFrontmatter.heroPicture);
   }
-  const rules = await Promise.all([...pictures].sort().map(async url =>
-    `.hero figure:has(> img:first-child[src$="${url}"]) { --placeholder: ${await placeholderFor(url)}; }`));
+  const rules = await Promise.all([...pictures].sort().map(async url => {
+    const { image, across, down } = await placeholderFor(url);
+    return `.hero figure:has(> img:first-child[src$="${url}"]) { --placeholder: ${image}; --placeholder-across: ${across}; --placeholder-down: ${down}; }`;
+  }));
   return new Response(`/* Made by the build from the hero pictures: see src/pages/hero-placeholders.css.ts */\n${rules.join('\n')}\n`,
     { headers: { 'Content-Type': 'text/css' } });
 }

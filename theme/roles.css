@@ -47,8 +47,6 @@
   --hero-clearance: 8rem;
   /* How tall a hero is at least. */
   --hero-height: clamp(17rem, 35vw, 25rem);
-  /* How much the hero's tiny stand-in picture is blurred while the photo downloads: half of one of its 16 pixels, stretched across the screen. */
-  --placeholder-blur: calc(100vw / 16 / 2);
 
   /* Size of a finger-friendly button, measured on the screen. */
   --tap-target: 44px;
