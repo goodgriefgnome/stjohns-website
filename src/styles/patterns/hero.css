@@ -13,6 +13,23 @@
 }
 /* The photo is positioned, so it would paint over the (unpositioned) text and block clicks on it; the text is positioned too, and comes later, so it sits on top. */
 .hero > .layout-figure { position: absolute; inset: 0; }
+/* While the photo downloads, a tiny copy of it (from hero-placeholders.css, about 64 × 20 dots) shows in its place,
+   blurred by half a dot so it looks soft rather than blocky. It is stretched like the photo (cover), so a dot on screen is
+   the larger of hero width ÷ dots across and hero height ÷ dots down; the figure is a size container so 100cqw and 100cqh measure the hero.
+   It sits under the photo and reaches a little past the edges so the blur doesn't fade out at them. */
+.hero > .layout-figure {
+  overflow: hidden;
+  container-type: size;
+  --placeholder-blur: calc(max(100cqw / var(--placeholder-across), 100cqh / var(--placeholder-down)) / 2);
+}
+.hero > .layout-figure::before {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--placeholder-blur));
+  z-index: -3;
+  background: var(--placeholder) var(--placeholder-at, center) / cover no-repeat;
+  filter: blur(var(--placeholder-blur));
+}
 .hero > div { position: relative; text-shadow: var(--photo-shadow-tight), var(--photo-shadow-wide); }
 .hero > div > :last-child { margin-bottom: 0; }
 .hero > div a { text-shadow: none; }

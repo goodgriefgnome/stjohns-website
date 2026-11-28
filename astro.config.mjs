@@ -4,6 +4,7 @@ import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import articleDirectives from './src/lib/remark-article-directives.mjs';
 import remarkLayouts from './src/lib/remark-layouts.mjs';
+import remarkHeroPlaceholder from './src/lib/remark-hero-placeholder.mjs';
 import themeCss from './src/lib/vite-theme-css.mjs';
 import churchTokens from './src/lib/remark-church-tokens.mjs';
 import rehypeActions from './src/lib/rehype-actions.mjs';
@@ -31,7 +32,7 @@ export default defineConfig({
   trailingSlash: 'ignore',
   markdown: {
     processor: unified({
-      remarkPlugins: [[remarkLayouts, { defaultHero: church.defaultHero }], articleDirectives, [churchTokens, { church }]],
+      remarkPlugins: [[remarkLayouts, { defaultHero: church.defaultHero }], remarkHeroPlaceholder, articleDirectives, [churchTokens, { church }]],
       rehypePlugins: [rehypeActions, [rehypeBaseLinks, { base }]],
     }),
   },
